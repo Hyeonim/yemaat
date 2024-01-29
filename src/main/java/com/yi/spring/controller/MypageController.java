@@ -14,7 +14,7 @@ public class MypageController {
     @GetMapping("/{subPage}")
     public String handleRequest(Model model, @PathVariable String subPage) {
 //        model.addAttribute( "page", subPage );
-        model.addAttribute( "page", "mypage/myuser" );
+        model.addAttribute( "page", "mypage/"+subPage );
 //        model.addAttribute( "page2", "/templates/mypage/myrest::content" );
 
         return "mypage/mypage";
