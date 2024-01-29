@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>지도 기본 예제 | 네이버 지도 API v3</title>
+    <title>title</title>
 
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -43,6 +43,13 @@
 
     }
 
+#category{
+    border-bottom: solid 1px black;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 30px;
+}
+
 
 </style>
 
@@ -54,6 +61,14 @@
 
 <div id="content">
     <div id="leftList" >
+
+        <div id="category">
+            <button>평점 높은 순</button>
+            <button>리뷰 많은 순</button>
+            <button>예약 많은 순</button>
+
+        </div>
+
 
         <ul th:each="coordinate : ${list}">
             <li th:text="${coordinate.restName}">가게이름</li>

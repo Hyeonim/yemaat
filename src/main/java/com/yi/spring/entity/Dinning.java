@@ -1,21 +1,20 @@
 package com.yi.spring.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @ToString
-@NoArgsConstructor
-@Table(name="dining_rest")
+@Table(name = "dining_rest")
 public class Dinning {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rest_no")
-    private Long restNo;
+    @Column(name = "rest_no", nullable = false)
+    private int restNo;
 
     @Column(name = "rest_name")
     private String restName;
@@ -23,10 +22,10 @@ public class Dinning {
     @Column(name = "rest_addr")
     private String restAddr;
 
-    @Column(name = "rest_tel")
+    @Column(name = "rest_tel", length = 20)
     private String restTel;
 
-    @Column(name = "rest_seat")
+    @Column(name = "rest_seat", length = 50)
     private String restSeat;
 
     @Column(name = "rest_time")
@@ -51,24 +50,29 @@ public class Dinning {
     @Column(name = "rest_longitude")
     private Double restLongitude;
 
-    @Lob
     @Column(name = "rest_img")
     private byte[] restImg;
 
     @Column(name = "rest_score")
     private Float restScore;
 
-    @Column(name = "rest_description")
+    @Column(name = "rest_description", length = 100)
     private String restDescription;
 
-    @Column(name = "user_no")
-    private Long userNo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_no")
+    private User userNo;
 
-    @Column(name = "rest_start_date")
+    @Column(name = "rest_start_date", length = 100)
     private String restStartDate;
 
-    @Column(name = "rest_status")
+    @Column(name = "rest_status", length = 100)
     private String restStatus;
 
 
+    public Dinning(){}
+    public Dinning( int restNo )
+    {
+        this.restNo = restNo;
+    }
 }

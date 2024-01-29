@@ -1,36 +1,61 @@
 package com.yi.spring.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.Accessors;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-
-@Entity
 @Getter
 @Setter
+@Entity
 @ToString
-@NoArgsConstructor
+@Table(name = "user")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_no", nullable = false)
+    private Integer id;
 
-    private String username;
-    private String password;
+    @Column(name = "user_id", length = 30)
+    private String userId;
+
+    @Column(name = "user_name", length = 50)
+    private String userName;
+
+    @Column(name = "user_password", length = 50)
+    private String userPassword;
+
+    @Column(name = "user_email", length = 50)
+    private String userEmail;
+
+    @Column(name = "user_tel", length = 100)
+    private String userTel;
+
+    @Column(name = "user_auth", length = 100)
+    private String userAuth;
+
+    @Column(name = "user_start_date", length = 100)
+    private String userStartDate;
+
+    @Column(name = "user_img", length = 100)
+    private String userImg;
+
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
+    private String password;
 
-    @Builder
-    public User(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
+    @Column(name = "username")
+    private String username;
 
-    }
+    @OneToMany(mappedBy = "userNo")
+    private Set<Dinning> diningRests = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "userNo")
+    private Set<Review> reviews = new LinkedHashSet<>();
 
 }

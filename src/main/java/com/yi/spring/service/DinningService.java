@@ -1,7 +1,7 @@
 package com.yi.spring.service;
 
 import com.yi.spring.entity.Dinning;
-import com.yi.spring.repository.MapRepository;
+import com.yi.spring.repository.DinningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,11 @@ import java.util.List;
 public class DinningService {
 
 
-    private final MapRepository mapRepository;
+    private final DinningRepository dinningRepository;
 
     @Autowired
-    public DinningService(MapRepository mapRepository) {
-        this.mapRepository = mapRepository;
+    public DinningService(DinningRepository dinningRepository) {
+        this.dinningRepository = dinningRepository;
     }
 
 
@@ -24,6 +24,6 @@ public class DinningService {
 //    }
 
     public List<Dinning> findAll() {
-        return mapRepository.findAll();
+        return dinningRepository.findAll();
     }
 }

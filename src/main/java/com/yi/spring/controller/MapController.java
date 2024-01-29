@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/map/*")
+@RequestMapping("/*")
 public class MapController {
 
     private DinningService dinningService;

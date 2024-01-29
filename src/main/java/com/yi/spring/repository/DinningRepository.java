@@ -7,10 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MapRepository extends JpaRepository<Dinning, Long> {
+public interface DinningRepository extends JpaRepository<Dinning, Long> {
 
 
     List<Dinning> findAll();
+
+    //식당 id로 찾는거
 
 
 }
