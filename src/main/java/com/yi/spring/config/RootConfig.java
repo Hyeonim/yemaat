@@ -55,7 +55,7 @@ public class RootConfig {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis-config.xml"));
         sqlSessionFactory.setDataSource(dataSource());
-        return (SqlSessionFactory) sqlSessionFactory.getObject();
+        return (SqlSessionFactory)sqlSessionFactory.getObject();
     }
 
     @Bean

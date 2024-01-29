@@ -1,109 +1,100 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>간단한 지도 표시하기</title>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+
 </head>
+<style>
+    .custom-marker {
+
+        width: 32px;
+        height: 48px;
+        text-align: center;
+        line-height: 48px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #info-box {
+        display: none;
+        transform: translateX(-50%);
+        padding: 10px;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+</style>
+
 <body>
-타임리프 첫 페이지
-<div th:text="${data}"></div>
-<span th:text="${#execInfo.getTemplateName()}"></span>
-<p th:utext="#{greeting}">111111111111</p>
-<!--<span th:text="${@environment.getProperty('spring.datasource.url')}"></span>-->
-<p th:utext="${#locale}"></p>
-<!--<p th:utext="${#session}"></p>-->
-<p th:utext="*{#calendars.format(today, 'yyyy-MM-dd')}">2019-08-18</p>
-<p th:utext="${#calendars.format(today, 'yyyy/MM/dd')}">2019-08-18</p>
 
+<div id="map" style="width:100%;height:400px;"></div>
 
-<!--<form th:action="@{/singup}">-->
-<!--    <div th:if="${user.isPresent()}">-->
-<!--        <label>Nickname</label>-->
-<!--        <input type="text" value="112123" name="121323">-->
-<!--        <input type="text" th:value="${user.get().email}" name="nickname">-->
-<!--        <lable>Password</lable>-->
-<!--        <input type="text" th:value="${user.get().getPassword()}" name="password">-->
-<!--    </div>-->
-<!--</form>-->
+<div id="info-box">하이!</div>
 
-<!--<form th:action="@{/singup}">-->
-<!--    <div th:if="${user != null}">-->
-<!--        <label>Nickname</label>-->
-<!--        <input type="text" value="112123" name="121323">-->
-<!--        <input type="text" th:value="${user.getEmail()}" name="nickname">-->
-<!--        <lable>Password</lable>-->
-<!--        <input type="text" th:value="${user.getPassword()}" name="password">-->
-<!--    </div>-->
-<!--</form>-->
-<!--<div th:if="${user.isPresent()}">-->
-<!--    <form th:object="${user}" th:action="@{/singup}">-->
-<!--        <label>Nickname</label>-->
-<!--        <input type="text" value="112123" name="121323">-->
-<!--        <input type="text" th:value="*{get().getUsername()}" name="nickname">-->
-<!--        <lable>Password</lable>-->
-<!--        <input type="text" th:value="*{get().getEmail()}" name="password">-->
-<!--    </form>-->
-<!--</div>-->
-<!--<a th:href="@{http://www.naver.com}">네이버</a><br>-->
+<script>
 
-<!--<a href="/order/3/details?search='장갑'">Search</a>-->
-<!--<a th:href="@{/order/{orderId}/details(search=${search})}">주문제품</a><br>-->
-<!--<a th:href="@{/order/{orderId}/{fild}/details(orderId=${user.id}, fild='aaa', query=${query})}">view</a>-->
+    var customMarkerIcon = {
+        content: '<div class="custom-marker"> ' +
+            '<h1>가게명 : </h1>' +
+            '<h1>메뉴 : </h1>' +
+            '</div>',
+        anchor: new naver.maps.Point(15, 50) // 마커의 중심을 설정합니다.
+    };
 
-<!--<span th:text="${@environment.getProperty('spring.datasource.url')}"></span>-->
+    var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(35.86742794, 128.59428009),
+        zoom: 18
+    });
 
-<!--[[${orderId}}-->
-<!--<div th:if="${orderId}> 1">-->
-<!--    <sapn th:text="'Execution mode is ' + ( (${execMode}=='dev')?"></sapn>-->
-<!--</div>-->
+    var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(35.86742794, 128.59428009),
+        icon:customMarkerIcon,
+        map: map
+    });
 
-<!--<table>-->
-<!--    <tr th:each="item : ${list}">-->
-<!--        <td th:text="${item.getusername()}"></td>-->
-<!--        <td th:text="${item.getEmail()}"></td>-->
-<!--        <td th:text="${item.getPassword()}"></td>-->
-<!--    </tr>-->
-<!--</table>-->
+    naver.maps.Event.addListener(map, 'click', function(e) {
+        marker.setPosition(e.latlng);
+    });
 
-<!--<table>-->
-<!--    <tr th:each="item : ${list}" th:object="${item}">-->
-<!--        <td th:text="*{item.getusername()}"></td>-->
-<!--        <td th:text="*{item.getEmail()}"></td>-->
-<!--        <td th:text="*{item.getPassword()}"></td>-->
-<!--    </tr>-->
-<!--</table>-->
+    naver.maps.Event.addListener(marker, 'click', function() {
+        openNaverMain(marker.getPosition());
+    });
 
-<!--<div th:switch="${execMode}">-->
-<!--    <div th:case="dev">-->
-<!--        <div th:switch="${search}">-->
-<!--    <span th:case="장갑">장갑</span>-->
-<!--    <span th:case="바지">바지</span>-->
-<!--    <span th:case="*">value3</span>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div th:case="pro">pro</div>-->
-<!--    <div th:case="*">default</div>-->
-<!--</div>-->
+    // naver.maps.Event.addListener(marker, 'mouseover', function() {
+    //     showInfoBox(marker.getPosition());
+    // });
+    //
+    // naver.maps.Event.addListener(marker, 'mouseout', function() {
+    //     hideInfoBox();
+    // });
 
-<!--<table>-->
-<!--    <tr th:each="item, itemStat : ${list}" th:object="${item}">-->
-<!--        <td th:text="*{getUsername()}"></td>-->
-<!--        <td th:text="*{getEmail()}"></td>-->
-<!--        <td th:text="*{getPassword()}"></td>-->
-<!--        <td th:text="'첫 게시물'" th:if="${itme}"></td>-->
-<!--        <td th:text="'게시물'" th:unless="${itme}"></td>-->
+    // 네이버 메인 화면으로 이동하는 함수
+    function openNaverMain() {
+        var url = 'https://www.naver.com';
+        window.open(url, '_blank');
+    }
 
-<!--    </tr>-->
-<!--</table>-->
+    // function showInfoBox(position) {
+    //     var infoBox = document.getElementById('info-box');
+    //     infoBox.style.display = 'block';
+    //
+    // }
+    //
+    // function hideInfoBox() {
+    //     var infoBox = document.getElementById('info-box');
+    //     infoBox.style.display = 'none';
+    // }
 
-<script th:inline="javascript">
-    let search = [[${search}]]
-    let list = [[${list}]]
-    let username2 = [[${list[0].username}]];
-
-
-    alert(username2);
 </script>
-
 </body>
 </html>
