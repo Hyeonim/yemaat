@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Base64;
+
 @Getter
 @Setter
 @Entity
@@ -44,4 +46,7 @@ public class Review {
 
         return revScore;
     }
+
+
+
 }

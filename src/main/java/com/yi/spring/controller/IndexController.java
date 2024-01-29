@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,47 +19,57 @@ import java.util.Optional;
 public class IndexController {
 
     @Autowired
-DinningRepository dinningRepository;
-
+    DinningRepository dinningRepository;
 
 
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
 
-        long a = 181; //restNo
+//        long a = 181; //restNo
+//
+//        Optional<Dinning> dinningOptional = dinningRepository.findById((a));
 
-        Optional<Dinning> dinningOptional = dinningRepository.findById((a));
+        List<Dinning> list = dinningRepository.findAll();
 
-        dinningOptional.ifPresent(dinning -> model.addAttribute("dinning", dinning));
+        List<Dinning> imgList = new ArrayList<>();
 
 
+        for (Dinning diningRest : list) {
+            Dinning elem = new Dinning();
+            if (diningRest.getRestImg() != null) {
+                elem.setRestImg(diningRest.getRestImg());
+                imgList.add(elem);
+            }
+        }
+        model.addAttribute("dinning", imgList);
 
 
         return "main";
+
     }
 
     @GetMapping("/login")
-    public String loginPG(Model model, HttpSession httpSession){
+    public String loginPG(Model model, HttpSession httpSession) {
         return "/login";
     }
 
     @GetMapping("/usersignUp")
-    public String usersignUp(Model model, HttpSession httpSession){
+    public String usersignUp(Model model, HttpSession httpSession) {
         return "usersignUp";
     }
 
     @GetMapping("/hostsignUp")
-    public String hostsignUp(Model model, HttpSession httpSession){
+    public String hostsignUp(Model model, HttpSession httpSession) {
         return "hostsignUp";
     }
 
     @GetMapping("/signUp")
-    public String signUp(Model model, HttpSession httpSession){
+    public String signUp(Model model, HttpSession httpSession) {
         return "signUp";
     }
 
     @GetMapping("/restHost")
-    public String host(Model model, HttpSession httpSession){
+    public String host(Model model, HttpSession httpSession) {
         return "restHost";
     }
 

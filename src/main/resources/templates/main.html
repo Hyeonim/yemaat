@@ -121,6 +121,48 @@
         /*}*/
 
 
+        /*slide*/
+        .Slidesbackground {
+            margin: 0;
+            padding: 0;
+
+        }
+        .slideshow-image{
+            border-radius:3%;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .mySlides {
+            border-radius:3%;
+            width: 600px;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .slideshow-container {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin: auto;
+        }
+
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+            to {
+                opacity: 1
+            }
+        }
     </style>
 
 </head>
@@ -139,6 +181,28 @@
 <footer th:include="~{/include/footer::footerFragment}">
     footer
 </footer>
+
+<script th:inline="javascript">
+
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {
+            slideIndex = 1
+        }
+        slides[slideIndex - 1].style.display = "block";
+
+        setTimeout(showSlides, 2000); // 2초마다 이미지가 체인지됩니다
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
