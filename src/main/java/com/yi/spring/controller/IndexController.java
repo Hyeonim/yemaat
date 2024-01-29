@@ -41,5 +41,8 @@ public class IndexController {
         return "restHost";
     }
 
-
+    @GetMapping("addRest")
+    public String addRest() {
+        return "myPage/addRest";
+    }
 }
