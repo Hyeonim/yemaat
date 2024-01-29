@@ -13,15 +13,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${server.servlet.encoding.charset}")
     private String charset;
 
-
-//    @Value("${server.servlet.encoding.charset=utf-8}")
-//    private String charset;
-
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         MustacheViewResolver resolver = new MustacheViewResolver();
         resolver.setCharset(charset);
-        resolver.setContentType("text/html;charset=UTF-8");
+        resolver.setContentType("text/html; charset=UTF-8");
         resolver.setPrefix("classpath:/templates/");
         resolver.setSuffix(".html");
         registry.viewResolver(resolver);
