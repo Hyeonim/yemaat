@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="content">
+    <header>
+        <div style="border:solid 1px red">
+            <h1>LOGO</h1>
+            <ul>
+                <li>logout</li>
+                <li>Home</li>
+            </ul>
+        </div>
+    </header>
+    <div id="side-container" style="border:solid 1px red">
+        <ul>
+            <li>고객 메뉴1</li>
+            <li>고객 메뉴2</li>
+            <li>고객 메뉴3</li>
+        </ul>
+    </div>
+    <div id="content" style="height:700px; border:1px solid blue;">
+        고객 메뉴 관리입니다.
+    </div>
+</th:block>
+</html>
