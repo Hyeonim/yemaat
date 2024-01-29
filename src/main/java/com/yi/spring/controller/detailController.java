@@ -2,6 +2,7 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Review;
+import com.yi.spring.entity.User;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +26,23 @@ public class detailController {
     @GetMapping("/detail")
     public String getDinningByRestNo(Model model) {
 
+
         long a = 181; //restNo
 
         Optional<Dinning> dinningOptional = dinningRepository.findById((a));
 
-//        List<Review> list = reviewRepository.findByRestNo( new Dinning((int) a) );
+        List<Review> list = reviewRepository.findByRestNo(new Dinning((int) a));
+        System.out.println(list);
 
+        double sum = list.stream().mapToDouble(Review::getRevScore).sum();
+        double result = sum /list.size();
 
-//        double sum = list.stream().mapToDouble(Review::getRevScore).sum();
-//        double result = sum /list.size();
-//
-//
-//        System.out.println(list);
-//        List<User> list = userRepository.findById();
+        System.out.println(list);
+
 
         dinningOptional.ifPresent(dinning -> model.addAttribute("dinning", dinning));
-//        model.addAttribute("list",list);
-//        model.addAttribute("reg", result);
+        model.addAttribute("list",list);
+        model.addAttribute("reg", result);
 
 
 

@@ -45,6 +45,7 @@
             <div id="review">
 
                 <div id="reviewT" style="border-bottom: solid 2px black" th:each="review : ${list}">
+                    <p th:text="'유저 이름 : ' + ${review.userNo.userName}"></p>
                     <p th:text="'평점 : ' +${review.revScore}"></p>
                     <p th:text="'내용 : ' + ${review.revContent}"></p>
                 </div>

@@ -53,9 +53,11 @@ public class User {
     private String username;
 
     @OneToMany(mappedBy = "userNo")
+    @ToString.Exclude
     private Set<Dinning> diningRests = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "userNo")
+    @ToString.Exclude
     private Set<Review> reviews = new LinkedHashSet<>();
 
 }
