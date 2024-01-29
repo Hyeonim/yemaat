@@ -27,7 +27,7 @@ public class detailController {
     public String getDinningByRestNo(Model model) {
 
 
-        long a = 181; //restNo
+        long a = 185; //restNo
 
         Optional<Dinning> dinningOptional = dinningRepository.findById((a));
 
@@ -41,6 +41,7 @@ public class detailController {
 
 
         dinningOptional.ifPresent(dinning -> model.addAttribute("dinning", dinning));
+
         model.addAttribute("list",list);
         model.addAttribute("reg", result);
 
