@@ -6,12 +6,8 @@
     <div id="c">
 
         <div id="img">
-            <img src="/img/피카.png" alt="사진1">
-            <img src="/img/피카.png" alt="사진2">
-            <img src="/img/피카.png" alt="사진3">
-            <img src="/img/피카.png" alt="사진4">
-            <img src="/img/피카.png" alt="사진5">
-
+            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="식당 이미지"/>
+            <p>db에 있는 식당 이미지임 </p>
         </div>
 
         <h1 th:text="${dinning.restName}"></h1>
@@ -34,13 +30,12 @@
 
         <div id="map">
 
-
         </div>
 
         <div style="border: solid 1px black">
             <div style="border-bottom: solid 1px black">
-            <h2 th:text="${list.size()} + '명의 방문자가 평가 '"></h2>
-            <p th:text="'평점 : ' + ${reg}"></p>
+                <h2 th:text="${list.size()} + '명의 방문자가 평가 '"></h2>
+                <p th:text="'평점 : ' + ${reg}"></p>
             </div>
             <div id="review">
 
@@ -51,8 +46,6 @@
                 </div>
 
             </div>
-
-
 
 
         </div>

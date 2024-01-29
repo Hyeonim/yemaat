@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Base64;
+
 @Getter
 @Setter
 @Entity
@@ -75,4 +77,13 @@ public class Dinning {
     {
         this.restNo = restNo;
     }
+
+    // 이미지를 Base64 문자열로 변환하는 메서드
+    public String getBase64Image() {
+        if (restImg != null && restImg.length > 0) {
+            return Base64.getEncoder().encodeToString(restImg);
+        }
+        return "";
+    }
+
 }
