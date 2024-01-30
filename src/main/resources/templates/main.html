@@ -13,157 +13,11 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous">
 
+<!--css 링크 설정-->
+<link th:href="@{/css/main.css}" rel="stylesheet">
 
 <head>
     <style>
-        * {
-            border: solid 1px blue;
-        }
-
-       #top{
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-       #searchBar{
-           height: 40px;
-           margin-left: 30%;
-           width: 500px;
-           border-radius: 10px;
-       }
-
-        .f {
-            position: relative;
-            transform: translateY(0%);
-        }
-
-
-        .c, .footer_height {
-            height: 200vw;
-        }
-
-        #wrap {
-            height: 500px;
-            /*background-color: silver;*/
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            margin: 100px;
-
-        }
-
-        .d1 {
-            width: 350px;
-            height: 330px;
-            border: 1px solid #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 50px;
-            margin-left: 50px;
-        }
-
-        #center_box{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            /*margin-top: 50px;*/
-            margin-left: 100px;
-            margin-right: 100px;
-
-        }
-
-        #topDiv{
-            height: 270px;
-            background: red;
-            text-align: center;
-            /*flex-basis: 100px;*/
-        }
-
-        #random_box{
-            height: 270px;
-            background-color: orange;
-            /*float: 1;*/
-            text-align: center;
-
-        }
-
-        #new_box{
-            height: 270px;
-            background-color: yellow;
-            /*flex-basis: 150px;*/
-            text-align: center;
-        }
-
-        #subject1 {
-            margin-left: 100px;
-            margin-right: 100px;
-        }
-
-        #previous_button{
-            margin-left: 20px;
-        }
-
-        #next_button{
-            margin-right: 20px;
-        }
-
-        /*!* 이미지 슬라이드를 감싸는 div의 스타일 *!*/
-        /*#wrap {*/
-        /*    width: 100%; !* 슬라이드 전체 너비 *!*/
-        /*    overflow: hidden; !* 넘치는 이미지 숨김 *!*/
-        /*}*/
-
-        /*!* 각 이미지 슬라이드의 스타일 *!*/
-        /*.d1 {*/
-        /*    display: none; !* 기본적으로 숨김 *!*/
-        /*    width: 100%; !* 이미지의 너비 *!*/
-        /*}*/
-
-
-        /*slide*/
-        .Slidesbackground {
-            margin: 0;
-            padding: 0;
-
-        }
-        .slideshow-image{
-            border-radius:3%;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        .mySlides {
-            border-radius:3%;
-            width: 600px;
-            height: 350px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .slideshow-container {
-            display: flex;
-            justify-content: center;
-            position: relative;
-            margin: auto;
-        }
-
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: .4
-            }
-            to {
-                opacity: 1
-            }
-        }
     </style>
 
 </head>
@@ -203,7 +57,15 @@
 
         setTimeout(showSlides, 2000); // 2초마다 이미지가 체인지됩니다
     }
+
+
+
+
+
 </script>
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
