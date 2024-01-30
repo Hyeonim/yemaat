@@ -40,10 +40,11 @@ public class User {
     @Column(name = "user_start_date", length = 100)
     private String userStartDate;
 
-    @Lob
-    @Column(name = "user_img" ,length = 5000)
+    @Column(name = "user_img")
     private byte[] userImg;
 
+    @Column(name = "email")
+    private String email;
 
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude

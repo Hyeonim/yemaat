@@ -25,7 +25,8 @@ public class Reservation {
     private LocalDateTime res_time_new;
     private LocalDateTime res_time;
     private Long user_no;
-    private Long rest_no;
+    @Column(name = "rest_no")
+    private Long restNo;
     private String res_guest_count;
     private String res_status;
     private String res_comment;
