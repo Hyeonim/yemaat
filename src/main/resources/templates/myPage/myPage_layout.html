@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout">
 <head>
-    <link th:href="@{/css/myPage.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-
-<!--<header th:replace="~{/include/myPage_header::headerFragment}">-->
-<!--    header 자리-->
-<!--</header>-->
-<div>
-    <div id="main-container">
-        <div id="content-container">
-            <th:block layout:fragment="content">
-                몸통
-            </th:block>
-            <footer th:replace="~{/myPage/myPage_footer::footerFragment}">
-                footer 자리
-            </footer>
-        </div>
+<header>
+    <h1>LOGO</h1>
+</header>
+<div class="main-container">
+    <div class="side-container">
+        <ul>
+            <li><a href="listRest">가게 목록</a></li>
+            <li><a href="addRest">가게 등록</a></li>
+            <li><a href="updateRest">가게 수정</a></li>
+            <li><a href="deleteRest">가게 삭제</a></li>
+        </ul>
     </div>
+    <div class="content-container" th:replace="${page}::content"></div>
 </div>
-
+<footer>
+    영남인재 교육원 대구광역시 053-555-1333
+</footer>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <title></title>
     <script></script>
+    <link rel="stylesheet" href="../../static/css/main.css">
 </head>
 <body>
 <div th:fragment="contentFragment">
@@ -39,12 +40,14 @@
                  <div class="Slidesbackground">
 
        <div th:each="dinning : ${dinning}" class="mySlides fade">
-                            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>
+       <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>
 
                     </div>
 
                 </div>
-           </span>
+       </span>
+
+
 
 
         <div id="subject1">
@@ -58,22 +61,27 @@
             </div>
         </div>
 
-        <!--                <div id="subject1">-->
-        <!--                    제목 :-->
-        <!--                    <div id="wrap">-->
-        <!--                        <button id="previous_button">이전</button>-->
-        <!--                        <div th:each="dinning : ${dinning}">-->
-        <!--                            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>-->
-        <!--                        </div>-->
-        <!--                        <button id="next_button">다음</button>-->
-        <!--                    </div>-->
-        <!--                </div>-->
+
+<!--        <div id="subject1">-->
+<!--            제목 :-->
+<!--            <div id="wrap">-->
+<!--                <button id="previous_button">이전</button>-->
+<!--                <div th:each="dinning : ${dinning}">-->
+<!--                    <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>-->
+<!--                </div>-->
+<!--                <button id="next_button">다음</button>-->
+<!--            </div>-->
+<!--        </div>-->
 
 
     </div>
 
 
 </div>
-</div>
+
 </body>
 </html>
+
+
+
+

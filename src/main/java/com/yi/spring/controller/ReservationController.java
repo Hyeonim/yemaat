@@ -1,5 +1,7 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.entity.Dinning;
+import com.yi.spring.repository.DinningRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,15 +14,47 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class ReservationController {
 
+    @Autowired
+    DinningRepository dinningRepository;
     @GetMapping("/reserve/{restNo}")
     public String reserve(Model model, HttpSession httpSession, @PathVariable String restNo){
 
-        String strRestStart = "10:00";
-        String strRestEnd= "22:00";
+        Dinning restaurant = dinningRepository.findById( Long.valueOf(restNo) ).get();
+
+
+        String strRestTime = restaurant.getRestTime();
+
+        // 정규표현식 패턴
+        String regex = "([0-9]{2}).*([0-9]{2}).*([0-9]{2}).*([0-9]{2})";
+        Pattern pattern = Pattern.compile(regex);
+
+        // 정규표현식에 대한 매처 생성
+        Matcher matcher = pattern.matcher(strRestTime);
+
+
+
+        String strRestStart = "";
+        String strRestEnd= "";
+
+        // 매칭된 부분 추출
+        if (matcher.matches() && 4 <= matcher.groupCount() ) {
+            strRestStart = matcher.group(1) + ":" + matcher.group(2);
+            strRestEnd = matcher.group(3) + ":" + matcher.group(4);
+        } else if ( "24시간".equals( strRestTime )) {
+            strRestStart = "00:00";
+            strRestEnd = "23:59";
+        };
+
+
+
+
+
 
         LocalTime rest_start = LocalTime.parse(strRestStart, DateTimeFormatter.ofPattern("HH:mm"));
         LocalTime rest_end = LocalTime.parse(strRestEnd, DateTimeFormatter.ofPattern("HH:mm"));
@@ -45,7 +79,7 @@ public class ReservationController {
 
 
 
-        model.addAttribute( "rest_name", "돝고기506" );
+        model.addAttribute( "rest_name", restaurant.getRestName()  );
 
         return "reservation/reservation";
     }

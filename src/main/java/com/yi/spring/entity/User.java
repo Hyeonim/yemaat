@@ -59,5 +59,4 @@ public class User {
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude
     private Set<Review> reviews = new LinkedHashSet<>();
-
 }

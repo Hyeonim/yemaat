@@ -15,7 +15,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 @Configuration
 public class RootConfig {
 
-
     @Autowired
     private ApplicationContext applicationContext;
 

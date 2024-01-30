@@ -1,6 +1,7 @@
 package com.yi.spring.service;
 
 import com.yi.spring.entity.DiningRest;
+import com.yi.spring.entity.Dinning;
 import com.yi.spring.repository.DiningRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,27 +15,27 @@ public class DiningRestServiceImpl implements DiningRestService{
     private DiningRestRepository diningRestRepository;
 
     @Override
-    public List<DiningRest> getAllRestaurants() {
+    public List<Dinning> getAllRestaurants() {
         return diningRestRepository.findAll();
     }
 
     @Override
-    public DiningRest getRestByRest_no(int rest_no) {
-        Optional<DiningRest> optionalDiningRest = diningRestRepository.findById(rest_no);
+    public Dinning getRestByRest_no(int rest_no) {
+        Optional<Dinning> optionalDiningRest = diningRestRepository.findById(rest_no);
         return optionalDiningRest.orElse(null);
     }
 
     @Override
-    public DiningRest createRestaurant(DiningRest diningRest) {
-        return diningRestRepository.save(diningRest);
+    public Dinning createRestaurant(Dinning dinning) {
+        return diningRestRepository.save(dinning);
     }
 
     @Override
-    public DiningRest updateRestaurant(DiningRest diningRest) {
+    public Dinning updateRestaurant(Dinning dinning) {
 //        DiningRest existingDiningRest = diningRestRepository.findById(diningRest.getRest_no()).orElse(null);
 //        assert existingDiningRest != null;
 //        existingDiningRest.setRest_name(diningRest.getRest_name());
-        return diningRestRepository.save(diningRest);
+        return diningRestRepository.save(dinning);
     }
 
     @Override
