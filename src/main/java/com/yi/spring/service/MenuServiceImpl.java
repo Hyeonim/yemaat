@@ -14,8 +14,12 @@ public class MenuServiceImpl implements MenuService{
     private MenuRepository menuRepository;
 
     @Override
-    public List<Menu> getMenusByRestNo(Integer restNo) {
-        return menuRepository.findMenusByRestNo( new Dinning( restNo ) );
+    public List<Menu> getMenusByRestNo(int restNo) {
+        return menuRepository.findByRestNo(new Dinning(restNo));
+    }
+    @Override
+    public Menu getMenuByMenuNo(int menuNo) {
+        return menuRepository.findById(menuNo).orElse(null);
     }
 
     @Override
@@ -36,7 +40,8 @@ public class MenuServiceImpl implements MenuService{
     }
 
     @Override
-    public void deleteMenu(Integer menuNo) {
+    public void deleteMenu(int menuNo) {
         menuRepository.deleteById(menuNo);
     }
+
 }

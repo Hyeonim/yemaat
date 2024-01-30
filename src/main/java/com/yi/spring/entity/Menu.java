@@ -23,6 +23,6 @@ public class Menu {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_no")
-    private DiningRest restNo;
+    private Dinning restNo;
 
 }
