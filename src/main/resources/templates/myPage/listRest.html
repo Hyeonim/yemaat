@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{myPage/myPage_layout}">
+<th:block th:fragment="content">
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>상호명</th>
+            <th>식당 주소</th>
+            <th>식당 번호</th>
+            <th>이용시간</th>
+            <th>업태</th>
+            <th>주차장</th>
+        </tr>
+        <th:block th:each="rest : ${listRest}" th:object="${rest}">
+            <tr>
+                <td th:text="*{getRestNo()}"></td>
+                <td><a th:href="@{viewRest/{restNo}(restNo=*{getRestNo()})}">[[*{getRestName()}]]</a></td>
+                <td th:text="*{getRestAddr()}"></td>
+                <td th:text="*{getRestTel()}"></td>
+                <td th:text="*{getRestTime()}"></td>
+                <td th:text="*{getRestCategory()}"></td>
+                <td th:text="*{getRestParking()}"></td>
+            </tr>
+        </th:block>
+    </table>
+</th:block>
+</html>

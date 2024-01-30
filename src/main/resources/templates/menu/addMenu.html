@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="addMenuForm" th:action="@{/menu/addMenu/{restNo}(restNo=${restNo})}" method="post">
+    <label>메뉴 이름 : </label><input type="text" name="menuName"><br/>
+    <label>메뉴 가격 : </label><input type="number" name="menuPrice"><br/>
+    <input type="button" value="등록" onclick="submitMenuForm()">
+</form>
+
+<script>
+    function submitMenuForm() {
+        if(confirm("등록하시겠습니까?")) {
+            let form = document.getElementById("addMenuForm");
+            form.submit();
+        }
+    }
+</script>
+</body>
+</html>

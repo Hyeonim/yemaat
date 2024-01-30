@@ -1,45 +1,66 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.DiningRest;
+import com.yi.spring.entity.Dinning;
 import com.yi.spring.service.DiningRestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/rest")
+@RequestMapping("/myPage/*")
 public class DiningRestController {
     @Autowired
     private DiningRestService diningRestService;
-
-
-    @GetMapping
-    public ResponseEntity<List<DiningRest>> getAllRestaurants() {
-        List<DiningRest> diningRestList = diningRestService.getAllRestaurants();
-        return new ResponseEntity<>(diningRestList, HttpStatus.OK);
+    @GetMapping("home")
+    public String home(Model model) {
+        return "myPage";
+    }
+    @GetMapping("listRest")
+    public String listRest(Model model) {
+        List<Dinning> diningRestList = diningRestService.getAllRestaurants();
+        model.addAttribute("listRest", diningRestList);
+        return "myPage/listRest";
     }
 
-    @PostMapping
-    public ResponseEntity<DiningRest> createRestaurant(@RequestBody DiningRest diningRest) {
-        DiningRest savedDiningRest = diningRestService.createRestaurant(diningRest);
-        savedDiningRest.setUser_no(0);
-        return new ResponseEntity<>(savedDiningRest, HttpStatus.CREATED);
+    @GetMapping("viewRest/{restNo}")
+    public String viewRest(@PathVariable("restNo") int restNo, Model model) {
+        Dinning dinning = diningRestService.getRestByRestNo(restNo);
+        model.addAttribute("dinning", dinning);
+        return "myPage/viewRest";
+    }
+    @GetMapping("addRest")
+    public String addRest(Model model) {
+        return "myPage/addRest";
     }
 
-    @PutMapping("{rest_no}")
-    public ResponseEntity<DiningRest> updateRestaurant(@PathVariable("rest_no") int rest_no, @RequestBody DiningRest diningRest) {
-        diningRest.setRest_no(rest_no);
-        DiningRest updateRestaurant = diningRestService.updateRestaurant(diningRest);
-        return new ResponseEntity<>(updateRestaurant, HttpStatus.OK);
+    @PostMapping("addRest")
+    public String addRest(Dinning dinning, Model model) {
+        System.out.println(dinning);
+        diningRestService.createRestaurant(dinning);
+        return "myPage/listRest";
     }
 
-    @DeleteMapping("{rest_no}")
-    public  ResponseEntity<String> deleteRestaurant(@PathVariable("rest_no") int rest_no) {
-        diningRestService.deleteRestaurant(rest_no);
-        return new ResponseEntity<>("Restaurant successfully delete!", HttpStatus.OK);
+    @GetMapping("updateRest/{restNo}")
+    public String updateRest(@PathVariable("restNo") int restNo, Model model) {
+        Dinning dinning = diningRestService.getRestByRestNo(restNo);
+        model.addAttribute("dinning", dinning);
+        return "myPage/updateRest";
+    }
+
+    @PostMapping("updateRest/{restNo}")
+    public String updateRest(@PathVariable("restNo") int restNo, Dinning dinning) {
+        dinning.setRestNo(restNo);
+        Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);
+        return "myPage/listRest";
+    }
+
+    @GetMapping("deleteRest/{restNo}")
+    public String deleteRest(@PathVariable("restNo") int restNo, Model model) {
+        diningRestService.deleteRestaurant(restNo);
+        return "myPage/listRest";
     }
 }

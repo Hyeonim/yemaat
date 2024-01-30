@@ -35,6 +35,7 @@ public class ListController {
             elem.setRestLatitude( diningRest.getRestLatitude());
             elem.setRestLongitude( diningRest.getRestLongitude());
             elem.setRestName( diningRest.getRestName());
+            elem.setRestNo(diningRest.getRestNo());
             respList.add(elem);
         }
 

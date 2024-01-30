@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{myPage/myPage_layout}">
+
+<th:block th:fragment="content">
+    <h1>가게 수정</h1>
+    <th:block th:object="${dinning}">
+        <form id="updateRestForm" th:action="@{/myPage/updateRest/{restNo}(restNo=*{getRestNo()})}" method="post">
+        <label>가게 이름 : </label><input type="text" name="restName" th:value="*{getRestName()}"><br/>
+        <label>가게 주소 : </label><input type="text" name="restAddr" th:value="*{getRestAddr()}"><br/>
+        <label>가게 번호 : </label><input type="text" name="restTel" th:value="*{getRestTel()}"><br/>
+        <label>가게 좌석수 : </label><input type="text" name="restSeat" th:value="*{getRestSeat()}"><br/>
+        <label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}"><br/>
+        <label>가게 휴뮤일 : </label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}"><br/>
+        <label>가게 주차장 : </label><input type="text" name="restParking" th:value="*{getRestParking()}"><br/>
+        <label>가게 메뉴 : </label><input type="text" name="restMenu" th:value="*{getRestMenu()}"><br/>
+        <label>가게 업태 : </label><input type="text" name="restCategory" th:value="*{getRestCategory()}"><br/>
+        <label>가게 경도 : </label><input type="text" name="restLatitude" th:value="*{getRestLatitude()}"><br/>
+        <label>가게 위도 : </label><input type="text" name="restLongitude" th:value="*{getRestLongitude()}"><br/>
+        <label>가게 소개글 : </label><input type="text" name="restDesc" th:value="*{getRestDescription()}"><br/>
+        <label>가게 대표 이미지 : </label><input type="file" name="restImg" th:value="*{getRestImg()}"><br/>
+            <input type="button" value="수정하기" onclick="submitRestForm()">
+        <input type="button" value="돌아가기" th:onclick="|location.href='@{/myPage/viewRest/{restNo}(restNo=*{getRestNo()})}'|">
+        </form>
+    </th:block>
+
+    <script>
+        function submitRestForm() {
+            if(confirm("수정하시겠습니까?")) {
+                let form = document.getElementById("updateRestForm");
+                form.submit();
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+</th:block>
+</html>
