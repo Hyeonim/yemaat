@@ -20,8 +20,8 @@ public class DiningRestServiceImpl implements DiningRestService{
     }
 
     @Override
-    public Dinning getRestByRest_no(int rest_no) {
-        Optional<Dinning> optionalDiningRest = diningRestRepository.findById(rest_no);
+    public Dinning getRestByRestNo(int restNo) {
+        Optional<Dinning> optionalDiningRest = diningRestRepository.findById(restNo);
         return optionalDiningRest.orElse(null);
     }
 
@@ -39,7 +39,7 @@ public class DiningRestServiceImpl implements DiningRestService{
     }
 
     @Override
-    public void deleteRestaurant(int rest_no) {
-        diningRestRepository.deleteById(rest_no);
+    public void deleteRestaurant(int restNo) {
+        diningRestRepository.deleteById(restNo);
     }
 }

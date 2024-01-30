@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface DiningRestService {
     List<Dinning> getAllRestaurants();
-    Dinning getRestByRest_no(int rest_no);
+    Dinning getRestByRestNo(int restNo);
     Dinning createRestaurant(Dinning dinning);
     Dinning updateRestaurant(Dinning dinning);
-    void deleteRestaurant(int rest_no);
+    void deleteRestaurant(int restNo);
 }
