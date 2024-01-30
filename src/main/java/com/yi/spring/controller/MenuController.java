@@ -53,7 +53,7 @@ public class MenuController {
 
     @PostMapping("updateMenu/{menuNo}")
     public String updateMenu(@PathVariable("menuNo") int menuNo, Menu Menu) {
-        Menu.setId(menuNo);
+        Menu.setMenuNo(menuNo);
         Menu updateMenu = menuService.updateMenu(Menu);
         return "menu/listMenu";
     }
