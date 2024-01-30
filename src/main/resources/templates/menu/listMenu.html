@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>매뉴를 확인해보자 </title>
+</head>
+<body>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>메뉴 이름</th>
+        <th>가격</th>
+        <th>수정</th>
+        <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="menu : ${menuList}">
+        <td th:text="${menu.getMenuName()}"></td>
+        <td th:text="${menu.getMenuPrice()}"></td>
+        <td><input type="button" value="수정" th:onclick="|location.href='@{/menu/updateMenu/{menuNo}(menuNo=${menu.getId()})}'|"></td>
+        <td><input type="button" value="삭제" th:onclick="|location.href='@{/menu/deleteMenu/{menuNo}(menuNo=${menu.getId()})}'|"></td>
+    </tr>
+    </tbody>
+</table>
+<input type="button" value="메뉴 추가" th:onclick="|location.href='@{/menu/addMenu/{restNo}(restNo=${restNo})}'|">
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.yi.spring.repository;
 
+import com.yi.spring.entity.DiningRest;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +10,7 @@ import java.util.List;
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
-    List<Menu> findMenusByRestNo(Dinning restNo);
+
+
+    List<Menu> findByRestNo(Dinning restNo);
 }
