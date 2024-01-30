@@ -37,11 +37,11 @@ public class TablingServiceImpl implements TablingService {
         return tablingRepository.findByRestNo(restNo);
     }
 
-    @Override
-    public void updateByRestNo(TablingDto dto) {
-
-        tablingRepository.updateByRestNo(dto);
-    }
+//    @Override
+//    public void updateByRestNo(TablingDto dto) {
+//
+//        tablingRepository.updateByRestNo(dto);
+//    }
 
 
 }

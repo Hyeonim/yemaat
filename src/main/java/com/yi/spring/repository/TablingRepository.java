@@ -15,8 +15,8 @@ public interface TablingRepository extends JpaRepository<TablingDto, Integer> {
     Optional<TablingDto> findByRestName(String restName);
     TablingDto findByRestNo(int restNo);
 
-    @Query("UPDATE Tabling t SET t.restName = :restName, t.restTel = :restTel, t.restSeat = :restSeat, t.restTime = :restTime, t.restOffDays = :restOffDays, t.restParking = :restParking, t.restMenu = :restMenu, t.restAddr = :restAddr WHERE t.restNo = :restNo")
-    void updateByRestNo(TablingDto dto);
+//    @Query("UPDATE Tabling t SET t.restName = :restName, t.restTel = :restTel, t.restSeat = :restSeat, t.restTime = :restTime, t.restOffDays = :restOffDays, t.restParking = :restParking, t.restMenu = :restMenu, t.restAddr = :restAddr WHERE t.restNo = :restNo")
+//    void updateByRestNo(TablingDto dto);
 
     @Query("SELECT d FROM Dinning d WHERE d.restName LIKE %:keyword% and d.restMenu")
     List<TablingDto> findByRestNameContaining(@Param("keyword") String keyword);

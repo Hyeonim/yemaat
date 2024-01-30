@@ -11,6 +11,6 @@ public interface TablingService {
     void addTabling(TablingDto dto);
     Optional<TablingDto> findByRestName(String restName);
     TablingDto findByRestNo(int restNo);
-    void updateByRestNo(TablingDto dto);
+//    void updateByRestNo(TablingDto dto);
 
 }

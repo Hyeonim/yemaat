@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("tabling")
 public class TablingController {
     @Autowired
     TablingService tablingService;
@@ -64,9 +65,9 @@ public class TablingController {
         model.addAttribute("find_rest", rest_name);
         return "find_rest_name";
     }
-    @PostMapping("update_rest")
-    public String updateRest(@ModelAttribute TablingDto tablingDto) {
-        tablingRepository.updateByRestNo(tablingDto);
-        return "redirect:/list_rest";
-    }
+//    @PostMapping("update_rest")
+//    public String updateRest(@ModelAttribute TablingDto tablingDto) {
+//        tablingRepository.updateByRestNo(tablingDto);
+//        return "redirect:/list_rest";
+//    }
 }

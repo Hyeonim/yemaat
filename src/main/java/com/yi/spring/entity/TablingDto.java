@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * DTO for {@link com.yi.spring.entity.TablingDto}
  */
 @Entity
-@Table(name = "dining_rest")
+@Table(name = "dining_rest_my")
 @Getter
 @Setter
 @ToString
@@ -34,11 +34,7 @@ public class TablingDto implements Serializable {
     private String restCategory;
     private BigDecimal restLatitude;
     private BigDecimal restLongitude;
-
-//    @Transient
-//    private transient MultipartFile restImgFile;
     private byte[] restImg;
-
     private Float restScore;
     private String restDescription;
     private int userNo;
