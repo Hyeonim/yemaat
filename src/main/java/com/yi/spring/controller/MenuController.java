@@ -46,7 +46,7 @@ public class MenuController {
 
     @PutMapping("{menuNo}")
     public ResponseEntity<Menu> updateMenu(@PathVariable("menuNo") Integer menuNo, @RequestBody Menu Menu) {
-        Menu.setId(menuNo);
+        Menu.setMenuNo(menuNo);
         Menu updateMenu = menuService.updateMenu(Menu);
         return new ResponseEntity<>(updateMenu, HttpStatus.OK);
     }
