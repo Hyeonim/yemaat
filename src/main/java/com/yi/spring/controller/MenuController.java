@@ -34,7 +34,7 @@ public class MenuController {
 
     @GetMapping("/addMenu")
     public String createMenuForm(Model model) {
-        Dinning dinning = diningRestService.getRestByRest_no(181);
+        Dinning dinning = diningRestService.getRestByRestNo(181);
         model.addAttribute("restNo", dinning.getRestNo());
         return "menu/addMenu";
     }
