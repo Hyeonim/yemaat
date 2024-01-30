@@ -1,7 +1,9 @@
 package com.yi.spring.entity;
 
+import com.yi.spring.entity.DiningRest;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -10,8 +12,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "menu")
+@NoArgsConstructor
 public class Menu {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_no")
@@ -25,12 +27,6 @@ public class Menu {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_no")
-    private Dinning restNo;
-
-    // 생성자, 게터, 세터 등 필요한 부분을 추가할 수 있습니다.
-
-    public Menu() {
-    }
-
+    private DiningRest restNo;
 
 }

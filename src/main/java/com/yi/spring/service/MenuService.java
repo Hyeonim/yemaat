@@ -5,8 +5,10 @@ import com.yi.spring.entity.Menu;
 import java.util.List;
 
 public interface MenuService {
-    List<Menu> getMenusByRestNo(Integer restNo);
+    List<Menu> getMenusByRestNo(int restNo);
     Menu createMenu(Menu menu);
     Menu updateMenu(Menu menu);
-    void deleteMenu(Integer menuNo);
+    void deleteMenu(int menuNo);
+
+    Menu getMenuByMenuNo(int menuNo);
 }
