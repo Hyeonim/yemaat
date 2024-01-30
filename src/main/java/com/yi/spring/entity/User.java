@@ -40,7 +40,7 @@ public class User {
     @Column(name = "user_start_date", length = 100)
     private String userStartDate;
 
-    @Column(name = "user_img", length = 100)
+    @Column(name = "user_img", length = 5000)
     private byte[] userImg;
 
     @Column(name = "email")
