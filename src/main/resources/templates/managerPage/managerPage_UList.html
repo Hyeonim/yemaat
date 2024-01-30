@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org/"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<div th:fragment="managerContent(users)">
+    <div id="right">
+
+        <h2>List</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <!-- 다른 필요한 열들을 추가 -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.userid}">ID</td>
+                <td th:text="${user.username}">Name</td>
+
+
+            </tr>
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+</div>
+
+
+</html>

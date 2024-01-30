@@ -1,5 +1,8 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.entity.User;
+import com.yi.spring.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.User;
 import com.yi.spring.service.UserService;
@@ -18,21 +21,27 @@ import java.util.List;
 @RequestMapping("/")
 public class ManagerController {
 
-
-//    private final UserServiceImpl userService;
-//
-//    public ManagerController(UserServiceImpl userService) {
-//        this.userService = userService;
-//    }
     @Autowired
     UserService userService;
 
-
-    // 나
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
         model.addAttribute( "page", "managerPage/"+subPage );
         return "managerPage";
+    }
+
+    @GetMapping("/aa/managerPage_UList")
+    public String managerUList(Model model, @PathVariable String subPage) {
+
+        model.addAttribute( "page", "managerPage/"+subPage );
+
+
+        List<User> users = userService.getAllUsers();
+        System.out.println(users);
+        model.addAttribute("users",users);
+
+        return "managerPage";
+
     }
 
     // 나
