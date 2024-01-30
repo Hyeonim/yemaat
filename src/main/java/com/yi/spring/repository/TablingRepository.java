@@ -23,4 +23,5 @@ public interface TablingRepository extends JpaRepository<TablingDto, Integer> {
 
 
 
+
 }

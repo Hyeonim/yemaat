@@ -21,7 +21,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public Optional<User> findByUserNo(Integer userNo) {
+        return userRepository.findByUserNo(userNo);
+    }
 
+    @Override
+    public long deleteByUserNo(Integer userNo) {
+        return userRepository.deleteByUserNo(userNo);
+    }
 
 
 }

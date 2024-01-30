@@ -37,7 +37,11 @@ public class TablingDto implements Serializable {
     private byte[] restImg;
     private Float restScore;
     private String restDescription;
-    private int userNo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_no")
+    private User userNo;
+
     private String restStartDate;
     private String restStatus;
 
