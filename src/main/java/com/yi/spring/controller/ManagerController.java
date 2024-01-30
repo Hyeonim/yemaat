@@ -15,9 +15,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-public class ManagerUserController {
+public class ManagerController {
 
-
+    @Autowired
+    UserService userService;
 
     @Autowired
     UserRepository userRepository;
@@ -51,4 +52,22 @@ public class ManagerUserController {
 
     }
 
+    // 나
+    @GetMapping("/managerInfo")
+    public String managerInfoA(Model model) {
+
+        model.addAttribute( "page", "managerPage/managerInfo");
+
+        List<User> userList = userService.getAllUsers();
+
+        List<User> onlyjum = new ArrayList<>();
+        for (User result : userList) {
+            if (result.getUserAuth().equals("2")) {
+                onlyjum.add(result);
+            }
+        }
+        model.addAttribute("userList", onlyjum);
+
+        return "managerPage";
+    }
 }
