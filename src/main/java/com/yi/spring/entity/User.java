@@ -41,7 +41,7 @@ public class User {
     private String userStartDate;
 
     @Column(name = "user_img", length = 100)
-    private String userImg;
+    private byte[] userImg;
 
     @Column(name = "email")
     private String email;

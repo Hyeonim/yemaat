@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html
-        xmlns:th="http://www.thymeleaf.org/"
+<html xmlns:th="http://www.thymeleaf.org/"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 
-<div th:fragment="managerContent(users)">
+<div th:fragment="managerContent">
     <div id="right">
 
         <h2>List</h2>
@@ -12,26 +11,32 @@
         <table>
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <!-- 다른 필요한 열들을 추가 -->
+                <th>no</th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>사작일</th>
+
             </tr>
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
-                <td th:text="${user.userid}">ID</td>
-                <td th:text="${user.username}">Name</td>
-
+                <td th:text="${user.Id}">Name</td>
+                <td th:text="${user.userId}">ID</td>
+                <td th:text="${user.userName}">Name</td>
+                <td th:text="${user.userEmail}">Name</td>
+                <td th:text="${user.userTel}">Name</td>
+                <td th:text="${user.userStartDate}">Name</td>
 
             </tr>
             </tbody>
         </table>
 
 
-
+</div>
     </div>
 
-</div>
 
 
 </html>
