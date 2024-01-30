@@ -2,7 +2,6 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Review;
-import com.yi.spring.entity.User;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/*")
-public class detailController {
+public class DetailController {
 
     @Autowired
     DinningRepository dinningRepository;
@@ -24,14 +23,14 @@ public class detailController {
     ReviewRepository reviewRepository;
 
     @GetMapping("/detail")
-    public String getDinningByRestNo(Model model) {
+    public String getDinningByRestNo(@RequestParam Long restNo, Model model) {
 
 
-        long a = 185; //restNo
 
-        Optional<Dinning> dinningOptional = dinningRepository.findById((a));
 
-        List<Review> list = reviewRepository.findByRestNo(new Dinning((int) a));
+        Optional<Dinning> dinningOptional = dinningRepository.findById((restNo));
+
+        List<Review> list = reviewRepository.findByRestNo(new Dinning(Math.toIntExact(restNo)));
         System.out.println(list);
 
         double sum = list.stream().mapToDouble(Review::getRevScore).sum();
