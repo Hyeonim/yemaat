@@ -6,28 +6,33 @@ import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReservationRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
+@RequestMapping("/reserve/*")
 public class ReservationController {
 
     @Autowired
     DinningRepository dinningRepository;
     @Autowired
     ReservationRepository reservationRepository;
-    @GetMapping("/reserve/{restNo}")
+    @GetMapping("/{restNo}")
     public String reserve(Model model, HttpSession httpSession, @PathVariable String restNo){
         Long iRestNo = Long.valueOf(restNo);
 
@@ -72,7 +77,7 @@ public class ReservationController {
 
         int minutesToAdd = (30 - laterTime.getMinute() % 30) % 30;  // 30의 배수로 맞추기 위해 분을 조정
 
-        LocalTime adjustedTime_start = laterTime.plusMinutes(minutesToAdd);
+        LocalTime adjustedTime_start = laterTime.plusMinutes(minutesToAdd).truncatedTo(ChronoUnit.MINUTES);
 
         model.addAttribute("rest_time_start", adjustedTime_start.format(DateTimeFormatter.ofPattern("HH:mm")));
 //        model.addAttribute("rest_time_start", adjustedTime );
@@ -83,6 +88,7 @@ public class ReservationController {
         model.addAttribute( "rest_time_end", rest_end );
         model.addAttribute( "rest_time_count", halfCount );
 
+        model.addAttribute( "rest_no", restNo );
         model.addAttribute( "rest_name", restaurant.getRestName() );
 
 
@@ -146,14 +152,13 @@ public class ReservationController {
 
 
 
-
 //        model.addAttribute( "reservationList", reservationList );
 //        adjustedTime_start
 //        rest_end
 
 //        LocalDateTime now = LocalDateTime.now();
         List<List<Reservation>> reservationListByTime = new ArrayList<>();
-        for ( LocalTime loopTime = adjustedTime_start; Duration.between( loopTime, rest_end ).toMinutes() < 2
+        for ( LocalTime loopTime = adjustedTime_start; loopTime.isBefore( rest_end )
                 ; loopTime = loopTime.plusMinutes(30)
         )
         {
@@ -166,11 +171,16 @@ public class ReservationController {
                     continue;
 
                 LocalTime res_time = res_time_withDate.toLocalTime();
-                if ( false == loopTime.isBefore( res_time ) ||
+                if ( false == loopTime.isBefore( res_time ) &&
                          loopTime.plusMinutes( 30 ).isBefore( res_time.plusMinutes( 60* 2 ) )
                 )
                 {
-                    partTimeList.add( elem );
+                    partTimeList.add( new Reservation() );
+                    Reservation listElem = partTimeList.get( partTimeList.size() - 1 );
+
+                    listElem.setRes_guest_count( elem.getRes_guest_count() );
+                    listElem.setRes_time( null == elem.getRes_time() ? res_time_withDate : elem.getRes_time() );
+                    listElem.setRes_time_new( null == elem.getRes_time_new() ? LocalDateTime.from(loopTime.atDate(LocalDate.now())) : elem.getRes_time_new() );
                 }
 
             }
@@ -199,4 +209,31 @@ public class ReservationController {
 
         return "reservation/reservation";
     }
+
+
+
+
+    @PostMapping("/insert/")
+    public ResponseEntity<String> handleJsonData(@RequestBody Map<String, Object> jsonData) {
+        String key1 = (String) jsonData.get("key1");
+        String key2 = (String) jsonData.get("key2");
+        String key3 = (String) jsonData.get("key3");
+        String key4 = (String) jsonData.get("key4");
+        boolean key5 = (boolean) jsonData.get("key5");
+
+        System.out.println( key1 );
+        System.out.println( key2 );
+        System.out.println( key3 );
+        System.out.println( key4 );
+        System.out.println( key5 );
+
+        String response = "Success";
+        String errorResponse = "Error";
+
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+
+    }
+
+
 }
