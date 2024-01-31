@@ -64,12 +64,6 @@ public class UserController {
         return "user/user_update_form";
     }
 
-//    @PostMapping("update_user")
-//    public String userUpdate(User user) {
-//        userRepository.save(user);
-//        return "redirect:/user/list_user";
-//    }
-
     @Transactional
     @GetMapping("delete_user/{userNo}")
     public String userDelete(@PathVariable("userNo") int userNo) {
@@ -77,10 +71,10 @@ public class UserController {
         return "redirect:/user/list_user";
     }
 
-    @GetMapping("/file-spring")
-    public String getSpringFileForm() {
-        return "user/file";
-    }
+//    @GetMapping("/file-spring")
+//    public String getSpringFileForm() {
+//        return "user/file";
+//    }
 
     @ResponseBody
     @PostMapping("update_user/{userNo}")
