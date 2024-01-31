@@ -47,13 +47,13 @@ public class ManagerController {
                 onlyUsers.add(result);
             }
         }
-        model.addAttribute("users",onlyUsers);
+        model.addAttribute("users", onlyUsers);
 
 
-        model.addAttribute( "page", "managerPage/managerPage_UList" );
+        model.addAttribute("page", "managerPage/managerPage_UList");
         return "managerPage";
 
-
+    }
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
