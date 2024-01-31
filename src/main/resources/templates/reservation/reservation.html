@@ -43,6 +43,27 @@
     </div>
 </div>
 
+예약 가능한 좌석 0 / [[${rest_seat_normal}]]
+<th:block th:if="0!=${rest_seat_room}" th:text="'방 0 / ' +${rest_seat_room}"></th:block>
+<br>
+
+예약 현황 총 [[${reservePeopleCount}]]명
+<th:block th:if="0!=${reserveRoomCount}" th:text="${reserveRoomCount}+'방'"></th:block>
+<br>
+
+매장에 방문하신 시간을 기준이후로 2시간
+
+
+
+<div th:each="reserveList : ${reservationList}">
+    <div th:each="reserve : ${reserveList}">
+    <ul>
+        <li th:text="${reserve.res_time}"></li>
+        <li th:text="${reserve.res_guest_count}"></li>
+    </ul>
+    </div>
+</div>
+
 
 
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
