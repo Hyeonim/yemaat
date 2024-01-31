@@ -41,16 +41,7 @@ public class User {
     private String userStartDate;
 
     @Column(name = "user_img", length = 100)
-    private String userImg;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "username")
-    private String username;
+    private byte[] userImg;
 
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude

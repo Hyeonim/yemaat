@@ -2,7 +2,9 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.DiningRest;
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.Menu;
 import com.yi.spring.service.DiningRestService;
+import com.yi.spring.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import java.util.List;
 public class DiningRestController {
     @Autowired
     private DiningRestService diningRestService;
+    @Autowired
+    private MenuService menuService;
     @GetMapping("home")
     public String home(Model model) {
         return "myPage";
@@ -30,7 +34,12 @@ public class DiningRestController {
     public String viewRest(@PathVariable("restNo") int restNo, Model model) {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("dinning", dinning);
-        return "myPage/viewRest";
+
+        List<Menu> menuList = menuService.getMenusByRestNo(restNo);
+        model.addAttribute("menuList", menuList);
+        model.addAttribute("restNo", restNo);
+        model.addAttribute("menuPage", "/menu/listMenu");
+        return "menu/listMenu";
     }
     @GetMapping("addRest")
     public String addRest(Model model) {

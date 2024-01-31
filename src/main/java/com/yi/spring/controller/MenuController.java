@@ -27,14 +27,16 @@ public class MenuController {
         List<Menu> menuList = menuService.getMenusByRestNo(restNo);
         model.addAttribute("menuList", menuList);
         model.addAttribute("restNo", restNo);
-        return "menu/listMenu";
+        model.addAttribute("menuPage", "/menu/listMenu");
+        return "redirect:/myPage/viewRest/"+restNo;
     }
 
     @GetMapping("addMenu/{restNo}")
     public String createMenuForm(@PathVariable("restNo")int restNo, Model model) {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("restNo", dinning.getRestNo());
-        return "menu/addMenu";
+        model.addAttribute("menuPage", "/menu/addMenu");
+        return "redirect:/myPage/viewRest/"+restNo;
     }
     @PostMapping("addMenu/{restNo}")
     public String createMenu(@PathVariable("restNo")int restNo, Menu menu) {
