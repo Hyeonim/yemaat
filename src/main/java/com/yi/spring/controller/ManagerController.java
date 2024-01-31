@@ -6,6 +6,10 @@ import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,30 +52,6 @@ public class ManagerController {
 
         model.addAttribute( "page", "managerPage/managerPage_UList" );
         return "managerPage";
-    }
-//
-//
-//    @PostMapping("managerPage_UAdd")
-//    public String userAdd(@RequestParam MultipartFile file, User user,Model model) {
-//
-//        model.addAttribute( "page", "managerPage/managerPage_UList" );
-//
-//        if (file.isEmpty()) {
-//            userRepository.save(user);
-//        } else {
-//            byte[] userImg = new byte[0];
-//            try {
-//                userImg = file.getBytes();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            user.setUserImg(userImg);
-//        }
-//
-//        userRepository.save(user);
-//
-//        return "/managerPage";
-//    }
 
 
 
@@ -94,4 +74,10 @@ public class ManagerController {
 
         return "managerPage";
     }
+
+    // 수정 중
+//    @PutMapping("/managerPage_JUpd")
+//    public String managerUpdJ(Model model){
+//        model.addAttribute("page", "managerPage/manager_JUpd");
+//    }
 }
