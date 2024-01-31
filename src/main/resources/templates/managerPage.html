@@ -76,6 +76,22 @@
 
 </div>
 
+<script>
+    var userAddButton = document.getElementById('userAddButton');
+
+    // 버튼에 클릭 이벤트 추가
+    userAddButton.addEventListener('click', function() {
+        // managerPage_UAdd로 이동
+        window.location.href = 'managerPage_UAdd';
+    });
+
+
+    function redirectToUserUpdate(userNo) {
+        // Redirect to /userUpdate with the selected userNo
+        window.location.href = '/userUpdate?userNo=' + userNo;
+    }
+
+</script>
 
 </body>
 </html>
