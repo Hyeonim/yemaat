@@ -35,7 +35,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="user : ${userList}">
+<!--                <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">-->
+                <tr th:each="user : ${userList}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">
                     <td th:text="${user.userNo}"></td>
                     <td th:text="${user.userId}"></td>
 <!--                    <td th:text="${user.userPassword}"></td>-->
@@ -46,8 +47,7 @@
                 </tr>
                 </tbody>
             </table>
-            <button>추가</button>
-            <button>수정</button>
+            <button id="JumAddButton">추가</button>
             <button>삭제</button>
         </div>
     </div>
