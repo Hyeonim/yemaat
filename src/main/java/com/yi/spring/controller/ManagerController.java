@@ -52,21 +52,21 @@ public class ManagerController {
 
     }
 
-    // 나
-    @GetMapping("/managerInfo")
+
+    @GetMapping("/managerPage_JInfo")
     public String managerInfoA(Model model) {
 
-        model.addAttribute( "page", "managerPage/managerInfo");
+        model.addAttribute( "page", "managerPage/managerPage_JInfo");
 
         List<User> userList = userService.getAllUsers();
 
-        List<User> onlyjum = new ArrayList<>();
+        List<User> Owner = new ArrayList<>();
         for (User result : userList) {
             if (result.getUserAuth().equals("2")) {
-                onlyjum.add(result);
+                Owner.add(result);
             }
         }
-        model.addAttribute("userList", onlyjum);
+        model.addAttribute("userList", Owner);
 
         return "managerPage";
     }
