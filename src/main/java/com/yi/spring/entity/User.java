@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Base64;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -52,4 +53,12 @@ public class User {
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude
     private Set<Review> reviews = new LinkedHashSet<>();
+
+    public String getBase64Image() {
+        if (userImg != null && userImg.length > 0) {
+            return Base64.getEncoder().encodeToString(userImg);
+        }
+        return "";
+    }
+
 }
