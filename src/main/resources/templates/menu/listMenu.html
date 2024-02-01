@@ -15,8 +15,8 @@
     <tr th:each="menu : ${menuList}">
         <td th:text="${menu.getMenuName()}"></td>
         <td th:text="${menu.getMenuPrice()}"></td>
-        <td><input type="button" value="수정" th:onclick="|location.href='@{/menu/updateMenu/{menuNo}(menuNo=${menu.getId()})}'|"></td>
-        <td><input type="button" value="삭제" th:onclick="|location.href='@{/menu/deleteMenu/{menuNo}(menuNo=${menu.getId()})}'|"></td>
+        <td><input type="button" value="수정" th:onclick="|location.href='@{/myPage/viewRest/{restNo}/updateMenu/{menuNo}(restNo=${menu.getRestNo().getRestNo()}, menuNo=${menu.getId()})}'|"></td>
+        <td><input type="button" value="삭제" th:onclick="|location.href='@{/myPage/viewRest/{restNo}/deleteMenu/{menuNo}(restNo=${menu.getRestNo().getRestNo()}, menuNo=${menu.getId()})}'|"></td>
     </tr>
     </tbody>
 </table>

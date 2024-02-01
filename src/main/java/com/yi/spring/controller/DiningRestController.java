@@ -31,7 +31,7 @@ public class DiningRestController {
         model.addAttribute("listRest", diningRestList);
         return "myPage/listRest";
     }
-
+// -------------------------- 가게 상세보기 및 메뉴 관리 -----------------------------------------
     @GetMapping("viewRest/{restNo}")
     public String viewRest(@PathVariable("restNo") int restNo, Model model) {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
@@ -64,6 +64,36 @@ public class DiningRestController {
         return "redirect:/myPage/viewRest/"+restNo;
     }
 
+    @GetMapping("viewRest/{restNo}/updateMenu/{menuNo}")
+    public String updateMenu(@PathVariable("restNo") int restNo, @PathVariable("menuNo") int menuNo, Model model) {
+        Dinning dinning = diningRestService.getRestByRestNo(restNo);
+        model.addAttribute("dinning", dinning);
+
+        Menu menu = menuService.getMenuByMenuNo(menuNo);
+        model.addAttribute("menu", menu);
+        model.addAttribute("menuPage", "/menu/updateMenu");
+        return "myPage/viewRest";
+    }
+
+    @PostMapping("viewRest/{restNo}/updateMenu/{menuNo}")
+    public String updateMenu(@PathVariable("restNo") int restNo, @PathVariable("menuNo") int menuNo, Menu Menu, Model model) {
+        Dinning dinning = diningRestService.getRestByRestNo(restNo);
+        model.addAttribute("dinning", dinning);
+
+        Menu.setId(menuNo);
+        Menu updateMenu = menuService.updateMenu(Menu);
+        return "redirect:/myPage/viewRest/"+restNo;
+    }
+
+    @GetMapping("viewRest/{restNo}/deleteMenu/{menuNo}")
+    public String deleteMenu(@PathVariable("restNo") int restNo, @PathVariable("menuNo") int menuNo, Model model) {
+        Dinning dinning = diningRestService.getRestByRestNo(restNo);
+        model.addAttribute("dinning", dinning);
+        menuService.deleteMenu(menuNo);
+        return "redirect:/myPage/viewRest/"+restNo;
+    }
+
+    // ------------------------------------------------------------------------------------------
     @GetMapping("addRest")
     public String addRest(Model model) {
         return "myPage/addRest";
