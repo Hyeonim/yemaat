@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{myPage/myPage_layout}">
+
+<th:block th:fragment="content">
+    <h1><[[${dinning.getRestName()}]]> 예약 목록</h1>
+    <table border="1">
+        <tr>
+            <th>예약자</th>
+            <th>예약 인원</th>
+            <th>예약 시간</th>
+            <th>예약 날짜</th>
+            <th>예약 수락</th>
+            <th>예약 취소</th>
+        </tr>
+        <th:block th:each="reserv : ${reservList}">
+            <tr>
+                <td th:text="${reserv.getUser_no()}"></td>
+                <td th:text="${reserv.getRes_guest_count()}"></td>
+                <td th:text="${reserv.getRes_time()}"></td>
+                <td th:text="${reserv.getRes_time()}"></td>
+                <td><input type="button" value="수락"></td>
+                <td><input type="button" value="취소"></td>
+            </tr>
+        </th:block>
+    </table>
+</th:block>
+</html>
