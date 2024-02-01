@@ -65,38 +65,4 @@ public class MenuController {
         return "menu/listMenu";
     }
 
-//    @GetMapping("{restNo}")
-////    public ResponseEntity<List<Menu>> getMenusByRestNo(@PathVariable("restNo") Integer restNo) {
-//    public String getMenusByRestNo(Model model, @PathVariable("restNo") Integer restNo) {
-//        List<Menu> menuList = menuService.getMenusByRestNo(restNo);
-//
-//        model.addAttribute( "list", menuList );
-//        return "menu/list";
-////        return new ResponseEntity<>(menuList, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/addMenu")
-//    public String createMenuForm(Model model) {
-//        Dinning dinning = diningRestService.getRestByRestNo(181);
-//        model.addAttribute("restNo", dinning.getRestNo());
-//        return "menu/addMenu";
-//    }
-//    @PostMapping
-//    public ResponseEntity<Menu> createMenu(@RequestBody Menu menu) {
-//        Menu savedMenu = menuService.createMenu(menu);
-//        return new ResponseEntity<>(savedMenu, HttpStatus.CREATED);
-//    }
-//
-//    @PutMapping("{menuNo}")
-//    public ResponseEntity<Menu> updateMenu(@PathVariable("menuNo") Integer menuNo, @RequestBody Menu Menu) {
-//        Menu.setId(menuNo);
-//        Menu updateMenu = menuService.updateMenu(Menu);
-//        return new ResponseEntity<>(updateMenu, HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("{menuNo}")
-//    public  ResponseEntity<String> deleteMenu(@PathVariable("menuNo") Integer menuNo) {
-//        menuService.deleteMenu(menuNo);
-//        return new ResponseEntity<>("Menu successfully delete!", HttpStatus.OK);
-//    }
 }

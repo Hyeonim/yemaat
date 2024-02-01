@@ -19,10 +19,12 @@ public class DiningRestController {
     private DiningRestService diningRestService;
     @Autowired
     private MenuService menuService;
+
     @GetMapping("home")
     public String home(Model model) {
         return "myPage";
     }
+
     @GetMapping("listRest")
     public String listRest(Model model) {
         List<Dinning> diningRestList = diningRestService.getAllRestaurants();
@@ -38,9 +40,30 @@ public class DiningRestController {
         List<Menu> menuList = menuService.getMenusByRestNo(restNo);
         model.addAttribute("menuList", menuList);
         model.addAttribute("restNo", restNo);
+
         model.addAttribute("menuPage", "/menu/listMenu");
-        return "menu/listMenu";
+        return "myPage/viewRest";
     }
+
+    @GetMapping("viewRest/{restNo}/addMenu")
+    public String createMenuForm(@PathVariable("restNo")int restNo, Model model) {
+        Dinning dinning = diningRestService.getRestByRestNo(restNo);
+        model.addAttribute("dinning", dinning);
+        model.addAttribute("restNo", dinning.getRestNo());
+        model.addAttribute("menuPage", "/menu/addMenu");
+        return "/myPage/viewRest";
+    }
+    @PostMapping("viewRest/{restNo}/addMenu")
+    public String createMenu(@PathVariable("restNo")int restNo, Menu menu, Model model) {
+        Dinning dinning = diningRestService.getRestByRestNo(restNo);
+        model.addAttribute("dinning", dinning);
+
+        menu.setRestNo(dinning);
+        Menu savedMenu = menuService.createMenu(menu);
+
+        return "redirect:/myPage/viewRest/"+restNo;
+    }
+
     @GetMapping("addRest")
     public String addRest(Model model) {
         return "myPage/addRest";
