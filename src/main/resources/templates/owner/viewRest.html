@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{myPage/myPage_layout}">
+      layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
     <h1>가게 상세보기</h1>
@@ -22,9 +22,9 @@
         <label>가게 위도 : </label><input type="text" name="restLongitude" th:value="*{getRestLongitude()}" readonly><br/>
         <label>가게 소개글 : </label><input type="text" name="restDesc" th:value="*{getRestDescription()}" readonly><br/>
         <label>가게 대표 이미지 : </label><input type="file" name="restImg" th:value="*{getRestImg()}" readonly><br/>
-        <input type="button" value="수정" th:onclick="|location.href='@{/myPage/{restNo}/updateRest(restNo=*{getRestNo})}'|">
-        <input type="button" value="삭제" th:onclick="|location.href='@{/myPage/{restNo}/deleteRest(restNo=*{getRestNo})}'|">
-        <input type="button" value="돌아가기" th:onclick="|location.href='@{/myPage/{restNo}(restNo=*{getRestNo})}'|">
+        <input type="button" value="수정" th:onclick="|location.href='@{/owner/{restNo}/updateRest(restNo=*{getRestNo})}'|">
+        <input type="button" value="삭제" th:onclick="|location.href='@{/owner/{restNo}/deleteRest(restNo=*{getRestNo})}'|">
+        <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/{restNo}(restNo=*{getRestNo})}'|">
     </th:block>
 </th:block>
 </html>
