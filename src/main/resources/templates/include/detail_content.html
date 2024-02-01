@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="detailContent">
+
+    <div id="c">
+
+        <div id="img">
+            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="식당 이미지"/>
+            <p>db에 있는 식당 이미지임 </p>
+        </div>
+
+        <h1 th:text="${dinning.restName}"></h1>
+        <p th:text="${dinning.restAddr}"></p>
+        <p th:text="${dinning.restTel}"></p>
+        <p th:text="'자리 : ' + ${dinning.restSeat}"></p>
+        <p th:text="'휴무일 : ' + ${dinning.restTime}"></p>
+        <p th:text="${dinning.restOffDays}"></p>
+        <p th:text="${dinning.restParking}"></p>
+        <p th:text="${dinning.restMenu}"></p>
+        <p th:text="${dinning.restCategory}"></p>
+
+        <p th:text="${dinning.restScore}"></p>
+        <p th:text="${dinning.restDescription}"></p>
+        <p th:text="${dinning.userNo}"></p>
+        <p th:text="${dinning.restStartDate}"></p>
+        <p th:text="${dinning.restStatus}"></p>
+
+        <button>예약하기</button>
+
+        <div id="map">
+
+        </div>
+
+        <div style="border: solid 1px black">
+            <div style="border-bottom: solid 1px black">
+                <h2 th:text="${list.size()} + '명의 방문자가 평가 '"></h2>
+                <p th:text="'평점 : ' + ${reg}"></p>
+            </div>
+            <div id="review">
+
+                <div id="reviewT" style="border-bottom: solid 2px black" th:each="review : ${list}">
+                    <p th:text="'유저 이름 : ' + ${review.userNo.userName}"></p>
+                    <p th:text="'평점 : ' +${review.revScore}"></p>
+                    <p th:text="'내용 : ' + ${review.revContent}"></p>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</html>

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Base64;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_no", nullable = false)
-    private Integer id;
+    private Integer userNo;
 
     @Column(name = "user_id", length = 30)
     private String userId;
@@ -40,8 +41,10 @@ public class User {
     @Column(name = "user_start_date", length = 100)
     private String userStartDate;
 
-    @Column(name = "user_img", length = 100)
+    @Lob
+    @Column(name = "user_img" ,length = 5000)
     private byte[] userImg;
+
 
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude
@@ -50,4 +53,12 @@ public class User {
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude
     private Set<Review> reviews = new LinkedHashSet<>();
+
+    public String getBase64Image() {
+        if (userImg != null && userImg.length > 0) {
+            return Base64.getEncoder().encodeToString(userImg);
+        }
+        return "";
+    }
+
 }

@@ -86,7 +86,7 @@ public class DiningRestController {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("dinning", dinning);
 
-        Menu.setId(menuNo);
+        Menu.setMenuNo(menuNo);
         Menu updateMenu = menuService.updateMenu(Menu);
         return "redirect:/myPage/"+restNo+"/viewRest";
     }

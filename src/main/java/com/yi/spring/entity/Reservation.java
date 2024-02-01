@@ -31,4 +31,7 @@ public class Reservation {
     private String res_status;
     private String res_comment;
     private String res_table_type;
+
+}
+
 }
