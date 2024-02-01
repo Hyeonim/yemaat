@@ -39,7 +39,6 @@ public class ManagerController {
     @GetMapping("/managerPage_UList")
     public String managerListU(Model model) {
 
-
         List<User> users = userRepository.findAll();
         List<User> onlyUsers = new ArrayList<>();
         for (User result : users) {
@@ -49,11 +48,33 @@ public class ManagerController {
         }
         model.addAttribute("users", onlyUsers);
 
-
         model.addAttribute("page", "managerPage/managerPage_UList");
         return "managerPage";
+    }
+
+    @PostMapping("managerPage_UAdd")
+    public String userAdd(@RequestParam MultipartFile file, User user,Model model) {
+        if (file.isEmpty()) {
+            userRepository.save(user);
+        } else {
+            byte[] userImg = new byte[0];
+            try {
+                userImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            user.setUserImg(userImg);
+        }
+
+        userRepository.save(user);
+
+        return "redirect:/managerPage_UList";
 
     }
+
+
+
+
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 

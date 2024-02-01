@@ -14,7 +14,9 @@
         <label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}" readonly><br/>
         <label>가게 휴뮤일 : </label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}" readonly><br/>
         <label>가게 주차장 : </label><input type="text" name="restParking" th:value="*{getRestParking()}" readonly><br/>
-        <label>가게 메뉴 : </label><input type="button" value="메뉴 보기" th:onclick="|location.href='@{/menu/listMenu/{restNo}(restNo=*{getRestNo()})}'|"><br/>
+<!--        <label>가게 메뉴 : </label><input type="button" value="메뉴 보기" th:onclick="|location.href='@{/menu/listMenu/{restNo}(restNo=*{getRestNo()})}'|"><br/>-->
+        <label>가게 메뉴 : </label><br/>
+        <th:block th:replace="${menuPage}::menuContent"></th:block>
         <label>가게 업태 : </label><input type="text" name="restCategory" th:value="*{getRestCategory()}" readonly><br/>
         <label>가게 경도 : </label><input type="text" name="restLatitude" th:value="*{getRestLatitude()}" readonly><br/>
         <label>가게 위도 : </label><input type="text" name="restLongitude" th:value="*{getRestLongitude()}" readonly><br/>

@@ -34,7 +34,8 @@ public class MenuController {
     public String createMenuForm(@PathVariable("restNo")int restNo, Model model) {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("restNo", dinning.getRestNo());
-        return "menu/addMenu";
+        model.addAttribute("menuPage", "/menu/addMenu");
+        return "redirect:/myPage/viewRest/"+restNo;
     }
     @PostMapping("addMenu/{restNo}")
     public String createMenu(@PathVariable("restNo")int restNo, Menu menu) {
@@ -62,4 +63,5 @@ public class MenuController {
         menuService.deleteMenu(menuNo);
         return "menu/listMenu";
     }
+
 }
