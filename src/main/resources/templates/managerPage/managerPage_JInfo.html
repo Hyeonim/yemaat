@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>점주 목록</title>
 </head>
-<body>
 
 <div th:include="~{/include/header::headerFragment}">
     head
@@ -36,7 +35,7 @@
                 </thead>
                 <tbody>
 <!--                <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">-->
-                <tr th:each="user : ${userList}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">
+                <tr th:each="user : ${userList}" th:onclick="'javascript:redirectToJumDetail(\'' + ${user.userNo} + '\')'">
                     <td th:text="${user.userNo}"></td>
                     <td th:text="${user.userId}"></td>
 <!--                    <td th:text="${user.userPassword}"></td>-->
@@ -48,10 +47,9 @@
                 </tbody>
             </table>
             <button id="JumAddButton">추가</button>
-            <button>삭제</button>
         </div>
     </div>
 </div>
 
-</body>
+
 </html>

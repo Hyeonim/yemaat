@@ -59,9 +59,6 @@
 
 </style>
 <body>
-<div th:include="~{/include/header::headerFragment}">
-    head
-</div>
 
 <div id="main">
 
@@ -79,17 +76,33 @@
 <script>
     var userAddButton = document.getElementById('userAddButton');
 
-    // 버튼에 클릭 이벤트 추가
+    if ( userAddButton )
     userAddButton.addEventListener('click', function() {
-        // managerPage_UAdd로 이동
         window.location.href = 'managerPage_UAdd';
     });
 
 
     function redirectToUserUpdate(userNo) {
-        // Redirect to /userUpdate with the selected userNo
         window.location.href = '/userUpdate?userNo=' + userNo;
     }
+
+    //------------------------------점주-------------------------------
+
+
+    var jumAddButton = document.getElementById('JumAddButton');
+
+    if(jumAddButton)
+    jumAddButton.addEventListener('click', function (){
+
+        window.location.href = 'managerPage_JAdd';
+    });
+
+    function redirectToJumDetail(userNo) {
+        window.location.href = '/managerPage_JDetail?userNo=' + userNo;
+    }
+
+
+
 
 </script>
 
