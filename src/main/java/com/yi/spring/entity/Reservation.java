@@ -33,5 +33,3 @@ public class Reservation {
     private String res_table_type;
 
 }
-
-}
