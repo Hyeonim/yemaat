@@ -3,6 +3,7 @@ package com.yi.spring.controller;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.UserRepository;
 import com.yi.spring.service.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -139,9 +140,46 @@ public class ManagerController {
         return "managerPage";
     }
 
-    // 수정 중
-//    @PutMapping("/managerPage_JUpd")
-//    public String managerUpdJ(Model model){
-//        model.addAttribute("page", "managerPage/manager_JUpd");
+    @PostMapping("managerPage_JAdd")
+    public String jumAdd(@RequestParam MultipartFile file, User user,Model model) {
+        if (file.isEmpty()) {
+            userRepository.save(user);
+        } else {
+            byte[] userImg = new byte[0];
+            try {
+                userImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            user.setUserImg(userImg);
+        }
+
+        userRepository.save(user);
+
+        return "redirect:/managerPage_JInfo";
+    }
+
+
+//    @GetMapping("managerPage_JDetail")
+//    public String JumDetail(@RequestParam final int userNo, Model model){
+//        userRepository.findByUserNo(userNo);
+//        model.addAttribute("JumDetail", userNo);
+//
+//        return "managerPage_JDetail";
 //    }
+
+    @GetMapping("managerPage_JDetail")
+    public String JumDetail(Model model, @RequestParam int userNo) {
+
+        System.out.println(userNo);
+        Optional<User> user = userRepository.findByUserNo(userNo);
+
+        System.out.println(user);
+
+        model.addAttribute("user", user);
+
+        model.addAttribute( "page", "managerPage/managerPage_JDetail");
+
+        return "managerPage";
+    }
 }
