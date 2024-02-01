@@ -1,6 +1,5 @@
 package com.yi.spring.config;
 
-
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.Properties;
-
 @Configuration
 public class JpaConfig {
 
@@ -53,7 +51,7 @@ public class JpaConfig {
 
     @Value("${spring.jpa.properties.hibernate.enable_lazy_load_no_trans}")
     private  String lazyTrans;
-
+//
 //    @Bean
 //    public HikariDataSource dataSource() {
 //        HikariDataSource dataSource = new HikariDataSource();
@@ -91,4 +89,5 @@ public class JpaConfig {
 //        properties.setProperty("hibernate.enable_lazy_load_no_trans", lazyTrans);
 //        return properties;
 //    }
+
 }

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>title</title>
+
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<style>
+
+
+    #content {
+        width: 100%;
+        height: 80vw;
+        border: 1px solid #003458;
+    }
+    #leftList{
+        width: 30%;
+        height: 80vw;
+        border-right: solid 1px black;
+        overflow-y: auto;
+        float: left;
+        box-sizing: border-box;
+
+    }
+    #map {
+        height: 80vw;
+        width: 70%;
+        float: right;
+        box-sizing: border-box;
+
+    }
+
+#category{
+    border-bottom: solid 1px black;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 30px;
+}
+
+
+</style>
+
+<body>
+
+<div th:replace="~{/include/header::headerFragment}">
+    head
+</div>
+
+<div id="content">
+    <div id="leftList" >
+
+        <div id="category">
+            <button>평점 높은 순</button>
+            <button>리뷰 많은 순</button>
+            <button>예약 많은 순</button>
+
+        </div>
+
+
+        <ul th:each="coordinate : ${list}">
+            <li>
+                <a th:href="@{/detail(restNo=${coordinate.restNo})}" th:text="${coordinate.restName}">가게이름</a>
+            </li>
+        </ul>
+
+    </div>
+
+    <div id="map">
+
+    </div>
+</div>
+
+<script th:inline="javascript">
+    let map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(35.86572983, 128.5893656),
+        zoom: 15
+    })
+    let marker = null;
+    let markers = [];
+
+
+    [# th:each = "coordinate : ${list}"]
+
+    marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng([[${coordinate.restLatitude}]], [[${coordinate.restLongitude}]]),
+        icon: {
+            content: '<p style="border-radius: 5px;">가게명 : ' + [[${coordinate.restName}]] + '</p>',
+            anchor: new naver.maps.Point(15, 50),
+        },
+        map: map
+    })
+
+    marker.setMap(map);
+
+    [/]
+
+</script>
+</body>
+
+</html>

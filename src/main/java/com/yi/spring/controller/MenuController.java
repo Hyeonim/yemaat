@@ -27,8 +27,7 @@ public class MenuController {
         List<Menu> menuList = menuService.getMenusByRestNo(restNo);
         model.addAttribute("menuList", menuList);
         model.addAttribute("restNo", restNo);
-        model.addAttribute("menuPage", "/menu/listMenu");
-        return "redirect:/myPage/viewRest/"+restNo;
+        return "menu/listMenu";
     }
 
     @GetMapping("addMenu/{restNo}")
@@ -55,7 +54,7 @@ public class MenuController {
 
     @PostMapping("updateMenu/{menuNo}")
     public String updateMenu(@PathVariable("menuNo") int menuNo, Menu Menu) {
-        Menu.setId(menuNo);
+        Menu.setMenuNo(menuNo);
         Menu updateMenu = menuService.updateMenu(Menu);
         return "menu/listMenu";
     }

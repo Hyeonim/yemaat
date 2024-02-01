@@ -29,7 +29,8 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public Menu updateMenu(Menu menu) {
-        Menu existingMenu = menuRepository.findById(menu.getId()).orElse(null);
+        Menu existingMenu = menuRepository.findById(menu.getMenuNo()).orElse(null);
+
         assert existingMenu != null;
 
         existingMenu.setMenuName(menu.getMenuName());
