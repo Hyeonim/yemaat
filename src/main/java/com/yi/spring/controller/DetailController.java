@@ -26,8 +26,6 @@ public class DetailController {
     public String getDinningByRestNo(@RequestParam Long restNo, Model model) {
 
 
-
-
         Optional<Dinning> dinningOptional = dinningRepository.findById((restNo));
 
         List<Review> list = reviewRepository.findByRestNo(new Dinning(Math.toIntExact(restNo)));
@@ -45,15 +43,8 @@ public class DetailController {
         model.addAttribute("reg", result);
 
 
-
         return "detail";
     }
-
-
-
-
-
-
 
 
 

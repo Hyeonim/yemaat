@@ -71,11 +71,6 @@ public class UserController {
         return "redirect:/user/list_user";
     }
 
-//    @GetMapping("/file-spring")
-//    public String getSpringFileForm() {
-//        return "user/file";
-//    }
-
     @ResponseBody
     @PostMapping("update_user/{userNo}")
     public String userUpdate(@PathVariable("userNo") int userNo, @RequestParam MultipartFile file, User users
@@ -97,4 +92,12 @@ public class UserController {
 
         return "redirect:/user/list_user";
     }
+
+
+//    @GetMapping("/file-spring")
+//    public String getSpringFileForm() {
+//        return "user/file";
+//    }
+
+
 }

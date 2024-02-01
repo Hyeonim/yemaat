@@ -23,12 +23,13 @@
 
     #content {
         width: 100%;
-        height: 80vw;
+        height: 100vh;
         border: 1px solid #003458;
     }
     #leftList{
-        width: 30%;
-        height: 80vw;
+        height: 100%;
+        width: 25%;
+
         border-right: solid 1px black;
         overflow-y: auto;
         float: left;
@@ -36,8 +37,8 @@
 
     }
     #map {
-        height: 80vw;
-        width: 70%;
+        height: 100%;
+        width: 75%;
         float: right;
         box-sizing: border-box;
 
@@ -86,7 +87,7 @@
 
 <script th:inline="javascript">
     let map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(35.86572983, 128.5893656),
+        center: new naver.maps.LatLng(35.86868025887658, 128.5987419727357),
         zoom: 15
     })
     let marker = null;

@@ -46,6 +46,7 @@ public class User {
     private byte[] userImg;
 
 
+
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude
     private Set<Dinning> diningRests = new LinkedHashSet<>();

@@ -1,5 +1,6 @@
 package com.yi.spring.service;
 
+import com.yi.spring.entity.Menu;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public long deleteByUserNo(Integer userNo) {
         return userRepository.deleteByUserNo(userNo);
+    }
+
+    @Override
+    public User updateMenu(User user) {
+        User existingMenu = userRepository.findById(user.getUserNo()).orElse(null);
+
+        assert existingMenu != null;
+
+
+
+        return userRepository.save(existingMenu);
     }
 
 
