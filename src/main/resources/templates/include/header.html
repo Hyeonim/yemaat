@@ -1,13 +1,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div th:fragment="headerFragment" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100;"  id="top">
+    <script th:inline="javascript">
+        function sendSearchQuery() {
+            const keyword = document.getElementById('searchBar').value;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/find_rest_name?keyword=' + encodeURIComponent(keyword), true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send();
+        }
+    </script>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Logo</a>
 
             <form th:action="@{/find_rest_name}" method="get">
-                <input id="searchBar" type="search" placeholder="음식 또는 식당명 입력" aria-label="Search" name="keyword" th:value="${param.keyword}">
-                <button type="submit">검색</button>
+                <input id="searchBar" type="search" placeholder="음식 또는 식당명 입력" aria-label="Search" name="keyword" th:value="${param.keyword}" oninput="sendSearchQuery()">
+
+
             </form>
 
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -32,10 +48,6 @@
         </nav>
     </div>
 </div>
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> JSH
 </html>
+
+

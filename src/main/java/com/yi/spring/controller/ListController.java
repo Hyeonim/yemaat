@@ -33,10 +33,10 @@ public class ListController {
     @GetMapping("search")
     public String map(Model model) {
        List<Dinning> list = dinningService.findAll();
-
-        for (Dinning diningRest : list) {
-            System.out.println("Latitude: " + diningRest.getRestLatitude() + ", Longitude: " + diningRest.getRestLongitude() + "가게 이름" + diningRest.getRestName());
-        }
+//
+//        for (Dinning diningRest : list) {
+//            System.out.println("Latitude: " + diningRest.getRestLatitude() + ", Longitude: " + diningRest.getRestLongitude() + "가게 이름" + diningRest.getRestName());
+//        }
 
         List<Dinning> respList = new ArrayList<>();
         for (Dinning diningRest : list) {
@@ -54,14 +54,11 @@ public class ListController {
         return "search";
     }
 
-    @GetMapping("find_rest_name")
+    @GetMapping("/find_rest_name")
     public String findRestName(@RequestParam(name = "keyword") String restName, Model model) {
+        System.out.println("Controller method called with keyword: " + restName);
 
         List<Dinning> list = dinningService.findAll();
-
-        for (Dinning diningRest : list) {
-            System.out.println("Latitude: " + diningRest.getRestLatitude() + ", Longitude: " + diningRest.getRestLongitude() + "가게 이름" + diningRest.getRestName());
-        }
 
         List<Dinning> respList = new ArrayList<>();
         for (Dinning diningRest : list) {
@@ -76,6 +73,7 @@ public class ListController {
         List<Dinning> rest_name = dinningRepository.findByRestNameContaining(restName);
 
         model.addAttribute("list", rest_name);
+        System.out.println(rest_name);
         return "search";
     }
 }

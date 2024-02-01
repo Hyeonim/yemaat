@@ -70,11 +70,12 @@
         </div>
 
 
-        <ul th:each="coordinate : ${list}">
-            <li>
+        <ul id="resultList">
+            <li th:each="coordinate : ${list}" data-lat="${coordinate.restLatitude}" data-lng="${coordinate.restLongitude}">
                 <a th:href="@{/detail(restNo=${coordinate.restNo})}" th:text="${coordinate.restName}">가게이름</a>
             </li>
         </ul>
+
 
     </div>
 
