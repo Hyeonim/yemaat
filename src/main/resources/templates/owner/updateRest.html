@@ -2,11 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{myPage/myPage_layout}">
+      layout:decorate="~{owner/myPage_layout}">
+
 <th:block th:fragment="content">
     <h1>가게 수정</h1>
     <th:block th:object="${dinning}">
-        <form id="updateRestForm" th:action="@{/myPage/{restNo}/updateRest(restNo=*{getRestNo()})}" method="post">
+        <form id="updateRestForm" th:action="@{/owner/{restNo}/updateRest(restNo=*{getRestNo()})}" method="post">
         <label>가게 이름 : </label><input type="text" name="restName" th:value="*{getRestName()}"><br/>
         <label>가게 주소 : </label><input type="text" name="restAddr" th:value="*{getRestAddr()}"><br/>
         <label>가게 번호 : </label><input type="text" name="restTel" th:value="*{getRestTel()}"><br/>
@@ -21,7 +22,7 @@
         <label>가게 소개글 : </label><input type="text" name="restDesc" th:value="*{getRestDescription()}"><br/>
         <label>가게 대표 이미지 : </label><input type="file" name="restImg" th:value="*{getRestImg()}"><br/>
             <input type="button" value="수정하기" onclick="submitRestForm()">
-        <input type="button" value="돌아가기" th:onclick="|location.href='@{/myPage/{restNo}/viewRest(restNo=*{getRestNo()})}'|">
+        <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/{restNo}/viewRest(restNo=*{getRestNo()})}'|">
         </form>
     </th:block>
 

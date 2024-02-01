@@ -3,17 +3,21 @@ package com.yi.spring.entity;
 import com.yi.spring.entity.DiningRest;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+@Entity
 @Getter
 @Setter
-@Entity
-@Table(name = "menu", schema = "pro_tabling")
+@ToString
+@Table(name = "menu")
+@NoArgsConstructor
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "menu_no", nullable = false)
-    private Integer id;
+    @Column(name = "menu_no")
+    private Integer menuNo;
 
     @Column(name = "menu_name", length = 100)
     private String menuName;

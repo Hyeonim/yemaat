@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/myPage/viewRest}">
+      layout:decorate="~{/owner/viewRest}">
 <div class="menu-container" th:fragment="menuContent" style="border:1px solid black">
     <table>
     <tr>
@@ -15,12 +15,12 @@
     <tr th:each="menu : ${menuList}">
         <td th:text="${menu.getMenuName()}"></td>
         <td th:text="${menu.getMenuPrice()}"></td>
-        <td><input type="button" value="수정" th:onclick="|location.href='@{/myPage/{restNo}/viewRest/updateMenu/{menuNo}(restNo=${menu.getRestNo().getRestNo()}, menuNo=${menu.getId()})}'|"></td>
-        <td><input type="button" value="삭제" th:onclick="|location.href='@{/myPage/{restNo}/viewRest/deleteMenu/{menuNo}(restNo=${menu.getRestNo().getRestNo()}, menuNo=${menu.getId()})}'|"></td>
+        <td><input type="button" value="수정" th:onclick="|location.href='@{/owner/{restNo}/viewRest/updateMenu/{menuNo}(restNo=${menu.getRestNo().getRestNo()}, menuNo=${menu.getMenuNo()})}'|"></td>
+        <td><input type="button" value="삭제" th:onclick="|location.href='@{/owner/{restNo}/viewRest/deleteMenu/{menuNo}(restNo=${menu.getRestNo().getRestNo()}, menuNo=${menu.getMenuNo()})}'|"></td>
     </tr>
     </tbody>
 </table>
-    <input type="button" value="메뉴 추가" th:onclick="|location.href='@{/myPage/{restNo}/viewRest/addMenu(restNo=${restNo})}'|">
+    <input type="button" value="메뉴 추가" th:onclick="|location.href='@{/owner/{restNo}/viewRest/addMenu(restNo=${restNo})}'|">
 </div>
 
 </html>
