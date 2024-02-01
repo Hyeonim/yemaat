@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/myPage/*")
+@RequestMapping("/owner/*")
 public class DiningRestController {
     @Autowired
     private DiningRestService diningRestService;
@@ -27,14 +27,14 @@ public class DiningRestController {
     public String home(Model model) {
         List<Dinning> diningRestList = diningRestService.getAllRestaurants();
         model.addAttribute("listRest", diningRestList);
-        return "myPage/home";
+        return "/owner/home";
     }
 
     @GetMapping("{restNo}")
     public String listRest(@PathVariable("restNo") int restNo, Model model) {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("dinning", dinning);
-        return "myPage/listRest";
+        return "/owner/listRest";
     }
 
 // -------------------------- 가게 상세보기 및 메뉴 관리 -----------------------------------------
@@ -48,7 +48,7 @@ public class DiningRestController {
         model.addAttribute("restNo", restNo);
 
         model.addAttribute("menuPage", "/menu/listMenu");
-        return "myPage/viewRest";
+        return "/owner/viewRest";
     }
 
     @GetMapping("{restNo}/viewRest/addMenu")
@@ -57,7 +57,7 @@ public class DiningRestController {
         model.addAttribute("dinning", dinning);
         model.addAttribute("restNo", dinning.getRestNo());
         model.addAttribute("menuPage", "/menu/addMenu");
-        return "/myPage/viewRest";
+        return "/owner/viewRest";
     }
     @PostMapping("{restNo}/viewRest/addMenu")
     public String createMenu(@PathVariable("restNo")int restNo, Menu menu, Model model) {
@@ -67,7 +67,7 @@ public class DiningRestController {
         menu.setRestNo(dinning);
         Menu savedMenu = menuService.createMenu(menu);
 
-        return "redirect:/myPage/"+restNo+"/viewRest";
+        return "redirect:/owner/"+restNo+"/viewRest";
     }
 
     @GetMapping("{restNo}/viewRest/updateMenu/{menuNo}")
@@ -78,7 +78,7 @@ public class DiningRestController {
         Menu menu = menuService.getMenuByMenuNo(menuNo);
         model.addAttribute("menu", menu);
         model.addAttribute("menuPage", "/menu/updateMenu");
-        return "myPage/viewRest";
+        return "/owner/viewRest";
     }
 
     @PostMapping("{restNo}/viewRest/updateMenu/{menuNo}")
@@ -88,7 +88,7 @@ public class DiningRestController {
 
         Menu.setMenuNo(menuNo);
         Menu updateMenu = menuService.updateMenu(Menu);
-        return "redirect:/myPage/"+restNo+"/viewRest";
+        return "redirect:/owner/"+restNo+"/viewRest";
     }
 
     @GetMapping("{restNo}/viewRest/deleteMenu/{menuNo}")
@@ -96,40 +96,40 @@ public class DiningRestController {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("dinning", dinning);
         menuService.deleteMenu(menuNo);
-        return "redirect:/myPage/"+restNo+"/viewRest";
+        return "redirect:/owner/"+restNo+"/viewRest";
     }
 
     // ------------------------------------------------------------------------------------------
     @GetMapping("addRest")
     public String addRest(Model model) {
-        return "myPage/addRest";
+        return "/owner/addRest";
     }
 
     @PostMapping("addRest")
     public String addRest(Dinning dinning, Model model) {
         System.out.println(dinning);
         diningRestService.createRestaurant(dinning);
-        return "myPage/listRest";
+        return "/owner/listRest";
     }
 
     @GetMapping("{restNo}/updateRest")
     public String updateRest(@PathVariable("restNo") int restNo, Model model) {
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("dinning", dinning);
-        return "myPage/updateRest";
+        return "/owner/updateRest";
     }
 
     @PostMapping("{restNo}/updateRest")
     public String updateRest(@PathVariable("restNo") int restNo, Dinning dinning) {
         dinning.setRestNo(restNo);
         Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);
-        return "redirect:/myPage/"+restNo+"/viewRest";
+        return "redirect:/owner/"+restNo+"/viewRest";
     }
 
     @GetMapping("{restNo}/deleteRest")
     public String deleteRest(@PathVariable("restNo") int restNo, Model model) {
         diningRestService.deleteRestaurant(restNo);
-        return "redirect:/myPage/home";
+        return "redirect:/owner/home";
     }
 // ----------------------- 예약 관련 ------------------------------
     @GetMapping("{restNo}/reservation")
@@ -139,6 +139,6 @@ public class DiningRestController {
 
         Dinning dinning = diningRestService.getRestByRestNo(restNo);
         model.addAttribute("dinning", dinning);
-        return "myPage/reservList";
+        return "/owner/reservList";
     }
 }

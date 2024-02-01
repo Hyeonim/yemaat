@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{myPage/myPage_layout}">
+      layout:decorate="~{owner/myPage_layout}">
 <th:block th:fragment="content">
     <h1><[[${dinning.getRestName}]]> 점주 페이지</h1>
     <ul>
-        <li><a th:href="@{/myPage/{restNo}/viewRest(restNo=${dinning.getRestNo()})}">가게 상세보기</a></li>
-        <li><a th:href="@{/myPage/{restNo}/reservation(restNo=${dinning.getRestNo()})}">예약 목록보기</a></li>
+        <li><a th:href="@{/owner/{restNo}/viewRest(restNo=${dinning.getRestNo()})}">가게 상세보기</a></li>
+        <li><a th:href="@{/owner/{restNo}/reservation(restNo=${dinning.getRestNo()})}">예약 목록보기</a></li>
     </ul>
 </th:block>
 </html>

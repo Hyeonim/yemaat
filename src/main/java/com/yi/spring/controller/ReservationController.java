@@ -2,6 +2,7 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Reservation;
+import com.yi.spring.entity.ReservationStatus;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReservationRepository;
 import jakarta.servlet.http.HttpSession;
@@ -18,9 +19,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,8 +31,16 @@ public class ReservationController {
     DinningRepository dinningRepository;
     @Autowired
     ReservationRepository reservationRepository;
+
+
+    @GetMapping("/setUserNo/{userNo}")
+    public void setUserNo( HttpSession httpSession, @PathVariable String userNo ) {
+        httpSession.setAttribute("userNo", userNo);
+    }
     @GetMapping("/{restNo}")
     public String reserve(Model model, HttpSession httpSession, @PathVariable String restNo){
+        httpSession.setAttribute("restNo", restNo);
+
         Long iRestNo = Long.valueOf(restNo);
 
         Dinning restaurant = dinningRepository.findById( iRestNo ).get();
@@ -137,13 +144,15 @@ public class ReservationController {
         int reserveRoomCount = 0;
         for ( Reservation elem : reservationList )
         {
-            if ( null == elem.getRes_status() || Integer.parseInt( elem.getRes_status() ) < 2 )
+//            if ( null == elem.getRes_status() || Integer.parseInt( elem.getRes_status() ) < 2 )
+//                continue;
+//            if ( elem.getReservationStatusEnum() != ReservationStatus.NONE && elem.getReservationStatusEnum() != ReservationStatus.COMPLETED )
+            if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.COMPLETED).contains(elem.getReservationStatusEnum()))
                 continue;
 
-            System.out.println( elem );
             reservePeopleCount += Integer.parseInt( elem.getRes_guest_count() );
 
-            if ( null != elem.getRes_table_type() && "방".equals( elem.getRes_table_type() ) )
+            if ( null != elem.getRes_table_type() && "true".equals( elem.getRes_table_type() ) )
                 reserveRoomCount += 1;
         }
 
@@ -157,17 +166,25 @@ public class ReservationController {
 //        rest_end
 
 //        LocalDateTime now = LocalDateTime.now();
-        List<List<Reservation>> reservationListByTime = new ArrayList<>();
+//        List<List<Reservation>> reservationListByTime = new ArrayList<>();
+        class _TempDto{ public LocalTime date; public int count; public String toString(){return date + "," + count;}}
+        List<_TempDto> reservationListByTime = new ArrayList<>();
+
         for ( LocalTime loopTime = adjustedTime_start; loopTime.isBefore( rest_end )
                 ; loopTime = loopTime.plusMinutes(30)
         )
         {
-            List<Reservation> partTimeList = new ArrayList<>();
+//            List<Reservation> partTimeList = new ArrayList<>();
+            _TempDto tempDto = new _TempDto();
+            tempDto.date = null;
+            tempDto.count = 0;
 
             for ( Reservation elem : reservationList )
             {
                 LocalDateTime res_time_withDate = null != elem.getRes_time() ? elem.getRes_time() : now;
                 if ( now.isBefore( res_time_withDate ) )
+                    continue;
+                if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.COMPLETED).contains(elem.getReservationStatusEnum()))
                     continue;
 
                 LocalTime res_time = res_time_withDate.toLocalTime();
@@ -175,17 +192,22 @@ public class ReservationController {
                          loopTime.plusMinutes( 30 ).isBefore( res_time.plusMinutes( 60* 2 ) )
                 )
                 {
-                    partTimeList.add( new Reservation() );
-                    Reservation listElem = partTimeList.get( partTimeList.size() - 1 );
+//                    partTimeList.add( new Reservation() );
+//                    Reservation listElem = partTimeList.get( partTimeList.size() - 1 );
 
-                    listElem.setRes_guest_count( elem.getRes_guest_count() );
-                    listElem.setRes_time( null == elem.getRes_time() ? res_time_withDate : elem.getRes_time() );
-                    listElem.setRes_time_new( null == elem.getRes_time_new() ? LocalDateTime.from(loopTime.atDate(LocalDate.now())) : elem.getRes_time_new() );
+                    if ( null == tempDto.date )
+                        tempDto.date = loopTime;
+                    tempDto.count += Integer.parseInt( elem.getRes_guest_count() );
+//                    listElem.setRes_guest_count( elem.getRes_guest_count() );
+//                    listElem.setRes_time( null == elem.getRes_time() ? res_time_withDate : elem.getRes_time() );
+//                    listElem.setRes_time_new( null == elem.getRes_time_new() ? LocalDateTime.from(loopTime.atDate(LocalDate.now())) : elem.getRes_time_new() );
                 }
 
             }
 
-            reservationListByTime.add( partTimeList );
+            if ( 1 <= tempDto.count )
+//            reservationListByTime.add( partTimeList );
+            reservationListByTime.add( tempDto );
 
 
 
@@ -214,26 +236,48 @@ public class ReservationController {
 
 
     @PostMapping("/insert/")
-    public ResponseEntity<String> handleJsonData(@RequestBody Map<String, Object> jsonData) {
-        String key1 = (String) jsonData.get("key1");
-        String key2 = (String) jsonData.get("key2");
-        String key3 = (String) jsonData.get("key3");
-        String key4 = (String) jsonData.get("key4");
-        boolean key5 = (boolean) jsonData.get("key5");
+    public ResponseEntity<String> handleJsonData(@RequestBody Map<String, Object> jsonData, HttpSession session ) {
+        Long iRestNo = Optional.ofNullable((String) session.getAttribute("restNo"))
+                .map(Long::valueOf).orElse(null);
+        Long iUserNo = Optional.ofNullable((String)session.getAttribute("userNo"))
+                .map(Long::valueOf).orElse(null);
 
-        System.out.println( key1 );
-        System.out.println( key2 );
-        System.out.println( key3 );
-        System.out.println( key4 );
-        System.out.println( key5 );
+        String fieldCount = (String) jsonData.get("count");
+        String time = (String) jsonData.get("time");
+        String date = (String) jsonData.get("date");
+        String message = (String) jsonData.get("msg");
+        String checked = (String) jsonData.get("b");
 
-        String response = "Success";
-        String errorResponse = "Error";
+        String count = "";
+        {
+            Matcher matcher = Pattern.compile("([0-9]+)").matcher( fieldCount );
+            if (matcher.find())
+                count = matcher.group(1);
+        }
 
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        Long reservationNo = null;
+        {
+            List<Reservation> list = reservationRepository.findByRestNoAndUserNo( iRestNo, iUserNo );
+            if ( null != list && !list.isEmpty())
+                reservationNo = list.get(0).getRes_no();
+        }
 
+        Reservation reservation = new Reservation();
+        reservation.setRes_no( reservationNo );
+        reservation.setRestNo( iRestNo );
+        reservation.setUserNo( iUserNo );
+        reservation.setRes_time( LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        reservation.setRes_time_new( LocalDateTime.now() );
+        reservation.setRes_guest_count( count );
+        reservation.setRes_comment( message );
+        reservation.setRes_status(String.valueOf(ReservationStatus.WAIT));
+        reservation.setRes_table_type( String.valueOf(checked));
+        reservationRepository.save( reservation );
+
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
+
+
 
 
 }
