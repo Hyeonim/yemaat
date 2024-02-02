@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>점주 목록</title>
+</head>
+
+<div th:include="~{/include/header::headerFragment}">
+    head
+</div>
+
+<div id="main">
+
+    <div th:replace="~{/managerPage/managerPage_sidebar::managerSide}">
+        head
+    </div>
+
+    <div th:fragment="managerContent">
+        <div id="right">
+
+            <h2>점주 목록</h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>아이디</th>
+<!--                    <th>비밀번호</th>-->
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>전화번호</th>
+                    <th>등록일</th>
+                </tr>
+                </thead>
+                <tbody>
+<!--                <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">-->
+                <tr th:each="user : ${userList}" th:onclick="'javascript:redirectToJumDetail(\'' + ${user.userNo} + '\')'">
+                    <td th:text="${user.userNo}"></td>
+                    <td th:text="${user.userId}"></td>
+<!--                    <td th:text="${user.userPassword}"></td>-->
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.userEmail}"></td>
+                    <td th:text="${user.userTel}"></td>
+                    <td th:text="${user.userStartDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <button id="JumAddButton">추가</button>
+        </div>
+    </div>
+</div>
+
+
+</html>

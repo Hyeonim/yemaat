@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>My 예약 현황</h1>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>회원번호</th>
+            <th>식당 번호</th>
+            <th>예약 시간</th>
+            <th>예약 인원</th>
+            <th>요청사항</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${list}">
+            <td th:text="${reservation.getUserNo()}"></td>
+            <td th:text="${reservation.getRestNo()}"></td>
+            <td th:text="${reservation.getRes_time()}"></td>
+            <td th:text="${reservation.res_guest_count}"></td>
+            <td th:text="${reservation.res_comment}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+</body>
+</html>

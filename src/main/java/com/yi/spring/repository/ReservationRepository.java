@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
     List<Reservation> findByRestNo(Long rest_no);
+
+    List<Reservation> findByRestNoAndUserNo(Long restNo, Long user_no);
+    List<Reservation> findByUserNo(Long user_no);
+
 }

@@ -25,14 +25,9 @@ public class IndexController {
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
 
-//        long a = 181; //restNo
-//
-//        Optional<Dinning> dinningOptional = dinningRepository.findById((a));
-
         List<Dinning> list = dinningRepository.findAll();
 
         List<Dinning> imgList = new ArrayList<>();
-
 
         for (Dinning diningRest : list) {
             Dinning elem = new Dinning();
