@@ -1,6 +1,5 @@
 package com.yi.spring.service;
 
-import com.yi.spring.entity.DiningRest;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.repository.DiningRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;

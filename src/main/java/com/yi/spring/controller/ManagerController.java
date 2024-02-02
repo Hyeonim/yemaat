@@ -76,6 +76,32 @@ public class ManagerController {
         return "managerPage";
     }
 
+    @GetMapping("/managerPage_UBlackList")
+    public String managerBlackListU(Model model) {
+
+        List<User> users = userRepository.findAll();
+
+
+        List<User> onlyUsers = new ArrayList<>();
+
+        for (User result : users) {
+            if (result.getUserAuth().equals("1") && result.getUserBlock().equals("1") ) {
+
+
+                    onlyUsers.add(result);
+                }
+
+        }
+
+
+        System.out.println(onlyUsers);
+
+        model.addAttribute("users", onlyUsers);
+
+        model.addAttribute("page", "managerPage/managerPage_UBlackList");
+        return "managerPage";
+    }
+
 
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user, Model model) {
@@ -126,13 +152,9 @@ public class ManagerController {
             userRepository.save(user);
         });
 
-
         return "redirect:/manager/managerPage_UList";
 
-
     }
-
-
 
 
     @PostMapping("managerPage_UDel")
@@ -141,17 +163,11 @@ public class ManagerController {
 
         System.out.println("번호~~~~~~~~~~~~~~~~~" + userNo);
 
-       userRepository.deleteByUserNo(userNo);
+        userRepository.deleteByUserNo(userNo);
 
 
         return "redirect:/manager/managerPage_UList";
     }
-
-
-
-
-
-
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
