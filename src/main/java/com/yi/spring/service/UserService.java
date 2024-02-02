@@ -1,5 +1,6 @@
 package com.yi.spring.service;
 
+import com.yi.spring.entity.Reservation;
 import com.yi.spring.entity.Menu;
 import com.yi.spring.entity.User;
 import org.springframework.data.relational.core.sql.In;
