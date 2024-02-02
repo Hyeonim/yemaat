@@ -1,6 +1,5 @@
 package com.yi.spring.repository;
 
-import com.yi.spring.entity.DiningRest;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;

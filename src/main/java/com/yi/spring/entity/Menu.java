@@ -1,6 +1,5 @@
 package com.yi.spring.entity;
 
-import com.yi.spring.entity.DiningRest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
