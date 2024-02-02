@@ -79,13 +79,14 @@
     //추가버튼
     if (userAddButton)
         userAddButton.addEventListener('click', function () {
-            window.location.href = 'managerPage_UAdd';
+            window.location.href = '/manger/managerPage_UAdd';
         });
 
     //디테일로 이동 버튼
     function redirectToUserUpdate(userNo) {
-        window.location.href = '/managerPage_UDetail?userNo=' + userNo;
+        window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
     }
+
 
 
 
