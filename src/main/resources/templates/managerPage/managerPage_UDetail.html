@@ -7,28 +7,28 @@
     <div id="right">
 
         <h2>detail</h2>
-        <form id="myForm" method="get" enctype="multipart/form-data">
-            <input type="hidden" id="userNo" name="userNo" th:value="${user.get().userNo}" readonly>
-            <p>User No: <input th:value="${user.get().userNo}" readonly></input></p>
-            <p>User name: <input th:value="${user.get().userName}"></input></p>
-            <p>User id: <input th:value="${user.get().userId}"></input></p>
-            <p>User Email: <input th:value="${user.get().userEmail}"></input></p>
-            <p>User password: <input th:value="${user.get().userPassword}"></input></p>
-            <p>User Tel: <input th:value="${user.get().userTel}"></input></p>
-            <p>User Auth: <input th:value="${user.get().userAuth}"></input></p>
 
+        <form id="myForm" action="/manager/managerPage_UUpdate" method="post" enctype="multipart/form-data">
+            <p>User No: <input name="userNo" th:value="${user.get().userNo}" readonly></input></p>
+            <p>User name: <input name="userName" th:value="${user.get().userName}"></input></p>
+            <p>User id: <input name="userId" th:value="${user.get().userId}"></input></p>
+            <p>User Email: <input name="userEmail" th:value="${user.get().userEmail}"></input></p>
+            <p>User password: <input name="userPassword" th:value="${user.get().userPassword}"></input></p>
+            <p>User Tel: <input name="userTel" th:value="${user.get().userTel}"></input></p>
+            <p>User Auth: <input name="userAuth" th:value="${user.get().userAuth}"></input></p>
             <p>User Img:
-        <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}"
-             alt="User Image" style="max-width: 200px; max-height: 200px; cursor: pointer;">
+                <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}"
+                     alt="User Image" style="max-width: 200px; max-height: 200px; cursor: pointer;">
             </p>
-
-            <input type="file" alt="file">
-
+            <input type="file" name="file" alt="file">
             <button type="submit">수정</button>
-
         </form>
 
-        <button>삭제</button>
+        <form action="/manager/managerPage_UDel" method="post">
+          <input type="hidden" name="userNo" th:value="${user.get().userNo}" readonly></input>
+        <button id="UDel">삭제</button>
+
+        </form>
     </div>
 </div>
 

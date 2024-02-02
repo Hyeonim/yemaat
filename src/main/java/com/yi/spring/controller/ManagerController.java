@@ -6,6 +6,7 @@ import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -38,11 +39,11 @@ public class ManagerController {
         return "managerPage";
     }
 
+//    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ유저꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     @GetMapping("/managerPage_UDetail")
     public String managerDetailU(Model model, @RequestParam int userNo) {
 
-        System.out.println(userNo);
 
         Optional<User> user = userRepository.findByUserNo(userNo);
 //        System.out.println(user);
@@ -53,7 +54,6 @@ public class ManagerController {
         return "managerPage";
     }
 
-//    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ유저꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     @GetMapping("/managerPage_UList")
     public String managerListU(Model model) {
@@ -88,21 +88,25 @@ public class ManagerController {
 
         userRepository.save(user);
 
-        return "redirect:/managerPage_UList";
+        return "redirect:/manager/managerPage_UList";
     }
 
-    @ResponseBody
-    @GetMapping("managerPage_UUpdate")
-    public String userUpdate(
-                             @RequestParam MultipartFile file,
-                             User users) throws IOException {
 
+    @PostMapping("managerPage_UUpdate")
+    public String userUpdate(
+            @RequestParam MultipartFile file,
+            @RequestParam int userNo,
+            @RequestParam String userName,
+            @RequestParam String userId,
+            @RequestParam String userEmail,
+            @RequestParam String userPassword,
+            @RequestParam String userTel,
+            @RequestParam String userAuth,
+            User users) throws IOException {
 
         userRepository.save(users);
 
-        Optional<User> userOptional = userRepository.findByUserNo(users.getUserNo());
-
-
+        Optional<User> userOptional = userRepository.findByUserNo(userNo);
         userOptional.ifPresent(user -> {
             byte[] userImg = new byte[0];
             try {
@@ -115,9 +119,31 @@ public class ManagerController {
         });
 
 
-        return "redirect:/managerPage_UList";
+        return "redirect:/manager/managerPage_UList";
+
 
     }
+
+
+
+
+    @PostMapping("managerPage_UDel")
+    @Transactional
+    public String managerDelU(@RequestParam int userNo, Model model) {
+
+        System.out.println("번호~~~~~~~~~~~~~~~~~" + userNo);
+
+       userRepository.deleteByUserNo(userNo);
+
+
+        return "redirect:/manager/managerPage_UList";
+    }
+
+
+
+
+
+
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -141,7 +167,7 @@ public class ManagerController {
     }
 
     @PostMapping("managerPage_JAdd")
-    public String jumAdd(@RequestParam MultipartFile file, User user,Model model) {
+    public String jumAdd(@RequestParam MultipartFile file, User user, Model model) {
         if (file.isEmpty()) {
             userRepository.save(user);
         } else {
@@ -178,7 +204,7 @@ public class ManagerController {
 
         model.addAttribute("user", user);
 
-        model.addAttribute( "page", "managerPage/managerPage_JDetail");
+        model.addAttribute("page", "managerPage/managerPage_JDetail");
 
         return "managerPage";
     }
