@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>점주 상세보기</title>
+</head>
+
+<div th:include="~{/include/header::headerFragment}">
+
+</div>
+
+<div id="main">
+
+    <div th:replace="~{/managerPage/managerPage_sidebar::managerSide}">
+    </div>
+
+    <div th:fragment="managerContent">
+        <div id="right">
+            <h2>점주 상세 정보</h2>
+
+            <p>번호 : <input th:value="${user.get().userNo}" readonly></p>
+            <p>아이디 : <input th:value="${user.get().userId}" ></p>
+            <p>이름 : <input th:value="${user.get().userName}" ></p>
+            <p>Email : <input th:value="${user.get().userEmail}" ></p>
+            <p>전화번호 : <input th:value="${user.get().userTel}" ></p>
+
+            <button id="jumUpd">수정</button>
+            <button id="jumDel">삭제</button>
+        </div>
+    </div>
+
+</div>
+</html>
