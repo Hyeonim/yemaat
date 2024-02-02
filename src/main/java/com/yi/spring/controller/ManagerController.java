@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/manager")
 public class ManagerController {
 
     @Autowired

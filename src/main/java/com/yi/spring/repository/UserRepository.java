@@ -1,5 +1,6 @@
 package com.yi.spring.repository;
 
+import com.yi.spring.entity.Reservation;
 import com.yi.spring.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,10 +18,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     long deleteByUserNo(Integer userNo);
 
+    
 
 
-//    Optional<User> findByUsername(String username);
-//
-//    Optional<User> findByEmail(String email);
+
 
 }
