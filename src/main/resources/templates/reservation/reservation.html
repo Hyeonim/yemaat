@@ -54,8 +54,8 @@
     </div>
 </div>
 
-예약 가능한 좌석 0 / [[${rest_seat_normal}]]
-<th:block th:if="0!=${rest_seat_room}" th:utext="'방 0 / ' +${rest_seat_room}+'<br>'"></th:block>
+예약 가능한 좌석 <th:block th:with="diff=${rest_seat_normal}-${reservePeopleCount}" th:text="${diff}"></th:block> ( [[${reservePeopleCount}]] / [[${rest_seat_normal}]] )
+<th:block th:if="0!=${rest_seat_room}" th:utext="'방 '+${reserveRoomCount}+' / ' +${rest_seat_room}+'<br>'"></th:block>
 <th:block th:if="0!=${rest_seat_room}" th:utext="|방 예약 가능<input type='checkbox' for='room_type'/>|"></th:block>
 <br>
 
@@ -69,25 +69,31 @@
 <button id="sendButton">예약하기</button>
 
 
-<div th:each="reserveList : ${reservationList}">
-    <div th:with="condition=${not #lists.isEmpty(reserveList)}">
-        <!-- condition을 사용하여 출력 또는 다른 작업 수행 -->
-        <div th:if="${condition}">
-            [[${reserveListStat.index}]]
-            <div th:each="reserve : ${reserveList}">
-                <ul>
-                    <li th:text="${reserve.res_time}"></li>
-                    <li th:text="${reserve.res_time_new}"></li>
-                    <li th:text="${reserve.res_guest_count}"></li>
-                </ul>
-            </div>
-        </div>
-        <div th:unless="${condition}">
-            [[${reserveListStat.index}]]
-        </div>
-    </div>
+<!--<div th:each="reserveList : ${reservationList}">-->
+<!--    <div th:with="condition=${not #lists.isEmpty(reserveList)}">-->
+<!--        &lt;!&ndash; condition을 사용하여 출력 또는 다른 작업 수행 &ndash;&gt;-->
+<!--        <div th:if="${condition}">-->
+<!--            [${reserveListSat.index}]]-->
+<!--            <div th:each="reserve : ${reserveList}">-->
+<!--                <ul>-->
+<!--                    <li>시간별 예약 상황</li>-->
+<!--                    <li th:text="${reserve.res_time}"></li>-->
+<!--                    <li th:text="${reserve.res_guest_count}"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div th:unless="${condition}">-->
+<!--            [${reserveListStt.index}]]-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div>
+    시간별 예약 상황
+    <ul th:each="reserve : ${reservationList}">
+        <li th:text="${reserve.date}"></li>
+        <li th:text="${reserve.count}+'명'"></li>
+    </ul>
 </div>
-
 
 <br>
 <pre>
@@ -134,11 +140,11 @@
             let checkboxes = $('input[type="checkbox"]');
 
             var jsonData = {
-                key1: $('select')[0].value,
-                key2: $('select')[1].value,
-                key3: $('input[type=date]').val(),
-                key4: $('input[type=text]').val(),
-                key5: checkboxes[0] && checkboxes[0].checked,
+                count: $('select')[0].value,
+                time: $('select')[1].value,
+                date: $('input[type=date]').val(),
+                msg: $('input[type=text]').val(),
+                b: checkboxes[0] && checkboxes[0].checked.toString(),
                 // 추가 필요한 데이터
             };
 

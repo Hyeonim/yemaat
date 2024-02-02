@@ -60,31 +60,36 @@
 </style>
 <body>
 
+
 <div id="main">
 
     <div th:replace="~{/managerPage/managerPage_sidebar::managerSide}">
-        head
+
     </div>
 
     <div th:include="${page}::managerContent">
-        head
+
     </div>
 
 
 </div>
 
-<script>
+<script th:inline="javascript">
     var userAddButton = document.getElementById('userAddButton');
+    //추가버튼
+    if (userAddButton)
+        userAddButton.addEventListener('click', function () {
+            window.location.href = '/manger/managerPage_UAdd';
+        });
 
-    if ( userAddButton )
-    userAddButton.addEventListener('click', function() {
-        window.location.href = 'managerPage_UAdd';
-    });
-
-
+    //디테일로 이동 버튼
     function redirectToUserUpdate(userNo) {
-        window.location.href = '/userUpdate?userNo=' + userNo;
+        window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
     }
+
+
+
+
 
     //------------------------------점주-------------------------------
 

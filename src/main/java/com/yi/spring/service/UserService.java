@@ -1,5 +1,6 @@
 package com.yi.spring.service;
 
+import com.yi.spring.entity.Menu;
 import com.yi.spring.entity.User;
 import org.springframework.data.relational.core.sql.In;
 
@@ -14,6 +15,7 @@ public interface UserService {
 
     long deleteByUserNo(Integer userNo);
 
+    public User updateMenu(User user);
 
 
 
