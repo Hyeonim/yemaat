@@ -25,9 +25,12 @@ public class MapController {
     public String map(Model model) {
        List<Dinning> list = dinningService.findAll();
 
-        for (Dinning diningRest : list) {
-            System.out.println("Latitude: " + diningRest.getRestLatitude() + ", Longitude: " + diningRest.getRestLongitude() + "가게 이름" + diningRest.getRestName());
-        }
+        System.out.println(list.get(1));
+
+
+//        for (Dinning diningRest : list) {
+//            System.out.println("Latitude: " + diningRest.getRestLatitude() + ", Longitude: " + diningRest.getRestLongitude() + "가게 이름" + diningRest.getRestName());
+//        }
 
         List<Dinning> respList = new ArrayList<>();
         for (Dinning diningRest : list) {

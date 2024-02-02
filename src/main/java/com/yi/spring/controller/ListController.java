@@ -6,6 +6,8 @@ import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.TablingRepository;
 import com.yi.spring.service.DinningService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,7 +75,14 @@ public class ListController {
         List<Dinning> rest_name = dinningRepository.findByRestNameContaining(restName);
 
         model.addAttribute("list", rest_name);
-        System.out.println(rest_name);
+//        System.out.println(rest_name);
         return "search";
     }
+
+//    @GetMapping("/find_rest_name_x")
+//    public ResponseEntity<List<Dinning>> findRestName_x(@RequestParam(name = "keyword") String restName, Model model) {
+//        List<Dinning> rest_name = dinningRepository.findByRestNameContaining(restName);
+//        System.out.println( rest_name );
+//        return new ResponseEntity<>(rest_name, HttpStatus.OK);
+//    }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +18,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
 <style>
 
@@ -67,15 +70,19 @@
             <button>평점 높은 순</button>
             <button>리뷰 많은 순</button>
             <button>예약 많은 순</button>
-
         </div>
-
 
         <ul id="resultList">
             <li th:each="coordinate : ${list}" data-lat="${coordinate.restLatitude}" data-lng="${coordinate.restLongitude}">
                 <a th:href="@{/detail(restNo=${coordinate.restNo})}" th:text="${coordinate.restName}">가게이름</a>
             </li>
         </ul>
+
+<!--        <ul id="resultList">-->
+<!--            <li th:each="coordinate : ${list}" data-lat="${coordinate.restLatitude}" data-lng="${coordinate.restLongitude}">-->
+<!--                <a th:href="@{/detail(restNo=${coordinate.restNo})}" th:text="${coordinate.restName}">가게이름</a>-->
+<!--            </li>-->
+<!--        </ul>-->
 
 
     </div>

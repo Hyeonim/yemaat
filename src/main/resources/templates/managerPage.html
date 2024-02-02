@@ -79,7 +79,7 @@
     //추가버튼
     if (userAddButton)
         userAddButton.addEventListener('click', function () {
-            window.location.href = '/manger/managerPage_UAdd';
+            window.location.href = '/manager/managerPage_UAdd';
         });
 
     //디테일로 이동 버튼
@@ -87,7 +87,7 @@
         window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
     }
 
-
+    var userDelButton = document.getElementById('UDel');
 
 
 
@@ -96,21 +96,19 @@
 
     var jumAddButton = document.getElementById('JumAddButton');
 
-    if(jumAddButton)
-    jumAddButton.addEventListener('click', function (){
+    if (jumAddButton)
+        jumAddButton.addEventListener('click', function () {
 
-        window.location.href = 'managerPage_JAdd';
-    });
+            window.location.href = 'managerPage_JAdd';
+        });
 
     function redirectToJumDetail(userNo) {
         window.location.href = '/manager/managerPage_JDetail?userNo=' + userNo;
     }
 
-    // var jumUpd = document.getElementById('jumUpd');
-    //
-    // function jumUpd(userNo){
-    //     window.location.href = '/manager/managerPage_JUpdate?userNo=' + userNo;
-    // }
+
+
+
 </script>
 
 </body>
