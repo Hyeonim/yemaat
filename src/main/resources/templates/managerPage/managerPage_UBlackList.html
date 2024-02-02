@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<div th:fragment="managerContent">
+    <div id="right">
+
+        <h2>Black List</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>no</th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>전화번호</th>
+                <th>사작일</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.userNo}">Name</td>
+                <td th:text="${user.userId}">ID</td>
+                <td th:text="${user.userName}">Name</td>
+                <td th:text="${user.userEmail}">Name</td>
+                <td th:text="${user.userTel}">Name</td>
+                <td th:text="${user.userStartDate}">Name</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+
+</html>
