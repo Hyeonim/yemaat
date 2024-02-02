@@ -1,6 +1,8 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.User;
+import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.UserRepository;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
@@ -30,6 +32,9 @@ public class ManagerController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DinningRepository dinningRepository;
 
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
@@ -74,6 +79,9 @@ public class ManagerController {
 
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user, Model model) {
+
+
+
         if (file.isEmpty()) {
             userRepository.save(user);
         } else {
@@ -137,11 +145,19 @@ public class ManagerController {
         }
         model.addAttribute("userList", Owner);
 
+
         return "managerPage";
     }
 
+
+
+
+
+
+
     @PostMapping("managerPage_JAdd")
     public String jumAdd(@RequestParam MultipartFile file, User user,Model model) {
+
         if (file.isEmpty()) {
             userRepository.save(user);
         } else {
@@ -156,7 +172,7 @@ public class ManagerController {
 
         userRepository.save(user);
 
-        return "redirect:/managerPage_JInfo";
+        return "redirect:/manager/managerPage_JInfo";
     }
 
 
