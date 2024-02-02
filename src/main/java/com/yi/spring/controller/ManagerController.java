@@ -159,18 +159,35 @@ public class ManagerController {
     @GetMapping("/managerPage_JInfo")
     public String managerInfoA(Model model) {
 
+//        model.addAttribute("page", "managerPage/managerPage_JInfo");
+//
+//        List<User> userList = userService.getAllUsers();
+//
+//        List<User> Owner = new ArrayList<>();
+//        for (User result : userList) {
+//            if (result.getUserAuth().equals("2")) {
+//                Owner.add(result);
+//            }
+//        }
+//        model.addAttribute("userList", Owner);
+//
+//
+//        return "managerPage";
+
         model.addAttribute("page", "managerPage/managerPage_JInfo");
 
+        // 사용자 목록 가져오기
         List<User> userList = userService.getAllUsers();
 
-        List<User> Owner = new ArrayList<>();
-        for (User result : userList) {
-            if (result.getUserAuth().equals("2")) {
-                Owner.add(result);
+        // 각 사용자가 소유한 가게의 정보를 가져와서 함께 저장
+        List<Dinning> dinningList = new ArrayList<>();
+        for (User user : userList) {
+            if ("2".equals(user.getUserAuth())) {
+                dinningList.addAll(user.getDiningRests()); // 사용자가 소유한 가게들을 가져와서 리스트에 추가하는 거임
             }
         }
-        model.addAttribute("userList", Owner);
 
+        model.addAttribute("dinningList", dinningList); // 가져온 가게 목록 뿌리기
 
         return "managerPage";
     }
