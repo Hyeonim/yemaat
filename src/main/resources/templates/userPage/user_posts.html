@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!--      layout:decorate="~{user_content}">-->
+
+<th:block th:fragment="content">
 
 <h1>My 예약 현황</h1>
 <div>
@@ -29,8 +29,5 @@
         </tbody>
     </table>
 </div>
-
-
-
-</body>
+</th:block>
 </html>

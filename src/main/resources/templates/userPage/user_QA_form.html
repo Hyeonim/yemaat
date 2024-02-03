@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>문의 하기</h1>
+<form th:action="@{/user/user_qa_add}" method="post" enctype="multipart/form-data">
+    <label>ID:</label>
+    <input type="text" th:value="${QA_userNo.get().getUserId()}" readonly/><br>
+    <label>이름:</label>
+    <input type="text" th:value="${QA_userNo.get().getUserName()}" readonly/><br>
+    <label hidden="hidden">유저번호</label>
+    <input type="text" th:value="${QA_userNo.get().getUserNo()}" name="userNo" hidden="hidden"/><br>
+    <label>제목:</label>
+    <input type="text" name="qa_title"/><br>
+    <label>내용:</label>
+    <input type="text" name="qa_content"/><br>
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>
+
+
+

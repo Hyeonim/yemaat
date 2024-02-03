@@ -7,6 +7,8 @@
 <body>
 
 <h1>My 문의</h1>
+<a th:href="@{/user/user_qa_form/{userNo}(userNo=${Num})}">문의 추가</a>
+
 <div>
     <table>
         <thead>
@@ -15,6 +17,7 @@
             <th>제목</th>
             <th>내용</th>
             <th>문의 날짜</th>
+            <th>문의 처리 상태</th>
         </tr>
         </thead>
         <tbody>
@@ -23,10 +26,15 @@
             <td th:text="${QAs.getQaTitle()}"></td>
             <td th:text="${QAs.getQaContent()}"></td>
             <td th:text="${QAs.getQaWriteTime()}"></td>
+            <td>
+                <span th:if="${QAs.qaStatus}">처리완료</span>
+                <span th:unless="${QAs.qaStatus}">처리중</span>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
+
 
 
 
