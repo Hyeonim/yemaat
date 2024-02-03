@@ -73,7 +73,21 @@
 
 
 </div>
+<script>
+    function previewImage(input) {
+        var preview = document.getElementById('preview');
 
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 <script th:inline="javascript">
     var userAddButton = document.getElementById('userAddButton');
     //추가버튼
@@ -90,18 +104,16 @@
     var userDelButton = document.getElementById('UDel');
 
 
-    function confirmBlack() {
+    function confirmBlack(my) {
         let confirmation = confirm("블랙을 푸시겠습니까?");
         let form = document.getElementById("blackForm");
-        let confirmInput = document.querySelector("input[name=confirm]");
+        let confirmInput = my.parentNode.querySelector("input[name=confirm]");
         confirmInput.value = confirmation;
 
-        // if (confirmation) {
-            form.submit();
-        // } else {
-        //     form.submit();
-        // }
+        form.submit();
+
     }
+
 
 
     //------------------------------점주-------------------------------
@@ -118,8 +130,6 @@
     function redirectToJumDetail(userNo) {
         window.location.href = '/manager/managerPage_JDetail?userNo=' + userNo;
     }
-
-
 
 
 </script>

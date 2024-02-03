@@ -174,11 +174,7 @@ public class ManagerController {
         System.out.println("번호~~~~~~~~~~~~~~~~~" + userNo);
         System.out.println("선택~~~~~~~~~~~~~~~~~" + confirm);
 
-
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
-
-
-
 
         userOptional.ifPresent(user -> {
             if (confirm) {

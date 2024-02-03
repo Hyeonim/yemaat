@@ -19,9 +19,9 @@
             <p>Black y/n<input name="userBlock" th:value="${user.get().userBlock}"></p>
             <p>User Img:
                 <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}"
-                     alt="User Image" style="max-width: 200px; max-height: 200px; cursor: pointer;">
+                     alt="User Image" style="max-width: 200px; max-height: 200px; cursor: pointer;" >
             </p>
-            <input type="file" name="file" alt="file">
+            <input type="file" name="file"  onchange="previewImage(this);">
             <button type="submit">수정</button>
         </form>
 
