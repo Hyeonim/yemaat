@@ -6,7 +6,7 @@
     const messageContent = document.querySelector('#message');
     const btnSend = document.querySelector('.btn-send');
 
-    const sockJS = new SockJS("http://localhost:8080/stomp/chat");
+    const sockJS = new SockJS("http://192.168.10.121:8080/stomp/chat");
     const stomp = Stomp.over(sockJS);
 
     stomp.heartbeat.outgoing = 0; //Rabbit에선 heartbeat 안먹힌다고 함
