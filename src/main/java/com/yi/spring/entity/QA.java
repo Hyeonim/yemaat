@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "QA")
 public class QA {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "qa_no", nullable = false)
     private Integer id;
 
@@ -29,7 +30,7 @@ public class QA {
     @Column(name = "qa_write_time")
     private LocalDateTime qaWriteTime;
 
-    @Column(name = "qa_status", length = 100)
-    private String qaStatus;
+    @Column(name = "qa_status")
+    private boolean qaStatus = false;
 
 }

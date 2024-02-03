@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +37,7 @@ public class UserController {
     @Autowired
     QARepository qaRepository;
 
-//    @GetMapping("my_page")
+    //    @GetMapping("my_page")
 //    public String userPage(Model model){
 //
 //        return "userPage/userPage";
@@ -44,36 +46,60 @@ public class UserController {
     @GetMapping("user_content/{userNo}")
     public String userPageForm(@PathVariable("userNo") int userNo, Model model) {
         model.addAttribute("user", userService.findByUserNo(userNo));
-        return "/userPage/user_content";
+        return "userPage/user_content";
     }
 
     @GetMapping("user_posts/{userNo}")
-    public String userPosts(@PathVariable("userNo") Long userNo, Model model){
+    public String userPosts(@PathVariable("userNo") Long userNo, Model model) {
         List<Reservation> list = reservationRepository.findByUserNo(userNo);
         model.addAttribute("list", list);
-        return "/userPage/user_posts";
+        return "userPage/user_posts";
     }
 
     @GetMapping("user_review/{userNo}")
-    public String userReviews(@PathVariable("userNo") User userNo, Model model){
+    public String userReviews(@PathVariable("userNo") User userNo, Model model) {
         List<Review> list = reviewRepository.findByUserNo(userNo);
         model.addAttribute("review", list);
-        return "/userPage/user_review";
+        return "userPage/user_review";
     }
 
     @GetMapping("user_QA/{userNo}")
-    public String userQA(@PathVariable("userNo") User userNo, Model model){
+    public String userQA(@PathVariable("userNo") User userNo, Model model) {
         List<QA> list = qaRepository.findByUserNo(userNo);
+        model.addAttribute("Num", userNo.getUserNo());
         model.addAttribute("QA", list);
         System.out.println(list);
-        return "/userPage/user_QA";
+        return "userPage/user_QA";
     }
+    @GetMapping("user_qa_form/{userNo}")
+    public String userQAUpdateForm(@PathVariable("userNo") int userNo, Model model){
+        model.addAttribute("QA_userNo",userService.findByUserNo(userNo));
+        return "userPage/user_QA_form";
+    }
+    @PostMapping("user_qa_add")
+    public String userQAUpdate(@RequestParam("userNo") User userNo,
+                               @RequestParam("qa_title") String qaTitle,
+                               @RequestParam("qa_content") String qaContent) {
+        QA qa = new QA();
+        qa.setUserNo(userNo);
+        qa.setQaTitle(qaTitle);
+        qa.setQaContent(qaContent);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = LocalDateTime.now().format(formatter);
+        qa.setQaWriteTime(LocalDateTime.parse(formattedDateTime, formatter));
+        qaRepository.save(qa);
+
+        int user_no = userNo.getUserNo();
+        return "redirect:/user/user_content/" + user_no;
+    }
+
 
     @GetMapping("user_info/{userNo}")
     public String userUpdateForm(@PathVariable("userNo") int userNo, Model model) {
         model.addAttribute("user", userService.findByUserNo(userNo));
-        return "/userPage/user_info";
+        return "userPage/user_info";
     }
+
     @ResponseBody
     @PostMapping("user_update/{userNo}")
     public String userUpdate(@PathVariable("userNo") int userNo, @RequestParam MultipartFile file, User users
@@ -95,7 +121,6 @@ public class UserController {
 
         return "userPage/user_content";
     }
-
 
 
 
@@ -144,7 +169,6 @@ public class UserController {
 //    public String getSpringFileForm() {
 //        return "user/file";
 //    }
-
 
 
 }
