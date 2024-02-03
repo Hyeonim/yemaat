@@ -9,7 +9,6 @@
         <h2>Black List</h2>
 
         <table>
-            <thead>
             <tr>
                 <th>no</th>
                 <th>아이디</th>
@@ -19,9 +18,7 @@
                 <th>사작일</th>
 
             </tr>
-            </thead>
 
-            <tbody>
             <tr th:each="user : ${users}">
                 <td th:text="${user.userNo}">Name</td>
                 <td th:text="${user.userId}">ID</td>
@@ -29,8 +26,16 @@
                 <td th:text="${user.userEmail}">Name</td>
                 <td th:text="${user.userTel}">Name</td>
                 <td th:text="${user.userStartDate}">Name</td>
+                <td>
+                    <form action="managerPage_UBlack" method="get">
+                        <input type="hidden" name="userNo" th:value="${user.userNo}"></input>
+                        <input type="hidden" name="confirm" value="false"></input>
+                        <button type="submit" onclick="confirmBlack()">블랙버튼</button>
+                    </form>
+
+                </td>
             </tr>
-            </tbody>
+
         </table>
 
 

@@ -7,6 +7,7 @@ import com.yi.spring.repository.UserRepository;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -81,20 +83,16 @@ public class ManagerController {
 
         List<User> users = userRepository.findAll();
 
-
         List<User> onlyUsers = new ArrayList<>();
 
         for (User result : users) {
-            if (result.getUserAuth().equals("1") && result.getUserBlock().equals("1") ) {
-
+            if (result.getUserAuth().equals("1") && result.isUserBlock()) {
 
                     onlyUsers.add(result);
                 }
-
         }
 
-
-        System.out.println(onlyUsers);
+//        System.out.println(onlyUsers);
 
         model.addAttribute("users", onlyUsers);
 
@@ -105,7 +103,6 @@ public class ManagerController {
 
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user, Model model) {
-
 
 
         if (file.isEmpty()) {
@@ -161,13 +158,44 @@ public class ManagerController {
     @Transactional
     public String managerDelU(@RequestParam int userNo, Model model) {
 
-        System.out.println("번호~~~~~~~~~~~~~~~~~" + userNo);
 
         userRepository.deleteByUserNo(userNo);
 
 
+
         return "redirect:/manager/managerPage_UList";
     }
+
+
+    @GetMapping("/managerPage_UBlack")
+    public String toggleUserBlock(@RequestParam int userNo, @RequestParam("confirm") boolean confirm) {
+
+
+        System.out.println("번호~~~~~~~~~~~~~~~~~" + userNo);
+        System.out.println("선택~~~~~~~~~~~~~~~~~" + confirm);
+
+
+        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+
+
+
+
+        userOptional.ifPresent(user -> {
+            if (confirm) {
+                user.setUserBlock(false);
+                userRepository.save(user);
+            } else {
+                user.setUserBlock(true);
+                userRepository.save(user);
+            }
+        });
+
+
+
+        return "redirect:/manager/managerPage_UBlackList";
+    }
+
+
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

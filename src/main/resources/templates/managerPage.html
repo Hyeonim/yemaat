@@ -90,6 +90,19 @@
     var userDelButton = document.getElementById('UDel');
 
 
+    function confirmBlack() {
+        let confirmation = confirm("블랙을 푸시겠습니까?");
+        let form = document.getElementById("blackForm");
+        let confirmInput = document.querySelector("input[name=confirm]");
+        confirmInput.value = confirmation;
+
+        // if (confirmation) {
+            form.submit();
+        // } else {
+        //     form.submit();
+        // }
+    }
+
 
     //------------------------------점주-------------------------------
 
