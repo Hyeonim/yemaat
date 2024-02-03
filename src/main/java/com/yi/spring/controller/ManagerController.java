@@ -1,14 +1,17 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.QA;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.DinningRepository;
+import com.yi.spring.repository.QARepository;
 import com.yi.spring.repository.UserRepository;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +39,9 @@ public class ManagerController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    QARepository qaRepository;
 
     @Autowired
     DinningRepository dinningRepository;
@@ -93,10 +99,10 @@ public class ManagerController {
                 onlyUsers.add(result);
             }
 
+
         }
 
-
-        System.out.println(onlyUsers);
+//        System.out.println(onlyUsers);
 
         model.addAttribute("users", onlyUsers);
 
@@ -162,7 +168,6 @@ public class ManagerController {
     @Transactional
     public String managerDelU(@RequestParam int userNo, Model model) {
 
-        System.out.println("번호~~~~~~~~~~~~~~~~~" + userNo);
 
         userRepository.deleteByUserNo(userNo);
 
@@ -193,6 +198,36 @@ public class ManagerController {
 
         return "redirect:/manager/managerPage_UBlackList";
     }
+
+
+//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ문의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+
+    @GetMapping("managerPage_QA")
+    public String ManagerQA(Model model) {
+
+       List<QA> list = qaRepository.findAll();
+
+        System.out.println(list);
+
+        model.addAttribute("page", "managerPage/managerPage_QA");
+
+        model.addAttribute("qa",list);
+        return "managerPage";
+
+    }
+
+    @GetMapping("managerPage_QAAnswer")
+    public String ManagerQAAnswer(@RequestParam int id, Model model) {
+
+        System.out.println("!!~~@~~@~@~@~@:"+id);
+
+        model.addAttribute("page", "managerPage/managerPage_QA");
+
+        return "managerPage";
+
+    }
+
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -356,3 +391,5 @@ public class ManagerController {
     }
 
 }
+
+

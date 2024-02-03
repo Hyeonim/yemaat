@@ -19,6 +19,6 @@ public interface QARepository extends JpaRepository<QA, Integer> {
 
     List<QA> findByUserNo(User user);
 
-
+    List<QA> findAll();
 
 }

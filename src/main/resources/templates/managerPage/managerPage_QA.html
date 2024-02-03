@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<div th:fragment="managerContent">
+    <div id="right">
+
+        <h2>문의 페이지 </h2>
+        <table>
+            <tr>
+                <td>qaNo</td>
+                <td>title</td>
+                <td>id</td>
+                <td>content</td>
+                <td>writerTIme</td>
+                <td>status</td>
+
+            </tr>
+
+            <tr th:each="qa : ${qa}">
+                <td th:text="${qa.id}"></td>
+                <td th:text="${qa.qaTitle}">ID</td>
+                <td th:text="${qa.userNo.userId}">Name</td>
+                <td th:text="${qa.qaWriteTime}">Name</td>
+                <td th:text="${qa.qaStatus}">Name</td>
+                <td>
+                    <button th:attr="onclick='redirectToQA(\'' + ${qa.id} + '\')'">문의 답변</button>
+
+<!--                    <button>문의 답변</button>-->
+                </td>
+            </tr>
+
+
+
+        </table>
+    </div>
+</div>
+
+
+</html>
