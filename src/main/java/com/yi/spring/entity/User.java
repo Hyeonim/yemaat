@@ -45,8 +45,8 @@ public class User {
     @Column(name = "user_img" ,length = 5000)
     private byte[] userImg;
 
-    @Column(name = "user_block", length = 50)
-    private String userBlock = "0";
+    @Column(name = "user_block")
+    private boolean userBlock = false;
 
 
     @OneToMany(mappedBy = "userNo")
