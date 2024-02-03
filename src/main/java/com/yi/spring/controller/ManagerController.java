@@ -33,6 +33,7 @@ public class ManagerController {
     @Autowired
     UserService userService;
 
+
     @Autowired
     UserRepository userRepository;
 
@@ -89,8 +90,8 @@ public class ManagerController {
             if (result.getUserAuth().equals("1") && result.isUserBlock()) {
 
 
-                    onlyUsers.add(result);
-                }
+                onlyUsers.add(result);
+            }
 
         }
 
@@ -190,11 +191,8 @@ public class ManagerController {
         });
 
 
-
         return "redirect:/manager/managerPage_UBlackList";
     }
-
-
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -323,8 +321,38 @@ public class ManagerController {
     @Transactional
     public String jumDelete(@RequestParam int userNo, Model model) {
 
+
+        System.out.println("123123123123123123123:" + userNo);
+
         userRepository.deleteByUserNo(userNo);
+
 
         return "redirect:/manager/managerPage_JInfo";
     }
+
+//    @PostMapping("managerPage_JStoreDel")
+//    @Transactional
+//    public String jumStoreDelete( @RequestParam int userNo, @RequestParam int restNo, Model model) {
+//
+//
+//        System.out.println("12312312312312312userNo:" + userNo);
+//        System.out.println("123123123123123123123:" + restNo);
+//
+//        userRepository.deleteByUserNo(userNo);
+////        dinningRepository.deleteDinningByRestNo(restNo);
+//
+//        return "redirect:/manager/managerPage_JInfo";
+//    }
+
+    @GetMapping("managerPage_JrestInfo")
+    public String restInfo(Model model){
+
+        List<Dinning> dinningList = dinningRepository.findAll();
+
+        model.addAttribute("dinningList", dinningList);
+        model.addAttribute("page", "managerPage/managerPage_JrestInfo");
+
+        return "managerPage";
+    }
+
 }

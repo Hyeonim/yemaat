@@ -9,12 +9,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpecificationExecutor<Dinning> {
 
 
     List<Dinning> findAll();
+
+    Optional<Dinning> deleteDinningByRestNo(int restNo);
 
     @Query("SELECT d FROM Dinning d WHERE d.restName LIKE %:keyword% and d.restMenu")
     List<Dinning> findByRestNameContaining(@Param("keyword") String keyword);
