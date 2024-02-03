@@ -37,7 +37,6 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        System.out.println( "developServer:" + developServer );
         if (!"true".equals(developServer))
             return;
 
@@ -46,7 +45,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
         //registry.enableSimpleBroker("/sub");
         registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue")
-                .setRelayHost(host)
+//                .setRelayHost(host)
 //                .setRelayPort(port)
 //                .setClientLogin(username)
 //                .setClientPasscode(password)
