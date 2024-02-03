@@ -85,11 +85,11 @@ public class ManagerController {
         List<User> onlyUsers = new ArrayList<>();
 
         for (User result : users) {
-            if (result.getUserAuth().equals("1") && result.getUserBlock().equals("1") ) {
+            if (result.getUserAuth().equals("1") && result.isUserBlock()) {
 
 
-                    onlyUsers.add(result);
-                }
+                onlyUsers.add(result);
+            }
 
         }
 
@@ -105,7 +105,6 @@ public class ManagerController {
 
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user, Model model) {
-
 
 
         if (file.isEmpty()) {
@@ -209,13 +208,8 @@ public class ManagerController {
     }
 
 
-
-
-
-
-
     @PostMapping("managerPage_JAdd")
-    public String jumAdd(@RequestParam MultipartFile file, User user,Model model) {
+    public String jumAdd(@RequestParam MultipartFile file, User user, Model model) {
 
         if (file.isEmpty()) {
             userRepository.save(user);
@@ -243,18 +237,66 @@ public class ManagerController {
 //        return "managerPage_JDetail";
 //    }
 
-    @GetMapping("managerPage_JDetail")
+    @GetMapping("/managerPage_JDetail")
     public String JumDetail(Model model, @RequestParam int userNo) {
+        // 해당 userNo에 해당하는 사용자 정보 가져오기
+        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
 
-        System.out.println(userNo);
-        Optional<User> user = userRepository.findByUserNo(userNo);
-
-        System.out.println(user);
+        // 사용자가 소유한 가게들 가져오기
+        List<Dinning> dinningList = new ArrayList<>();
+        if ("2".equals(user.getUserAuth())) {
+            dinningList.addAll(user.getDiningRests());
+        }
 
         model.addAttribute("user", user);
+        model.addAttribute("dinningList", dinningList); // 가게 목록도 모델에 추가
 
         model.addAttribute("page", "managerPage/managerPage_JDetail");
 
         return "managerPage";
+    }
+
+//    @PostMapping("/managerPage_JDetail")
+//    public String
+
+
+    @PostMapping("managerPage_JUpdate")
+    public String jumUpdate(
+            @RequestParam MultipartFile file,
+            @RequestParam int userNo,
+            @RequestParam String userName,
+            @RequestParam String userId,
+            @RequestParam String userEmail,
+            @RequestParam String userPassword,
+            @RequestParam String userTel,
+            @RequestParam String userAuth,
+            User users) throws IOException {
+
+        userRepository.save(users);
+
+        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+        userOptional.ifPresent(user -> {
+            byte[] userImg = new byte[0];
+            try {
+                userImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            user.setUserImg(userImg);
+            userRepository.save(user);
+        });
+
+        return "redirect:/manager/managerPage_JInfo";
+    }
+
+
+    @PostMapping("managerPage_JDel")
+    @Transactional
+    public String jumDelete(@RequestParam int userNo, Model model) {
+
+        userRepository.deleteByUserNo(userNo);
+
+        return "redirect:/manager/managerPage_JInfo";
     }
 }
