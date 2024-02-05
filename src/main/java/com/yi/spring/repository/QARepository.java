@@ -21,4 +21,5 @@ public interface QARepository extends JpaRepository<QA, Integer> {
 
     List<QA> findAll();
 
+
 }

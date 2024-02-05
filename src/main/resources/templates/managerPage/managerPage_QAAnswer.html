@@ -6,12 +6,38 @@
 <div th:fragment="managerContent">
     <div id="right">
 
-        <h2>문의 답변 </h2>
+        <div style="border: solid 1px black">
+            <h2>문의 답변 </h2>
 
-        <form action="/manager/managerPage_QAAnswer" method="post" enctype="multipart/form-data">
+            <label>
+                번호 : <p th:text="${qa.get().id}" readonly></p>
+            </label>
+            <br>
+            <label>
+                제목 : <p th:text="${qa.get().qaTitle}"></p>
+            </label>
+            <br>
+            <label>
+                유저이름 : <p th:text="${qa.get().userNo.userName}"></p>
+            </label>
+            <br>
+            <label>
+                내용 : <p th:text="${qa.get().qaContent}"></p>
+            </label>
 
-            <input type="submit" value="등록">
-        </form>
+        </div>
+
+        <div>
+            <h2>답변</h2>
+
+            <form action="managerPage_QARequest" method="post">
+                <input type="hidden" name="id" th:value="${qa.get().id}" />
+                <p> 제목 : <input type="text" name="title" /></p>
+                <p> 내용 : <input type="text" name="content" /></p>
+                <input type="submit" value="Submit" />
+            </form>
+
+        </div>
 
 
     </div>

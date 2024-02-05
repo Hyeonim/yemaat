@@ -2,9 +2,11 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.QA;
+import com.yi.spring.entity.QaAnswer;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.QARepository;
+import com.yi.spring.repository.QaAnswerRepository;
 import com.yi.spring.repository.UserRepository;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
@@ -42,6 +44,9 @@ public class ManagerController {
 
     @Autowired
     QARepository qaRepository;
+
+    @Autowired
+    QaAnswerRepository qaAnswerRepository;
 
     @Autowired
     DinningRepository dinningRepository;
@@ -158,9 +163,7 @@ public class ManagerController {
             user.setUserImg(userImg);
             userRepository.save(user);
         });
-
         return "redirect:/manager/managerPage_UList";
-
     }
 
 
@@ -168,17 +171,14 @@ public class ManagerController {
     @Transactional
     public String managerDelU(@RequestParam int userNo, Model model) {
 
-
         userRepository.deleteByUserNo(userNo);
 
 
         return "redirect:/manager/managerPage_UList";
     }
 
-
     @GetMapping("/managerPage_UBlack")
     public String toggleUserBlock(@RequestParam int userNo, @RequestParam("confirm") boolean confirm) {
-
 
         System.out.println("번호~~~~~~~~~~~~~~~~~" + userNo);
         System.out.println("선택~~~~~~~~~~~~~~~~~" + confirm);
@@ -195,24 +195,22 @@ public class ManagerController {
             }
         });
 
-
         return "redirect:/manager/managerPage_UBlackList";
     }
 
 
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ문의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-
     @GetMapping("managerPage_QA")
     public String ManagerQA(Model model) {
 
-       List<QA> list = qaRepository.findAll();
+        List<QA> list = qaRepository.findAll();
 
         System.out.println(list);
 
         model.addAttribute("page", "managerPage/managerPage_QA");
 
-        model.addAttribute("qa",list);
+        model.addAttribute("qa", list);
         return "managerPage";
 
     }
@@ -220,14 +218,40 @@ public class ManagerController {
     @GetMapping("managerPage_QAAnswer")
     public String ManagerQAAnswer(@RequestParam int id, Model model) {
 
-        System.out.println("!!~~@~~@~@~@~@:"+id);
+        Optional<QA> qa = qaRepository.findById(id);
 
-        model.addAttribute("page", "managerPage/managerPage_QA");
+        model.addAttribute("qa", qa);
+
+        model.addAttribute("page", "managerPage/managerPage_QAAnswer");
 
         return "managerPage";
 
     }
 
+    @PostMapping("managerPage_QARequest")
+    public String ManagerQARequest(@RequestParam int id,
+                                   @RequestParam String title,
+                                   @RequestParam String content,
+                                   QaAnswer qaAnswer,
+                                   Model model) {
+
+        Optional<QA> guestQA = qaRepository.findById(id);
+
+        qaAnswer.setAnswerTitle(title);
+        qaAnswer.setAnswerContent(content);
+        qaAnswer.setQaNo(id);
+
+        qaAnswerRepository.save(qaAnswer);
+
+        guestQA.ifPresent(qa -> {
+            if (qaAnswer.getQaNo() == guestQA.get().getId()) {
+              qa.setQaStatus(true);
+              qaRepository.save(qa);
+            }
+        });
+
+        return "redirect:/manager/managerPage_QA";
+    }
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -380,7 +404,7 @@ public class ManagerController {
 //    }
 
     @GetMapping("managerPage_JrestInfo")
-    public String restInfo(Model model){
+    public String restInfo(Model model) {
 
         List<Dinning> dinningList = dinningRepository.findAll();
 

@@ -2,11 +2,14 @@ package com.yi.spring.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "qa_answer")
 public class QaAnswer {
     @Id
@@ -22,5 +25,9 @@ public class QaAnswer {
 
     @Column(name = "qa_no")
     private Integer qaNo;
+
+    public QaAnswer(){
+
+    }
 
 }
