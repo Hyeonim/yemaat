@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/owner/viewRest}">
 <div class="menu-container" th:fragment="menuContent" style="border:1px solid black">
-    <form id="updateMenuForm" th:action="@{/owner/{restNo}/viewRest/updateMenu/{menuNo}(restNo=${menu.getRestNo().getRestNo()},menuNo=${menuNo})}" method="post">
+    <form id="updateMenuForm" th:action="@{/owner/viewRest/updateMenu/{menuNo}(menuNo=${menuNo})}" method="post">
         <label>메뉴 이름 : </label><input type="text" name="menuName" th:value="${menu.getMenuName()}"><br/>
         <label>메뉴 가격 : </label><input type="number" name="menuPrice" th:value="${menu.getMenuPrice()}"><br/>
         <input type="hidden" name="restNo" th:value="${menu.getRestNo().getRestNo()}"><br/>

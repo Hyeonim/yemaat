@@ -1,6 +1,7 @@
 package com.yi.spring.service;
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.User;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface DiningRestService {
     Dinning createRestaurant(Dinning dinning);
     Dinning updateRestaurant(Dinning dinning);
     void deleteRestaurant(int restNo);
+
+    Dinning getByUserNo(User userNo);
 }

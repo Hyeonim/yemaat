@@ -1,6 +1,7 @@
 package com.yi.spring.service;
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.User;
 import com.yi.spring.repository.DiningRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,5 +41,11 @@ public class DiningRestServiceImpl implements DiningRestService{
     @Override
     public void deleteRestaurant(int restNo) {
         diningRestRepository.deleteById(restNo);
+    }
+
+    @Override
+    public Dinning getByUserNo(User userNo) {
+        Optional<Dinning> optionalDiningRest = diningRestRepository.findByUserNo(userNo);
+        return optionalDiningRest.orElse(null);
     }
 }
