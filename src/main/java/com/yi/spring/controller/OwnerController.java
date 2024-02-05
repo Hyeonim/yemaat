@@ -1,11 +1,9 @@
 package com.yi.spring.controller;
 
-import com.yi.spring.entity.Dinning;
-import com.yi.spring.entity.Menu;
-import com.yi.spring.entity.Reservation;
-import com.yi.spring.entity.User;
+import com.yi.spring.entity.*;
 import com.yi.spring.repository.ReservationRepository;
 import com.yi.spring.service.DiningRestService;
+import com.yi.spring.service.EventService;
 import com.yi.spring.service.MenuService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,8 @@ public class OwnerController {
     private MenuService menuService;
     @Autowired
     private ReservationRepository reservationRepository;
+    @Autowired
+    private EventService eventService;
 
     @GetMapping("home")
     public String home(Model model) {
@@ -205,6 +205,20 @@ public class OwnerController {
     @GetMapping("userDelete")
     public void userDelete(User user) {
         // 회원 탈퇴 기능
+    }
+
+    // ---------------------------- 이벤트 관련 --------------------------
+    @GetMapping("eventList")
+    public String event(Model model) {
+        User user = userService.findByUserNo(49).get();
+        Dinning dinning = diningRestService.getByUserNo(user);
+        model.addAttribute("dinning", dinning);
+
+        List<Event> eventList = eventService.findByRestNo(dinning);
+        model.addAttribute("eventList", eventList);
+
+        return "/event/eventList";
+
     }
 
 }
