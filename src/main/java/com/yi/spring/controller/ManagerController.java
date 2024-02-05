@@ -60,20 +60,6 @@ public class ManagerController {
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ유저꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-    @GetMapping("/managerPage_UDetail")
-    public String managerDetailU(Model model, @RequestParam int userNo) {
-
-
-        Optional<User> user = userRepository.findByUserNo(userNo);
-//        System.out.println(user);
-
-        model.addAttribute("user", user);
-        model.addAttribute("page", "managerPage/managerPage_UDetail");
-
-        return "managerPage";
-    }
-
-
     @GetMapping("/managerPage_UList")
     public String managerListU(Model model) {
 
@@ -84,9 +70,10 @@ public class ManagerController {
                 onlyUsers.add(result);
             }
         }
-        model.addAttribute("users", onlyUsers);
+        model.addAttribute("users",onlyUsers);
 
-        model.addAttribute("page", "managerPage/managerPage_UList");
+
+        model.addAttribute( "page", "managerPage/managerPage_UList" );
         return "managerPage";
     }
 
