@@ -12,13 +12,12 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    Optional<User> findByUserNo(Integer userNo);
+    Optional<User> findByUserNo(int userNo);
 
     long deleteByUserNo(Integer userNo);
 
     public User updateMenu(User user);
 
 
-
-
+    User updateUser(User user);
 }

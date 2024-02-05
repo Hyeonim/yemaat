@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html
-        xmlns:th="http://www.thymeleaf.org/"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
 
 
 <div th:fragment="ownerSide">
     <div class="w3-sidebar w3-bar-block">
         <h3 class="w3-bar-item">식당 정보 관리</h3>
-        <a href="/owner/addRest" class="w3-bar-item w3-button">식당 등록</a>
-        <a href="/owner/" class="w3-bar-item w3-button">식당 정보 확인</a>
+        <a th:href="@{/owner/addRest}" class="w3-bar-item w3-button">식당 등록</a>
+        <a th:href="@{/owner/viewRest}" class="w3-bar-item w3-button">식당 정보 확인</a>
         <a href="#" class="w3-bar-item w3-button">식당 폐점 신청</a>
         <h3 class="w3-bar-item">예약 관리</h3>
-        <a href="#" class="w3-bar-item w3-button">예약 목록</a>
+        <a th:href="@{/owner/reservation}" class="w3-bar-item w3-button">예약 목록</a>
         <a href="#" class="w3-bar-item w3-button">테이블 관리</a>
         <h3 class="w3-bar-item">이벤트 관리</h3>
         <a href="#" class="w3-bar-item w3-button">이벤트 목록</a>
         <a href="#" class="w3-bar-item w3-button">이벤트 추가</a>
         <h3 class="w3-bar-item">개인 정보 관리</h3>
-        <a href="#" class="w3-bar-item w3-button">개인 정보 확인</a>
+        <a th:href="@{/owner/userInfo}" class="w3-bar-item w3-button">개인 정보 확인</a>
         <a href="#" class="w3-bar-item w3-button">회원 탈퇴</a>
     </div>
 </div>

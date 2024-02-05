@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -24,7 +23,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUserNo(Integer userNo) {
+    public Optional<User> findByUserNo(int userNo) {
         return userRepository.findByUserNo(userNo);
     }
 
@@ -42,6 +41,11 @@ public class UserServiceImpl implements UserService {
 
 
         return userRepository.save(existingMenu);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/owner/*")
+@RequestMapping("/dinning/*")
 public class DiningRestController {
     @Autowired
     private DiningRestService diningRestService;
