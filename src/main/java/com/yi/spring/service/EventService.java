@@ -8,4 +8,12 @@ import java.util.List;
 public interface EventService {
 
     List<Event> findByRestNo(Dinning restNo);
+
+    void createEvent(Event event);
+
+    Event findByEventNo(int eventNo);
+
+    void updateEvent(Event event);
+
+    void deleteEvent(Event event);
 }

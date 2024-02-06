@@ -6,17 +6,17 @@
 
 <th:block th:fragment="content">
     <h1><[[${dinning.getRestName()}]]> 이벤트 목록</h1>
-    <table border="1">
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-        </tr>
+    <ul>
+        <li>
+            <span>번호</span>
+            <span>제목</span>
+        </li>
         <th:block th:each="event : ${eventList}">
-            <tr>
-                <td th:text="${event.getEventNo()}"></td>
-                <td th:text="${event.getEventTitle()}"></td>
-            </tr>
+            <li>
+                <span>[[${event.getEventNo()}]]</span>
+                <span><a th:href="@{/owner/viewEvent/{eventNo}(eventNo=${event.getEventNo()})}">[[${event.getEventTitle()}]]</a></span>
+            </li>
         </th:block>
-    </table>
+    </ul>
 </th:block>
 </html>

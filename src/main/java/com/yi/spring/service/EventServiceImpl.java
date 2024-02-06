@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService{
@@ -16,5 +17,26 @@ public class EventServiceImpl implements EventService{
     @Override
     public List<Event> findByRestNo(Dinning restNo) {
         return eventRepository.findByRestNo(restNo);
+    }
+
+    @Override
+    public void createEvent(Event event) {
+        eventRepository.save(event);
+    }
+
+    @Override
+    public Event findByEventNo(int eventNo) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventNo);
+        return optionalEvent.orElse(null);
+    }
+
+    @Override
+    public void updateEvent(Event event) {
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void deleteEvent(Event event) {
+        eventRepository.delete(event);
     }
 }
