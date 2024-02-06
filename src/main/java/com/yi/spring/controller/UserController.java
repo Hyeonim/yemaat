@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-
 @Controller
 @RequestMapping("user/")
 public class UserController {
@@ -37,18 +36,22 @@ public class UserController {
     @Autowired
     QARepository qaRepository;
 
-    //    @GetMapping("my_page")
-//    public String userPage(Model model){
-//
-//        return "userPage/userPage";
-//    }
+    // 사용자 페이지 컨트롤러 클래스
 
-    @GetMapping("user_content/{userNo}")
+    // 유저 컨텐츠 페이지로 이동
+    @GetMapping("userPage/{userNo}")
     public String userPageForm(@PathVariable("userNo") int userNo, Model model) {
         model.addAttribute("user", userService.findByUserNo(userNo));
-        return "userPage/user_content";
+        return "userPage/user_main";
     }
 
+//    @GetMapping("userPage_root/{userNo}")
+//    public String GoRoot(@PathVariable("userNo") int userNo, Model model) {
+//        model.addAttribute("user", userService.findByUserNo(userNo));
+//        return "userPage/user_main";
+//    }
+
+    // 유저가 작성한 포스트 목록 페이지로 이동
     @GetMapping("user_posts/{userNo}")
     public String userPosts(@PathVariable("userNo") Long userNo, Model model) {
         List<Reservation> list = reservationRepository.findByUserNo(userNo);
@@ -56,6 +59,7 @@ public class UserController {
         return "userPage/user_posts";
     }
 
+    // 유저가 작성한 리뷰 목록 페이지로 이동
     @GetMapping("user_review/{userNo}")
     public String userReviews(@PathVariable("userNo") User userNo, Model model) {
         List<Review> list = reviewRepository.findByUserNo(userNo);
@@ -63,6 +67,7 @@ public class UserController {
         return "userPage/user_review";
     }
 
+    // 유저가 작성한 Q&A 목록 페이지로 이동
     @GetMapping("user_QA/{userNo}")
     public String userQA(@PathVariable("userNo") User userNo, Model model) {
         List<QA> list = qaRepository.findByUserNo(userNo);
@@ -71,11 +76,15 @@ public class UserController {
         System.out.println(list);
         return "userPage/user_QA";
     }
+
+    // 유저가 Q&A를 추가하는 페이지로 이동
     @GetMapping("user_qa_form/{userNo}")
     public String userQAUpdateForm(@PathVariable("userNo") int userNo, Model model){
         model.addAttribute("QA_userNo",userService.findByUserNo(userNo));
         return "userPage/user_QA_form";
     }
+
+    // 유저가 Q&A를 추가하는 POST 요청 처리
     @PostMapping("user_qa_add")
     public String userQAUpdate(@RequestParam("userNo") User userNo,
                                @RequestParam("qa_title") String qaTitle,
@@ -93,13 +102,14 @@ public class UserController {
         return "redirect:/user/user_content/" + user_no;
     }
 
-
+    // 유저 정보 페이지로 이동
     @GetMapping("user_info/{userNo}")
     public String userUpdateForm(@PathVariable("userNo") int userNo, Model model) {
         model.addAttribute("user", userService.findByUserNo(userNo));
         return "userPage/user_info";
     }
 
+    // 유저 정보 업데이트를 처리하는 POST 요청 처리
     @ResponseBody
     @PostMapping("user_update/{userNo}")
     public String userUpdate(@PathVariable("userNo") int userNo, @RequestParam MultipartFile file, User users
@@ -122,8 +132,7 @@ public class UserController {
         return "userPage/user_content";
     }
 
-
-
+    // 유저 목록 페이지로 이동(관리용)
     @GetMapping("list_user")
     public String userList(Model model) {
         List<User> list = userService.getAllUsers();
@@ -131,12 +140,13 @@ public class UserController {
         return "user/user_list";
     }
 
-
+    // 유저 추가 페이지로 이동
     @GetMapping("add_user_form")
     public String userAddForm() {
         return "user/user_add_form";
     }
 
+    // 유저 추가를 처리하는 POST 요청 처리
     @ResponseBody
     @PostMapping("add_user")
     public String userAdd(@RequestParam MultipartFile file, User user) {
@@ -157,18 +167,13 @@ public class UserController {
         return "redirect:/user/list_user";
     }
 
-
+    // 유저 삭제를 처리하는 GET 요청 처리
     @Transactional
     @GetMapping("delete_user/{userNo}")
     public String userDelete(@PathVariable("userNo") int userNo) {
         userService.deleteByUserNo(userNo);
         return "redirect:/user/list_user";
     }
-
-//    @GetMapping("/file-spring")
-//    public String getSpringFileForm() {
-//        return "user/file";
-//    }
 
 
 }

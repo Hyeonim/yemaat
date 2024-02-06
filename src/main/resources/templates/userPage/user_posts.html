@@ -1,13 +1,12 @@
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!--      layout:decorate="~{user_content}">-->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{userPage/Layout_userPage}">
 
 <th:block th:fragment="content">
 
 <h1>My 예약 현황</h1>
-<div>
+
     <table>
         <thead>
         <tr>
@@ -28,6 +27,6 @@
         </tr>
         </tbody>
     </table>
-</div>
+
 </th:block>
 </html>
