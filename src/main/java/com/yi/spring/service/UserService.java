@@ -18,6 +18,5 @@ public interface UserService {
 
     public User updateMenu(User user);
 
-
     User updateUser(User user);
 }

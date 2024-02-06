@@ -12,6 +12,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -20,6 +21,7 @@ public interface QARepository extends JpaRepository<QA, Integer> {
     List<QA> findByUserNo(User user);
 
     List<QA> findAll();
+    Page<QA> findAll(Pageable pageable);
 
 
 }
