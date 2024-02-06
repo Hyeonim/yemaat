@@ -47,6 +47,24 @@
                 </div>
        </span>
 
+        <div class="slideshow">
+             <div class="background">
+                    <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList1})}"></div>
+             </div>
+        </div>
+
+        <div class="slideshow">
+            <div class="background">
+                <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList2})}"></div>
+            </div>
+        </div>
+
+        <div class="slideshow">
+            <div class="background">
+                <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList3})}"></div>
+            </div>
+        </div>
+
 
 
 
@@ -60,18 +78,6 @@
                 <button id="next_button">다음</button>
             </div>
         </div>
-
-
-<!--        <div id="subject1">-->
-<!--            제목 :-->
-<!--            <div id="wrap">-->
-<!--                <button id="previous_button">이전</button>-->
-<!--                <div th:each="dinning : ${dinning}">-->
-<!--                    <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>-->
-<!--                </div>-->
-<!--                <button id="next_button">다음</button>-->
-<!--            </div>-->
-<!--        </div>-->
 
 
     </div>

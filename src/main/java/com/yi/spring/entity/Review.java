@@ -35,7 +35,8 @@ public class Review {
     @Column(name = "rev_write_time", length = 100)
     private String revWriteTime;
 
-    @Column(name = "rev_img")
+    @Lob
+    @Column(name = "rev_img" ,length = 105000)
     private byte[] revImg;
 
     @Column(name = "rev_like", length = 100)
@@ -44,7 +45,14 @@ public class Review {
 
     public double getRevScore(){
 
-        return revScore;
+        return revScore / 10.0;
+    }
+
+    public String getBase64Image() {
+        if (revImg != null && revImg.length > 0) {
+            return Base64.getEncoder().encodeToString(revImg);
+        }
+        return "";
     }
 
 }

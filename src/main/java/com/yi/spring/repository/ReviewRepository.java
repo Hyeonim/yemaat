@@ -3,6 +3,7 @@ package com.yi.spring.repository;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Review;
 import com.yi.spring.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -13,18 +14,21 @@ import java.util.List;
 
 
 @Repository
-public interface ReviewRepository extends PagingAndSortingRepository<Review, Integer> {
+public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findByRestNo(Dinning dinning);
     List<Review> findByUserNo(User userNo);
 
 
 
-    @Override
-    Page<Review> findAll(Pageable pageable);
 
     @Query("select r from Review r inner join r.userNo.reviews reviews where reviews.userNo = ?1")
     List<Review> findByUserNo_Reviews_UserNo(int userNo);
+
+
+    @Query(value = "SELECT * FROM review WHERE rev_img IS NOT NULL ORDER BY RAND() LIMIT 1", nativeQuery = true)
+//    @Query("SELECT r FROM Review r where not ISNULL(r.revImg) ORDER BY RAND() LIMIT 1")
+    Review getRandomOne();
 
 
 //    @Query("SELECT m FROM Review m WHERE m.name IN :names OR m.address IN :addresses")

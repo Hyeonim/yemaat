@@ -37,33 +37,72 @@ public class MenuTextMining {
             }
         }
 
+
+        Map.Entry<String, Integer>[] entryArray = wordFrequency.entrySet().toArray(new Map.Entry[0]);
         class _TempDto {
             public String menuName;
             public String frequency = "";
+            public int mapIndex = -1;
         }
         List< _TempDto > freqList = new ArrayList<>();
-
-
         for ( Menu item : list )
         {
             for (char c : item.getMenuName().toCharArray()) {
                 String character = String.valueOf(c);
-                int frequency = wordFrequency.getOrDefault(character, 0);
+//                int frequency = wordFrequency.getOrDefault(character, 0);
+                int frequency = 0;
+                int index = -1;
+                for (int i = 0; i < entryArray.length; i++) {
+                    if (entryArray[i].getKey().equals(character)) {
+                        frequency = entryArray[i].getValue();
+                        index = i;
+                        break; // 찾았으면 루프 종료
+                    }
+                }
 
-                if (0 < frequency) {
+
+                if (0 < frequency && 0 <= index) {
                     _TempDto itemData = new _TempDto();
                     itemData.menuName = item.getMenuName();
                     itemData.frequency += character + ":" + frequency + " ";
+                    itemData.mapIndex = index;
                     freqList.add( itemData );
                 }
             }
         }
+
+        Map<String, List<String>> menuMap = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : wordFrequency.entrySet()) {
+
+            List<String> elem = new ArrayList<>();
+
+            for ( Menu item : list )
+            {
+                for (char c : item.getMenuName().toCharArray()) {
+                    String character = String.valueOf(c);
+                    if ( character.equals( entry.getKey() ))
+                    {
+                        elem.add( item.getMenuName() );
+                        break;
+                    }
+                }
+            }
+
+            if ( !elem.isEmpty() )
+                menuMap.put( entry.getKey(), elem );
+        }
+
+
 
 
 
 
         model.addAttribute( "list", wordFrequency );
         model.addAttribute( "freq", freqList );
+        model.addAttribute( "menuMap", menuMap );
+
+
+
         return "/miningTest";
     }
 }

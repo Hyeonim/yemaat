@@ -59,14 +59,7 @@
 
 
                 <div id="review">
-
-                    <div id="reviewT" th:each="review : ${list}">
-
-                        <h2 th:text="'유저 이름 : ' + ${review.userNo.userName}"></h2><br>
-                        <p th:text="'평점 : ' +${review.revScore}"></p><br>
-                        <p th:text="'내용 : ' + ${review.revContent}"></p><br>
-                    </div>
-
+                    <div th:replace="~{/include/detail_review_template::detailReviewTemplate}" th:with="revList=${revList1}"></div>
                 </div>
 
             </div>

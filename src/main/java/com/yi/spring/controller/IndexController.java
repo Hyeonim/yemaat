@@ -3,6 +3,7 @@ package com.yi.spring.controller;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Review;
 import com.yi.spring.repository.DinningRepository;
+import com.yi.spring.repository.ReviewRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class IndexController {
 
     @Autowired
     DinningRepository dinningRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
 
     @GetMapping("/home")
@@ -37,6 +40,19 @@ public class IndexController {
             }
         }
         model.addAttribute("dinning", imgList);
+
+
+
+
+        List<Review> reviewList = new ArrayList<>();
+        for ( int i = 0; i < 15; i++ )
+            reviewList.add( reviewRepository.getRandomOne() );
+        reviewList.addAll(reviewList.subList(0, 5));
+
+        model.addAttribute("revList1", reviewList.subList(0, 10) );
+        model.addAttribute("revList2", reviewList.subList(5, 15) );
+        model.addAttribute("revList3", reviewList.subList(10, 20) );
+
 
 
         return "main";

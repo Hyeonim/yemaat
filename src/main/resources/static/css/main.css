@@ -1,5 +1,5 @@
 * {
-    border: solid 1px blue;
+    /*border: solid 1px blue;*/
 }
 
 #top{
@@ -146,6 +146,32 @@
         opacity: 1
     }
 }
+
+/*home (인덱스)*/
+.reviewT img{
+    width:238px;
+    height:238px;
+}
+
+.slideshow {
+    width: 1190px;
+    margin: 0 auto;
+    overflow-x: hidden;
+}
+.slideshow .background {
+    display: flex;
+    /*transition: transform 0.5s ease;*/
+}
+.slideshow div.reviewT {
+    display: inline-block;
+}
+.slideshow span, .slideshow p{
+    display: none;
+}
+.slideshow p:nth-child(4){
+    display: block;
+}
+
 
 
 
