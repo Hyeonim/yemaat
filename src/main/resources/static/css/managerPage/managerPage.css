@@ -1,0 +1,43 @@
+/** {*/
+/*    border: solid 1px black;*/
+/*}*/
+
+#top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#searchBar {
+    height: 40px;
+    margin-left: 30%;
+    width: 500px;
+    border-radius: 10px;
+}
+
+.f {
+    position: relative;
+    transform: translateY(0%);
+}
+
+#main {
+
+    width: 100%;
+}
+
+#left {
+    width: 25%;
+    height: auto;
+    float: left;
+    box-sizing: border-box;
+
+}
+
+#right {
+    width: 75%;
+    height: auto;
+    float: right;
+    box-sizing: border-box;
+
+}
