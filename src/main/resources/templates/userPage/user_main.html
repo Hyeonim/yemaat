@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{userPage/Layout_userPage}">
+
+<th:block th:fragment="content">
+
+  <div>
+    <p th:text="${user.get().getUserName()} + '님 반가워요'"></p><br>
+  </div>
+  <div>
+    <a th:href="@{/user/user_posts/{userNo}(userNo=${user.get().userNo})}">My 예약</a><br>
+    <a th:href="@{/user/user_review/{userNo}(userNo=${user.get().userNo})}">My 리뷰</a><br>
+    <a th:href="@{/user/user_QA/{userNo}(userNo=${user.get().userNo})}">My 문의</a><br>
+    <a th:href="@{/user/user_info/{userNo}(userNo=${user.get().userNo})}">My 정보 관리</a><br>
+  </div>
+
+</th:block>
+</html>

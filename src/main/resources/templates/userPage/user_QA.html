@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{userPage/Layout_userPage}">
+
+<th:block th:fragment="content">
 
 <h1>My 문의</h1>
 <a th:href="@{/user/user_qa_form/{userNo}(userNo=${Num})}">문의 추가</a>
 
-<div>
     <table>
         <thead>
         <tr>
-            <th>회원이름</th>
+            <th>문의 번호</th>
             <th>제목</th>
             <th>내용</th>
             <th>문의 날짜</th>
@@ -21,8 +19,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="QAs : ${QA}">
-            <td th:text="${QAs.getUserNo().userName}"></td>
+        <tr th:each="QAs, iterStat : ${QA}">
+            <td th:text="${iterStat.index + 1}"></td>
             <td th:text="${QAs.getQaTitle()}"></td>
             <td th:text="${QAs.getQaContent()}"></td>
             <td th:text="${QAs.getQaWriteTime()}"></td>
@@ -33,10 +31,6 @@
         </tr>
         </tbody>
     </table>
-</div>
 
-
-
-
-</body>
+</th:block>
 </html>
