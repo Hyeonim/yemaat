@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{owner/myPage_layout}">
+
+<th:block th:fragment="content">
+    <h1>이벤트 상세 보기</h1>
+
+    <th:block>
+        <label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></br>
+        <label>내용</label><textarea name="eventContent">[[${event.getEventContent()}]]</textarea></br>
+        <label>이미지</label><input type="file" name="eventImg" th:value="${event.getEventImg()}"></br>
+        <input type="button" value="수정" th:onclick="|location.href='@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
+        <input type="button" value="삭제" th:onclick="|location.href='@{/owner/deleteEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
+        <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/eventList}'|">
+    </th:block>
+</th:block>
+</html>

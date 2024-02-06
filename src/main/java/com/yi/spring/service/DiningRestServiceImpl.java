@@ -26,8 +26,8 @@ public class DiningRestServiceImpl implements DiningRestService{
     }
 
     @Override
-    public Dinning createRestaurant(Dinning dinning) {
-        return diningRestRepository.save(dinning);
+    public void createRestaurant(Dinning dinning) {
+        diningRestRepository.save(dinning);
     }
 
     @Override

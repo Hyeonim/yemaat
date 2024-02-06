@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{owner/myPage_layout}">
+
+<th:block th:fragment="content">
+    <h1><[[${dinning.getRestName()}]]> 이벤트 등록</h1>
+
+    <form id="updateEventForm" th:action="@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}" method="post">
+
+        <label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></br>
+        <label>내용</label><textarea name="eventContent">[[${event.getEventContent()}]]</textarea></br>
+        <label>이미지</label><input type="file" name="eventImg" th:value="${event.getEventImg()}"></br>
+        <input type="hidden" name="eventNo" th:value="${event.getEventNo()}"></br>
+        <input type="button" value="등록" onclick="submitRestForm()">
+        <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
+    </form>
+
+    <script>
+        function submitRestForm() {
+            if(confirm("등록하시겠습니까?")) {
+                let form = document.getElementById("updateEventForm");
+                form.submit();
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+</th:block>
+</html>
