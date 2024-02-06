@@ -12,26 +12,21 @@
                 <td>qaNo</td>
                 <td>title</td>
                 <td>id</td>
-                <td>content</td>
-                <td>writerTIme</td>
+                <td>작성 시간</td>
                 <td>status</td>
-
+                <td></td>
             </tr>
 
             <tr th:each="qa : ${qa}">
                 <td th:text="${qa.id}"></td>
-                <td th:text="${qa.qaTitle}">ID</td>
-                <td th:text="${qa.userNo.userId}">Name</td>
-                <td th:text="${qa.qaWriteTime}">Name</td>
-                <td th:text="${qa.qaStatus}">Name</td>
+                <td th:text="${qa.qaTitle}"></td>
+                <td th:text="${qa.userNo.userId}"></td>
+                <td th:text="${qa.qaWriteTime}"></td>
+                <td th:text="${qa.qaStatus}"></td>
                 <td>
                     <button th:attr="onclick='redirectToQA(\'' + ${qa.id} + '\')'">문의 답변</button>
-
-<!--                    <button>문의 답변</button>-->
                 </td>
             </tr>
-
-
 
         </table>
     </div>
