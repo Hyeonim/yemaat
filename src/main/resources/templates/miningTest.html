@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+<h2>데이터 마이닝 테스트</h2>
+
+
+<div th:each="item : ${freq}">
+    <th:block th:text="${item.menuName}+' :: ' + ${item.frequency}"></th:block>
+</div>
+
+<div th:each="entry : ${list.entrySet()}">
+    <th:block th:text="${entry.key + ': ' + entry.value}"></th:block><br>
+</div>
+
+
+</body>
+</html>

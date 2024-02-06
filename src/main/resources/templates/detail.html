@@ -17,17 +17,103 @@
       crossorigin="anonymous">
 
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
-
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 <head>
     <style>
-        #top{
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        #c {
+            max-width: 800px;
+            margin: 20px auto 30px auto;
+            background-color: #fff;
+            /*padding: 20px;*/
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        #c #img {
+            max-width: 100%;
+            padding-top: 60px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        ion-icon {
+            vertical-align: middle;
+            font-size: 30px;
+        }
+
+        #c h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        #c p {
+            margin: 10px 0;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #c button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #c button:hover {
+            background-color: #45a049;
+        }
+
+        #c #map {
+            height: 300px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            margin-left: 80px;
+            margin-bottom: 40px;
+        }
+
+        #review {
+            margin-bottom: 40px;
+            height: auto;
+        }
+
+        #reviewT {
+            border-bottom: 2px solid black;
+            height: auto;
+            margin: 20px;
+            /*padding: 10px;*/
+        }
+
+        @media (max-width: 600px) {
+            /* Apply styles when the screen width is 600 pixels or less */
+            #c {
+                padding: 10px;
+            }
+        }
+
+
+
+        #top {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
         }
-        #searchBar{
+
+        #searchBar {
             height: 40px;
             margin-left: 30%;
             width: 500px;
@@ -35,41 +121,29 @@
         }
 
         .f {
+            /*border: solid 1px black;*/
+            text-align: center;
+            height: 10px;
             position: relative;
             transform: translateY(0%);
         }
 
         #img {
-            width: 700px;
+            width: 500px;
             height: 400px;
-            display: flex;
             align-items: center;
-        }
-
-        #img img:first-child {
-            max-width: 50%;
-            height: auto;
-            border-radius: 8px;
-        }
-
-        #img img:not(:first-child) {
-            max-width: 50%;
-            height: auto;
-            border-radius: 8px;
         }
 
 
         #c {
             height: auto;
             text-align: center;
-            border: solid 1px black;
         }
 
-        #map{
+        #map {
             width: 600px;
-        height: 600px;
+            height: 600px;
         }
-
 
 
     </style>
@@ -81,12 +155,12 @@
 </div>
 
 
-<div th:replace="~{/include/detail_content::detailContent}">
+<div th:include="~{/include/detail_content::detailContent}">
     head
 </div>
 
 
-<footer th:replace="~{/include/footer::footerFragment}">
+<footer th:include="~{/include/footer::footerFragment}">
     footer
 </footer>
 
@@ -97,7 +171,6 @@
     })
     let marker = null;
     let markers = [];
-
 
 
     marker = new naver.maps.Marker({
