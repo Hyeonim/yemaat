@@ -8,8 +8,10 @@ import com.yi.spring.repository.QARepository;
 import com.yi.spring.repository.ReservationRepository;
 import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.repository.UserRepository;
+import com.yi.spring.service.QAService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -35,8 +37,9 @@ public class UserController {
     ReviewRepository reviewRepository;
     @Autowired
     QARepository qaRepository;
+    @Autowired
+    QAService qaService;
 
-    // 사용자 페이지 컨트롤러 클래스
 
     // 유저 컨텐츠 페이지로 이동
     @GetMapping("userPage/{userNo}")
@@ -67,40 +70,8 @@ public class UserController {
         return "userPage/user_review";
     }
 
-    // 유저가 작성한 Q&A 목록 페이지로 이동
-    @GetMapping("user_QA/{userNo}")
-    public String userQA(@PathVariable("userNo") User userNo, Model model) {
-        List<QA> list = qaRepository.findByUserNo(userNo);
-        model.addAttribute("Num", userNo.getUserNo());
-        model.addAttribute("QA", list);
-        System.out.println(list);
-        return "userPage/user_QA";
-    }
 
-    // 유저가 Q&A를 추가하는 페이지로 이동
-    @GetMapping("user_qa_form/{userNo}")
-    public String userQAUpdateForm(@PathVariable("userNo") int userNo, Model model){
-        model.addAttribute("QA_userNo",userService.findByUserNo(userNo));
-        return "userPage/user_QA_form";
-    }
 
-    // 유저가 Q&A를 추가하는 POST 요청 처리
-    @PostMapping("user_qa_add")
-    public String userQAUpdate(@RequestParam("userNo") User userNo,
-                               @RequestParam("qa_title") String qaTitle,
-                               @RequestParam("qa_content") String qaContent) {
-        QA qa = new QA();
-        qa.setUserNo(userNo);
-        qa.setQaTitle(qaTitle);
-        qa.setQaContent(qaContent);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formattedDateTime = LocalDateTime.now().format(formatter);
-        qa.setQaWriteTime(LocalDateTime.parse(formattedDateTime, formatter));
-        qaRepository.save(qa);
-
-        int user_no = userNo.getUserNo();
-        return "redirect:/user/user_content/" + user_no;
-    }
 
     // 유저 정보 페이지로 이동
     @GetMapping("user_info/{userNo}")
@@ -174,6 +145,5 @@ public class UserController {
         userService.deleteByUserNo(userNo);
         return "redirect:/user/list_user";
     }
-
 
 }
