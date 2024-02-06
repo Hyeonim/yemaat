@@ -22,6 +22,8 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
     @Query("SELECT d FROM Dinning d WHERE d.restName LIKE %:keyword% and d.restMenu")
     List<Dinning> findByRestNameContaining(@Param("keyword") String keyword);
 
+    Optional<Dinning> findByRestNo(int restNo);
+
     //식당 id로 찾는거
 
 

@@ -377,7 +377,7 @@ public class ManagerController {
             userRepository.save(user);
         });
 
-        return "redirect:/manager/managerPage_JInfo";
+        return "redirect:/manager/managerPage_JInfo?";
     }
 
 
@@ -418,6 +418,58 @@ public class ManagerController {
 
         return "managerPage";
     }
+
+    @GetMapping("/managerPage_JrestDetail")
+    public String JumRestDetail(Model model, @RequestParam int restNo) {
+
+//        System.out.println("번호~~~~~~~~~~~~~~~~~~~~~~~:" +restNo);
+
+       Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
+//        System.out.println(dinningList);
+
+        model.addAttribute("dinning", dinningList);
+        model.addAttribute("page", "managerPage/managerPage_JrestDetail");
+
+        return "managerPage";
+    }
+
+    @PostMapping("/managerPage_JrestUpdate")
+    public String jumrestUpdate(
+            @RequestParam MultipartFile file,
+            @RequestParam int restNo,
+            @RequestParam String restName,
+            @RequestParam String restAddr,
+            @RequestParam String restTel,
+            @RequestParam String restSeat,
+            @RequestParam String restTime,
+            @RequestParam String restOffDays,
+            @RequestParam String restParking,
+            @RequestParam String restMenu,
+            @RequestParam String restCategory,
+            @RequestParam Double restLatitude,
+            @RequestParam Double restLongitude,
+            @RequestParam String restDescription,
+            Dinning dinning) throws IOException {
+
+
+//        System.out.println("hhhhhhhhhhhhh" + restNo);
+
+        dinningRepository.save(dinning);
+
+        Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
+        dinningList.ifPresent(din -> {
+            try {
+                byte[] restImgBytes = file.getBytes();
+                din.setRestImg(restImgBytes);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            dinningRepository.save(din);
+        });
+
+        return "redirect:/manager/managerPage_JrestInfo";
+    }
+
 
 }
 

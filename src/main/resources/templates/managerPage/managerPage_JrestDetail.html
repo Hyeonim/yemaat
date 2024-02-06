@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>가게 정보 상세 보기</title>
+</head>
+
+<div th:include="~{/include/header::headerFragment}"></div>
+
+<div id="main">
+    <div th:replace="~{/managerPage/managerPage_sidebar::managerSide}"></div>
+
+    <div th:fragment="managerContent">
+        <div id="right">
+            <h2>가게 상세 정보</h2>
+            <form action="/manager/managerPage_JrestUpdate" method="post" enctype="multipart/form-data">
+                <p>가게 번호 : <input type="text" th:value="${dinning.get().restNo}" name="restNo" readonly></p>
+                <p>가게 이름 : <input type="text" th:value="${dinning.get().restName}" name="restName"></p>
+                <p>가게 주소 : <input type="text" th:value="${dinning.get().restAddr}" name="restAddr"></p>
+                <p>가게 전화번호 : <input type="text" th:value="${dinning.get().restTel}" name="restTel"></p>
+                <p>가게 좌석 수 : <input type="text" th:value="${dinning.get().restSeat}" name="restSeat"></p>
+                <p>가게 운영 시간 : <input type="text" th:value="${dinning.get().restTime}" name="restTime"></p>
+                <p>가게 휴일 일정 : <input type="text" th:value="${dinning.get().restOffDays}" name="restOffDays"></p>
+                <p>가게 주차장 유무 : <input type="text" th:value="${dinning.get().restParking}" name="restParking"></p>
+                <p>가게 메뉴 : <input type="text" th:value="${dinning.get().restMenu}" name="restMenu"></p>
+                <p>가게 메뉴 유형 : <input type="text" th:value="${dinning.get().restCategory}" name="restCategory"></p>
+                <p>가게 위도 : <input type="text" th:value="${dinning.get().restLatitude}" name="restLatitude" readonly></p>
+                <p>가게 경도 : <input type="text" th:value="${dinning.get().restLongitude}" name="restLongitude" readonly></p>
+                <p>가게 사진 : <input type="file" th:value="${dinning.get().restImg}" name="file"></p>
+                <p>가게 평점 : <input type="text" th:value="${dinning.get().restScore}"readonly></p>
+                <p>가게 소개글 : <input type="text" th:value="${dinning.get().restDescription}" name="restDescription"></p>
+                <!--        <input type="hidden" th:value="2" name="userAuth">-->
+                <!--        <p>사진 : <input type="file" name="file"></p> &lt;!&ndash; 파일 업로드 &ndash;&gt;-->
+                <input type="submit" value="수정">
+<!--                      </form>-->
+<!--                      <form action="/manager/managerPage_JrestDelete" method="post">-->
+<!--                        <input type="hidden" name="userNo" th:value="${user.userNo}" readonly>-->
+<!--                        <button type="submit">삭제</button>-->
+<!--                      </form>-->
+            </form>
+        </div>
+    </div>
+</div>
+</html>

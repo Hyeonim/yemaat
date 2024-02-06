@@ -69,7 +69,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title>점주 상세보기</title>
+    <title>점주 정보 상세보기</title>
 </head>
 
 <div th:include="~{/include/header::headerFragment}"></div>
@@ -79,7 +79,7 @@
 
     <div th:fragment="managerContent">
         <div id="right">
-            <h2>점주 상세 정보 수정</h2>
+            <h2>점주 상세 정보</h2>
             <!-- 사용자 정보 수정 양식 -->
             <form action="/manager/managerPage_JUpdate" method="post" enctype="multipart/form-data">
                 <p>번호 : <input type="text" th:value="${user.userNo}" name="userNo" readonly></p>
