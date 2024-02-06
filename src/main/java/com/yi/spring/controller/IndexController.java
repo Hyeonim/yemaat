@@ -53,10 +53,10 @@ public class IndexController {
         return "usersignUp";
     }
 
-    @GetMapping("/hostsignUp")
-    public String hostsignUp(Model model, HttpSession httpSession) {
-        return "hostsignUp";
-    }
+//    @GetMapping("/hostsignUp")
+//    public String hostsignUp(Model model, HttpSession httpSession) {
+//        return "hostsignUp";
+//    }
 
     @GetMapping("/signUp")
     public String signUp(Model model, HttpSession httpSession) {
