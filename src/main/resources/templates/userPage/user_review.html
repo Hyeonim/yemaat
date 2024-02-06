@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{userPage/Layout_userPage}">
 
-<h1>My 리뷰</h1>
-<div>
+<th:block th:fragment="content">
+
+    <h1>My 리뷰</h1>
+
     <table>
         <thead>
         <tr>
             <th>회원번호</th>
-            <th>식당 이름</th>
+            <th>식당이름</th>
             <th>평점</th>
             <th>후기</th>
         </tr>
@@ -26,9 +25,6 @@
         </tr>
         </tbody>
     </table>
-</div>
 
-
-
-</body>
+</th:block>
 </html>

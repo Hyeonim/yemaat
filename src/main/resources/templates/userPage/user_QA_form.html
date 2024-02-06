@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{userPage/Layout_userPage}">
+
+<th:block th:fragment="content">
+
 <h1>문의 하기</h1>
 <form th:action="@{/user/user_qa_add}" method="post" enctype="multipart/form-data">
     <label>ID:</label>
@@ -19,7 +19,8 @@
     <input type="text" name="qa_content"/><br>
     <button type="submit">Update</button>
 </form>
-</body>
+
+</th:block>
 </html>
 
 
