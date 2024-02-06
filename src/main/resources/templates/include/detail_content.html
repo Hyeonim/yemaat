@@ -5,55 +5,75 @@
 
     <div id="c">
 
-        <div id="img">
-            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="식당 이미지"/>
-            <p>db에 있는 식당 이미지임 </p>
-        </div>
+        <div id="main">
+            <img id="img" th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="식당 이미지"/>
 
-        <h1 th:text="${dinning.restName}"></h1>
-        <p th:text="${dinning.restAddr}"></p>
-        <p th:text="${dinning.restTel}"></p>
-        <p th:text="'자리 : ' + ${dinning.restSeat}"></p>
-        <p th:text="'휴무일 : ' + ${dinning.restTime}"></p>
-        <p th:text="${dinning.restOffDays}"></p>
-        <p th:text="${dinning.restParking}"></p>
-        <p th:text="${dinning.restMenu}"></p>
-        <p th:text="${dinning.restCategory}"></p>
+            <div style="text-align: left; margin-left: 40px;">
+                <h1 th:text="${dinning.restName}"></h1><br>
 
-        <p th:text="${dinning.restScore}"></p>
-        <p th:text="${dinning.restDescription}"></p>
-        <p th:text="${dinning.userNo}"></p>
-        <p th:text="${dinning.restStartDate}"></p>
-        <p th:text="${dinning.restStatus}"></p>
+                <ion-icon name="navigate-circle-outline"></ion-icon>
+                <p th:text="${dinning.restAddr}"></p><br>
 
-        <button>예약하기</button>
+                <ion-icon name="call-outline"></ion-icon>
+                <p th:text="${dinning.restTel}"></p><br>
 
-        <div id="map">
+                <ion-icon name="accessibility-outline"></ion-icon>
+                <p th:text="'자리 : ' + ${dinning.restSeat}"></p><br>
 
-        </div>
 
-        <div style="border: solid 1px black">
-            <div style="border-bottom: solid 1px black">
-                <h2 th:text="${list.size()} + '명의 방문자가 평가 '"></h2>
-                <p th:text="'평점 : ' + ${reg}"></p>
+                <ion-icon name="fast-food-outline"></ion-icon>
+                <p th:text="${dinning.restMenu}"></p><br>
+                <ion-icon name="list-outline"></ion-icon>
+                <p th:text="${dinning.restCategory}"></p><br>
+
+
             </div>
-            <div id="review">
 
-                <div id="reviewT" style="border-bottom: solid 2px black" th:each="review : ${list}">
-                    <p th:text="'유저 이름 : ' + ${review.userNo.userName}"></p>
-                    <p th:text="'평점 : ' +${review.revScore}"></p>
-                    <p th:text="'내용 : ' + ${review.revContent}"></p>
+
+            <button>예약하기</button>
+
+            <h2 style="margin-top: 50px">찾아 오는 길</h2>
+            <div id="map">
+
+            </div>
+
+            <div style="text-align: left; margin-left: 40px;">
+
+                <h2>영업 정보</h2>
+                <p th:text="'휴무일 : ' + ${dinning.restTime}"></p>, <p th:text="${dinning.restOffDays}"></p><br>
+
+
+                <p th:text="'주차 정보 : ' +${dinning.restParking}"></p><br>
+
+            </div>
+
+
+
+            <div style="border: solid 2px #f2f2f2; border-radius: 10px; margin: 40px 20px 10px 20px; text-align: left; " >
+                <div style="border-bottom: solid 1px black">
+                    <h2 style="padding-top: 20px; padding-left: 20px" th:text="${list.size()} + '명의 방문자가 평가 '"></h2>
+                </div>
+
+
+
+
+
+                <div id="review">
+
+                    <div id="reviewT" th:each="review : ${list}">
+
+                        <h2 th:text="'유저 이름 : ' + ${review.userNo.userName}"></h2><br>
+                        <p th:text="'평점 : ' +${review.revScore}"></p><br>
+                        <p th:text="'내용 : ' + ${review.revContent}"></p><br>
+                    </div>
+
                 </div>
 
             </div>
-
-
         </div>
+
 
     </div>
 
-
 </div>
-
-
 </html>
