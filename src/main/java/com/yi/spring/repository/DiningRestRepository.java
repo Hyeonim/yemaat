@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface DiningRestRepository extends JpaRepository<Dinning, Integer> {
 
     Optional<Dinning> findByUserNo(User userNo);
+
+
 }
