@@ -20,6 +20,8 @@ public interface QARepository extends JpaRepository<QA, Integer> {
 
     List<QA> findByUserNo(User user);
 
+    int countByUserNo(User userNo);
+
     List<QA> findAll();
     Page<QA> findAll(Pageable pageable);
 
