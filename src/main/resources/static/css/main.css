@@ -22,7 +22,14 @@
 
 
 .c, .footer_height {
-    height: 200vw;
+    /*height: 100vw;*/
+}
+#new_box div:nth-child(2){
+    position: absolute;
+    top: 100px;
+}
+#new_box img {
+    width:258px;
 }
 
 #wrap {
@@ -118,8 +125,8 @@
 }
 .mySlides {
     border-radius:3%;
-    width: 600px;
-    height: 350px;
+    /*width: 600px;*/
+    /*height: 350px;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -168,7 +175,7 @@
 .slideshow span, .slideshow p{
     display: none;
 }
-.slideshow p:nth-child(4){
+.slideshow p:nth-child(3){
     display: block;
 }
 

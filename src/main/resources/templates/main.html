@@ -93,6 +93,32 @@
         // 임시 배열에 저장된 div를 맨 뒤로 이동시킵니다.
         selectedDivs.forEach(div => parentDiv.appendChild(div));
     }
+
+    document.addEventListener('scroll', function() {
+        // 페이지의 스크롤 상태가 변경될 때 실행되는 코드
+        // 여기에 원하는 동작을 추가할 수 있습니다.
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // 뷰포트의 높이
+        let viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        // 문서의 총 높이
+        let totalHeight = document.body.scrollHeight;
+        // 스크롤이 문서 맨 아래에 도달했는지 확인
+        if (scrollTop + viewportHeight >= totalHeight) {
+            // 페이지의 맨 아래에 도달했을 때 실행할 코드
+            let dataTemplate = '<div class="slideshow"><div class="background">$content$</div></div>';
+            fetch("/homeSlide")
+                .then(resp => resp.text())
+                .then(data =>{
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    const newDiv = document.createElement("div");
+                    newDiv.innerHTML = dataTemplate.replace( "$content$", doc.querySelector('body').innerHTML );
+                    const targetDiv = document.querySelector( "div.footer_height" );
+                    targetDiv.appendChild(newDiv);
+                })
+        }
+
+    });
+
 </script>
 
 

@@ -44,9 +44,8 @@ public class IndexController {
 
 
         List<Review> reviewList = new ArrayList<>();
-        for ( int i = 0; i < 15; i++ )
-            reviewList.add( reviewRepository.getRandomOne() );
-        reviewList.addAll(reviewList.subList(0, 5));
+        for ( int i = 0; i < 2; i++ )
+            reviewList.addAll( reviewRepository.getRandomTen() );
 
         model.addAttribute("revList1", reviewList.subList(0, 10) );
         model.addAttribute("revList2", reviewList.subList(5, 15) );
@@ -55,6 +54,12 @@ public class IndexController {
 
         return "main";
 
+    }
+    @GetMapping("/homeSlide")
+    public String homeSlide(Model model){
+        List<Review> reviewList = reviewRepository.getRandomTen();
+        model.addAttribute("list", reviewList );
+        return "/include/detail_review_template";
     }
 
     @GetMapping("/login")
