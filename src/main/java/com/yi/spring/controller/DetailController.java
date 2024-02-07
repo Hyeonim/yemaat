@@ -45,7 +45,7 @@ public class DetailController {
 
         dinningOptional.ifPresent(dinning -> model.addAttribute("dinning", dinning));
 
-        model.addAttribute("revList",list);
+        model.addAttribute("list",list);
         model.addAttribute("reg", result);
 
 //        return "detail";

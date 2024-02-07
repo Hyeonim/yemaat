@@ -59,7 +59,7 @@
 
 
                 <div id="review">
-                    <div th:replace="~{/include/detail_review_template::detailReviewTemplate}" th:with="revList=${revList1}"></div>
+                    <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${list})}"></div>
                 </div>
 
             </div>
