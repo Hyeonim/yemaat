@@ -9,9 +9,9 @@
         <label>문의 번호:</label>
         <input type="text" th:value="${QA.get().getId()}" readonly/><br>
         <label>제목:</label>
-        <input type="text" th:value="${QA.get().getQaTitle()}"/><br>
+        <input type="text" th:value="${QA.get().getQaTitle()}" readonly/><br>
         <label>내용:</label>
-        <input type="text" size="50px" th:value="${QA.get().getQaContent()}"/><br>
+        <input type="text" size="50px" th:value="${QA.get().getQaContent()}" readonly/><br>
 
 
         <label>답변 내용:</label>
