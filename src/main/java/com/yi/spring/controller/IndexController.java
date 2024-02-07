@@ -24,7 +24,6 @@ public class IndexController {
     @Autowired
     private ReviewRepository reviewRepository;
 
-
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
 
@@ -54,7 +53,6 @@ public class IndexController {
         model.addAttribute("revList3", reviewList.subList(10, 20) );
 
 
-
         return "main";
 
     }
@@ -64,7 +62,7 @@ public class IndexController {
         return "/login";
     }
 
-    @GetMapping("/usersignUp")
+    @GetMapping("/signUp")
     public String usersignUp(Model model, HttpSession httpSession) {
         return "usersignUp";
     }
@@ -74,10 +72,10 @@ public class IndexController {
 //        return "hostsignUp";
 //    }
 
-    @GetMapping("/signUp")
-    public String signUp(Model model, HttpSession httpSession) {
-        return "signUp";
-    }
+//    @GetMapping("/signUp")
+//    public String signUp(Model model, HttpSession httpSession) {
+//        return "signUp";
+//    }
 
     @GetMapping("/restHost")
     public String host(Model model, HttpSession httpSession) {
