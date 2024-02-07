@@ -2,11 +2,14 @@
 <th:block th:fragment="detailReviewTemplate(list)">
 
 <div class="reviewT" th:each="review : ${list}">
-    <span th:text="${review.id}"></span> <p th:text="'유저 이름 : ' + ${review.userNo.userName}"></p>
+<!--    <span th:text="${review.id}"></span>-->
+    <p th:text="'유저 이름 : ' + ${review.userNo.userName}"></p><br>
+    <p th:text="'평점 : ' +${review.getRevScore()}"></p><br>
+    <p th:text="'내용 : ' + ${review.revContent}"></p><br>
     <img th:src="'data:image/png;base64,' + ${review.base64Image}" alt="리뷰 이미지"/>
-    <p th:text="'평점 : ' +${review.getRevScore()}"></p>
-    <p th:text="'내용 : ' + ${review.revContent}"></p>
+
 </div>
 
 </th:block>
+
 </html>

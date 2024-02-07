@@ -26,9 +26,9 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByUserNo_Reviews_UserNo(int userNo);
 
 
-    @Query(value = "SELECT * FROM review WHERE rev_img IS NOT NULL ORDER BY RAND() LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM review WHERE rev_img IS NOT NULL ORDER BY RAND() LIMIT 10", nativeQuery = true)
 //    @Query("SELECT r FROM Review r where not ISNULL(r.revImg) ORDER BY RAND() LIMIT 1")
-    Review getRandomOne();
+    List<Review> getRandomTen();
 
 
 //    @Query("SELECT m FROM Review m WHERE m.name IN :names OR m.address IN :addresses")

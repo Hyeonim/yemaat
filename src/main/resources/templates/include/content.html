@@ -23,34 +23,26 @@
                 영역을 클릭했을 때 음식에 대한 검색 결과 페이지로 전환<br>
             </div>
             <div id="new_box">
+                <div class="slideshow-container1">
+                    <div class="Slidesbackground1">
+                        <div th:each="dinning : ${dinning}" class="mySlides fade">
+                            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>
+                        </div>
+                    </div>
+                </div>
+                <div>
                 새로 추가된 가게 박스<br>
                 가게 등록일을 기준으로 최근 시간 순으로 5개 노출<br>
                 새로 추가된 가게는 가게명, 업태가 화면에 노출
+                </div>
             </div>
         </div>
         <hr>
 
-        추천(슬라이드 형식)<br> 가게예약, 좋아요 많은 순<br>
-        전체 가게 중에서 예약이 많고, 좋아요를 많이 받은 순(10개 정도)<br>
-        가게 클릭 시 해당 가게 상세보기 페이지로 전환<br>
-        이전, 다음 버튼 필요함
-
-
-        <span class="slideshow-container">
-                 <div class="Slidesbackground">
-
-       <div th:each="dinning : ${dinning}" class="mySlides fade">
-       <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>
-
-                    </div>
-
-                </div>
-       </span>
-
         <div class="slideshow">
-             <div class="background">
-                    <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList1})}"></div>
-             </div>
+            <div class="background">
+                <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList1})}"></div>
+            </div>
         </div>
 
         <div class="slideshow">
@@ -67,17 +59,10 @@
 
 
 
-
-        <div id="subject1">
-            제목 :
-            <div id="wrap">
-                <button id="previous_button">이전</button>
-                <div th:each="dinning : ${dinning}">
-                    <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>
-                </div>
-                <button id="next_button">다음</button>
-            </div>
-        </div>
+        추천(슬라이드 형식)<br> 가게예약, 좋아요 많은 순<br>
+        전체 가게 중에서 예약이 많고, 좋아요를 많이 받은 순(10개 정도)<br>
+        가게 클릭 시 해당 가게 상세보기 페이지로 전환<br>
+        이전, 다음 버튼 필요함
 
 
     </div>

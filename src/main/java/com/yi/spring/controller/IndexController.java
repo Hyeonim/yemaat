@@ -24,7 +24,6 @@ public class IndexController {
     @Autowired
     private ReviewRepository reviewRepository;
 
-
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
 
@@ -45,18 +44,22 @@ public class IndexController {
 
 
         List<Review> reviewList = new ArrayList<>();
-        for ( int i = 0; i < 15; i++ )
-            reviewList.add( reviewRepository.getRandomOne() );
-        reviewList.addAll(reviewList.subList(0, 5));
+        for ( int i = 0; i < 2; i++ )
+            reviewList.addAll( reviewRepository.getRandomTen() );
 
         model.addAttribute("revList1", reviewList.subList(0, 10) );
         model.addAttribute("revList2", reviewList.subList(5, 15) );
         model.addAttribute("revList3", reviewList.subList(10, 20) );
 
 
-
         return "main";
 
+    }
+    @GetMapping("/homeSlide")
+    public String homeSlide(Model model){
+        List<Review> reviewList = reviewRepository.getRandomTen();
+        model.addAttribute("list", reviewList );
+        return "/include/detail_review_template";
     }
 
     @GetMapping("/login")
@@ -64,7 +67,7 @@ public class IndexController {
         return "/login";
     }
 
-    @GetMapping("/usersignUp")
+    @GetMapping("/signUp")
     public String usersignUp(Model model, HttpSession httpSession) {
         return "usersignUp";
     }
@@ -74,10 +77,10 @@ public class IndexController {
 //        return "hostsignUp";
 //    }
 
-    @GetMapping("/signUp")
-    public String signUp(Model model, HttpSession httpSession) {
-        return "signUp";
-    }
+//    @GetMapping("/signUp")
+//    public String signUp(Model model, HttpSession httpSession) {
+//        return "signUp";
+//    }
 
     @GetMapping("/restHost")
     public String host(Model model, HttpSession httpSession) {

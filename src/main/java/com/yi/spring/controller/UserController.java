@@ -99,8 +99,8 @@ public class UserController {
             user.setUserImg(userImg);
             userRepository.save(user);
         });
-
-        return "userPage/user_content";
+        int user_no = userNo;
+        return "redirect:/user/userPage/" + user_no;
     }
 
     // 유저 목록 페이지로 이동(관리용)
