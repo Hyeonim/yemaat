@@ -6,12 +6,14 @@
 <th:block th:fragment="content">
 
     <h1>My 문의</h1>
-    <a th:href="@{/QA/user_qa_form/{userNo}(userNo=${Num})}">문의 추가</a>
+    <a th:href="@{/QA/user_qa_form/{userNo}(userNo=${Num})}">문의추가  </a>
+    <a th:href="@{/user/userPage/{userNo}(userNo=${userNo.getUserNo()})}">돌아가기</a><br>
+
 
     <table>
         <thead>
         <tr>
-            <th>문의 번호</th>
+            <th>번호</th>
             <th>제목</th>
             <th>내용</th>
             <th>문의 날짜</th>
@@ -20,7 +22,7 @@
         </thead>
         <tbody>
         <tr th:each="QAs, iterStat : ${QA}">
-            <td th:text="${QAs.getId()}"></td>
+            <td th:text="${iterStat.count + (QA.getNumber() * QA.getSize())}"></td>
             <td th:text="${QAs.getQaTitle()}"></td>
             <td th:text="${QAs.getQaContent()}"></td>
             <td th:text="${QAs.getQaWriteTime()}"></td>

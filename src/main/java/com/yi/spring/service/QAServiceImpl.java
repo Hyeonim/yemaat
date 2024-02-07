@@ -33,4 +33,9 @@ public class QAServiceImpl implements QAService {
 
         return new PageImpl<>(userQAs.subList(start, end), PageRequest.of(page, pageSize), userQAs.size());
     }
+
+    @Override
+    public int countByUserNo(User userNo) {
+        return qaRepository.countByUserNo(userNo);
+    }
 }

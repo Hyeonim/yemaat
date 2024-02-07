@@ -6,11 +6,12 @@
 <th:block th:fragment="content">
 
     <h1>My 리뷰</h1>
+    <a th:href="@{/user/userPage/{userNo}(userNo=${userNo.getUserNo()})}">돌아가기</a><br>
 
     <table>
         <thead>
         <tr>
-            <th>회원번호</th>    
+            <th>회원번호</th>
             <th>식당이름</th>
             <th>평점</th>
             <th>후기</th>

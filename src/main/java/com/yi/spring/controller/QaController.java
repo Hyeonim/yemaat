@@ -34,10 +34,14 @@ public class QaController {
     @GetMapping("user_qa/{userNo}")
     public String userQA(@PathVariable("userNo") User userNo, @RequestParam(value = "page", defaultValue = "0") int page , Model model) {
         Page<QA> paging = this.qaService.findByUserNoPaged(userNo, page);
-//        Page<QA> paging = this.qaService.findByUserNo(userNo.getUserNo());
+        int userNoCount = qaService.countByUserNo(userNo);
+//        Page<QA> paging = this.qaService.findByUserNo(userNo.getUserNo())
+//        model.addAttribute("userNoCount", userNoCount);
         model.addAttribute("Num", userNo.getUserNo());
         model.addAttribute("QA", paging);
-        System.out.println(paging);
+
+        System.out.println(userNoCount);
+        System.out.println("--------" + paging.toString() + " ---- " + paging.getSize());
         return "userPage/user_QA";
     }
 
