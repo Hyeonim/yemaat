@@ -5,8 +5,6 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <h1>이벤트 상세 보기</h1>
-
     <th:block>
         <label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></br>
         <label>내용</label><textarea name="eventContent">[[${event.getEventContent()}]]</textarea></br>

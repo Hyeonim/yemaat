@@ -5,7 +5,6 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <h1><[[${dinning.getRestName()}]]> 이벤트 등록</h1>
 
     <form id="addEventForm" th:action="@{/owner/addEvent}" method="post">
         <label>제목</label><input type="text" name="eventTitle"></br>

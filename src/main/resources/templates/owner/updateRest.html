@@ -5,7 +5,6 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <h1>가게 수정</h1>
     <th:block th:object="${dinning}">
         <form id="updateRestForm" th:action="@{/owner/updateRest}" method="post">
             <label>가게 이름 : </label><input type="text" name="restName" th:value="*{getRestName()}"><br/>

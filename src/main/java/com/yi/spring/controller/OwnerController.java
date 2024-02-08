@@ -34,6 +34,8 @@ public class OwnerController {
 
         Dinning dinning = diningRestService.getByUserNo(user);
         model.addAttribute("dinning", dinning);
+
+        model.addAttribute("pageName", "DASH BOARD");
         return "owner/home";
     }
 
@@ -41,6 +43,7 @@ public class OwnerController {
     public String addRest(Model model) {
         User user = userService.findByUserNo(49).get();
         model.addAttribute("user", user);
+        model.addAttribute("pageName", "식당 등록");
         return "/owner/addRest";
     }
 
@@ -67,6 +70,7 @@ public class OwnerController {
         model.addAttribute("menuList", menuList);
 
         model.addAttribute("menuPage", "/menu/listMenu");
+        model.addAttribute("pageName", "식당 정보 확인");
         return "owner/viewRest";
     }
 
@@ -79,6 +83,7 @@ public class OwnerController {
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("menuPage", "/menu/addMenu");
+        model.addAttribute("pageName", "식당 정보 확인");
         return "/owner/viewRest";
     }
     @PostMapping("viewRest/addMenu")
@@ -106,6 +111,7 @@ public class OwnerController {
         Menu menu = menuService.getMenuByMenuNo(menuNo);
         model.addAttribute("menu", menu);
         model.addAttribute("menuPage", "/menu/updateMenu");
+        model.addAttribute("pageName", "식당 정보 확인");
         return "/owner/viewRest";
     }
 
@@ -143,6 +149,7 @@ public class OwnerController {
 
         Dinning dinning = diningRestService.getByUserNo(user);
         model.addAttribute("dinning", dinning);
+        model.addAttribute("pageName", "식당 정보 수정");
         return "/owner/updateRest";
     }
 
@@ -162,6 +169,7 @@ public class OwnerController {
         Dinning dinning = diningRestService.getByUserNo(user);
 
         diningRestService.deleteRestaurant(dinning.getRestNo());
+        model.addAttribute("pageName", "식당 폐점 신청");
         return "redirect:/owner/home";
     }
 
@@ -177,6 +185,7 @@ public class OwnerController {
         List<Reservation> reservList = reservationRepository.findByRestNo((long) dinning.getRestNo());
         model.addAttribute("reservList", reservList);
 
+        model.addAttribute("pageName", "예약 목록");
         return "/owner/reservList";
     }
 
@@ -186,6 +195,7 @@ public class OwnerController {
         User user = userService.findByUserNo(49).get();
         model.addAttribute("user", user);
 
+        model.addAttribute("pageName", "개인 정보 확인");
         return "/owner/userInfo";
     }
     @GetMapping("userUpdate")
@@ -193,6 +203,7 @@ public class OwnerController {
         User user = userService.findByUserNo(49).get();
         model.addAttribute("user", user);
 
+        model.addAttribute("pageName", "식당 정보 수정");
         return "/owner/userUpdate";
     }
     @PostMapping("userUpdate")
@@ -217,6 +228,7 @@ public class OwnerController {
         List<Event> eventList = eventService.findByRestNo(dinning);
         model.addAttribute("eventList", eventList);
 
+        model.addAttribute("pageName", "이벤트 목록");
         return "/event/eventList";
 
     }
@@ -226,6 +238,8 @@ public class OwnerController {
         User user = userService.findByUserNo(49).get();
         Dinning dinning = diningRestService.getByUserNo(user);
         model.addAttribute("dinning", dinning);
+
+        model.addAttribute("pageName", "이벤트 추가");
         return "event/addEvent";
     }
 
@@ -248,6 +262,7 @@ public class OwnerController {
 
         Event event = eventService.findByEventNo(eventNo);
         model.addAttribute("event", event);
+        model.addAttribute("pageName", "이벤트 상세보기");
         return "event/viewEvent";
     }
 
@@ -260,6 +275,7 @@ public class OwnerController {
 
         Event event = eventService.findByEventNo(eventNo);
         model.addAttribute("event", event);
+        model.addAttribute("pageName", "이벤트 수정");
         return "event/updateEvent";
     }
 
