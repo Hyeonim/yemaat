@@ -25,12 +25,14 @@ public class IndexController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/home";
+    }
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
-
         List<Dinning> list = dinningRepository.getRandomList("5");
         model.addAttribute("dinning", list);
-
 
         List<Review> reviewList = new ArrayList<>();
         for ( int i = 0; i < 2; i++ )
@@ -41,8 +43,8 @@ public class IndexController {
         model.addAttribute("revList3", reviewList.subList(10, 20) );
 
         return "main";
-
     }
+
     @GetMapping("/homeSlide")
     public String homeSlide(Model model){
         List<Review> reviewList = reviewRepository.getRandomList( "10" );
