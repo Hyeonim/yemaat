@@ -11,37 +11,35 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <style>
-    .main-container {
-
+    body {
         width: 100%;
     }
 
     .side-container {
-        width: 20%;
-        height: auto;
         float: left;
         box-sizing: border-box;
-
     }
-    .content-container {
-        width: 80%;
-        height: auto;
-        float: right;
+    .main-container {
+        width : 100%;
+        margin-left: 200px;
+        float: left;
         box-sizing: border-box;
+    }
+
+    .main-container header {
+        padding : 5px;
+        box-shadow: 0px 0px 5px 0px #333;
     }
 </style>
 <body>
-<header th:include="~{/owner/owner_header::headerFragment}"></header>
-<div class="main-container">
-    <div class="side-container" th:include="~{/owner/owner_sidebar::ownerSide}">
-        <ul>
-            <li><a href="/owner/home">가게 목록</a></li>
-            <li><a href="/owner/addRest">가게 등록</a></li>
-        </ul>
-    </div>
+<div class="side-container" th:include="~{/owner/owner_sidebar::ownerSide}"></div>
 
+<div class="main-container">
+    <header th:include="~{/owner/owner_header::headerFragment}"></header>
     <div class="content-container" th:include="~{${page}::content}"></div>
 </div>
 </body>

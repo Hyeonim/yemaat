@@ -9,6 +9,7 @@
         <label>메뉴 가격 : </label><input type="number" name="menuPrice" th:value="${menu.getMenuPrice()}"><br/>
         <input type="hidden" name="restNo" th:value="${menu.getRestNo().getRestNo()}"><br/>
         <input type="button" value="등록" onclick="submitMenuForm()">
+        <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewRest}'|" >
     </form>
 
     <script>

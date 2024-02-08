@@ -5,7 +5,6 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <h1>개인 정보 확인</h1>
     <th:block th:object="${user}">
         <label>아이디</label><input type="text" th:value="*{getUserId()}" readonly><br/>
         <label>이름</label><input type="text" th:value="*{getUserName()}" readonly><br/>

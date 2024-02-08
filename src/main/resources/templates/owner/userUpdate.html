@@ -4,7 +4,6 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <h1>개인 정보 수정</h1>
     <th:block th:object="${user}">
         <form id="updateUserForm" th:action="@{/owner/userUpdate}" method="post">
             <label>아이디</label><input type="text" name="userId" th:value="*{getUserId()}"><br/>
