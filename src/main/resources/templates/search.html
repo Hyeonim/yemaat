@@ -91,12 +91,13 @@
 
     </div>
 </div>
-
-<script map th:inline="javascript">
+<script map>
     let map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(35.86868025887658, 128.5987419727357),
         zoom: 15
     })
+</script>
+<script map th:inline="javascript">
     let marker = null;
     let markers = [];
 

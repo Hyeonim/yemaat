@@ -52,7 +52,7 @@
             const elementTop = element.getBoundingClientRect().top;
             const elementBottom = element.getBoundingClientRect().bottom;
             const screenHeight = window.innerHeight || document.documentElement.clientHeight;
-            const elementHeight = element.getBoundingClientRect().height;
+            const elementHeight = element.getBoundingClientRect().height + 20;
 
             // Element의 height가 화면을 가리면서 조건을 만족하지 않도록 함
             if (elementTop < screenHeight && elementBottom - elementHeight > 0 && null === target ) {
@@ -66,32 +66,47 @@
 
         moveToSlide( target, 1 );
     }
-    function moveToSlide(slider, index) {
-        const slideWidth = slider.clientWidth;
+    function sleep(ms)
+    {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    async function moveToSlide(slider) {
+        let index = (slider?.index ??0) + 1;
+        index = 1;
+        const slideWidth = 1008; //slider.clientWidth;
         const newPosition = -slideWidth * index;
 
+
+        const SLIDE_SIZE = 4;
+        const selectedDivs = Array.from(slider.children).slice(0, SLIDE_SIZE);
+        // selectedDivs.forEach(div => slider.appendChild(div.cloneNode(true)));
+        selectedDivs.forEach(div => slider.appendChild(div));
+
+        // await sleep(100)
+        slider.style.transition = "";
+        slider.style.transform = "";
+        await sleep(100)
         slider.style.transition = "transform 0.5s ease";
         slider.style.transform = `translateX(${newPosition}px)`;
 
-        // transitionend 이벤트 핸들러 등록
-        slider.addEventListener("transitionend", function(event) {
-            // transform transition이 완료되면 콜백 함수 호출
-            if (event.propertyName === "transform") {
-                slideslideForward( slider );
-            }
-            // 핸들러는 한 번만 실행되도록 제거
-            slider.removeEventListener("transitionend", this);
-        });
+        // slider.index = index;
+
+        // // transitionend 이벤트 핸들러 등록
+        // slider.addEventListener("transitionend", function(event) {
+        //     // transform transition 이 완료되면 콜백 함수 호출
+        //     if (event.propertyName === "transform") {
+        //         slideslideForward( slider );
+        //     }
+        //     // 핸들러는 한 번만 실행되도록 제거
+        //     slider.removeEventListener("transitionend", this);
+        // });
     }
     function slideslideForward( parentDiv ){
-        parentDiv.style.transition = "";
-        parentDiv.style.transform = "";
+        // parentDiv.style.transition = "";
+        // parentDiv.style.transform = "";
         // 앞에서 0~5개의 div를 선택합니다.
-        const selectedDivs = Array.from(parentDiv.children).slice(0, 5);
-        // 임시 배열에서 선택한 div를 삭제합니다.
-        selectedDivs.forEach(div => div.remove());
-        // 임시 배열에 저장된 div를 맨 뒤로 이동시킵니다.
-        selectedDivs.forEach(div => parentDiv.appendChild(div));
+        // const selectedDivs = Array.from(parentDiv.children).slice(0, 5);
+        // selectedDivs.forEach(div => parentDiv.appendChild(div));
     }
 
     document.addEventListener('scroll', function() {
@@ -114,9 +129,9 @@
                     newDiv.innerHTML = dataTemplate.replace( "$content$", doc.querySelector('body').innerHTML );
                     const targetDiv = document.querySelector( "div.footer_height" );
                     targetDiv.appendChild(newDiv);
-                })
+                }
+            );
         }
-
     });
 
 </script>

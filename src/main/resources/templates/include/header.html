@@ -2,24 +2,23 @@
 
 <div th:fragment="headerFragment" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100;" id="top">
     <script>
-        gv = [];
         function sendSearchQuery() {
             const keyword = document.getElementById('searchBar').value;
-
             const xhr = new XMLHttpRequest();
             xhr.open('GET', '/find_rest_name?keyword=' + encodeURIComponent(keyword), true);
-
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    gv.push(xhr.responseText)
                     let doc = new DOMParser().parseFromString(xhr.responseText, 'text/html');
                     document.querySelector('ul#resultList').innerHTML = doc.querySelector('ul#resultList').innerHTML;
                     let scriptTags = doc.querySelectorAll('script');
+                    let runnableScript = [];
                     scriptTags.forEach(scriptTag => {
                         if (null === scriptTag.getAttribute("map"))
                             return;
-                        eval(scriptTag.textContent);
+                        // eval(scriptTag.textContent);
+                        runnableScript.push( scriptTag.textContent );
                     });
+                    eval( runnableScript.join( '' ) );
                 }
             };
             xhr.send();

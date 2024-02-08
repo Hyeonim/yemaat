@@ -6,6 +6,7 @@ import com.yi.spring.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,9 +27,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByUserNo_Reviews_UserNo(int userNo);
 
 
-    @Query(value = "SELECT * FROM review WHERE rev_img IS NOT NULL ORDER BY RAND() LIMIT 10", nativeQuery = true)
-//    @Query("SELECT r FROM Review r where not ISNULL(r.revImg) ORDER BY RAND() LIMIT 1")
-    List<Review> getRandomTen();
+    @Query("select r from Review r where r.revImg is not null order by RAND() LIMIT :sLimit")
+    List<Review> getRandomList(@Param("sLimit") String sLimit);
 
 
 //    @Query("SELECT m FROM Review m WHERE m.name IN :names OR m.address IN :addresses")

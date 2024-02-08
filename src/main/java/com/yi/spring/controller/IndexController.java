@@ -10,7 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,37 +28,24 @@ public class IndexController {
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
 
-        List<Dinning> list = dinningRepository.findAll();
-
-        List<Dinning> imgList = new ArrayList<>();
-
-        for (Dinning diningRest : list) {
-            Dinning elem = new Dinning();
-            if (diningRest.getRestImg() != null) {
-                elem.setRestImg(diningRest.getRestImg());
-                imgList.add(elem);
-            }
-        }
-        model.addAttribute("dinning", imgList);
-
-
+        List<Dinning> list = dinningRepository.getRandomList("5");
+        model.addAttribute("dinning", list);
 
 
         List<Review> reviewList = new ArrayList<>();
         for ( int i = 0; i < 2; i++ )
-            reviewList.addAll( reviewRepository.getRandomTen() );
+            reviewList.addAll( reviewRepository.getRandomList( "10" ) );
 
         model.addAttribute("revList1", reviewList.subList(0, 10) );
         model.addAttribute("revList2", reviewList.subList(5, 15) );
         model.addAttribute("revList3", reviewList.subList(10, 20) );
-
 
         return "main";
 
     }
     @GetMapping("/homeSlide")
     public String homeSlide(Model model){
-        List<Review> reviewList = reviewRepository.getRandomTen();
+        List<Review> reviewList = reviewRepository.getRandomList( "10" );
         model.addAttribute("list", reviewList );
         return "/include/detail_review_template";
     }
