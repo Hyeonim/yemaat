@@ -7,10 +7,12 @@ import com.yi.spring.service.EventService;
 import com.yi.spring.service.MenuService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -28,11 +30,11 @@ public class OwnerController {
     private EventService eventService;
 
     @GetMapping("home")
-    public String home(Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String home(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("pageName", "DASH BOARD");
@@ -40,29 +42,32 @@ public class OwnerController {
     }
 
     @GetMapping("addRest")
-    public String addRest(Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String addRest(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
         model.addAttribute("pageName", "식당 등록");
         return "/owner/addRest";
     }
 
     @PostMapping("addRest") // 등록 화면으로 전환은 되는데 등록은 안됨
-    public String addRest(Dinning dinning, Model model) {
-        User user = userService.findByUserNo(49).get();
-
-        dinning.setUserNo(user);
+    public String addRest(Principal principal, Dinning dinning, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        dinning.setUserNo(loginUser);
         diningRestService.createRestaurant(dinning);
         return "redirect:/owner/home";
     }
 
     // -------------------------- 가게 상세보기 및 메뉴 관리 -----------------------------------------
     @GetMapping("viewRest")
-    public String viewRest(Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String viewRest(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
+
+        if(dinning == null) {
+            return "redirect:/owner/addRest";
+        }
         model.addAttribute("dinning", dinning);
 
 
@@ -75,11 +80,11 @@ public class OwnerController {
     }
 
     @GetMapping("viewRest/addMenu")
-    public String createMenuForm(Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String createMenuForm(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("menuPage", "/menu/addMenu");
@@ -87,11 +92,12 @@ public class OwnerController {
         return "/owner/viewRest";
     }
     @PostMapping("viewRest/addMenu")
-    public String createMenu(Menu menu, Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String createMenu(Principal principal, Menu menu, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         menu.setRestNo(dinning);
@@ -101,11 +107,12 @@ public class OwnerController {
     }
 
     @GetMapping("viewRest/updateMenu/{menuNo}")
-    public String updateMenu(@PathVariable("menuNo") int menuNo, Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String updateMenu(Principal principal, @PathVariable("menuNo") int menuNo, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         Menu menu = menuService.getMenuByMenuNo(menuNo);
@@ -116,11 +123,12 @@ public class OwnerController {
     }
 
     @PostMapping("viewRest/updateMenu/{menuNo}")
-    public String updateMenu(@PathVariable("menuNo") int menuNo, Menu Menu, Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String updateMenu(Principal principal, @PathVariable("menuNo") int menuNo, Menu Menu, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         Menu.setMenuNo(menuNo);
@@ -129,11 +137,12 @@ public class OwnerController {
     }
 
     @GetMapping("viewRest/deleteMenu/{menuNo}")
-    public String deleteMenu(@PathVariable("menuNo") int menuNo, Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String deleteMenu(Principal principal, @PathVariable("menuNo") int menuNo, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         menuService.deleteMenu(menuNo);
@@ -143,42 +152,51 @@ public class OwnerController {
     // ------------------------------------------------------------------------------------------
 
     @GetMapping("updateRest")
-    public String updateRest(Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String updateRest(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
         model.addAttribute("pageName", "식당 정보 수정");
         return "/owner/updateRest";
     }
 
     @PostMapping("updateRest")
-    public String updateRest(Dinning dinning) {
-        User user = userService.findByUserNo(49).get();
+    public String updateRest(Principal principal, Dinning dinning) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
 
-        dinning.setUserNo(user);
+
+        dinning.setUserNo(loginUser);
         Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);
         return "redirect:/owner/viewRest";
     }
 
-    @GetMapping("deleteRest") // 삭제하면 외래키 에러 발생
+    @GetMapping("deleteRest")
+    public String deleteRest(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
+        model.addAttribute("dinning", dinning);
+        model.addAttribute("pageName", "식당 폐점 신청");
+        return "owner/deleteRest";
+    }
+    @PostMapping("deleteRest") // 삭제하면 외래키 에러 발생
     public String deleteRest(Model model) {
-        User user = userService.findByUserNo(49).get();
 
-        Dinning dinning = diningRestService.getByUserNo(user);
 
-        diningRestService.deleteRestaurant(dinning.getRestNo());
+
         model.addAttribute("pageName", "식당 폐점 신청");
         return "redirect:/owner/home";
     }
 
     // ----------------------- 예약 관련 ------------------------------
     @GetMapping("reservation")
-    public String reservation(Model model) {
-        User user = userService.findByUserNo(49).get();
+    public String reservation(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
 
-        Dinning dinning = diningRestService.getByUserNo(user);
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
 
@@ -191,17 +209,19 @@ public class OwnerController {
 
     // --------------------- 개인 정보 관리 -----------------------
     @GetMapping("userInfo")
-    public String userInfo(Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String userInfo(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+
+        model.addAttribute("user", loginUser);
 
         model.addAttribute("pageName", "개인 정보 확인");
         return "/owner/userInfo";
     }
     @GetMapping("userUpdate")
-    public String userUpdate(Model model) {
-        User user = userService.findByUserNo(49).get();
-        model.addAttribute("user", user);
+    public String userUpdate(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+
+        model.addAttribute("user", loginUser);
 
         model.addAttribute("pageName", "식당 정보 수정");
         return "/owner/userUpdate";
@@ -220,9 +240,9 @@ public class OwnerController {
 
     // ---------------------------- 이벤트 관련 --------------------------
     @GetMapping("eventList")
-    public String event(Model model) {
-        User user = userService.findByUserNo(49).get();
-        Dinning dinning = diningRestService.getByUserNo(user);
+    public String event(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         List<Event> eventList = eventService.findByRestNo(dinning);
@@ -234,9 +254,9 @@ public class OwnerController {
     }
 
     @GetMapping("addEvent")
-    public String addEvent(Model model) {
-        User user = userService.findByUserNo(49).get();
-        Dinning dinning = diningRestService.getByUserNo(user);
+    public String addEvent(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("pageName", "이벤트 추가");
@@ -244,9 +264,9 @@ public class OwnerController {
     }
 
     @PostMapping("addEvent")
-    public String addEvent(Event event, Model model) {
-        User user = userService.findByUserNo(49).get();
-        Dinning dinning = diningRestService.getByUserNo(user);
+    public String addEvent(Principal principal, Event event, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
 
         event.setRestNo(dinning);
         eventService.createEvent(event);
@@ -254,10 +274,9 @@ public class OwnerController {
     }
 
     @GetMapping("viewEvent/{eventNo}")
-    public String viewEvent(@PathVariable("eventNo") int eventNo, Model model) {
-        User user = userService.findByUserNo(49).get();
-
-        Dinning dinning = diningRestService.getByUserNo(user);
+    public String viewEvent(Principal principal, @PathVariable("eventNo") int eventNo, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         Event event = eventService.findByEventNo(eventNo);
@@ -267,10 +286,9 @@ public class OwnerController {
     }
 
     @GetMapping("updateEvent/{eventNo}")
-    public String updateEvent(@PathVariable("eventNo") int eventNo, Model model) {
-        User user = userService.findByUserNo(49).get();
-
-        Dinning dinning = diningRestService.getByUserNo(user);
+    public String updateEvent(Principal principal, @PathVariable("eventNo") int eventNo, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         Event event = eventService.findByEventNo(eventNo);
@@ -280,9 +298,9 @@ public class OwnerController {
     }
 
     @PostMapping("updateEvent/{eventNo}")
-    public String updateEvent(@PathVariable("eventNo") int eventNo, Event event) {
-        User user = userService.findByUserNo(49).get();
-        Dinning dinning = diningRestService.getByUserNo(user);
+    public String updateEvent(Principal principal, @PathVariable("eventNo") int eventNo, Event event) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
 
         event.setRestNo(dinning);
         eventService.updateEvent(event);

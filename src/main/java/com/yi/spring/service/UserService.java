@@ -13,6 +13,7 @@ public interface UserService {
     List<User> getAllUsers();
 
     Optional<User> findByUserNo(int userNo);
+    Optional<User> findByUserId(String userId);
 
     long deleteByUserNo(Integer userNo);
 

@@ -19,7 +19,6 @@
         <label>가게 위도 : </label><input type="text" name="restLongitude"><br/>
         <label>가게 소개글 : </label><input type="text" name="restDescription"><br/>
         <label>가게 대표 이미지 : </label><input type="file" name="restImg"><br/>
-        <input type="hidden" th:value="${user}" name="userNo">
         <input type="button" value="등록" onclick="submitRestForm()">
         <input type="button" value="취소" onclick="location.href='/owner/home'">
     </form>
