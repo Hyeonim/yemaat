@@ -8,7 +8,7 @@
     <p th:text="${review.restNo.restName}"></p>
     <p th:text="${review.restNo.restCategory}"></p>
     <p class="comment" th:text="${review.revContent}"></p>
-    <img th:src="'data:image/png;base64,' + ${review.base64Image}" alt="리뷰 이미지"/>
+    <img th:if="${review.base64Image!=''}" th:src="'data:image/png;base64,' + ${review.base64Image}" alt="리뷰 이미지"/>
 
 </div>
 
