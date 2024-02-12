@@ -62,15 +62,16 @@ public class ManagerController {
     @GetMapping("/content")
     public String managerDetailU(Model model) {
 
+        List<User> uList = userRepository.findAll();
+        List<Dinning> dList = dinningRepository.findAll();
 
-
-
+        model.addAttribute("uList", uList);
+        model.addAttribute("dList", dList);
 
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";
     }
-
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ유저꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -89,7 +90,6 @@ public class ManagerController {
     }
 
 
-
     @GetMapping("/managerPage_UList")
     public String managerListU(Model model) {
 
@@ -100,10 +100,10 @@ public class ManagerController {
                 onlyUsers.add(result);
             }
         }
-        model.addAttribute("users",onlyUsers);
+        model.addAttribute("users", onlyUsers);
 
 
-        model.addAttribute( "page", "managerPage/managerPage_UList" );
+        model.addAttribute("page", "managerPage/managerPage_UList");
         return "managerPage";
     }
 
@@ -217,8 +217,6 @@ public class ManagerController {
     }
 
 
-
-
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ문의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     @GetMapping("managerPage_QA")
@@ -265,8 +263,8 @@ public class ManagerController {
 
         guestQA.ifPresent(qa -> {
             if (qaAnswer.getQaNo() == guestQA.get().getId()) {
-              qa.setQaStatus(true);
-              qaRepository.save(qa);
+                qa.setQaStatus(true);
+                qaRepository.save(qa);
             }
         });
 
@@ -439,7 +437,7 @@ public class ManagerController {
 
 //        System.out.println("번호~~~~~~~~~~~~~~~~~~~~~~~:" +restNo);
 
-       Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
+        Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
 //        System.out.println(dinningList);
 
         model.addAttribute("dinning", dinningList);

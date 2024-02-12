@@ -48,18 +48,23 @@
     }
 
 #category{
+    height: 200px;
     border-bottom: solid 1px black;
     justify-content: center;
     display: flex;
     margin-bottom: 30px;
 }
 
+#category button{
+
+    height: 40px;
+}
 
 </style>
 
 <body>
 
-<div th:replace="~{/include/header::headerFragment}">
+<div th:include="~{/include/header::headerFragment}">
     head
 </div>
 
