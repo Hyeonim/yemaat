@@ -2,6 +2,8 @@ package com.yi.spring.repository;
 
 import com.yi.spring.entity.Reservation;
 import com.yi.spring.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +18,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByUserNo(Integer userNo);
 
+    List<User> findByUserNo(User user);
+
+
     long deleteByUserNo(Integer userNo);
 
     Optional<User> findByUserId(String userId);
+
+    Page<User> findByUserAuth(String userAuth, Pageable pageable);
 
 
 //    Optional<User> findByUsername(String username);

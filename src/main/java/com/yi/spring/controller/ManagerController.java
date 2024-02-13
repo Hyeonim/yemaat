@@ -1,16 +1,14 @@
 package com.yi.spring.controller;
 
-import com.yi.spring.entity.Dinning;
-import com.yi.spring.entity.QA;
-import com.yi.spring.entity.QaAnswer;
-import com.yi.spring.entity.User;
-import com.yi.spring.repository.DinningRepository;
-import com.yi.spring.repository.QARepository;
-import com.yi.spring.repository.QaAnswerRepository;
-import com.yi.spring.repository.UserRepository;
+import com.yi.spring.entity.*;
+import com.yi.spring.repository.*;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -50,6 +48,9 @@ public class ManagerController {
 
     @Autowired
     DinningRepository dinningRepository;
+
+    @Autowired
+    NoticeRepository noticeRepository;
 
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
@@ -91,18 +92,14 @@ public class ManagerController {
 
 
     @GetMapping("/managerPage_UList")
-    public String managerListU(Model model) {
+    public String managerListU(Model model,
+                               @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        List<User> users = userRepository.findAll();
-        List<User> onlyUsers = new ArrayList<>();
-        for (User result : users) {
-            if (result.getUserAuth().equals("1")) {
-                onlyUsers.add(result);
-            }
-        }
-        model.addAttribute("users", onlyUsers);
+        Page<User> paging = this.userService.findByUserNoPaged(page);
 
 
+
+        model.addAttribute("users", paging);
         model.addAttribute("page", "managerPage/managerPage_UList");
         return "managerPage";
     }
@@ -269,6 +266,37 @@ public class ManagerController {
         });
 
         return "redirect:/manager/managerPage_QA";
+    }
+
+    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+
+    @GetMapping("/managerPage_Notice")
+    public String managerNoticeList(Model model) {
+
+        List<Notice> list = noticeRepository.findAll();
+
+//        System.out.println(list);
+
+
+        model.addAttribute("page", "managerPage/managerPage_Notice");
+        model.addAttribute("list", list);
+
+        return "managerPage";
+    }
+
+    @GetMapping("/managerPage_NoticeDetail")
+    public String managerNoticeDetail(@RequestParam int id,
+                                      Model model) {
+        Optional<Notice> notice = noticeRepository.findById(id);
+
+        System.out.println(notice);
+
+
+        model.addAttribute("notice", notice);
+        model.addAttribute("page", "managerPage/managerPage_NoticeDetail");
+
+        return "managerPage";
     }
 
 
