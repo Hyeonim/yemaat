@@ -53,29 +53,6 @@
             </tbody>
         </table>
 
-        <div th:if="${!dinningPage.empty}">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${!dinningPage.hasPrevious()} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{|/manager/managerPage_JrestInfo?page=${dinningPage.number - 1 < 0 ? 0 : dinningPage.number - 1}|}">
-                        <span>이전</span>
-                    </a>
-                </li>
-                <li th:each="pageNumber: ${#numbers.sequence(0, dinningPage.totalPages - 1)}"
-                    th:if="${pageNumber >= dinningPage.number - 5 and pageNumber <= dinningPage.number + 5}"
-                    th:classappend="${pageNumber == dinningPage.number} ? 'active'" class="page-item">
-                    <a th:text="${pageNumber + 1}" class="page-link"
-                       th:href="@{|/manager/managerPage_JrestInfo?page=${pageNumber}|}"></a>
-                </li>
-                <li class="page-item" th:classappend="${!dinningPage.hasNext()} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{|/manager/managerPage_JrestInfo?page=${dinningPage.number + 1}|}">
-                        <span>다음</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
 
     </div>
 </div>
