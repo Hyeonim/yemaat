@@ -1,14 +1,15 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
+import com.yi.spring.repository.DeleteUserRepository;
 import com.yi.spring.repository.ReservationRepository;
 import com.yi.spring.service.DiningRestService;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.MenuService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,10 @@ public class OwnerController {
     private ReservationRepository reservationRepository;
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private DeleteUserRepository deleteUserRepository;
+
 
     @GetMapping("home")
     public String home(Principal principal, Model model) {
@@ -52,6 +57,7 @@ public class OwnerController {
     public String addRest(Principal principal, Dinning dinning, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         dinning.setUserNo(loginUser);
+        dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         diningRestService.createRestaurant(dinning);
         return "redirect:/owner/home";
     }
@@ -63,8 +69,11 @@ public class OwnerController {
         model.addAttribute("user", loginUser);
 
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+        System.out.println(dinning);
 
         if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
             return "redirect:/owner/addRest";
         }
         model.addAttribute("dinning", dinning);
@@ -166,8 +175,8 @@ public class OwnerController {
     public String updateRest(Principal principal, Dinning dinning) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
 
-
         dinning.setUserNo(loginUser);
+        dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);
         return "redirect:/owner/viewRest";
     }
@@ -178,6 +187,8 @@ public class OwnerController {
         model.addAttribute("user", loginUser);
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
             return "owner/transit";
         }
         model.addAttribute("dinning", dinning);
@@ -202,6 +213,8 @@ public class OwnerController {
 
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
             return "owner/transit";
         }
         model.addAttribute("dinning", dinning);
@@ -244,8 +257,31 @@ public class OwnerController {
     }
 
     @GetMapping("userDelete")
-    public void userDelete(User user) {
-        // 회원 탈퇴 기능
+    public String userDeleteForm(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
+        model.addAttribute("dinning", dinning);
+        model.addAttribute("pageName", "회원 탈퇴 신청");
+        return "owner/userDelete";
+    }
+    @PostMapping("userDelete")
+    @Transactional
+    public String userDelete(Principal principal, Model model) {
+        System.out.println("회원 탈퇴");
+        User loginUser = userService.findByUserId(principal.getName()).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning != null) {
+            model.addAttribute("msg", "가게 폐점 신청이 완료되지 않아 회원 탈퇴가 불가능합니다.");
+            model.addAttribute("location", "/owner/deleteRest");
+            return "owner/transit";
+        }
+
+        DeleteUser deleteUser = new DeleteUser(loginUser.getUserNo(), loginUser.getUserId(), loginUser.getUserAuth(), loginUser.getUserStartDate(), loginUser.isUserBlock());
+        deleteUserRepository.save(deleteUser);
+
+        userService.deleteByUserNo(loginUser.getUserNo());
+        return "redirect:/logout";
     }
 
     // ---------------------------- 이벤트 관련 --------------------------
@@ -254,6 +290,8 @@ public class OwnerController {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
             return "owner/transit";
         }
         model.addAttribute("dinning", dinning);
@@ -271,6 +309,8 @@ public class OwnerController {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
             return "owner/transit";
         }
         model.addAttribute("dinning", dinning);
