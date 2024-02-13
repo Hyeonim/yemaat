@@ -4,11 +4,13 @@
 
 
 <div th:fragment="managerContent">
-    <div id="right">
+    <div id="right" style="margin-right: 100px">
+
 
         <h2>문의 페이지 </h2>
-        <table>
-            <tr>
+        <table class="table table-bordered table-hover" style="text-align: center;">
+
+        <tr>
                 <td>qaNo</td>
                 <td>title</td>
                 <td>id</td>
@@ -24,7 +26,16 @@
                 <td th:text="${qa.qaWriteTime}"></td>
                 <td th:text="${qa.qaStatus}"></td>
                 <td>
-                    <button th:attr="onclick='redirectToQA(\'' + ${qa.id} + '\')'">문의 답변</button>
+                    <button style="background-color: black;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;" th:attr="onclick='redirectToQA(\'' + ${qa.id} + '\')'">문의 답변</button>
                 </td>
             </tr>
 

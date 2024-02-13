@@ -9,13 +9,20 @@
         <h2>add</h2>
 
         <form action="/manager/managerPage_NoticeAdd" method="post">
-            <label>제목 : <input type="text" name="subject"></label><br>
+            <div class="form-group">
+                <label for="subject">제목:</label>
+                <input type="text" name="subject" class="form-control" id="subject">
+            </div>
             <input type="hidden" name="writer" value="admin">
-            <label>내용 : <input type="text" name="content"></label><br>
-         <input type="hidden" name="writerdate" value="">
-
-            <input type="submit" value="등록">
+            <div class="form-group">
+                <label for="content">내용:</label>
+                <textarea name="content" class="form-control" id="content"></textarea>
+            </div>
+            <input type="hidden" name="writerdate" value="">
+            <button type="submit" class="btn btn-primary">등록</button>
         </form>
+
+
 
     </div>
 </div>
