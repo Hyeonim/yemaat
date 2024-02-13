@@ -1,6 +1,7 @@
 package com.yi.spring.service;
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.DinningStatus;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.DiningRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,16 @@ public class DiningRestServiceImpl implements DiningRestService{
     }
 
     @Override
+    public Dinning deleteApply(int restNo) {
+        Dinning dinning = diningRestRepository.findById(restNo).get();
+        dinning.setRestStatus(String.valueOf(DinningStatus.WAIT));
+        diningRestRepository.save(dinning);
+        return dinning;
+    }
+
+    @Override
     public Dinning getByUserNo(User userNo) {
-        Optional<Dinning> optionalDiningRest = diningRestRepository.findByUserNo(userNo);
+        Optional<Dinning> optionalDiningRest = diningRestRepository.findByUserNoAndRestStatusNot(userNo, "CLOSED");
         return optionalDiningRest.orElse(null);
     }
 

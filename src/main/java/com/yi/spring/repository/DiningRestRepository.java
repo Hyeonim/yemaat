@@ -14,6 +14,8 @@ public interface DiningRestRepository extends JpaRepository<Dinning, Integer> {
 
     Optional<Dinning> findByUserNo(User userNo);
 
+    Optional<Dinning> findByUserNoAndRestStatusNot(User userNo, String restStatus);
+
 
     Page<Dinning> findByRestNameContainingIgnoreCase(String name, Pageable pageable);
 }

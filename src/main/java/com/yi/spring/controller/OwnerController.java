@@ -62,7 +62,6 @@ public class OwnerController {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         model.addAttribute("user", loginUser);
 
-
         Dinning dinning = diningRestService.getByUserNo(loginUser);
 
         if(dinning == null) {
@@ -174,20 +173,25 @@ public class OwnerController {
     }
 
     @GetMapping("deleteRest")
-    public String deleteRest(Principal principal, Model model) {
+    public String deleteRestForm(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         model.addAttribute("user", loginUser);
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning == null) {
+            return "owner/transit";
+        }
         model.addAttribute("dinning", dinning);
         model.addAttribute("pageName", "식당 폐점 신청");
         return "owner/deleteRest";
     }
     @PostMapping("deleteRest") // 삭제하면 외래키 에러 발생
-    public String deleteRest(Model model) {
+    public String deleteRest(Principal principal, Model model) {
+        User loginUser = userService.findByUserId(principal.getName()).get();
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
 
+        Dinning updatedDinning = diningRestService.deleteApply(dinning.getRestNo());
+        System.out.println(updatedDinning);
 
-
-        model.addAttribute("pageName", "식당 폐점 신청");
         return "redirect:/owner/home";
     }
 
@@ -197,6 +201,9 @@ public class OwnerController {
         User loginUser = userService.findByUserId( principal.getName() ).get();
 
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning == null) {
+            return "owner/transit";
+        }
         model.addAttribute("dinning", dinning);
 
 
@@ -223,13 +230,16 @@ public class OwnerController {
 
         model.addAttribute("user", loginUser);
 
-        model.addAttribute("pageName", "식당 정보 수정");
+        model.addAttribute("pageName", "개인 정보 수정");
         return "/owner/userUpdate";
     }
     @PostMapping("userUpdate")
     public String userUpdate(User user) {
-        System.out.println(user);
+        User existUser = userService.findByUserNo(user.getUserNo()).get();
         User updateUser = userService.updateUser(user);
+        if(existUser.getUserId().equals(updateUser.getUserId()) || existUser.getUserPassword().equals(updateUser.getUserPassword())) {
+            return "redirect:/logout";
+        }
         return "redirect:/owner/userInfo";
     }
 
@@ -243,6 +253,9 @@ public class OwnerController {
     public String event(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning == null) {
+            return "owner/transit";
+        }
         model.addAttribute("dinning", dinning);
 
         List<Event> eventList = eventService.findByRestNo(dinning);
@@ -257,6 +270,9 @@ public class OwnerController {
     public String addEvent(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning == null) {
+            return "owner/transit";
+        }
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("pageName", "이벤트 추가");

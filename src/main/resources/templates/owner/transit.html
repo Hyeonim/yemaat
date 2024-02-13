@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{owner/myPage_layout}">
+
+<th:block th:fragment="content">
+    <script>
+        (function() {
+            alert("등록된 가게가 없습니다. 가게 등록을 해야 이용 가능한 메뉴입니다.")
+            document.location="/owner/addRest";
+        })();
+    </script>
+</th:block>
+</html>

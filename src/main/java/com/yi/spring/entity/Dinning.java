@@ -86,4 +86,12 @@ public class Dinning {
         return "";
     }
 
+    public DinningStatus getRestStatusEnum() {
+        try {
+            return DinningStatus.valueOf(restStatus);
+        } catch (Exception e) {
+            // 예외 처리: 디비에 저장된 값이 Enum에 존재하지 않을 경우
+            return DinningStatus.NORMAL; // 또는 다른 기본값 설정
+        }
+    }
 }
