@@ -5,6 +5,9 @@ import com.yi.spring.repository.*;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -460,6 +463,8 @@ public class ManagerController {
         return "managerPage";
     }
 
+
+
     @GetMapping("/managerPage_JrestDetail")
     public String JumRestDetail(Model model, @RequestParam int restNo) {
 
@@ -510,7 +515,6 @@ public class ManagerController {
 
         return "redirect:/manager/managerPage_JrestInfo";
     }
-
 
 }
 
