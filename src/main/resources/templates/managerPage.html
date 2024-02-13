@@ -8,6 +8,9 @@
         crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link th:href="@{/css/managerPage/managerPage.css}" rel="stylesheet">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 <!--<script src="/css/managerPage/managerPage.js"></script>-->
 <head>
     <meta charset="UTF-8">
@@ -19,7 +22,7 @@
 
 <div id="main">
 
-    <div th:replace="~{/managerPage/managerPage_sidebar::managerSide}">
+    <div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
 
     </div>
     <div th:include="${page}::managerContent">
@@ -42,6 +45,23 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    }
+
 </script>
 <script th:inline="javascript">
     var userAddButton = document.getElementById('userAddButton');
@@ -55,7 +75,6 @@
     function redirectToUserUpdate(userNo) {
         window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
     }
-
 
 
     var userDelButton = document.getElementById('UDel');
@@ -72,7 +91,6 @@
     }
 
     // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡqaㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
 
 
     function redirectToQA(id) {
@@ -92,8 +110,6 @@
         noticeAddBtn.addEventListener('click', function () {
             window.location.href = '/manager/managerPage_NoticeAdd';
         });
-
-
 
 
     //------------------------------점주-------------------------------
@@ -135,7 +151,7 @@
     //     }
     // }
 
-    document.getElementById("searchInput").addEventListener("input", function() {
+    document.getElementById("searchInput").addEventListener("input", function () {
         var filter, table, tr, td, i;
         filter = this.value.toUpperCase();
         table = document.getElementById("dinningTable");

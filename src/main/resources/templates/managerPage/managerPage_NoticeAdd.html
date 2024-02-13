@@ -10,16 +10,15 @@
 
         <form action="/manager/managerPage_NoticeAdd" method="post">
             <label>제목 : <input type="text" name="subject"></label><br>
-            <label>작성자 : <input type="text" name="writer" value="admin"></label><br>
+            <input type="hidden" name="writer" value="admin">
             <label>내용 : <input type="text" name="content"></label><br>
-            <label>내용 : <input type="hidden" name="writerdate" value=""></label><br>
+         <input type="hidden" name="writerdate" value="">
 
             <input type="submit" value="등록">
         </form>
 
     </div>
 </div>
-
 
 
 </html>

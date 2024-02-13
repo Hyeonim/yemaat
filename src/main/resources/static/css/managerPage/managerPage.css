@@ -61,9 +61,5 @@
     border-radius: 20px;
 }
 
-/* 내부 요소의 margin을 조정하여 간격을 조절할 수 있습니다. */
-#main-box > div {
-    margin: 0 20px; /* 좌우 간격 조정 */
-}
 
 
