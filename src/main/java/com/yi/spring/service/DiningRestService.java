@@ -12,5 +12,6 @@ public interface DiningRestService {
     Dinning updateRestaurant(Dinning dinning);
     void deleteRestaurant(int restNo);
 
+    Dinning deleteApply(int restNo);
     Dinning getByUserNo(User userNo);
 }
