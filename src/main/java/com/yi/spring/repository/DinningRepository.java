@@ -32,6 +32,7 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
     @Query("select d from Dinning d where d.restImg is not null order by RAND() LIMIT :sLimit")
     List<Dinning> getRandomList(@Param("sLimit") String sLimit);
 
+    List<Dinning> findByRestNo(Long restNo);
 
 
 
