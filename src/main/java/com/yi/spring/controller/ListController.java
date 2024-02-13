@@ -34,7 +34,7 @@ public class ListController {
 
     @GetMapping("search")
     public String map(Model model) {
-       List<Dinning> list = dinningService.findAll();
+       List<Dinning> list = dinningRepository.findAll();
 //
 //        for (Dinning diningRest : list) {
 //            System.out.println("Latitude: " + diningRest.getRestLatitude() + ", Longitude: " + diningRest.getRestLongitude() + "가게 이름" + diningRest.getRestName());
@@ -60,7 +60,7 @@ public class ListController {
     public String findRestName(@RequestParam(name = "keyword") String restName, Model model) {
         System.out.println("Controller method called with keyword: " + restName);
 
-        List<Dinning> list = dinningService.findAll();
+        List<Dinning> list = dinningRepository.findAll();
 
         List<Dinning> respList = new ArrayList<>();
         for (Dinning diningRest : list) {

@@ -4,6 +4,10 @@ import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.DiningRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +17,8 @@ import java.util.Optional;
 public class DiningRestServiceImpl implements DiningRestService{
     @Autowired
     private DiningRestRepository diningRestRepository;
+
+
 
     @Override
     public List<Dinning> getAllRestaurants() {
@@ -48,4 +54,8 @@ public class DiningRestServiceImpl implements DiningRestService{
         Optional<Dinning> optionalDiningRest = diningRestRepository.findByUserNo(userNo);
         return optionalDiningRest.orElse(null);
     }
+
+
+
+
 }
