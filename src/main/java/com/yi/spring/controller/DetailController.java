@@ -102,5 +102,24 @@ public class DetailController {
 //    }
 //
 
+    @PostMapping("/ownerRestImgAdd")
+    public void ownerRestImgAdd(@RequestParam MultipartFile file, Dinning dinning) {
+        Optional<Dinning> dbObject = dinningRepository.findById((long) dinning.getRestNo() );
+        if (dbObject.isEmpty())
+            return;
+        if (file.isEmpty())
+            return;
+        try {
+            byte[] revImg = file.getBytes();
+            dbObject.get().setRestImg(revImg);
+            dinningRepository.save(dbObject.get());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
 
 }

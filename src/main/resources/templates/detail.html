@@ -51,6 +51,7 @@
         ion-icon {
             vertical-align: middle;
             font-size: 30px;
+            margin-right: 8px;
         }
 
         #c h1 {
@@ -60,7 +61,7 @@
 
         #c p {
             margin: 10px 0;
-            display: inline-block;
+            /*display: inline-block;*/
             vertical-align: middle;
         }
 
@@ -78,10 +79,11 @@
         }
 
         #c #map {
-            height: 300px;
+            width: 710px;
+            height: 360px;
             border: 1px solid #ddd;
             margin-top: 20px;
-            margin-left: 80px;
+            margin-left: 40px;
             margin-bottom: 40px;
         }
 
@@ -134,9 +136,16 @@
             transform: translateY(0%);
         }
 
-        #img {
-            width: 400px;
+        #img-cont {
+            width: 710px;
             height: 400px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        #img-cont img {
+            width: 710px;
+            height: 710px;
+            margin-top:-200px;
             align-items: center;
         }
 
@@ -144,11 +153,6 @@
         #c {
             height: auto;
             text-align: center;
-        }
-
-        #map {
-            width: 600px;
-            height: 600px;
         }
 
         .reviewT img{

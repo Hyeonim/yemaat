@@ -41,3 +41,29 @@
     box-sizing: border-box;
 
 }
+
+
+#main-box{
+    width: 1000px;
+    justify-content: space-around; /* 요소들을 가운데 정렬하여 공간을 동일하게 분배 */
+    align-items: center; /* 요소들을 세로 중앙에 정렬 */
+    border: solid 2px #f2f2f2;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); /* 그림자 속성 */
+    margin-top: 50px;
+}
+
+#content-box {
+    height: 300px;
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-around; /* 요소들을 가운데 정렬하여 공간을 동일하게 분배 */
+    align-items: center; /* 요소들을 세로 중앙에 정렬 */
+    border-radius: 20px;
+}
+
+/* 내부 요소의 margin을 조정하여 간격을 조절할 수 있습니다. */
+#main-box > div {
+    margin: 0 20px; /* 좌우 간격 조정 */
+}
+
+

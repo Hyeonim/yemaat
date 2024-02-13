@@ -23,7 +23,9 @@ public class Reservation {
     private Long res_no;
 
     private LocalDateTime res_time_new;
-    private LocalDateTime res_time;
+
+    @Column(name = "res_time")
+    private LocalDateTime resTime;
 
     @Column(name = "user_no")
     private Long userNo;
