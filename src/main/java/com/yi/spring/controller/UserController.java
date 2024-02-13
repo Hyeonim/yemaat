@@ -1,17 +1,13 @@
 package com.yi.spring.controller;
 
-import com.yi.spring.entity.QA;
-import com.yi.spring.entity.Reservation;
-import com.yi.spring.entity.Review;
-import com.yi.spring.entity.User;
-import com.yi.spring.repository.QARepository;
-import com.yi.spring.repository.ReservationRepository;
-import com.yi.spring.repository.ReviewRepository;
-import com.yi.spring.repository.UserRepository;
+import com.yi.spring.entity.*;
+import com.yi.spring.repository.*;
 import com.yi.spring.service.QAService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -21,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 @Controller
@@ -39,12 +36,34 @@ public class UserController {
     QARepository qaRepository;
     @Autowired
     QAService qaService;
+    @Autowired
+    DinningRepository dinningRepository;
 
+
+    public List<Dinning> getRestaurantsForLatestReservation(Long userNo){
+        PageRequest pageRequest = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("resTime")));
+        List<Reservation> latestReservationList = reservationRepository.findLatestReservationByUserNo(userNo, pageRequest);
+
+        if (!latestReservationList.isEmpty()) {
+            Long latestRestNo = latestReservationList.get(0).getRestNo();
+            return dinningRepository.findByRestNo(latestRestNo);
+        } else {
+            // 예약 기록이 없는 경우 처리
+            return Collections.emptyList();
+        }
+    }
 
     // 유저 컨텐츠 페이지로 이동
     @GetMapping("userPage/{userNo}")
     public String userPageForm(@PathVariable("userNo") int userNo, Model model) {
+
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation((long) userNo);
+
         model.addAttribute("user", userService.findByUserNo(userNo));
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
+
+        System.out.println(restaurantsForLatestReservation);
+
         return "userPage/user_main";
     }
 

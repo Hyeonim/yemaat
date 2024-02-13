@@ -37,6 +37,7 @@
             transform: translate(-50%, -50%); /* 아이콘을 정확한 가운데로 조정합니다. */
             font-size: 40px;
         }
+
         .round-top-right i {
             position: absolute;
             top: 40%; /* 아이콘을 수직으로 가운데로 위치시킵니다. */
@@ -44,6 +45,7 @@
             transform: translate(-50%, -50%); /* 아이콘을 정확한 가운데로 조정합니다. */
             font-size: 40px;
         }
+
         .round-bottom-left i {
             position: absolute;
             top: 40%; /* 아이콘을 수직으로 가운데로 위치시킵니다. */
@@ -51,6 +53,7 @@
             transform: translate(-50%, -50%); /* 아이콘을 정확한 가운데로 조정합니다. */
             font-size: 40px;
         }
+
         .round-bottom-right i {
             position: absolute;
             top: 40%; /* 아이콘을 수직으로 가운데로 위치시킵니다. */
@@ -62,12 +65,15 @@
         .round-top-left {
             border-top-left-radius: 20px; /* 왼쪽 위 모서리를 둥글게 만듭니다. */
         }
+
         .round-top-right {
             border-top-right-radius: 20px; /* 오른쪽 위 모서리를 둥글게 만듭니다. */
         }
+
         .round-bottom-left {
             border-bottom-left-radius: 20px; /* 왼쪽 아래 모서리를 둥글게 만듭니다. */
         }
+
         .round-bottom-right {
             border-bottom-right-radius: 20px; /* 오른쪽 아래 모서리를 둥글게 만듭니다. */
         }
@@ -80,6 +86,17 @@
             text-decoration: none;
         }
 
+        .userBox {
+            display: flex;
+            flex-direction: column;
+            /*align-items: flex-start;*/
+            border-radius: 0.5rem;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            /*border-bottom: 1px solid lightgray;*/
+        }
+
+
     </style>
 </head>
 
@@ -88,31 +105,39 @@
 
     <div id="u">
 
-        <div style="text-align: center; padding: 50px; margin-top: 45px; background-color: rgba(194,194,196,0.96);">
-            <h3 th:text="${user.get().getUserName()} + '님 반가워요'"></h3>
+        <!--        <div style="text-align: center; padding: 50px; margin-top: 45px; background-color: rgba(194,194,196,0.96);">-->
+        <div class="userBox" style="text-align: center; padding: 10px; margin-top: 45px; ">
+            <div style="font-size: 18px; font-weight: bold" th:text="${user.get().getUserName()} + '님 반가워요'"></div>
+            <div>현재 예약 중인 식당</div>
+            <div th:if="${restaurants != null and restaurants.size() > 0}" th:text="${restaurants.get(0).restName}"></div>
+            <div th:if="${restaurants == null or restaurants.size() == 0}">없음</div>
         </div>
 
         <div id="main"
              style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 78vh; margin-top: -170px;">
 
             <div id="content" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin-top: 150px;">
-                <a id="myReservation" th:href="@{/user/user_posts/{userNo}(userNo=${user.get().userNo})}" class="grid-item round-top-left button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
+                <a id="myReservation" th:href="@{/user/user_posts/{userNo}(userNo=${user.get().userNo})}"
+                   class="grid-item round-top-left button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-calendar"></i>
                     <div class="text-below">My예약</div>
                 </a>
-                <a id="myReview" th:href="@{/user/user_review/{userNo}(userNo=${user.get().userNo})}" class="grid-item round-top-right button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
+                <a id="myReview" th:href="@{/user/user_review/{userNo}(userNo=${user.get().userNo})}"
+                   class="grid-item round-top-right button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-star"></i>
                     <div class="text-below">My리뷰</div>
                 </a>
-                <a id="myInquiry" th:href="@{/QA/user_qa/{userNo}(userNo=${user.get().userNo})}" class="grid-item round-bottom-left button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
+                <a id="myInquiry" th:href="@{/QA/user_qa/{userNo}(userNo=${user.get().userNo})}"
+                   class="grid-item round-bottom-left button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-question-circle"></i>
                     <div class="text-below">My문의</div>
                 </a>
-                <a id="myInfo" th:href="@{/user/user_info/{userNo}(userNo=${user.get().userNo})}" class="grid-item round-bottom-right button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
+                <a id="myInfo" th:href="@{/user/user_info/{userNo}(userNo=${user.get().userNo})}"
+                   class="grid-item round-bottom-right button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-user-cog"></i>
                     <div class="text-below">My정보</div>
                 </a>
-<!--                <a id="" th:href="" class="grid-item round-bottom-right">My 정보 관리</a>-->
+                <!--                <a id="" th:href="" class="grid-item round-bottom-right">My 정보 관리</a>-->
             </div>
 
         </div>

@@ -181,7 +181,7 @@ public class ReservationController {
 
             for ( Reservation elem : reservationList )
             {
-                LocalDateTime res_time_withDate = null != elem.getRes_time() ? elem.getRes_time() : now;
+                LocalDateTime res_time_withDate = null != elem.getResTime() ? elem.getResTime() : now;
                 if ( now.isBefore( res_time_withDate ) )
                     continue;
                 if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.COMPLETED).contains(elem.getReservationStatusEnum()))
@@ -266,7 +266,7 @@ public class ReservationController {
         reservation.setRes_no( reservationNo );
         reservation.setRestNo( iRestNo );
         reservation.setUserNo( iUserNo );
-        reservation.setRes_time( LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        reservation.setResTime( LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         reservation.setRes_time_new( LocalDateTime.now() );
         reservation.setRes_guest_count( count );
         reservation.setRes_comment( message );

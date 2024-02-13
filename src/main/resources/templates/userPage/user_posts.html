@@ -22,7 +22,7 @@
         <tr th:each="reservation : ${list}">
             <td th:text="${reservation.getUserNo()}"></td>
             <td th:text="${reservation.getRestNo()}"></td>
-            <td th:text="${reservation.getRes_time()}"></td>
+            <td th:text="${reservation.getResTime()}"></td>
             <td th:text="${reservation.res_guest_count}"></td>
             <td th:text="${reservation.res_comment}"></td>
         </tr>
