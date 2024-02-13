@@ -6,29 +6,60 @@
 <div th:fragment="managerContent">
     <div id="right">
 
-        <h2>detail</h2>
+        <h2>유저 정보</h2>
 
         <form id="myForm" action="/manager/managerPage_UUpdate" method="post" enctype="multipart/form-data">
-            <p>User No: <input name="userNo" th:value="${user.get().userNo}" readonly></input></p>
-            <p>User name: <input name="userName" th:value="${user.get().userName}"></input></p>
-            <p>User id: <input name="userId" th:value="${user.get().userId}"></input></p>
-            <p>User Email: <input name="userEmail" th:value="${user.get().userEmail}"></input></p>
-            <p>User password: <input name="userPassword" th:value="${user.get().userPassword}"></input></p>
-            <p>User Tel: <input name="userTel" th:value="${user.get().userTel}"></input></p>
-            <p>User Auth: <input name="userAuth" th:value="${user.get().userAuth}"></input></p>
-            <p>Black y/n<input name="userBlock" th:value="${user.get().userBlock}"></p>
-            <p>User Img:
-                <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}"
-                     alt="User Image" style="max-width: 200px; max-height: 200px; cursor: pointer;" >
-            </p>
-            <input type="file" name="file"  onchange="previewImage(this);">
-            <button type="submit">수정</button>
+            <div class="form-group">
+<!--                <label for="file">프로필 :</label><br>-->
+                <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}" alt="User Image" style="max-width: 200px; max-height: 200px; cursor: pointer;"><br>
+                <input type="file" id="file" name="file" onchange="previewImage(this);">
+            </div>
+            <div class="form-group">
+                <label for="userNo">User No:</label>
+                <input id="userNo" name="userNo" type="text" class="form-control" th:value="${user.get().userNo}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="userName">User Name:</label>
+                <input id="userName" name="userName" type="text" class="form-control" th:value="${user.get().userName}">
+            </div>
+            <div class="form-group">
+                <label for="userId">User ID:</label>
+                <input id="userId" name="userId" type="text" class="form-control" th:value="${user.get().userId}">
+            </div>
+            <div class="form-group">
+                <label for="userEmail">User Email:</label>
+                <input id="userEmail" name="userEmail" type="email" class="form-control" th:value="${user.get().userEmail}">
+            </div>
+            <div class="form-group">
+                <label for="userPassword">User Password:</label>
+                <input id="userPassword" name="userPassword" type="password" class="form-control" th:value="${user.get().userPassword}">
+            </div>
+            <div class="form-group">
+                <label for="userTel">User Tel:</label>
+                <input id="userTel" name="userTel" type="tel" class="form-control" th:value="${user.get().userTel}">
+            </div>
+            <div class="form-group">
+                <label for="userAuth">User Auth:</label>
+                <input id="userAuth" name="userAuth" type="text" class="form-control" th:value="${user.get().userAuth}">
+            </div>
+            <div class="form-group">
+                <label for="userBlock">Black y/n:</label>
+                <select id="userBlock" name="userBlock" class="form-control">
+                    <option value="1" th:selected="${user.get().userBlock == 1}">Yes</option>
+                    <option value="0" th:selected="${user.get().userBlock == 0}">No</option>
+                </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">수정</button>
+
         </form>
 
         <form action="/manager/managerPage_UDel" method="post">
-          <input type="hidden" name="userNo" th:value="${user.get().userNo}" readonly></input>
-        <button id="UDel">삭제</button>
+            <input type="hidden" name="userNo" th:value="${user.get().userNo}" readonly></input>
+            <button id="UDel"  class="btn btn-primary">삭제</button>
         </form>
+
     </div>
 </div>
 

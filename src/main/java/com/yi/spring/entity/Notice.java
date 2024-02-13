@@ -29,4 +29,9 @@ public class Notice {
     @Column(name = "content", columnDefinition = "text")
     private String content;
 
+    // writerDate 필드에 대한 Setter 메서드
+    public void setWriteDate(Instant writeDate) {
+        this.writeDate = Instant.now(); // 데이터가 저장될 때 현재 시간으로 설정
+    }
+
 }

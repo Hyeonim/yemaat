@@ -6,27 +6,28 @@
 <div th:fragment="managerContent">
     <div id="right">
 
-        <h2>공지사항  </h2>
-<table>
-    <tr>
-        <td>no</td>
-        <td>subject</td>
-        <td>writer</td>
-        <td>writer_date</td>
+        <h2>공지사항 </h2>
+        <table class="table table-bordered table-hover" style="text-align: center;">
 
-    </tr>
-    <tr th:each="list : ${list}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
+            <tr>
+                <td>no</td>
+                <td>subject</td>
+                <td>writer</td>
+                <td>writer_date</td>
 
-<td th:text="${list.id}"></td>
-<td th:text="${list.subject}"></td>
-<td th:text="${list.writer}"></td>
-<td th:text="${list.writeDate}"></td>
+            </tr>
+            <tr th:each="list : ${list}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
 
+                <td th:text="${list.id}"></td>
+                <td th:text="${list.subject}"></td>
+                <td th:text="${list.writer}"></td>
+                <td th:text="${list.writeDate}"></td>
 
-    </tr>
+            </tr>
 
-</table>
+        </table>
 
+        <button id="noticeAdd">공지 추가</button>
 
 
     </div>

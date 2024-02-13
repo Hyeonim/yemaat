@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +95,6 @@ public class ManagerController {
                                @RequestParam(value = "page", defaultValue = "0") int page) {
 
         Page<User> paging = this.userService.findByUserNoPaged(page);
-
 
 
         model.addAttribute("users", paging);
@@ -296,6 +297,24 @@ public class ManagerController {
         return "managerPage";
     }
 
+    @PostMapping("managerPage_NoticeAdd")
+    public String managerNoticeAdd(@RequestParam String subject,
+                                   @RequestParam String writer,
+                                   @RequestParam String content,
+                                   Model model) {
+
+        Notice notice = new Notice();
+
+        notice.setSubject(subject);
+        notice.setWriter(writer);
+        notice.setContent(content);
+        notice.setWriteDate(Instant.now());
+
+        noticeRepository.save(notice);
+
+
+        return "redirect:/manager/managerPage_Notice";
+    }
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 

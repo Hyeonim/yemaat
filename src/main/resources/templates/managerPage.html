@@ -86,7 +86,12 @@
         window.location.href = '/manager/managerPage_NoticeDetail?id=' + id;
     }
 
-
+    var noticeAddBtn = document.getElementById('noticeAdd');
+    //추가버튼
+    if (noticeAddBtn)
+        noticeAddBtn.addEventListener('click', function () {
+            window.location.href = '/manager/managerPage_NoticeAdd';
+        });
 
 
 

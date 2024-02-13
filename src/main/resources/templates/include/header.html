@@ -6,22 +6,7 @@
             const keyword = document.getElementById('searchBar').value;
             const xhr = new XMLHttpRequest();
             xhr.open('GET', '/find_rest_name?keyword=' + encodeURIComponent(keyword), true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    let doc = new DOMParser().parseFromString(xhr.responseText, 'text/html');
-                    document.querySelector('ul#resultList').innerHTML = doc.querySelector('ul#resultList').innerHTML;
-                    let scriptTags = doc.querySelectorAll('script');
-                    let runnableScript = [];
-                    scriptTags.forEach(scriptTag => {
-                        if (null === scriptTag.getAttribute("map"))
-                            return;
-                        // eval(scriptTag.textContent);
-                        runnableScript.push( scriptTag.textContent );
-                    });
-                    eval( runnableScript.join( '' ) );
-                }
-            };
-            xhr.send();
+
         }
     </script>
     <div>

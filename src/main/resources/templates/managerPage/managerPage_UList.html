@@ -4,39 +4,30 @@
 
 
 <div th:fragment="managerContent">
-    <div id="right">
+    <div id="right" style="margin-right: 100px">
 
-        <h2>List</h2>
+        <h2 style="font-family: 'Arial', sans-serif; color: #333; font-size: 24px; font-weight: bold; margin-top: 40px">유저 관리</h2>
 
-        <table>
-            <thead>
+        <table class="table table-bordered table-hover" style="text-align: center;">
+
             <tr>
-                <th>no</th>
-                <th>아이디</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>전화번호</th>
-                <th>Auth</th>
-                <th>사작일</th>
-
+                <th class="table-header">No</th>
+                <th class="table-header">아이디</th>
+                <th class="table-header">이름</th>
+                <th class="table-header">이메일</th>
+                <th class="table-header">전화번호</th>
+                <th class="table-header">시작일</th>
             </tr>
-            </thead>
 
-            <tbody>
             <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'" >
                 <td th:text="${user.userNo}">Name</td>
                 <td th:text="${user.userId}">ID</td>
                 <td th:text="${user.userName}">Name</td>
                 <td th:text="${user.userEmail}">Name</td>
                 <td th:text="${user.userTel}">Name</td>
-                <td th:text="${user.userAuth}">Name</td>
-
                 <td th:text="${user.userStartDate}">Name</td>
             </tr>
-            </tbody>
         </table>
-
-
 
         <div th:if="${!users.isEmpty()}">
             <ul class="pagination justify-content-center">
@@ -57,12 +48,15 @@
                         <span>다음</span>
                     </a>
                 </li>
+
             </ul>
+
         </div>
 
         <button id="userAddButton">유저 추가</button>
 
     </div>
+
 </div>
 
 
