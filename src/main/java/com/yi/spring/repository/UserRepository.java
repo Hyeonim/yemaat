@@ -5,6 +5,7 @@ import com.yi.spring.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,5 +33,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 //
 //    Optional<User> findByEmail(String email);
 
+    // 사용자가 소유한 가게 정보를 조인해서 가져오는 메서드
+
+
+    //방금 추가
+    @Query("SELECT u FROM User u JOIN FETCH u.dinningList d WHERE u.userAuth = '2'")
+    List<User> findAllWithDinningList();
 
 }

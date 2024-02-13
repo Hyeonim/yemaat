@@ -357,38 +357,51 @@ public class ManagerController {
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-    @GetMapping("/managerPage_JInfo")
-    public String managerInfoA(Model model) {
-
+//    @GetMapping("/managerPage_JInfo")
+//    public String managerInfoA(Model model) {
+//
 //        model.addAttribute("page", "managerPage/managerPage_JInfo");
 //
+//        // 사용자 목록 가져오기
 //        List<User> userList = userService.getAllUsers();
 //
-//        List<User> Owner = new ArrayList<>();
-//        for (User result : userList) {
-//            if (result.getUserAuth().equals("2")) {
-//                Owner.add(result);
+//        System.out.println(userList);
+//
+//        // 각 사용자가 소유한 가게의 정보를 가져와서 함께 저장
+//        List<Dinning> dinningList = new ArrayList<>();
+//        for (User user : userList) {
+//            if ("2".equals(user.getUserAuth())) {
+//                dinningList.addAll(user.getDiningRests()); // 사용자가 소유한 가게들을 가져와서 리스트에 추가하는 거임
 //            }
 //        }
-//        model.addAttribute("userList", Owner);
 //
+//        System.out.println(dinningList);
+//
+//        model.addAttribute("dinningList", dinningList); // 가져온 가게 목록 뿌리기
 //
 //        return "managerPage";
+//    }
+
+    @GetMapping("/managerPage_JInfo")
+    public String managerInfoA(Model model) {
 
         model.addAttribute("page", "managerPage/managerPage_JInfo");
 
         // 사용자 목록 가져오기
         List<User> userList = userService.getAllUsers();
 
+
         // 각 사용자가 소유한 가게의 정보를 가져와서 함께 저장
-        List<Dinning> dinningList = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         for (User user : userList) {
             if ("2".equals(user.getUserAuth())) {
-                dinningList.addAll(user.getDiningRests()); // 사용자가 소유한 가게들을 가져와서 리스트에 추가하는 거임
+                users.add(user); // 사용자가 소유한 가게들을 가져와서 리스트에 추가하는 거임
             }
         }
 
-        model.addAttribute("dinningList", dinningList); // 가져온 가게 목록 뿌리기
+        System.out.println(users);
+
+        model.addAttribute("users", users); // 가져온 가게 목록 뿌리기
 
         return "managerPage";
     }
@@ -580,6 +593,25 @@ public class ManagerController {
             dinningRepository.save(din);
         });
 
+        return "redirect:/manager/managerPage_JrestInfo";
+    }
+
+    @PostMapping("managerPage_JrestAdd")
+    public String JrestAdd(@RequestParam(required = false) MultipartFile file, Dinning dinning, Model model) {
+
+        if (file != null && !file.isEmpty()) {
+            byte[] restImg = new byte[0];
+            try {
+                restImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            dinning.setRestImg(restImg);
+        }
+
+        dinningRepository.save(dinning);
+
+        System.out.println("123123123");
         return "redirect:/manager/managerPage_JrestInfo";
     }
 

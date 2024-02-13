@@ -38,35 +38,59 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="dinning : ${dinningList}" th:onclick="'javascript:redirectToJumDetail(\'' + ${dinning.userNo.userNo} + '\')'">
+<!--                <tr th:each="dinning : ${dinningList}" th:onclick="'javascript:redirectToJumDetail(\'' + ${dinning.userNo.userNo} + '\')'">-->
+<!--                    &lt;!&ndash; 가게 정보 &ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${dinning.restNo}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${dinning.restName}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${dinning.restAddr}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${dinning.restTel}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${dinning.restSeat}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${dinning.restTime}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${dinning.restImg}"></td>&ndash;&gt;-->
+<!--                    &lt;!&ndash; 점주 정보 &ndash;&gt;-->
+<!--                    <td th:text="${dinning.userNo.userNo}"></td>-->
+<!--                    <td th:text="${dinning.userNo.userId}"></td>-->
+<!--                    <td th:text="${dinning.userNo.userName}"></td>-->
+<!--                    <td th:text="${dinning.userNo.userEmail}"></td>-->
+<!--                    <td th:text="${dinning.userNo.userTel}"></td>-->
+<!--                    <td th:text="${dinning.userNo.userImg}"></td>-->
+<!--                &lt;!&ndash;                <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <tr th:each="user : ${userList}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${user.userNo}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${user.userId}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    &lt;!&ndash;                    <td th:text="${user.userPassword}"></td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${user.userName}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${user.userEmail}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${user.userTel}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <td th:text="${user.userStartDate}"></td>&ndash;&gt;-->
+                <tr th:each="users : ${users}" th:onclick="'javascript:redirectToJumDetail(\'' + ${users.userNo} + '\')'">
                     <!-- 가게 정보 -->
-<!--                    <td th:text="${dinning.restNo}"></td>-->
-<!--                    <td th:text="${dinning.restName}"></td>-->
-<!--                    <td th:text="${dinning.restAddr}"></td>-->
-<!--                    <td th:text="${dinning.restTel}"></td>-->
-<!--                    <td th:text="${dinning.restSeat}"></td>-->
-<!--                    <td th:text="${dinning.restTime}"></td>-->
-<!--                    <td th:text="${dinning.restImg}"></td>-->
+                    <!--                    <td th:text="${users.restNo}"></td>-->
+                    <!--                    <td th:text="${users.restName}"></td>-->
+                    <!--                    <td th:text="${users.restAddr}"></td>-->
+                    <!--                    <td th:text="${users.restTel}"></td>-->
+                    <!--                    <td th:text="${users.restSeat}"></td>-->
+                    <!--                    <td th:text="${users.restTime}"></td>-->
+                    <!--                    <td th:text="${users.restImg}"></td>-->
                     <!-- 점주 정보 -->
-                    <td th:text="${dinning.userNo.userNo}"></td>
-                    <td th:text="${dinning.userNo.userId}"></td>
-                    <td th:text="${dinning.userNo.userName}"></td>
-                    <td th:text="${dinning.userNo.userEmail}"></td>
-                    <td th:text="${dinning.userNo.userTel}"></td>
-                    <td th:text="${dinning.userNo.userImg}"></td>
-                <!--                <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">-->
-<!--                <tr th:each="user : ${userList}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">-->
-<!--                    <td th:text="${user.userNo}"></td>-->
-<!--                    <td th:text="${user.userId}"></td>-->
-<!--                    &lt;!&ndash;                    <td th:text="${user.userPassword}"></td>&ndash;&gt;-->
-<!--                    <td th:text="${user.userName}"></td>-->
-<!--                    <td th:text="${user.userEmail}"></td>-->
-<!--                    <td th:text="${user.userTel}"></td>-->
-<!--                    <td th:text="${user.userStartDate}"></td>-->
+                    <td th:text="${users.userName}"></td>
+                    <td th:text="${users.userId}"></td>
+                    <!--                    <td th:text="${dinning.userNo.userName}"></td>-->
+                    <!--                    <td th:text="${dinning.userNo.userEmail}"></td>-->
+                    <!--                    <td th:text="${dinning.userNo.userTel}"></td>-->
+                    <!--                    <td th:text="${dinning.userNo.userImg}"></td>-->
+                    <!--                <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">-->
+                    <!--                <tr th:each="user : ${userList}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">-->
+                    <!--                    <td th:text="${user.userNo}"></td>-->
+                    <!--                    <td th:text="${user.userId}"></td>-->
+                    <!--                    &lt;!&ndash;                    <td th:text="${user.userPassword}"></td>&ndash;&gt;-->
+                    <!--                    <td th:text="${user.userName}"></td>-->
+                    <!--                    <td th:text="${user.userEmail}"></td>-->
+                    <!--                    <td th:text="${user.userTel}"></td>-->
+                    <!--                    <td th:text="${user.userStartDate}"></td>-->
                 </tr>
                 </tbody>
             </table>
-            <button id="JumAddButton">추가</button>
         </div>
     </div>
 </div>
