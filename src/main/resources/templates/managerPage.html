@@ -116,42 +116,47 @@
     }
 
 
-    // function search() {
-    //     var input, filter, table, tr, td, i;
-    //     input = document.getElementById("searchInput");
-    //     filter = input.value.toUpperCase();
-    //     table = document.getElementById("dinningTable");
-    //     tr = table.getElementsByTagName("tr");
+
+
+    // function searchDinning() {
+    //     // 입력 필드에서 입력된 값을 가져옴
+    //     var keyword = document.getElementById("searchInput").value.toUpperCase();
     //
-    //     for (i = 0; i < tr.length; i++) {
-    //         td = tr[i].getElementsByTagName("td")[1]; // 두 번째 열에 해당하는 가게 이름으로 필터링
-    //         if (td) {
-    //             if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    //                 tr[i].style.display = "";
-    //             } else {
-    //                 tr[i].style.display = "none";
-    //             }
-    //         }
-    //     }
+    //     // 검색어를 컨트롤러로 전달하고 해당하는 가게 목록을 가져옴
+    //     fetch("/manager/managerPage_JrestInfo?keyword=" + keyword)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             // 가져온 가게 목록을 테이블에 표시
+    //             displayDinningList(data);
+    //         })
+    //         .catch(error => console.error('Error fetching dinning list:', error));
     // }
 
-    document.getElementById("searchInput").addEventListener("input", function() {
-        var filter, table, tr, td, i;
-        filter = this.value.toUpperCase();
-        table = document.getElementById("dinningTable");
-        tr = table.getElementsByTagName("tr");
 
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1]; // 두 번째 열에 해당하는 가게 이름으로 필터링
-            if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    });
+    function searchDinning() {
+        let searchInput = document.getElementById("searchInput").value;
+        // AJAX를 통해 검색어를 서버로 전송
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("GET", "/manager/managerPage_JrestInfo?searchInput=" + searchInput, true);
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState == 4 && xhr.status == 200) {
+        //         // 검색 결과를 받아와서 페이지에 표시
+        //         document.getElementById("dinningTable").innerHTML = xhr.responseText;
+        //     }
+        // };
+        // xhr.send();
+        gv = [];
+        fetch("/manager/managerPage_JrestInfo?searchInput=" + searchInput)
+            .then(resp => resp.text())
+            .then(data => {
+                let doc = new DOMParser().parseFromString(data, 'text/html');
+                document.getElementById("dinningTable").innerHTML = doc.getElementById("dinningTable").innerHTML
+        });
+    }
+
+
+
+
 
 
 </script>

@@ -9,11 +9,20 @@
         <h2>detail</h2>
 
 
-<!--        <span>no : <input th:value="${notice.get().id}" readonly></span><br>-->
-        <span>subject : <input th:value="${notice.get().subject}" style="width: 400px"></span><br>
-        <span>writer : <input th:value="${notice.get().writer}"></span><br>
-        <span>content : <br>
-    <textarea th:text="${notice.get().content}" style="width: 400px; height: 400px;"></textarea></span>
+        <form action="/manager/managerPage_NoticeUpdate" method="post">
+            <input type="hidden" name="id" th:value="${notice.get().id}" />
+            <span>no : <input th:value="${notice.get().id}" readonly></span><br>
+            <span>subject : <input name="subject" th:value="${notice.get().subject}" style="width: 400px"></span><br>
+            <span>writer : <input  name="writer" th:value="${notice.get().writer}"></span><br>
+            <span>content : <br>
+    <textarea th:text="${notice.get().content}" name="content" style="width: 400px; height: 400px;"></textarea></span>
+            <input type="submit" value="수정">
+        </form>
+        <form action="/manager/managerPage_NoticeDelete" method="post">
+            <input type="hidden" name="id" th:value="${notice.get().id}" readonly></input>
+            <button type="submit">삭제</button>
+        </form>
+
 
 
     </div>
@@ -21,3 +30,6 @@
 
 
 </html>
+
+
+
