@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<div th:fragment="managerContent">
+    <div id="right">
+
+        <h2>detail</h2>
+
+
+<!--        <span>no : <input th:value="${notice.get().id}" readonly></span><br>-->
+        <span>subject : <input th:value="${notice.get().subject}" style="width: 400px"></span><br>
+        <span>writer : <input th:value="${notice.get().writer}"></span><br>
+        <span>content : <br>
+    <textarea th:text="${notice.get().content}" style="width: 400px; height: 400px;"></textarea></span>
+
+
+    </div>
+</div>
+
+
+</html>

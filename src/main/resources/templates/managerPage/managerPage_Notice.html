@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<div th:fragment="managerContent">
+    <div id="right">
+
+        <h2>공지사항  </h2>
+<table>
+    <tr>
+        <td>no</td>
+        <td>subject</td>
+        <td>writer</td>
+        <td>writer_date</td>
+
+    </tr>
+    <tr th:each="list : ${list}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
+
+<td th:text="${list.id}"></td>
+<td th:text="${list.subject}"></td>
+<td th:text="${list.writer}"></td>
+<td th:text="${list.writeDate}"></td>
+
+
+    </tr>
+
+</table>
+
+
+
+    </div>
+</div>
+
+
+</html>

@@ -1,13 +1,7 @@
 package com.yi.spring.controller;
 
-import com.yi.spring.entity.Dinning;
-import com.yi.spring.entity.QA;
-import com.yi.spring.entity.QaAnswer;
-import com.yi.spring.entity.User;
-import com.yi.spring.repository.DinningRepository;
-import com.yi.spring.repository.QARepository;
-import com.yi.spring.repository.QaAnswerRepository;
-import com.yi.spring.repository.UserRepository;
+import com.yi.spring.entity.*;
+import com.yi.spring.repository.*;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +44,9 @@ public class ManagerController {
 
     @Autowired
     DinningRepository dinningRepository;
+
+    @Autowired
+    NoticeRepository noticeRepository;
 
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
@@ -269,6 +266,37 @@ public class ManagerController {
         });
 
         return "redirect:/manager/managerPage_QA";
+    }
+
+    //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+
+    @GetMapping("/managerPage_Notice")
+    public String managerNoticeList(Model model) {
+
+        List<Notice> list = noticeRepository.findAll();
+
+//        System.out.println(list);
+
+
+        model.addAttribute("page", "managerPage/managerPage_Notice");
+        model.addAttribute("list", list);
+
+        return "managerPage";
+    }
+
+    @GetMapping("/managerPage_NoticeDetail")
+    public String managerNoticeDetail(@RequestParam int id,
+                                      Model model) {
+        Optional<Notice> notice = noticeRepository.findById(id);
+
+        System.out.println(notice);
+
+
+        model.addAttribute("notice", notice);
+        model.addAttribute("page", "managerPage/managerPage_NoticeDetail");
+
+        return "managerPage";
     }
 
 
