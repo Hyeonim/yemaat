@@ -12,6 +12,7 @@
             <label>이메일</label><input type="email" name="userEmail" th:value="*{getUserEmail()}"><br/>
             <label>전화번호</label><input type="tel" name="userTel" th:value="*{getUserTel()}"><br/>
             <input type="hidden" th:value="*{getUserNo()}" name="userNo">
+            <input type="hidden" th:value="*{getUserAuth()}" name="userAuth">
             <input type="button" value="수정" onclick="submitUserForm()">
             <input type="button" value="취소" th:onclick="|location.href='@{/owner/userInfo}'|">
         </form>
@@ -21,8 +22,6 @@
             if(confirm("수정하시겠습니까?")) {
                 let form = document.getElementById("updateUserForm");
                 form.submit();
-            } else {
-                window.history.back();
             }
         }
     </script>

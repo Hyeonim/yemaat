@@ -3,6 +3,9 @@ package com.yi.spring.repository;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Review;
 import com.yi.spring.entity.TablingDto;
+import com.yi.spring.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -34,6 +37,8 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
 
     List<Dinning> findByRestNo(Long restNo);
 
+    Page<Dinning> findAll(Pageable pageable);
 
 
+    Page<Dinning> findByRestNameContainingIgnoreCase(String name, Pageable pageable);
 }

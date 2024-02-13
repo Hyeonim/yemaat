@@ -1,9 +1,14 @@
 package com.yi.spring.service;
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.DinningStatus;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.DiningRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +18,8 @@ import java.util.Optional;
 public class DiningRestServiceImpl implements DiningRestService{
     @Autowired
     private DiningRestRepository diningRestRepository;
+
+
 
     @Override
     public List<Dinning> getAllRestaurants() {
@@ -44,8 +51,20 @@ public class DiningRestServiceImpl implements DiningRestService{
     }
 
     @Override
+    public Dinning deleteApply(int restNo) {
+        Dinning dinning = diningRestRepository.findById(restNo).get();
+        dinning.setRestStatus(String.valueOf(DinningStatus.WAIT));
+        diningRestRepository.save(dinning);
+        return dinning;
+    }
+
+    @Override
     public Dinning getByUserNo(User userNo) {
-        Optional<Dinning> optionalDiningRest = diningRestRepository.findByUserNo(userNo);
+        Optional<Dinning> optionalDiningRest = diningRestRepository.findByUserNoAndRestStatusNot(userNo, "CLOSED");
         return optionalDiningRest.orElse(null);
     }
+
+
+
+
 }

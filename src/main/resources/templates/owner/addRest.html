@@ -13,10 +13,10 @@
         <label>가게 이용시간 : </label><input type="text" name="restTime"><br/>
         <label>가게 휴뮤일 : </label><input type="text" name="restOffDays"><br/>
         <label>가게 주차장 : </label><input type="text" name="restParking"><br/>
-        <label>가게 메뉴 : </label><input type="text" name="restMenu>"><br/>
+        <label>가게 메뉴 : </label><input type="text" placeholder="가게 등록 후 상세보기 화면에서 추가 가능" readonly><br/>
         <label>가게 업태 : </label><input type="text" name="restCategory"><br/>
-        <label>가게 경도 : </label><input type="text" name="restLatitude"><br/>
-        <label>가게 위도 : </label><input type="text" name="restLongitude"><br/>
+        <label>가게 위도 : </label><input type="text" name="restLatitude"><br/>
+        <label>가게 경도 : </label><input type="text" name="restLongitude"><br/>
         <label>가게 소개글 : </label><input type="text" name="restDescription"><br/>
         <label>가게 대표 이미지 : </label><input type="file" name="restImg"><br/>
         <input type="button" value="등록" onclick="submitRestForm()">
@@ -25,11 +25,9 @@
 
 <script>
     function submitRestForm() {
-        if(confirm("등록하시겠습니까?")) {
+        if (confirm("등록하시겠습니까?")) {
             let form = document.getElementById("addRestForm");
             form.submit();
-        } else {
-            window.history.back();
         }
     }
 </script>

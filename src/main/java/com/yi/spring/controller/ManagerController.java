@@ -2,6 +2,7 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
 import com.yi.spring.repository.*;
+import com.yi.spring.service.DinningService;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class ManagerController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    DinningService dinningService;
 
     @Autowired
     UserRepository userRepository;
@@ -319,6 +322,39 @@ public class ManagerController {
         return "redirect:/manager/managerPage_Notice";
     }
 
+
+    @PostMapping("managerPage_NoticeUpdate")
+    public String noticeUpdate(
+            @RequestParam int id,
+            @RequestParam String subject,
+            @RequestParam String writer,
+//            @RequestParam String writeDate,
+            Notice notice) throws IOException {
+
+        noticeRepository.save(notice);
+
+        Optional<Notice> noticeOptional = noticeRepository.findById(id);
+
+        return "redirect:/manager/managerPage_Notice";
+    }
+
+    @PostMapping("managerPage_NoticeDelete")
+    @Transactional
+    public String noticeDelete(@RequestParam int id, Model model) {
+
+        noticeRepository.deleteById(id);
+
+        return "redirect:/manager/managerPage_Notice";
+    }
+
+
+
+
+
+
+
+
+
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     @GetMapping("/managerPage_JInfo")
@@ -468,16 +504,33 @@ public class ManagerController {
 //        return "redirect:/manager/managerPage_JInfo";
 //    }
 
-    @GetMapping("managerPage_JrestInfo")
-    public String restInfo(Model model) {
+//    @GetMapping("managerPage_JrestInfo")
+//    public String restInfo(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+//
+//            Page<Dinning> dinningList = this.dinningService.findByDinningNoPaged(page);
+//
+//        model.addAttribute("dinningList", dinningList);
+//        model.addAttribute("page", "managerPage/managerPage_JrestInfo");
+//
+//        return "managerPage";
+//    }
 
-        List<Dinning> dinningList = dinningRepository.findAll();
+    @GetMapping("/managerPage_JrestInfo")
+    public String restInfo(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "searchInput", required = false) String searchInput) {
+        Page<Dinning> dinningList;
+
+        if (searchInput != null && !searchInput.isEmpty()) {
+            dinningList = dinningService.searchByDinningNamePaged(page, searchInput);
+        } else {
+            dinningList = dinningService.findByDinningNoPaged(page);
+        }
 
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestInfo");
-
         return "managerPage";
     }
+
 
     @GetMapping("/managerPage_JrestDetail")
     public String JumRestDetail(Model model, @RequestParam int restNo) {
