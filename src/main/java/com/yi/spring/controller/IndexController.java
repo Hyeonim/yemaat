@@ -2,16 +2,23 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Review;
+import com.yi.spring.entity.User;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReviewRepository;
+import com.yi.spring.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +31,8 @@ public class IndexController {
     DinningRepository dinningRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/")
     public String home() {
@@ -60,6 +69,25 @@ public class IndexController {
     @GetMapping("/signUp")
     public String usersignUp(Model model, HttpSession httpSession) {
         return "usersignUp";
+    }
+
+
+    @PostMapping("join")
+    public String userjoin(@RequestParam MultipartFile file, User user, @RequestParam String userType) {
+
+        user.setUserAuth( "2".equals(userType) ? "2" : "1" );
+
+        if ( !file.isEmpty() ) {
+            try {
+                byte[] userImg = file.getBytes();
+                user.setUserImg(userImg);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        userRepository.save(user);
+
+        return "redirect:/login";
     }
 
 //    @GetMapping("/hostsignUp")
