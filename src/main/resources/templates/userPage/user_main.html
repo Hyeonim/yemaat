@@ -88,12 +88,56 @@
 
         .userBox {
             display: flex;
-            flex-direction: column;
-            /*align-items: flex-start;*/
             border-radius: 0.5rem;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             background-color: #fff;
-            /*border-bottom: 1px solid lightgray;*/
+            border-bottom: 1px solid lightgray;
+        }
+
+        .pointBox {
+            display: flex;
+            /*border-radius: 0.5rem;*/
+            background-color: #fff;
+            padding: 1rem 1.5rem 1.2rem 1rem;
+            justify-content: space-between;
+            border-bottom: 1px solid lightgray;
+        }
+
+        .point {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 117px;
+            font-size: 40px
+        }
+
+        .resBox {
+            display: block;
+            margin: 30px auto 0;
+            width: 170px;
+            -webkit-box-sizing: border-box;
+            border-radius: 10px;
+            height: 40px;
+            line-height: 38px;
+            padding: 0 18px;
+            text-decoration: none;
+            cursor: pointer;
+            /*border: 1px solid #333333;*/
+            /*border: 1px solid rgba(72, 119, 166, 0.89); !* 테두리 *!*/
+            color: rgba(98, 98, 98, 0.65) !important;
+            text-align: center;
+            vertical-align: middle;
+            /*background-color: rgba(74, 147, 183, 0.67);*/
+            background-color: rgb(121 239 180 / 67%);
+
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .content-container{
+            background-image: url("/img/simple-green-gradient-background-vector-for-business_53876-174936.jpg"); /* 배경이미지 */
+            height: 790px;
+
         }
 
 
@@ -105,16 +149,35 @@
 
     <div id="u">
 
-        <!--        <div style="text-align: center; padding: 50px; margin-top: 45px; background-color: rgba(194,194,196,0.96);">-->
-        <div class="userBox" style="text-align: center; padding: 10px; margin-top: 45px; ">
-            <div style="font-size: 18px; font-weight: bold" th:text="${user.get().getUserName()} + '님 반가워요'"></div>
-            <div>현재 예약 중인 식당</div>
-            <div th:if="${restaurants != null and restaurants.size() > 0}" th:text="${restaurants.get(0).restName}"></div>
-            <div th:if="${restaurants == null or restaurants.size() == 0}">없음</div>
+        <div class="userBox" style="display: flex">
+            <div style="text-align: center; padding: 10px; width: 60%; border-right: 1px solid lightgray; ">
+                <div style="display: flex; font-size: 18px; font-weight: bold"
+                     th:text="${user.get().getUserName()} + '님 반가워요'"></div>
+                <div style="text-align: center; font-size: 18px; margin-top: 1rem;">현재 예약 중인 식당</div>
+                <div style="display: flex; justify-content: center">
+                    <div class="resBox" th:if="${restaurants != null and restaurants.size() > 0}"
+                         th:text="${restaurants.get(0).restName}"></div>
+                    <div class="resBox" th:if="${restaurants == null or restaurants.size() == 0}">없음</div>
+                </div>
+            </div>
+
+            <div style="width: 40%;">
+                <div class="pointBox">
+                    <div>MY포인트</div>
+                    <a href="#"><img src="/img/setup.png"></a>
+                </div>
+                <div class="point">
+                    <div>150P</div>
+                </div>
+
+            </div>
+
+
         </div>
 
+
         <div id="main"
-             style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 78vh; margin-top: -170px;">
+             style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 76vh; margin-top: -170px;">
 
             <div id="content" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin-top: 150px;">
                 <a id="myReservation" th:href="@{/user/user_posts/{userNo}(userNo=${user.get().userNo})}"
@@ -143,6 +206,7 @@
         </div>
 
     </div>
+
 
 </th:block>
 </body>

@@ -38,6 +38,8 @@ public class UserController {
     QAService qaService;
     @Autowired
     DinningRepository dinningRepository;
+    @Autowired
+    DiningRestRepository diningRestRepository;
 
 
     public List<Dinning> getRestaurantsForLatestReservation(Long userNo){
@@ -77,7 +79,11 @@ public class UserController {
     @GetMapping("user_posts/{userNo}")
     public String userPosts(@PathVariable("userNo") Long userNo, Model model) {
         List<Reservation> list = reservationRepository.findByUserNo(userNo);
+//        List<String> list2 = dinningRepository.findRestImagesByUserNo(userNo);
+//        model.addAttribute("img", list2);
         model.addAttribute("list", list);
+
+//        System.out.println(list2);
         return "userPage/user_posts";
     }
 

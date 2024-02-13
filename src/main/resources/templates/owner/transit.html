@@ -5,10 +5,10 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <script>
+    <script th:inline="javascript">
         (function() {
-            alert("등록된 가게가 없습니다. 가게 등록을 해야 이용 가능한 메뉴입니다.")
-            document.location="/owner/addRest";
+            alert([[${msg}]])
+            document.location=[[${location}]]
         })();
     </script>
 </th:block>

@@ -1,33 +1,99 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{userPage/Layout_userPage}">
+      layout:decorate="~{userPage/Layout_userPage2}">
 
 <th:block th:fragment="content">
 
-<h1>My 예약 현황</h1>
+    <style>
+
+        a:link {
+            text-decoration: none;
+        }
+
+        #posts_main {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            left: 650px;
+            top: 120px;
+            margin: 0;
+        }
+
+        #mySideBar {
+            white-space: nowrap;
+            position: fixed;
+            top: 180px;
+            font-size: 20px;
+            color: rgb(69, 69, 69);
+            left: 320px;
+        }
+
+        .mypage_sidebar_nav {
+            list-style-type: none;
+            padding-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #container1 {
+            display: flex;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            margin-top: 40px;
+        }
+
+
+    </style>
+
+    <h1>My 예약 현황</h1>
+
     <a th:href="@{/user/userPage/{userNo}(userNo=${userNo})}">돌아가기</a><br>
 
-    <table>
-        <thead>
-        <tr>
-            <th>회원번호</th>
-            <th>식당 번호</th>
-            <th>예약 시간</th>
-            <th>예약 인원</th>
-            <th>요청사항</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="reservation : ${list}">
-            <td th:text="${reservation.getUserNo()}"></td>
-            <td th:text="${reservation.getRestNo()}"></td>
-            <td th:text="${reservation.getResTime()}"></td>
-            <td th:text="${reservation.res_guest_count}"></td>
-            <td th:text="${reservation.res_comment}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div id="posts_main">
+        <nav id="mySideBar">
+            <ul>
+                <li class="mypage_sidebar_nav"><a href="#">My 예약</a></li>
+                <li class="mypage_sidebar_nav"><a href="#">My 리뷰</a></li>
+                <li class="mypage_sidebar_nav"><a href="#">My 문의</a></li>
+                <li class="mypage_sidebar_nav"><a href="#">My 정보</a></li>
+            </ul>
+        </nav>
+        <div id="wrap">
+            <div id="container1" th:each="res : ${list}">
+<!--                <div id="left" th:each="img : ${img}">-->
+<!--&lt;!&ndash;                    <img th:src="${img}">&ndash;&gt;-->
+<!--                </div>-->
+
+            </div>
+        </div>
+    </div>
+    <!--    <table>-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th>회원번호</th>-->
+    <!--            <th>식당 번호</th>-->
+    <!--            <th>예약 시간</th>-->
+    <!--            <th>예약 인원</th>-->
+    <!--            <th>요청사항</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr th:each="reservation : ${list}">-->
+    <!--            <td th:text="${reservation.getUserNo()}"></td>-->
+    <!--            <td th:text="${reservation.getRestNo()}"></td>-->
+    <!--            <td th:text="${reservation.getResTime()}"></td>-->
+    <!--            <td th:text="${reservation.res_guest_count}"></td>-->
+    <!--            <td th:text="${reservation.res_comment}"></td>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+    <!--    </table>-->
 
 </th:block>
 </html>
