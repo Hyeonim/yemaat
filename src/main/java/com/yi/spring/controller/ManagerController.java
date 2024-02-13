@@ -5,6 +5,7 @@ import com.yi.spring.repository.*;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -88,18 +89,14 @@ public class ManagerController {
 
 
     @GetMapping("/managerPage_UList")
-    public String managerListU(Model model) {
+    public String managerListU(Model model,
+                               @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        List<User> users = userRepository.findAll();
-        List<User> onlyUsers = new ArrayList<>();
-        for (User result : users) {
-            if (result.getUserAuth().equals("1")) {
-                onlyUsers.add(result);
-            }
-        }
-        model.addAttribute("users", onlyUsers);
+        Page<User> paging = this.userService.findByUserNoPaged(page);
 
 
+
+        model.addAttribute("users", paging);
         model.addAttribute("page", "managerPage/managerPage_UList");
         return "managerPage";
     }
