@@ -1,10 +1,10 @@
 * {
-    /*border: solid 1px blue;*/
+    border: solid 1px blue;
 }
 
+
+
 #top{
-
-
     position: fixed;
     top: 0;
     left: 0;
@@ -12,9 +12,12 @@
 }
 #searchBar{
     height: 40px;
-    margin-left: 30%;
+    /*margin-left: 30%;*/
     width: 500px;
     border-radius: 10px;
+}
+#navbarNav{
+    width: 400px;
 }
 
 .f {

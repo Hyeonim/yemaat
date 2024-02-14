@@ -11,12 +11,12 @@
         <form action="/manager/managerPage_NoticeAdd" method="post">
             <div class="form-group">
                 <label for="subject">제목:</label>
-                <input type="text" name="subject" class="form-control" id="subject">
+                <input type="text" name="subject" class="form-control" id="subject" style="width: 400px">
             </div>
             <input type="hidden" name="writer" value="admin">
             <div class="form-group">
                 <label for="content">내용:</label>
-                <textarea name="content" class="form-control" id="content"></textarea>
+                <textarea style="width: 700px; height: 600px" name="content" class="form-control" id="content"></textarea>
             </div>
             <input type="hidden" name="writerdate" value="">
             <button type="submit" class="btn btn-primary">등록</button>

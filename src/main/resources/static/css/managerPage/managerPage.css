@@ -61,7 +61,21 @@
     border-radius: 20px;
 }
 
+/* 스타일은 이 곳에 추가하세요 */
+.w3-sidebar {
+    width: 250px; /* 사이드바 너비 */
+    background-color: #333;
+    color: #FFF;
+    height: 100vh; /* viewport 높이의 100% */
+    overflow-y: auto; /* 너무 긴 경우 스크롤 허용 */
+}
 
+/* 화면이 768px 이하일 때 */
+@media screen and (max-width: 768px) {
+    .w3-sidebar {
+        width: 100%; /* 전체 너비로 변경 */
+    }
+}
 /*table#dinningTable {*/
 /*    width: 130px;*/
 /*}*/
