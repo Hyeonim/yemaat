@@ -1,6 +1,8 @@
 package com.yi.spring.repository;
 
+import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Reservation;
+import com.yi.spring.entity.Review;
 import com.yi.spring.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,8 +38,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // 사용자가 소유한 가게 정보를 조인해서 가져오는 메서드
 
 
+
     //방금 추가
-    @Query("SELECT u FROM User u JOIN FETCH u.dinningList d WHERE u.userAuth = '2'")
-    List<User> findAllWithDinningList();
+//    @Query("SELECT u FROM User u JOIN FETCH u.dinningList d WHERE u.userAuth = '2'")
+    @Query("SELECT u FROM User u inner join u.diningRests diningRests WHERE u.userAuth = '2'")
+    List<User> getAllWithDinningList();
+
+    Page<User> findByUserAuthAndUserNameContaining(String userAuth, String userName, Pageable pageable);
 
 }

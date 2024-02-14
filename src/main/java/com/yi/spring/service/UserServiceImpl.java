@@ -1,22 +1,13 @@
 package com.yi.spring.service;
 
-import com.yi.spring.entity.Menu;
-import com.yi.spring.entity.QA;
-import com.yi.spring.entity.Reservation;
-import com.yi.spring.entity.User;
+import com.yi.spring.entity.*;
 import com.yi.spring.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,6 +64,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserAuth("1", pageable);
     }
 
+    @Override
+    public Page<User> findByJumNoPaged(int page){
+        Pageable pageable = PageRequest.of(page, 10);
+        return userRepository.findByUserAuth("2", pageable);
+    }
+
+    @Override
+    public Page<User> findByUserAuthAndUserNameContainingPaged(String userAuth, String userName, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return userRepository.findByUserAuthAndUserNameContaining(userAuth, userName, pageable);
+    }
 
 
 }

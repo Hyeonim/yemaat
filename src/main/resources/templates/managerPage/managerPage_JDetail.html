@@ -1,70 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>점주 상세보기</title>-->
-<!--</head>-->
-
-<!--<div th:include="~{/include/header::headerFragment}">-->
-
-<!--</div>-->
-
-<!--<div id="main">-->
-
-<!--    <div th:replace="~{/managerPage/managerPage_sidebar::managerSide}">-->
-<!--    </div>-->
-
-<!--    <div th:fragment="managerContent">-->
-<!--        <div id="right">-->
-<!--            <h2>점주 상세 정보</h2>-->
-
-<!--            <p>번호 : <input th:value="${user.userNo}" readonly></p>-->
-<!--            <p>아이디 : <input th:value="${user.userId}" ></p>-->
-<!--            <p>이름 : <input th:value="${user.userName}" ></p>-->
-<!--            <p>Email : <input th:value="${user.userEmail}" ></p>-->
-<!--            <p>전화번호 : <input th:value="${user.userTel}" ></p>-->
-<!--            <p>사진 : <input th:value="${user.userImg}" ></p>-->
-
-<!--            <h3>소유한 가게 정보</h3>-->
-<!--            <table>-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th>번호</th>-->
-<!--                    <th>이름</th>-->
-<!--                    <th>주소</th>-->
-<!--                    <th>전화번호</th>-->
-<!--                    <th>좌석 수</th>-->
-<!--                    <th>운영시간</th>-->
-<!--                    <th>가게 사진</th>-->
-<!--                </tr>-->
-
-<!--                </thead>-->
-
-<!--                <tbody>-->
-
-<!--                <tr th:each="dinning : ${dinningList}">-->
-<!--                    <td th:text="${dinning.restNo}"></td>-->
-<!--                    <td th:text="${dinning.restName}"></td>-->
-<!--                    <td th:text="${dinning.restAddr}"></td>-->
-<!--                    <td th:text="${dinning.restTel}"></td>-->
-<!--                    <td th:text="${dinning.restSeat}"></td>-->
-<!--                    <td th:text="${dinning.restTime}"></td>-->
-<!--                    <td th:text="${dinning.restImg}"></td>-->
-<!--                </tr>-->
-
-<!--                </tbody>-->
-
-<!--            </table>-->
-
-<!--            <button id="jumUpd">수정</button>-->
-<!--            <button id="jumDel">삭제</button>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</div>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
@@ -79,25 +12,28 @@
 
     <div th:fragment="managerContent">
         <div id="right">
+            <div>
             <h2>점주 상세 정보</h2>
-            <!-- 사용자 정보 수정 양식 -->
-            <form action="/manager/managerPage_JUpdate" method="post" enctype="multipart/form-data">
-                <p>번호 : <input type="text" th:value="${user.userNo}" name="userNo" readonly></p>
-                <p>아이디 : <input type="text" th:value="${user.userId}" name="userId"></p>
-                <p>비밀번호 : <input type="text" th:value="${user.userPassword}" name="userPassword"></p>
-                <p>이름 : <input type="text" th:value="${user.userName}" name="userName"></p>
-                <p>Email : <input type="text" th:value="${user.userEmail}" name="userEmail"></p>
-                <p>전화번호 : <input type="tel" th:value="${user.userTel}" name="userTel"></p>
-                <input type="hidden" th:value="2" name="userAuth">
-                <p>사진 : <input type="file" name="file"></p> <!-- 파일 업로드 -->
-                <input type="submit" value="수정">
-            </form>
-            <form action="/manager/managerPage_JDel" method="post">
-                <input type="hidden" name="userNo" th:value="${user.userNo}" readonly></input>
-                <button type="submit">삭제</button>
-                지금 삭제 하면 가게랑 같이 삭제되서 조심해야 함
-            </form>
+                <form id="updateForm" action="/manager/managerPage_JUpdate" method="post" enctype="multipart/form-data">
+                    <p>번호 : <input type="text" th:value="${user.userNo}" name="userNo" readonly></p>
+                    <p>아이디 : <input type="text" th:value="${user.userId}" name="userId"></p>
+                    <p>비밀번호 : <input type="text" th:value="${user.userPassword}" name="userPassword"></p>
+                    <p>이름 : <input type="text" th:value="${user.userName}" name="userName"></p>
+                    <p>Email : <input type="text" th:value="${user.userEmail}" name="userEmail"></p>
+                    <p>전화번호 : <input type="tel" th:value="${user.userTel}" name="userTel"></p>
+                    <input type="hidden" th:value="2" name="userAuth">
+                    <p>사진 : <input type="file" name="file"></p> <!-- 파일 업로드 -->
+                    <p>블랙리스트 여부 : <input type="text" th:value="${user.userBlock}"><br>
+                        블랙리스트는 true 와 false로 나뉜다.</p>
+                    <input type="submit" value="수정">
+                </form>
+                <form action="/manager/managerPage_JDel" method="post">
+                    <input type="hidden" name="userNo" th:value="${user.userNo}" readonly></input>
+                    <button type="submit">삭제</button> 현재 삭제하면 점주정보만 날라감. 가게 정보에서 점주번호는 남아 있음
+                </form>
+            </div>
 
+            <div>
             <h3>소유한 가게 정보</h3>
             <table>
                 <thead>
@@ -120,16 +56,13 @@
                     <td th:text="${dinning.restSeat}"></td>
                     <td th:text="${dinning.restTime}"></td>
                     <td th:text="${dinning.restImg}"></td>
-<!--                    <td>-->
-<!--                        <form action="/manager/managerPage_JStoreDel" method="post">-->
-<!--                            <input type="hidden" name="restNo" th:value="${dinning.restNo}" readonly></input>-->
-<!--                            <button type="submit">삭제</button>-->
-<!--                        </form>-->
-<!--                    </td>-->
                 </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>
+
+
 </html>
