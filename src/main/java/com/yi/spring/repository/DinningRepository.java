@@ -41,4 +41,6 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
 
 
     Page<Dinning> findByRestNameContainingIgnoreCase(String name, Pageable pageable);
+
+
 }

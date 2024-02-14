@@ -17,9 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 @Controller
 @RequestMapping("user/")
 public class UserController {
@@ -47,8 +46,12 @@ public class UserController {
         List<Reservation> latestReservationList = reservationRepository.findLatestReservationByUserNo(userNo, pageRequest);
 
         if (!latestReservationList.isEmpty()) {
-            Long latestRestNo = latestReservationList.get(0).getRestNo();
-            return dinningRepository.findByRestNo(latestRestNo);
+            List<Dinning> dinningList = new ArrayList<>();
+            for ( Reservation r : latestReservationList )
+                dinningList.add( r.getRestNo() );
+            return dinningList;
+//            Long latestRestNo = latestReservationList.get(0).getRestNo();
+//            return dinningRepository.findByRestNo(latestRestNo);
         } else {
             // 예약 기록이 없는 경우 처리
             return Collections.emptyList();
@@ -78,12 +81,11 @@ public class UserController {
     // 유저가 작성한 포스트 목록 페이지로 이동
     @GetMapping("user_posts/{userNo}")
     public String userPosts(@PathVariable("userNo") Long userNo, Model model) {
-        List<Reservation> list = reservationRepository.findByUserNo(userNo);
+        List<Reservation> list = reservationRepository.findReservationDetailsByUserNo(userNo);
 //        List<String> list2 = dinningRepository.findRestImagesByUserNo(userNo);
 //        model.addAttribute("img", list2);
         model.addAttribute("list", list);
-
-//        System.out.println(list2);
+        System.out.println("리스트는 ==== " + list);
         return "userPage/user_posts";
     }
 

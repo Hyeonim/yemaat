@@ -52,6 +52,7 @@ public class Dinning {
     @Column(name = "rest_longitude")
     private Double restLongitude;
 
+    @ToString.Exclude
     @Column(name = "rest_img")
     private byte[] restImg;
 

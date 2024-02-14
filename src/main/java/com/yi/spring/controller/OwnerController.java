@@ -220,8 +220,8 @@ public class OwnerController {
         model.addAttribute("dinning", dinning);
 
 
-        List<Reservation> reservList = reservationRepository.findByRestNo((long) dinning.getRestNo());
-        model.addAttribute("reservList", reservList);
+//        List<Reservation> reservList = reservationRepository.findByRestNo((long) dinning.getRestNo());
+//        model.addAttribute("reservList", reservList);
 
         model.addAttribute("pageName", "예약 목록");
         return "/owner/reservList";

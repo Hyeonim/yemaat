@@ -36,8 +36,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // 사용자가 소유한 가게 정보를 조인해서 가져오는 메서드
 
 
-    //방금 추가
-    @Query("SELECT u FROM User u JOIN FETCH u.dinningList d WHERE u.userAuth = '2'")
-    List<User> findAllWithDinningList();
+//    방금 추가
+//    @Query("SELECT u FROM User u JOIN FETCH u.dinningList d WHERE u.userAuth = '2'")
+//    List<User> findAllWithDinningList();
 
 }
