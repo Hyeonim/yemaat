@@ -159,116 +159,117 @@
     }
 
 
-    // ----------------------------도넛, 막대그래프 를 위한 변수 선언------------------
-    var uListSize = [[${uList.size()}]]
-    var dListSize = [[${dList.size()}]]
+    function drawGraph() {
+
+        // ----------------------------도넛, 막대그래프 를 위한 변수 선언------------------
+        var uListSize = [[${uList != null ? uList.size() : 0}]];
+        var dListSize = [[${dList != null ? dList.size() : 0}]];
 
 
-    var user = [[${user.size()}]]
-    var jum = [[${jum.size()}]]
-    var black = [[${black.size()}]]
-
-    var korea = [[${korean != null ? korean.size() : 0}]];
-    var chinese = [[${chinese != null ? chinese.size() : 0}]];
-    var japanese = [[${japanese != null ? japanese.size() : 0}]];
-    var dessert = [[${dessert != null ? dessert.size() : 0}]];
-    var usa = [[${usa != null ? usa.size() : 0}]];
-
-
-    // -------------------------------도넛 그래프--------------------------------
-    var userData = {
-        labels: ['고객', '점주', '블랙리스트'],
-        datasets: [{
-            data: [user, jum, black],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 102, 235, 0.5)'
-            ],
-            borderWidth: 1
-        }]
-    };
+        var user = [[${user != null ? user.size() : 0}]];
+        var jum = [[${jum != null ? jum.size() : 0}]];
+        var black = [[${black != null ? black.size() : 0}]];
+        var korea = [[${korean != null ? korean.size() : 0}]];
+        var chinese = [[${chinese != null ? chinese.size() : 0}]];
+        var japanese = [[${japanese != null ? japanese.size() : 0}]];
+        var dessert = [[${dessert != null ? dessert.size() : 0}]];
+        var usa = [[${usa != null ? usa.size() : 0}]];
 
 
-    var dinningData = {
-        labels: ['한식', '중식', '일식', '양식', '디저트'],
-        datasets: [{
-            data: [korea, chinese, japanese, usa, dessert],
-            backgroundColor: [
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 102, 235, 0.5)',
-                'rgba(51, 192, 192, 0.5)',
-                'rgba(52, 191, 182, 0.5)'
-            ],
-            borderWidth: 1
-        }]
-    };
-
-    var userCtx = document.getElementById('userChart').getContext('2d');
-    var dinningCtx = document.getElementById('dinningChart').getContext('2d');
-
-    var userChart = new Chart(userCtx, {
-        type: 'doughnut',
-        data: userData,
-        options: {}
-    });
-
-    var dinningChart = new Chart(dinningCtx, {
-        type: 'doughnut',
-        data: dinningData,
-        options: {}
-    });
-
-    // -------------------------------막대 그래프--------------------------------
-
-    var userData2 = {
-        labels: ['고객', '점주', '블래리스트'],
-        datasets: [{
-            label: '회원 현황',
-            data: [user, jum, black],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 102, 235, 0.5)'],
-            borderWidth: 1
-        }]
-    };
+        // -------------------------------도넛 그래프--------------------------------
+        var userData = {
+            labels: ['고객', '점주', '블랙리스트'],
+            datasets: [{
+                data: [user, jum, black],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(54, 102, 235, 0.5)'
+                ],
+                borderWidth: 1
+            }]
+        };
 
 
-    var dinningData2 = {
-        labels: ['한식', '일식', '중식', '양식', '디저트'],
-        datasets: [{
-            label: '가게 업태',
-            data: [korea, chinese, japanese, usa, dessert],
-            backgroundColor: [
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 102, 235, 0.5)',
-                'rgba(51, 192, 192, 0.5)',
-                'rgba(52, 191, 182, 0.5)'
-            ],
-            borderWidth: 1
-        }]
-    };
+        var dinningData = {
+            labels: ['한식', '중식', '일식', '양식', '디저트'],
+            datasets: [{
+                data: [korea, chinese, japanese, usa, dessert],
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(54, 102, 235, 0.5)',
+                    'rgba(51, 192, 192, 0.5)',
+                    'rgba(52, 191, 182, 0.5)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var userCtx = document.getElementById('userChart').getContext('2d');
+        var dinningCtx = document.getElementById('dinningChart').getContext('2d');
+
+        var userChart = new Chart(userCtx, {
+            type: 'doughnut',
+            data: userData,
+            options: {}
+        });
+
+        var dinningChart = new Chart(dinningCtx, {
+            type: 'doughnut',
+            data: dinningData,
+            options: {}
+        });
+
+        // -------------------------------막대 그래프--------------------------------
+
+        var userData2 = {
+            labels: ['고객', '점주', '블래리스트'],
+            datasets: [{
+                label: '회원 현황',
+                data: [user, jum, black],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(54, 102, 235, 0.5)'],
+                borderWidth: 1
+            }]
+        };
 
 
+        var dinningData2 = {
+            labels: ['한식', '일식', '중식', '양식', '디저트'],
+            datasets: [{
+                label: '가게 업태',
+                data: [korea, chinese, japanese, usa, dessert],
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(54, 102, 235, 0.5)',
+                    'rgba(51, 192, 192, 0.5)',
+                    'rgba(52, 191, 182, 0.5)'
+                ],
+                borderWidth: 1
+            }]
+        };
 
-    var userCtx = document.getElementById('userBarChart').getContext('2d');
-    var dinningCtx = document.getElementById('dinningBarChart').getContext('2d');
 
-    var userBarChart = new Chart(userCtx, {
-        type: 'bar',
-        data: userData2,
-        options: {}
-    });
+        var userCtx = document.getElementById('userBarChart').getContext('2d');
+        var dinningCtx = document.getElementById('dinningBarChart').getContext('2d');
 
-    var dinningBarChart = new Chart(dinningCtx, {
-        type: 'bar',
-        data: dinningData2,
-        options: {}
-    });
+        var userBarChart = new Chart(userCtx, {
+            type: 'bar',
+            data: userData2,
+            options: {}
+        });
 
+        var dinningBarChart = new Chart(dinningCtx, {
+            type: 'bar',
+            data: dinningData2,
+            options: {}
+        });
+    }
+    drawGraph();
 
 </script>
 </body>
