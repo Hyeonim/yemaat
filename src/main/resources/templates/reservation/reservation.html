@@ -33,7 +33,10 @@
         </select>
     </div>
     <div>
-        <input type="date" for="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31"/>
+        <input type="date" for="date" id="start"
+               th:with="today=${#dates.createNow()}, val=${#dates.format(today, 'yyyy-MM-dd')}
+               , maxVal=${#dates.format(#dates.create( today.getYear() +1901, today.getMonth()+1, today.getDate() ), 'yyyy-MM-dd')}"
+               th:value="${val}" th:min="${val}" th:max="${maxVal}" />
     </div>
     <div>
         <span><svg class="SVGInline-svg SVGInline--cleaned-svg icon-svg icon-wall-clock-svg css-rgbpye-svg ef71la35-svg"

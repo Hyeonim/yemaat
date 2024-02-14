@@ -264,7 +264,7 @@ public class ReservationController {
 
         Reservation reservation = new Reservation();
         reservation.setRes_no( reservationNo );
-//        reservation.setRestNo( iRestNo );
+        reservation.setRestNo( new Dinning( iRestNo != null ? iRestNo.intValue() : 0) );
         reservation.setUserNo( iUserNo );
         reservation.setResTime( LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         reservation.setRes_time_new( LocalDateTime.now() );
