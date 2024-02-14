@@ -6,11 +6,10 @@
 
 <th:block th:fragment="content">
 
-    <form id="updateEventForm" th:action="@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}" method="post">
-
+    <form id="updateEventForm" th:action="@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}" method="post" enctype="multipart/form-data">
         <label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></br>
         <label>내용</label><textarea name="eventContent">[[${event.getEventContent()}]]</textarea></br>
-        <label>이미지</label><input type="file" name="eventImg" th:value="${event.getEventImg()}"></br>
+        <label>이미지</label><input type="file" name="file"></br>
         <input type="hidden" name="eventNo" th:value="${event.getEventNo()}"></br>
         <input type="button" value="등록" onclick="submitRestForm()">
         <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
