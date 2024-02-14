@@ -7,6 +7,7 @@
 
     <style>
 
+
         a:link {
             text-decoration: none;
         }
@@ -14,25 +15,27 @@
         #posts_main {
             position: absolute;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            left: 650px;
+            /*justify-content: center;*/
+            /*align-items: center;*/
+            /*left: 650px;*/
             top: 120px;
             margin: 0;
+            flex-direction: column;
         }
 
         #mySideBar {
-            white-space: nowrap;
-            position: fixed;
-            top: 180px;
             font-size: 20px;
             color: rgb(69, 69, 69);
-            left: 320px;
+            /*left: 320px;*/
+            display: flex;
+            margin-bottom: 0.3rem;
+            margin-top: -1rem;
+            justify-content: space-around;
         }
 
         .mypage_sidebar_nav {
             list-style-type: none;
-            padding-bottom: 40px;
+            padding-bottom: 15px;
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -53,62 +56,111 @@
             background-color: gray;
             display: inline-block;
             width: 300px;
-            height: 200px;
+            height: 221px;
             cursor: pointer;
             border-radius: 4px;
         }
 
+        #right {
+            width: 447px;
+            margin-left: 14px;
+            text-align: center;
+        }
+
+        hr {
+            display: block;
+            unicode-bidi: isolate;
+            margin-block-start: 0.5em;
+            margin-block-end: 0.5em;
+            margin-inline-start: auto;
+            margin-inline-end: auto;
+            overflow: hidden;
+            border-style: inset;
+            border-width: 1px;
+        }
+
+        .grayBtn {
+            background-color: gray;
+            color: white;
+            width: 26%;
+            height: 36px;
+            border: none;
+            font-size: 15px;
+            line-height: 36px;
+            text-align: center;
+            cursor: pointer;
+            margin-left: -5px;
+            margin-top: 18px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        #reviewBtn {
+            margin-left: -10px;
+            width: 50%;
+            height: 36px;
+            border: none;
+            font-size: 15px;
+            line-height: 36px;
+            color: #fff;
+            background-color: rgba(0, 119, 255, 0.66);
+            text-align: center;
+            cursor: pointer;
+            margin-top: 18px;
+            font-weight: bold;
+            margin-left: 0px;
+        }
 
     </style>
 
-    <h1>My 예약 현황</h1>
+    <!--    <h1>My 예약 현황</h1>-->
 
     <a th:href="@{/user/userPage/{userNo}(userNo=${userNo})}">돌아가기</a><br>
 
-    <div id="posts_main">
-        <nav id="mySideBar">
-            <ul>
-                <li class="mypage_sidebar_nav"><a href="#">My 예약</a></li>
-                <li class="mypage_sidebar_nav"><a href="#">My 리뷰</a></li>
-                <li class="mypage_sidebar_nav"><a href="#">My 문의</a></li>
-                <li class="mypage_sidebar_nav"><a href="#">My 정보</a></li>
-            </ul>
-        </nav>
-        <div id="wrap">
-            <div id="container1" th:each="res : ${list}">
-                <div id="left">
-                    <img style="width: 300px; height: 200px; border: 1px solid black; " >
+    <div style="display: flex; justify-content: center;">
+        <div id="posts_main">
+            <nav>
+                <div id="mySideBar">
+                    <div class="mypage_sidebar_nav"
+                         style="font-weight: bold; color: black; border-bottom: 2px solid black;"><a href="#">My 예약</a>
+                    </div>
+                    <div class="mypage_sidebar_nav" style="border-bottom: 1px solid lightgray; color: gray;"><a
+                            href="#">My 리뷰</a></div>
+                    <div class="mypage_sidebar_nav" style="border-bottom: 1px solid lightgray; color: gray;"><a
+                            href="#">My 문의</a></div>
+                    <div class="mypage_sidebar_nav" style="border-bottom: 1px solid lightgray; color: gray;"><a
+                            href="#">My 정보</a></div>
                 </div>
-                <div id="right">
-                    <p id="p-right" class="gary-text">
-                        <b th:text="${res.restNo.restName}"></b>
-                        <b th:text="${res.restNo.restImg}"></b>
-                    </p>
-                </div>
+            </nav>
+            <div id="wrap">
+                <div id="container1" th:each="res : ${list}">
+                    <div id="left">
+                        <img th:src="'data:image/png;base64,' + ${res.restNo.getBase64Image()}"
+                             style="width: 300px; height: 221px; border: 1px solid black; ">
+                    </div>
+                    <div id="right">
+                        <p id="p-right" class="gary-text" style="color: gray;">
+                            <b style="font-size: 20px;" th:text="${res.restNo.restName}"></b><br>
+                            <b th:text="${res.restNo.restCategory}"></b><br>
+                            <b th:text="${res.resTime}"></b><br>
+                        <hr>
+                        <div>예약 인원 : <b th:text="${res.res_guest_count}"></b></div>
+                        <br>
+                        <b th:text="${res.restNo.restAddr}"></b><br>
+<!--                        <div th:if="${res.resTime le #dates.createNow()}">-->
+<!--                            <button id="cancelBtn1" class="grayBtn">이용완료</button>-->
+<!--                        </div>-->
+<!--                        <div th:unless="${res.resTime le #dates.createNow()}">-->
+<!--                            <button id="cancelBtn2" class="grayBtn">이용예정</button>-->
+<!--                        </div>-->
+                        <button id="cancelBtn1" class="grayBtn" th:text="${res.res_status}"></button>
+                        <button id="reviewBtn" class="reviewBtn">리뷰작성</button>
+                        </p>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
-    <!--    <table>-->
-    <!--        <thead>-->
-    <!--        <tr>-->
-    <!--            <th>회원번호</th>-->
-    <!--            <th>식당 번호</th>-->
-    <!--            <th>예약 시간</th>-->
-    <!--            <th>예약 인원</th>-->
-    <!--            <th>요청사항</th>-->
-    <!--        </tr>-->
-    <!--        </thead>-->
-    <!--        <tbody>-->
-    <!--        <tr th:each="reservation : ${list}">-->
-    <!--            <td th:text="${reservation.getUserNo()}"></td>-->
-    <!--            <td th:text="${reservation.getRestNo()}"></td>-->
-    <!--            <td th:text="${reservation.getResTime()}"></td>-->
-    <!--            <td th:text="${reservation.res_guest_count}"></td>-->
-    <!--            <td th:text="${reservation.res_comment}"></td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
-
 </th:block>
 </html>

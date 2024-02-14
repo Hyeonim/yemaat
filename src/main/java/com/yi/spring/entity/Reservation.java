@@ -40,6 +40,8 @@ public class Reservation {
     private String res_table_type;
 
 
+
+
     public ReservationStatus getReservationStatusEnum() {
         try {
             return ReservationStatus.valueOf(res_status);
