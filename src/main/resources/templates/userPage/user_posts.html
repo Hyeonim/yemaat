@@ -153,7 +153,7 @@
 <!--                        <div th:unless="${res.resTime le #dates.createNow()}">-->
 <!--                            <button id="cancelBtn2" class="grayBtn">이용예정</button>-->
 <!--                        </div>-->
-                        <button id="cancelBtn1" class="grayBtn" th:text="${res.res_status}"></button>
+                        <button id="cancelBtn1" class="grayBtn" th:text="${res.getReservationStatusEnum.getName()}"></button>
                         <button id="reviewBtn" class="reviewBtn">리뷰작성</button>
                         </p>
                     </div>

@@ -92,7 +92,7 @@ public class UserController {
             if (currentDateTime.isBefore(resTimestamp.toLocalDateTime())) {
                 reservation.setRes_status("WAIT");
             } else {
-                reservation.setRes_status("COMPLETED");
+                reservation.setRes_status(String.valueOf(ReservationStatus.EXPIRED));
             }
 
             if (reservation.getRes_status() == null) {

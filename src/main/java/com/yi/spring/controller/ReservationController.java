@@ -147,7 +147,7 @@ public class ReservationController {
 //            if ( null == elem.getRes_status() || Integer.parseInt( elem.getRes_status() ) < 2 )
 //                continue;
 //            if ( elem.getReservationStatusEnum() != ReservationStatus.NONE && elem.getReservationStatusEnum() != ReservationStatus.COMPLETED )
-            if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.COMPLETED).contains(elem.getReservationStatusEnum()))
+            if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.RESERVE_COMPLETED).contains(elem.getReservationStatusEnum()))
                 continue;
 
             reservePeopleCount += Integer.parseInt( elem.getRes_guest_count() );
@@ -184,7 +184,7 @@ public class ReservationController {
                 LocalDateTime res_time_withDate = null != elem.getResTime() ? elem.getResTime() : now;
                 if ( now.isBefore( res_time_withDate ) )
                     continue;
-                if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.COMPLETED).contains(elem.getReservationStatusEnum()))
+                if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.RESERVE_COMPLETED).contains(elem.getReservationStatusEnum()))
                     continue;
 
                 LocalTime res_time = res_time_withDate.toLocalTime();
