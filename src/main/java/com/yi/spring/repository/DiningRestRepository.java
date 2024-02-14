@@ -22,6 +22,9 @@ public interface DiningRestRepository extends JpaRepository<Dinning, Integer> {
     Page<Dinning> findByRestNameContainingIgnoreCase(String name, Pageable pageable);
 
     // 방금 추가
+//    @Query("SELECT d FROM Dinning d JOIN FETCH d.userNo u WHERE u.userAuth = '2'")
+
     @Query("SELECT d FROM Dinning d JOIN FETCH d.userNo u WHERE u.userAuth = '2'")
-    List<Dinning> findAllByUserAuthIsOwner();
+//    @Query("SELECT d FROM Dinning d inner join d.userNo u WHERE u.userAuth = '2'")
+    List<Dinning> getAllByUserAuthIsOwner();
 }
