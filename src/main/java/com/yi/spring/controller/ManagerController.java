@@ -74,7 +74,7 @@ public class ManagerController {
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     @GetMapping("/content")
-    public String managerDetailU(Model model) {
+    public String managerMain(Model model) {
 
         List<User> uList = userRepository.findAll();
         List<Dinning> dList = dinningRepository.findAll();
