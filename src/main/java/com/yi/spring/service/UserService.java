@@ -1,9 +1,6 @@
 package com.yi.spring.service;
 
-import com.yi.spring.entity.QA;
-import com.yi.spring.entity.Reservation;
-import com.yi.spring.entity.Menu;
-import com.yi.spring.entity.User;
+import com.yi.spring.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.relational.core.sql.In;
 
@@ -27,5 +24,8 @@ public interface UserService {
 //    Page<User> findAll(int page);
 
     Page<User> findByUserNoPaged(int page);
+    Page<User> findByJumNoPaged(int page);
 
+
+    Page<User> findByUserAuthAndUserNameContainingPaged(String userAuth, String userName, int page);
 }

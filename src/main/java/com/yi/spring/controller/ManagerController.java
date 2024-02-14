@@ -117,12 +117,8 @@ public class ManagerController {
 
         for (User result : users) {
             if (result.getUserAuth().equals("1") && result.isUserBlock()) {
-
-
                 onlyUsers.add(result);
             }
-
-
         }
 
 //        System.out.println(onlyUsers);
@@ -357,6 +353,8 @@ public class ManagerController {
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+//    // 이거 주석된거 지우지 마세요@@@@@@@@@@@@@@@@@@@
+
 //    @GetMapping("/managerPage_JInfo")
 //    public String managerInfoA(Model model) {
 //
@@ -382,30 +380,64 @@ public class ManagerController {
 //        return "managerPage";
 //    }
 
-    @GetMapping("/managerPage_JInfo")
-    public String managerInfoA(Model model) {
+//    @GetMapping("/managerPage_JList")
+//    public String managerInfoA(Model model,
+//                               @RequestParam(value = "page", defaultValue = "0") int page,
+//                               @RequestParam(value = "searchInput2", required = false) String searchInput2) {
+//        // 사용자 목록 가져오기
+//        List<User> userList = userService.getAllUsers();
+//        //고친거
+//        Page<User> paging = this.userService.findByJumNoPaged(page);
+//
+//        model.addAttribute("users", paging);
+////        model.addAttribute("users", users); // 가져온 가게 목록 뿌리기
+//        model.addAttribute("page", "managerPage/managerPage_JList");
+//
+//        return "managerPage";
+//    }
 
-        model.addAttribute("page", "managerPage/managerPage_JInfo");
-
-        // 사용자 목록 가져오기
-        List<User> userList = userService.getAllUsers();
-
-
-        // 각 사용자가 소유한 가게의 정보를 가져와서 함께 저장
-        List<User> users = new ArrayList<>();
-        for (User user : userList) {
-            if ("2".equals(user.getUserAuth())) {
-                users.add(user); // 사용자가 소유한 가게들을 가져와서 리스트에 추가하는 거임
-            }
+    @GetMapping("/managerPage_JList")
+    public String managerInfoA(Model model,
+                               @RequestParam(value = "page", defaultValue = "0") int page,
+                               @RequestParam(value = "searchInput2", required = false) String searchInput2) {
+        Page<User> paging;
+        if (searchInput2 != null && !searchInput2.isEmpty()) {
+            // 검색어가 존재하는 경우
+            paging = userService.findByUserAuthAndUserNameContainingPaged("2", searchInput2, page);
+        } else {
+            // 검색어가 없는 경우 전체 목록 조회
+            paging = userService.findByJumNoPaged(page);
         }
 
-        System.out.println(users);
-
-        model.addAttribute("users", users); // 가져온 가게 목록 뿌리기
+        model.addAttribute("users", paging);
+        model.addAttribute("page", "managerPage/managerPage_JList");
 
         return "managerPage";
     }
 
+
+
+
+
+
+
+
+
+//    @GetMapping("/managerPage_JList")
+//    public String managerInfoA(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+//                           @RequestParam(value = "searchInput2", required = false) String searchInput) {
+//        Page<Dinning> users;
+//
+//        if (searchInput != null && !searchInput.isEmpty()) {
+//            users = dinningService.searchByDinningNamePaged(page, searchInput);
+//        } else {
+//            users = dinningService.findByDinningNoPaged(page);
+//        }
+//
+//        model.addAttribute("users", users);
+//        model.addAttribute("page", "managerPage/managerPage_JList");
+//        return "managerPage";
+//    }
 
     @PostMapping("managerPage_JAdd")
     public String jumAdd(@RequestParam MultipartFile file, User user, Model model) {
@@ -424,17 +456,8 @@ public class ManagerController {
 
         userRepository.save(user);
 
-        return "redirect:/manager/managerPage_JInfo";
+        return "redirect:/manager/managerPage_JList";
     }
-
-
-//    @GetMapping("managerPage_JDetail")
-//    public String JumDetail(@RequestParam final int userNo, Model model){
-//        userRepository.findByUserNo(userNo);
-//        model.addAttribute("JumDetail", userNo);
-//
-//        return "managerPage_JDetail";
-//    }
 
     @GetMapping("/managerPage_JDetail")
     public String JumDetail(Model model, @RequestParam int userNo) {
@@ -444,6 +467,7 @@ public class ManagerController {
 
         // 사용자가 소유한 가게들 가져오기
         List<Dinning> dinningList = new ArrayList<>();
+
         if ("2".equals(user.getUserAuth())) {
             dinningList.addAll(user.getDiningRests());
         }
@@ -455,10 +479,6 @@ public class ManagerController {
 
         return "managerPage";
     }
-
-//    @PostMapping("/managerPage_JDetail")
-//    public String
-
 
     @PostMapping("managerPage_JUpdate")
     public String jumUpdate(
@@ -486,7 +506,7 @@ public class ManagerController {
             userRepository.save(user);
         });
 
-        return "redirect:/manager/managerPage_JInfo?";
+        return "redirect:/manager/managerPage_JList";
     }
 
 
@@ -494,41 +514,16 @@ public class ManagerController {
     @Transactional
     public String jumDelete(@RequestParam int userNo, Model model) {
 
-
-        System.out.println("123123123123123123123:" + userNo);
-
         userRepository.deleteByUserNo(userNo);
 
-
-        return "redirect:/manager/managerPage_JInfo";
+        return "redirect:/manager/managerPage_JList";
     }
 
-//    @PostMapping("managerPage_JStoreDel")
-//    @Transactional
-//    public String jumStoreDelete( @RequestParam int userNo, @RequestParam int restNo, Model model) {
-//
-//
-//        System.out.println("12312312312312312userNo:" + userNo);
-//        System.out.println("123123123123123123123:" + restNo);
-//
-//        userRepository.deleteByUserNo(userNo);
-////        dinningRepository.deleteDinningByRestNo(restNo);
-//
-//        return "redirect:/manager/managerPage_JInfo";
-//    }
 
-//    @GetMapping("managerPage_JrestInfo")
-//    public String restInfo(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-//
-//            Page<Dinning> dinningList = this.dinningService.findByDinningNoPaged(page);
-//
-//        model.addAttribute("dinningList", dinningList);
-//        model.addAttribute("page", "managerPage/managerPage_JrestInfo");
-//
-//        return "managerPage";
-//    }
+//    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-    @GetMapping("/managerPage_JrestInfo")
+
+    @GetMapping("/managerPage_JrestList")
     public String restInfo(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                            @RequestParam(value = "searchInput", required = false) String searchInput) {
         Page<Dinning> dinningList;
@@ -540,18 +535,14 @@ public class ManagerController {
         }
 
         model.addAttribute("dinningList", dinningList);
-        model.addAttribute("page", "managerPage/managerPage_JrestInfo");
+        model.addAttribute("page", "managerPage/managerPage_JrestList");
         return "managerPage";
     }
-
 
     @GetMapping("/managerPage_JrestDetail")
     public String JumRestDetail(Model model, @RequestParam int restNo) {
 
-//        System.out.println("번호~~~~~~~~~~~~~~~~~~~~~~~:" +restNo);
-
         Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
-//        System.out.println(dinningList);
 
         model.addAttribute("dinning", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestDetail");
@@ -560,7 +551,7 @@ public class ManagerController {
     }
 
     @PostMapping("/managerPage_JrestUpdate")
-    public String jumrestUpdate(
+    public String jrestUpdate(
             @RequestParam MultipartFile file,
             @RequestParam int restNo,
             @RequestParam String restName,
@@ -577,9 +568,6 @@ public class ManagerController {
             @RequestParam String restDescription,
             Dinning dinning) throws IOException {
 
-
-//        System.out.println("hhhhhhhhhhhhh" + restNo);
-
         dinningRepository.save(dinning);
 
         Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
@@ -593,7 +581,7 @@ public class ManagerController {
             dinningRepository.save(din);
         });
 
-        return "redirect:/manager/managerPage_JrestInfo";
+        return "redirect:/manager/managerPage_JrestList";
     }
 
     @PostMapping("managerPage_JrestAdd")
@@ -611,8 +599,7 @@ public class ManagerController {
 
         dinningRepository.save(dinning);
 
-        System.out.println("123123123");
-        return "redirect:/manager/managerPage_JrestInfo";
+        return "redirect:/manager/managerPage_JrestList";
     }
 
 
