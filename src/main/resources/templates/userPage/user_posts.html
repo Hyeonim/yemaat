@@ -49,6 +49,15 @@
             margin-top: 40px;
         }
 
+        #left {
+            background-color: gray;
+            display: inline-block;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
 
     </style>
 
@@ -67,9 +76,15 @@
         </nav>
         <div id="wrap">
             <div id="container1" th:each="res : ${list}">
-<!--                <div id="left" th:each="img : ${img}">-->
-<!--&lt;!&ndash;                    <img th:src="${img}">&ndash;&gt;-->
-<!--                </div>-->
+                <div id="left">
+                    <img style="width: 300px; height: 200px; border: 1px solid black; " >
+                </div>
+                <div id="right">
+                    <p id="p-right" class="gary-text">
+                        <b th:text="${res.restNo.restName}"></b>
+                        <b th:text="${res.restNo.restImg}"></b>
+                    </p>
+                </div>
 
             </div>
         </div>

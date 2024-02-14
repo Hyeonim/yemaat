@@ -30,8 +30,9 @@ public class Reservation {
     @Column(name = "user_no")
     private Long userNo;
 
-    @Column(name = "rest_no")
-    private Long restNo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rest_no")
+    private Dinning restNo;
 
     private String res_guest_count;
     private String res_status;

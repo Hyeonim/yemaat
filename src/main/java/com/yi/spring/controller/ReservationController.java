@@ -138,7 +138,7 @@ public class ReservationController {
         model.addAttribute( "rest_seat_room", seatRoom );
 
 
-        List<Reservation> reservationList = reservationRepository.findByRestNo( iRestNo );
+        List<Reservation> reservationList = reservationRepository.findByRestNo_RestNo( iRestNo );
 
         int reservePeopleCount = 0;
         int reserveRoomCount = 0;
@@ -257,14 +257,14 @@ public class ReservationController {
 
         Long reservationNo = null;
         {
-            List<Reservation> list = reservationRepository.findByRestNoAndUserNo( iRestNo, iUserNo );
+            List<Reservation> list = reservationRepository.findByRestNo_RestNoAndUserNo( iRestNo, iUserNo );
             if ( null != list && !list.isEmpty())
                 reservationNo = list.get(0).getRes_no();
         }
 
         Reservation reservation = new Reservation();
         reservation.setRes_no( reservationNo );
-        reservation.setRestNo( iRestNo );
+//        reservation.setRestNo( iRestNo );
         reservation.setUserNo( iUserNo );
         reservation.setResTime( LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         reservation.setRes_time_new( LocalDateTime.now() );

@@ -45,4 +45,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Page<User> findByUserAuthAndUserNameContaining(String userAuth, String userName, Pageable pageable);
 
+
 }
