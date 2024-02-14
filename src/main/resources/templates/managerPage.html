@@ -46,22 +46,22 @@
         }
     }
 
+    if(dropdown) {
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
 
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        });
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
     }
-
 </script>
 <script th:inline="javascript">
     var userAddButton = document.getElementById('userAddButton');
@@ -106,11 +106,11 @@
 
     var noticeAddBtn = document.getElementById('noticeAdd');
     //추가버튼
-    if (noticeAddBtn)
+    if (noticeAddBtn) {
         noticeAddBtn.addEventListener('click', function () {
             window.location.href = '/manager/managerPage_NoticeAdd';
         });
-
+    }
 
     //------------------------------점주-------------------------------
 
@@ -131,8 +131,14 @@
         window.location.href = '/manager/managerPage_JrestDetail?restNo=' + restNo;
     }
 
+
+
+
+
+
         function searchDinning() {
             let searchInput = document.getElementById("searchInput").value;
+
             gv = [];
             fetch("/manager/managerPage_JrestInfo?searchInput=" + searchInput)
                 .then(resp => resp.text())
