@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Base64;
+
 @Getter
 @Setter
 @Entity
@@ -27,4 +29,10 @@ public class Event {
     @JoinColumn(name = "rest_no")
     private Dinning restNo;
 
+    public String getBase64Image() {
+        if (eventImg != null && eventImg.length > 0) {
+            return Base64.getEncoder().encodeToString(eventImg);
+        }
+        return "";
+    }
 }

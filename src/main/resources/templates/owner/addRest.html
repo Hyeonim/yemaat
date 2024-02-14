@@ -5,7 +5,7 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <form id="addRestForm" action="/owner/addRest" method="post">
+    <form id="addRestForm" th:action="@{/owner/addRest}" method="post" enctype="multipart/form-data">
         <label>가게 이름 : </label><input type="text" name="restName"><br/>
         <label>가게 주소 : </label><input type="text" name="restAddr"><br/>
         <label>가게 번호 : </label><input type="text" name="restTel"><br/>
@@ -18,7 +18,7 @@
         <label>가게 위도 : </label><input type="text" name="restLatitude"><br/>
         <label>가게 경도 : </label><input type="text" name="restLongitude"><br/>
         <label>가게 소개글 : </label><input type="text" name="restDescription"><br/>
-        <label>가게 대표 이미지 : </label><input type="file" name="restImg"><br/>
+        <label>가게 대표 이미지 : </label><input type="file" name="file"><br/>
         <input type="button" value="등록" onclick="submitRestForm()">
         <input type="button" value="취소" onclick="location.href='/owner/home'">
     </form>
