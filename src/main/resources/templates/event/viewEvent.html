@@ -7,8 +7,8 @@
 <th:block th:fragment="content">
     <th:block>
         <label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></br>
+        <label>이미지</label><img th:if="${event.getEventImg() != null}" th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}" alt="Event Image">
         <label>내용</label><textarea name="eventContent">[[${event.getEventContent()}]]</textarea></br>
-        <label>이미지</label><input type="file" name="eventImg" th:value="${event.getEventImg()}"></br>
         <input type="button" value="수정" th:onclick="|location.href='@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
         <input type="button" value="삭제" th:onclick="|location.href='@{/owner/deleteEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
         <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/eventList}'|">

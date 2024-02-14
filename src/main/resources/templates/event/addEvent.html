@@ -6,10 +6,10 @@
 
 <th:block th:fragment="content">
 
-    <form id="addEventForm" th:action="@{/owner/addEvent}" method="post">
+    <form id="addEventForm" th:action="@{/owner/addEvent}" method="post" enctype="multipart/form-data">
         <label>제목</label><input type="text" name="eventTitle"></br>
         <label>내용</label><textarea name="eventContent"></textarea></br>
-        <label>이미지</label><input type="file" name="eventImg"></br>
+        <label>이미지</label><input type="file" name="file"></br>
         <input type="button" value="등록" onclick="submitRestForm()">
         <input type="button" value="취소" th:onclick="|location.href='@{/owner/eventList}'|">
     </form>
