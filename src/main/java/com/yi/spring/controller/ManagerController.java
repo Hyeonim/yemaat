@@ -74,6 +74,7 @@ public class ManagerController {
     public String managerMain(Model model) {
         List<User> uList = userRepository.findAll();
         List<Dinning> dList = dinningRepository.findAll();
+        List<QA> qa = qaRepository.findAll();
 
         HashMap< String, Integer> userStat = new HashMap<>();
         for ( User elem : uList ) {
@@ -103,6 +104,7 @@ public class ManagerController {
         model.addAttribute("restStat", restStat);
         model.addAttribute("uList", uList);
         model.addAttribute("dList", dList);
+        model.addAttribute("qa", qa);
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";
