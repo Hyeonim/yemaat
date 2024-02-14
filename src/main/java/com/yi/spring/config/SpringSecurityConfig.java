@@ -20,7 +20,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(request->request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/status","/images/**","/css/**","/js/**").permitAll()
-                        .requestMatchers( "/", "/home", "/homeSlide","/signUp").permitAll()
+                        .requestMatchers( "/", "/home", "/homeSlide","/signUp","/join").permitAll()
                         .requestMatchers("/user/**").hasAnyRole("1", "2", "3")
                         .requestMatchers("/owner/**").hasAnyRole("2", "3")
                         .requestMatchers("/manager/**").hasRole("3")
