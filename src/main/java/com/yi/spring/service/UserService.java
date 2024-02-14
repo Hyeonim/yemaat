@@ -28,4 +28,7 @@ public interface UserService {
 
 
     Page<User> findByUserAuthAndUserNameContainingPaged(String userAuth, String userName, int page);
+
+
+
 }

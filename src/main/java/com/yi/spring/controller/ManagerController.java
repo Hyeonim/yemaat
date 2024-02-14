@@ -79,9 +79,72 @@ public class ManagerController {
         List<User> uList = userRepository.findAll();
         List<Dinning> dList = dinningRepository.findAll();
 
+        List<User> onlyUsers = new ArrayList<>();
+        List<User> onlyJum = new ArrayList<>();
+        List<User> onlyBlack = new ArrayList<>();
+
+        List<Dinning> korean = new ArrayList<>();
+        List<Dinning> chinese = new ArrayList<>();
+        List<Dinning> japanese = new ArrayList<>();
+        List<Dinning> dessert = new ArrayList<>();
+        List<Dinning> usa = new ArrayList<>();
+
+
+        for (User result : uList) {
+            if (result.getUserAuth().equals("1") && !result.isUserBlock()) {
+                onlyUsers.add(result);
+            }
+        }
+
+        for (User result : uList) {
+            if (result.getUserAuth().equals("2") && !result.isUserBlock()) {
+                onlyJum.add(result);
+            }
+        }
+
+        for (User result : uList) {
+            if (result.isUserBlock()) {
+                onlyBlack.add(result);
+            }
+        }
+
+        for (Dinning restaurant : dList) {
+            switch (restaurant.getRestCategory()) {
+                case "한식":
+                    korean.add(restaurant);
+                    break;
+                case "중식":
+                    chinese.add(restaurant);
+                    break;
+                case "일식":
+                    japanese.add(restaurant);
+                    break;
+                case "디저트":
+                    dessert.add(restaurant);
+                    break;
+                case "양식":
+                    usa.add(restaurant);
+                    break;
+            }
+        }
+
+//        int koreanCount = korean.size();
+//        int chineseCount = chinese.size();
+//        int japaneseCount = japanese.size();
+//        int dessertCount = dessert.size();
+
+        model.addAttribute("korean", korean);
+        model.addAttribute("chinese", chinese);
+        model.addAttribute("japanese", japanese);
+        model.addAttribute("dessert", dessert);
+        model.addAttribute("usa", usa);
+
+
+        model.addAttribute("user", onlyUsers);
+        model.addAttribute("jum", onlyJum);
+        model.addAttribute("black", onlyBlack);
         model.addAttribute("uList", uList);
         model.addAttribute("dList", dList);
-
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";
@@ -95,6 +158,8 @@ public class ManagerController {
 
 
         Optional<User> user = userRepository.findByUserNo(userNo);
+
+
 //        System.out.println(user);
 
         model.addAttribute("user", user);
