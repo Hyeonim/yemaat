@@ -3,6 +3,8 @@ package com.yi.spring.controller;
 import com.yi.spring.entity.*;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.DinningService;
+import com.yi.spring.service.NoticeService;
+import com.yi.spring.service.QAService;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,12 @@ public class ManagerController {
 
     @Autowired
     NoticeRepository noticeRepository;
+
+    @Autowired
+    QAService qaService;
+
+    @Autowired
+    NoticeService noticeService;
 
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
@@ -217,9 +225,10 @@ public class ManagerController {
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ문의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     @GetMapping("managerPage_QA")
-    public String ManagerQA(Model model) {
+    public String ManagerQA(Model model
+    ,  @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        List<QA> list = qaRepository.findAll();
+        Page<QA> list = qaService.findByUserNoPaged(page);
 
         System.out.println(list);
 
@@ -272,9 +281,10 @@ public class ManagerController {
 
 
     @GetMapping("/managerPage_Notice")
-    public String managerNoticeList(Model model) {
+    public String managerNoticeList(Model model,
+                                    @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        List<Notice> list = noticeRepository.findAll();
+        Page<Notice> list = noticeService.findByAll(page);
 
 //        System.out.println(list);
 
