@@ -6,7 +6,7 @@
 
 <th:block th:fragment="content">
     <th:block th:object="${dinning}">
-        <form id="updateRestForm" th:action="@{/owner/updateRest}" method="post">
+        <form id="updateRestForm" th:action="@{/owner/updateRest}" method="post" enctype="multipart/form-data">
             <label>가게 이름 : </label><input type="text" name="restName" th:value="*{getRestName()}"><br/>
             <label>가게 주소 : </label><input type="text" name="restAddr" th:value="*{getRestAddr()}"><br/>
             <label>가게 번호 : </label><input type="text" name="restTel" th:value="*{getRestTel()}"><br/>
@@ -19,7 +19,7 @@
             <label>가게 경도 : </label><input type="text" name="restLatitude" th:value="*{getRestLatitude()}"><br/>
             <label>가게 위도 : </label><input type="text" name="restLongitude" th:value="*{getRestLongitude()}"><br/>
             <label>가게 소개글 : </label><input type="text" name="restDesc" th:value="*{getRestDescription()}"><br/>
-            <label>가게 대표 이미지 : </label><input type="file" name="restImg" th:value="*{getRestImg()}"><br/>
+            <label>가게 대표 이미지 : </label><input type="file" name="file"><br/>
             <input type="hidden" th:value="${dinning.getRestNo()}" name="restNo" >
             <input type="button" value="수정" onclick="submitRestForm()">
             <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewRest}'|">

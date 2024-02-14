@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -49,13 +51,21 @@ public class OwnerController {
     @GetMapping("addRest")
     public String addRest(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
         model.addAttribute("pageName", "식당 등록");
-        return "/owner/addRest";
+        return "owner/addRest";
     }
 
     @PostMapping("addRest") // 등록 화면으로 전환은 되는데 등록은 안됨
-    public String addRest(Principal principal, Dinning dinning, Model model) {
+    public String addRest(Principal principal, Dinning dinning, Model model, @RequestParam MultipartFile file) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
+        byte[] restImg;
+        try {
+            restImg = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        dinning.setRestImg(restImg);
         dinning.setUserNo(loginUser);
         dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         diningRestService.createRestaurant(dinning);
@@ -172,9 +182,16 @@ public class OwnerController {
     }
 
     @PostMapping("updateRest")
-    public String updateRest(Principal principal, Dinning dinning) {
+    public String updateRest(Principal principal, Dinning dinning, @RequestParam MultipartFile file) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
 
+        byte[] restImg;
+        try {
+            restImg = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        dinning.setRestImg(restImg);
         dinning.setUserNo(loginUser);
         dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);
@@ -210,6 +227,7 @@ public class OwnerController {
     @GetMapping("reservation")
     public String reservation(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
 
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         if(dinning == null) {
@@ -220,8 +238,8 @@ public class OwnerController {
         model.addAttribute("dinning", dinning);
 
 
-//        List<Reservation> reservList = reservationRepository.findByRestNo((long) dinning.getRestNo());
-//        model.addAttribute("reservList", reservList);
+        List<Reservation> reservList = reservationRepository.findByRestNo_RestNo((long) dinning.getRestNo());
+        model.addAttribute("reservList", reservList);
 
         model.addAttribute("pageName", "예약 목록");
         return "/owner/reservList";
@@ -247,10 +265,17 @@ public class OwnerController {
         return "/owner/userUpdate";
     }
     @PostMapping("userUpdate")
-    public String userUpdate(User user) {
+    public String userUpdate(User user, @RequestParam MultipartFile file) {
         User existUser = userService.findByUserNo(user.getUserNo()).get();
+        byte[] userImg;
+        try {
+            userImg = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        user.setUserImg(userImg);
         User updateUser = userService.updateUser(user);
-        if(existUser.getUserId().equals(updateUser.getUserId()) || existUser.getUserPassword().equals(updateUser.getUserPassword())) {
+        if(!existUser.getUserId().equals(updateUser.getUserId()) || !existUser.getUserPassword().equals(updateUser.getUserPassword())) {
             return "redirect:/logout";
         }
         return "redirect:/owner/userInfo";
@@ -288,6 +313,7 @@ public class OwnerController {
     @GetMapping("eventList")
     public String event(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         if(dinning == null) {
             model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
@@ -307,6 +333,7 @@ public class OwnerController {
     @GetMapping("addEvent")
     public String addEvent(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         if(dinning == null) {
             model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
@@ -320,9 +347,17 @@ public class OwnerController {
     }
 
     @PostMapping("addEvent")
-    public String addEvent(Principal principal, Event event, Model model) {
+    public String addEvent(Principal principal, Event event, Model model, @RequestParam MultipartFile file) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+
+        byte[] eventImg;
+        try {
+            eventImg = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        event.setEventImg(eventImg);
 
         event.setRestNo(dinning);
         eventService.createEvent(event);
@@ -332,6 +367,8 @@ public class OwnerController {
     @GetMapping("viewEvent/{eventNo}")
     public String viewEvent(Principal principal, @PathVariable("eventNo") int eventNo, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
+
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
@@ -344,6 +381,8 @@ public class OwnerController {
     @GetMapping("updateEvent/{eventNo}")
     public String updateEvent(Principal principal, @PathVariable("eventNo") int eventNo, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
+
         Dinning dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
@@ -354,10 +393,17 @@ public class OwnerController {
     }
 
     @PostMapping("updateEvent/{eventNo}")
-    public String updateEvent(Principal principal, @PathVariable("eventNo") int eventNo, Event event) {
+    public String updateEvent(Principal principal, @PathVariable("eventNo") int eventNo, Event event, @RequestParam MultipartFile file) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
 
+        byte[] eventImg;
+        try {
+            eventImg = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        event.setEventImg(eventImg);
         event.setRestNo(dinning);
         eventService.updateEvent(event);
         return "redirect:/owner/viewEvent/" + eventNo;

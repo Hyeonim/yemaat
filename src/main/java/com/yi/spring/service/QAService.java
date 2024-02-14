@@ -14,6 +14,12 @@ public interface QAService {
 
     Page<QA> findByUserNoPaged(User user, int page);
 
+
+    Page<QA> findByUserNoPaged(int page);
+
+
     int countByUserNo(User userNo);
+
+
 
 }

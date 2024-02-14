@@ -10,7 +10,6 @@
             <th>예약자</th>
             <th>예약 인원</th>
             <th>예약 시간</th>
-            <th>예약 날짜</th>
             <th>예약 수락</th>
             <th>예약 취소</th>
         </tr>
@@ -18,8 +17,8 @@
             <tr>
                 <td th:text="${reserv.getUserNo()}"></td>
                 <td th:text="${reserv.getRes_guest_count()}"></td>
-                <td th:text="${reserv.getRes_time()}"></td>
-                <td th:text="${reserv.getRes_time()}"></td>
+                <td th:text="${reserv.res_time_new}"></td>
+                <td th:text="${reserv.resTime}"></td>
                 <td><input type="button" value="수락"></td>
                 <td><input type="button" value="취소"></td>
             </tr>

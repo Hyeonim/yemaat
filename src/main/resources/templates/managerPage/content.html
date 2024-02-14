@@ -3,65 +3,45 @@
         xmlns:th="http://www.thymeleaf.org/"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!--<link rel="stylesheet" href="../../static/css/main.css">-->
 <div th:fragment="managerContent">
     <div id="right">
 
 
-
         <div id="main-box">
             <div style="border-bottom: solid 1px black">
-                <h1>현재 이용 인원&가게수</h1>
+                <h2 th:text="'회원 현황 : ' + ${uList.size()} +' 명'"></h2>
             </div>
 
             <div id="content-box">
-
-
-                <div>
-                    <h2>사용자수</h2>
-                    <p th:text="'유저 수 : ' + ${uList.size()} +' 명'"></p>
+                <div style="width: 200px; height: 200px; display: flex">
+                    <canvas id="userChart" style="width: 200px; height:200px "></canvas>
                 </div>
-                <div>
-                    <h2>가게 수</h2>
-                    <p th:text="'가게 수 : ' + ${dList.size()} + ' 개'"></p>
+                <div style="width: 200px; height: 200px; display: flex">
+                    <canvas id="userBarChart" style=" width:200px; height:200px "></canvas>
                 </div>
+            </div>
+        </div>
 
 
+        <div id="main-box2">
+            <div style="border-bottom: solid 1px black">
+                <h2 th:text="'가게 현황 : ' + ${dList.size()} + ' 개'"></h2>
+            </div>
+            <div id="content-box2">
+                <div style="width: 200px; height: 200px; display:flex;">
+                    <canvas id="dinningChart" style=" width:200px; height:200px "></canvas>
+                </div>
+                <div style="width: 200px; height: 200px; display:flex;">
+                    <canvas id="dinningBarChart" style=" width:200px; height:200px "></canvas>
+                </div>
             </div>
 
 
         </div>
-
-        <div id="main-box">
-            <div style="border-bottom: solid 1px black">
-                <h1>현재 이용 인원&가게수</h1>
-            </div>
-
-            <div id="content-box">
-
-
-                <div>
-                    <h2>사용자수</h2>
-                    <p th:text="'유저 수 : ' + ${uList.size()} +' 명'"></p>
-                </div>
-                <div>
-                    <h2>가게 수</h2>
-                    <p th:text="'가게 수 : ' + ${dList.size()} + ' 개'"></p>
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-
-
     </div>
-
-
 </div>
-
 
 </html>
