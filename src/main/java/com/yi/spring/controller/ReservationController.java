@@ -271,8 +271,8 @@ public class ReservationController {
 
         Reservation reservation = new Reservation();
         reservation.setRes_no( reservationNo );
-//        reservation.setRestNo( iRestNo );
-//        reservation.setUserNo( iUserNo );
+        reservation.setRestNo( new Dinning( iRestNo != null ? iRestNo.intValue() : 0) );
+        reservation.setUserNo( loginUser );
         reservation.setResTime( LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         reservation.setRes_time_new( LocalDateTime.now() );
         reservation.setRes_guest_count( count );
