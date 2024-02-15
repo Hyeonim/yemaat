@@ -257,15 +257,15 @@ public class ReservationController {
 
         Long reservationNo = null;
         {
-            List<Reservation> list = reservationRepository.findByRestNo_RestNoAndUserNo( iRestNo, iUserNo );
+            List<Reservation> list = reservationRepository.findByRestNo_RestNoAndUserNo_UserNo( iRestNo, iUserNo );
             if ( null != list && !list.isEmpty())
                 reservationNo = list.get(0).getRes_no();
         }
 
         Reservation reservation = new Reservation();
         reservation.setRes_no( reservationNo );
-        reservation.setRestNo( new Dinning( iRestNo != null ? iRestNo.intValue() : 0) );
-        reservation.setUserNo( iUserNo );
+//        reservation.setRestNo( iRestNo );
+//        reservation.setUserNo( iUserNo );
         reservation.setResTime( LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         reservation.setRes_time_new( LocalDateTime.now() );
         reservation.setRes_guest_count( count );

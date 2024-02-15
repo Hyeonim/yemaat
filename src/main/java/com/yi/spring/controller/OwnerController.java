@@ -239,10 +239,11 @@ public class OwnerController {
 
 
         List<Reservation> reservList = reservationRepository.findByRestNo_RestNo((long) dinning.getRestNo());
+        System.out.println(reservList);
         model.addAttribute("reservList", reservList);
 
         model.addAttribute("pageName", "예약 목록");
-        return "/owner/reservList";
+        return "owner/reservList";
     }
 
     // --------------------- 개인 정보 관리 -----------------------
