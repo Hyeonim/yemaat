@@ -17,7 +17,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Reservation> findByRestNo_RestNoAndUserNo_UserNo(Long restNo, Long user_no);
     List<Reservation> findByUserNo_UserNo(Long user_no);
 
-    @Query("SELECT r FROM Reservation r WHERE r.userNo = :userNo ORDER BY r.resTime DESC")
+    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo ORDER BY r.resTime DESC")
     List<Reservation> findLatestReservationByUserNo(@Param("userNo") Long userNo, Pageable pageable);
 
 //    @Query("SELECT dr.restName, dr.restCategory, r.reservationTime, r.guestCount, dr.restAddr " +
