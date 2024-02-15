@@ -79,25 +79,24 @@
         return new Promise(resolve => setTimeout(resolve, ms));
     }
     async function moveToSlide(slider) {
-        let index = (slider?.index ??0) + 1;
-        index = 1;
+        let slideIndex = (slider?.index);
+        const index = 1;
         const slideWidth = 1008; //slider.clientWidth;
         const newPosition = -slideWidth * index;
 
 
         const SLIDE_SIZE = 4;
         const selectedDivs = Array.from(slider.children).slice(0, SLIDE_SIZE);
-        // selectedDivs.forEach(div => slider.appendChild(div.cloneNode(true)));
+        if ( 1 === slideIndex )
         selectedDivs.forEach(div => slider.appendChild(div));
 
-        // await sleep(100)
         slider.style.transition = "";
         slider.style.transform = "";
         await sleep(100)
         slider.style.transition = "transform 0.5s ease";
         slider.style.transform = `translateX(${newPosition}px)`;
 
-        // slider.index = index;
+        slider.index = index;
 
         // // transitionend 이벤트 핸들러 등록
         // slider.addEventListener("transitionend", function(event) {

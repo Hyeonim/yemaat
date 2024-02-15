@@ -33,7 +33,7 @@
             </form>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto" style="display: none;">
                     <li class="nav-item">
                         <a class="nav-link" href="/login">로그인</a>
                     </li>
@@ -50,9 +50,53 @@
                         <a class="nav-link" href="/manager/content">관리자페이지</a>
                     </li>
                 </ul>
+                <div>
+                    <button>
+
+                    </button>
+                    <button onclick="onMenuClick()" onblur="handleBlur()">
+                        <img src="/images/logo_avatar_32dp.png" alt="avatar">
+                    </button>
+                    <div>
+                        <div style="
+                             transform-origin: right top;
+                             right: 16px;
+                             top: 62px;
+                             max-height: 865px;
+                             "
+                        class="dropmenu" name="mymenu">
+                            <ul>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/login">로그인</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/signUp">회원가입</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/owner/home">가게관리</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/user/userPage">마이페이지</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/manager/content">관리자페이지</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
     </div>
+    <script>
+        function onMenuClick( btn ){
+            document.querySelector( "[name=mymenu]" ).classList.toggle( "visible" );
+        }
+        function handleBlur() {
+            document.querySelector( "[name=mymenu]" ).classList.remove( "visible" );
+        }
+
+    </script>
 </div>
 </html>
 

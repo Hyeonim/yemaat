@@ -18,7 +18,44 @@
 }
 #navbarNav{
     width: 400px;
+    justify-content: flex-end;
 }
+#navbarNav button {
+    background: transparent;
+    box-shadow: none;
+    text-transform: none;
+    border: none;
+}
+#navbarNav .dropmenu {
+    display: none;
+    position: absolute;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transform: scale(1);
+    transform-origin: top left;
+    opacity: 0;
+    overflow: auto;
+    will-change: transform,opacity;
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12);
+    transform-origin-left: top left;
+    transform-origin-right: top right;
+    padding: 10px 10px 0px 0px;
+    border-radius: 10px;
+    z-index: 1;
+}
+#navbarNav .dropmenu.visible {
+    display: inline-block;
+    transform: scale(1);
+    opacity: 1;
+}
+#navbarNav .dropmenu ul, #navbarNav .dropmenu li  {
+    list-style-type: none;
+}
+#navbarNav .dropmenu li:hover {
+    background-color: #ffd9885c;
+}
+
 
 .f {
     position: relative;
@@ -66,7 +103,7 @@
     /*margin-top: 50px;*/
     margin-left: 100px;
     margin-right: 100px;
-
+    display: none;
 }
 
 #topDiv{
