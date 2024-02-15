@@ -94,16 +94,19 @@ public class UserController {
 
         for (Reservation reservation : list) {
             Timestamp resTimestamp = Timestamp.valueOf(reservation.getResTime());
-            if (currentDateTime.isBefore(resTimestamp.toLocalDateTime())) {
-                reservation.setRes_status("WAIT");
-            } else {
-                reservation.setRes_status(String.valueOf(ReservationStatus.EXPIRED));
-            }
 
-            if (reservation.getRes_status() == null) {
-                reservation.setRes_status("WAIT");
+            if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getRes_status())) {
+                // RESERVE_COMPLETED 상태일 때만 처리
+                if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
+                    // 현재 시간이 예약 시간을 지났을 경우에만 업데이트
+                    reservation.setRes_status(ReservationStatus.EXPIRED.name());
+                    reservationRepository.save(reservation);
+                }
             }
         }
+
+
+
 
         model.addAttribute("list", list);
         System.out.println("리스트는 ==== " + list);
