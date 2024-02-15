@@ -4,7 +4,8 @@
       layout:decorate="~{userPage/Layout_userPage}">
 
 <th:block th:fragment="content">
-    <h1>답변 내용</h1>
+    <div class="formDiv">
+        <h1>답변 내용</h1>
     <form>
         <label>문의 번호:</label>
         <input type="text" th:value="${QA.get().getId()}" readonly/><br>
@@ -18,6 +19,7 @@
         <textarea rows="5" cols="50" th:text="${QaAnswer.getAnswerContent()}" readonly></textarea><br>
 
     </form>
+    </div>
 
 </th:block>
 </html>

@@ -29,7 +29,8 @@
         height: 100vh;
         border: 1px solid #003458;
     }
-    #leftList{
+
+    #leftList {
         height: 100%;
         width: 25%;
 
@@ -39,6 +40,7 @@
         box-sizing: border-box;
 
     }
+
     #map {
         height: 100%;
         width: 75%;
@@ -47,18 +49,23 @@
 
     }
 
-#category{
-    height: 200px;
-    border-bottom: solid 1px black;
-    justify-content: center;
-    display: flex;
-    margin-bottom: 30px;
-}
+    #category {
+        height: 200px;
+        border-bottom: solid 1px black;
+        justify-content: center;
+        display: flex;
+        margin-bottom: 30px;
+    }
 
-#category button{
+    #category button {
 
-    height: 40px;
-}
+        height: 40px;
+    }
+
+    .hovered {
+        background-color: #f0f0f0; /* 호버시 변경할 색상 */
+    }
+
 
 </style>
 
@@ -69,7 +76,7 @@
 </div>
 
 <div id="content">
-    <div id="leftList" >
+    <div id="leftList">
 
         <div id="category">
             <button>평점 높은 순</button>
@@ -77,17 +84,23 @@
             <button>예약 많은 순</button>
         </div>
 
-        <ul id="resultList">
-            <li th:each="coordinate : ${list}" data-lat="${coordinate.restLatitude}" data-lng="${coordinate.restLongitude}">
-                <a th:href="@{/detail(restNo=${coordinate.restNo})}" th:text="${coordinate.restName}">가게이름</a>
+        <ul id="resultList" style="list-style: none">
+
+            <li th:each="coordinate : ${list}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 15px;"
+                th:onclick="'javascript:redirectdetail(\'' + ${coordinate.restNo} + '\')'" >
+
+                <img th:src="'data:image/jpeg;base64,' + ${coordinate.base64Image}" style="width: 100px; height: 120px; margin-right: 10px; margin-bottom: 20px">
+
+                <div style="display: flex; flex-direction: column;">
+                    <h2 style="font-size: 28px" th:text="${coordinate.restName} "></h2>
+                    <p th:text="${coordinate.restTel} "></p>
+                    <p th:text="'평점 : ' + ${coordinate.restScore} "></p>
+                </div>
+
             </li>
+
         </ul>
 
-<!--        <ul id="resultList">-->
-<!--            <li th:each="coordinate : ${list}" data-lat="${coordinate.restLatitude}" data-lng="${coordinate.restLongitude}">-->
-<!--                <a th:href="@{/detail(restNo=${coordinate.restNo})}" th:text="${coordinate.restName}">가게이름</a>-->
-<!--            </li>-->
-<!--        </ul>-->
 
 
     </div>
@@ -101,26 +114,87 @@
         center: new naver.maps.LatLng(35.86868025887658, 128.5987419727357),
         zoom: 15
     })
+
+    function redirectdetail(id) {
+        window.location.href = '/detail?restNo=' + id;
+    }
+
+
+    document.querySelectorAll('#restaurantList li').forEach(function(item) {
+        item.addEventListener('mouseover', function() {
+            var restaurantName = this.querySelector('p:first-child').textContent;
+            alert(restaurantName);
+        });
+    });
+
+
 </script>
+
+
 <script map th:inline="javascript">
-    let marker = null;
     let markers = [];
 
+    let contentString2 =[];
+    gv = [];
 
-    [# th:each = "coordinate : ${list}"]
-
-    marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng([[${coordinate.restLatitude}]], [[${coordinate.restLongitude}]]),
-        icon: {
-            content: '<p style="border-radius: 5px;">가게명 : ' + [[${coordinate.restName}]] + '</p>',
-            anchor: new naver.maps.Point(15, 50),
-        },
-        map: map
-    })
-
-    marker.setMap(map);
-
+    [# th:each = "elem : ${list}"]
+    contentString2.push( [[${elem.restName}]] )
     [/]
+
+
+
+    // 마커 생성 및 이벤트 핸들러 등록
+    [# th:each = "coordinate : ${list}"]
+    {
+
+        let marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng([[${coordinate.restLatitude}]], [[${coordinate.restLongitude}]]),
+            map: map
+        });
+
+        let aaa = [ [[${coordinate.restName}]], [[${coordinate.restCategory}]] ]
+
+        let contentString =[ `
+    <div style="width:auto; height:30px: 10px; border: solid 1px transparent; border-radius: 20px;">
+        <h3 style="margin: 5px 10px 5px 10px">${aaa[0]}</h3>
+        <p style="text-align: center">${aaa[1]}</p>
+    </div>`
+        ].join('');
+
+
+
+        let infowindow = new naver.maps.InfoWindow({
+            content: contentString
+        });
+
+        // 마커 클릭 이벤트
+        naver.maps.Event.addListener(marker, "mouseover", function (e) {
+            console.log(infowindow)
+            if (infowindow.getMap()) {
+                infowindow.close();
+            } else {
+                infowindow.open(map, marker);
+            }
+        });
+
+        naver.maps.Event.addListener(marker, "mouseout", function (e) {
+            console.log(infowindow)
+            if (infowindow.getMap()) {
+                infowindow.close();
+            } else {
+                infowindow.open(map, marker);
+            }
+        });
+
+
+
+
+
+
+    }
+    [/]
+
+
 
 </script>
 </body>

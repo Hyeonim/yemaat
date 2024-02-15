@@ -6,6 +6,7 @@
 
 <th:block th:fragment="content">
 
+    <div class="formDiv">
     <form id="updateEventForm" th:action="@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}" method="post" enctype="multipart/form-data">
         <label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></br>
         <label>내용</label><textarea name="eventContent">[[${event.getEventContent()}]]</textarea></br>
@@ -14,6 +15,7 @@
         <input type="button" value="등록" onclick="submitRestForm()">
         <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
     </form>
+    </div>
 
     <script>
         function submitRestForm() {
