@@ -33,9 +33,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "JOIN DiningRest dr ON r.restNo = dr.restNo " +
             "WHERE r.userNo = :userNo")
     */
-    @Query("SELECT r.restNo.restName, r.restNo.restCategory, r.resTime, r.res_guest_count, r.restNo.restAddr " +
+    @Query("SELECT r "+
+//            .restNo.restName, r.restNo.restCategory, r.resTime, r.res_guest_count, r.restNo.restAddr " +
             "FROM Reservation r " +
-            "WHERE r.userNo = :userNo")
+            "WHERE r.userNo.userNo = :userNo")
     List<Reservation> findReservationDetailsByUserNo(Long userNo);
 
 

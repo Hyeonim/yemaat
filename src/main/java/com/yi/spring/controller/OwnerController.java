@@ -224,8 +224,8 @@ public class OwnerController {
     }
 
     // ----------------------- 예약 관련 ------------------------------
-    @GetMapping("reservation")
-    public String reservation(Principal principal, Model model) {
+    @GetMapping("reservList")
+    public String reservList(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         model.addAttribute("user", loginUser);
 
@@ -244,6 +244,43 @@ public class OwnerController {
 
         model.addAttribute("pageName", "예약 목록");
         return "owner/reservList";
+    }
+
+    @GetMapping("resExpired/{resNo}")
+    public String resExpired(@PathVariable("resNo") int resNo, Principal principal) {
+        User loginUser = userService.findByUserId(principal.getName()).get();
+        Reservation reservation = reservationRepository.findById(resNo).get();
+        reservation.setRes_status(String.valueOf(ReservationStatus.EXPIRED));
+        reservationRepository.save(reservation);
+        return "redirect:/owner/reservList";
+    }
+
+    @GetMapping("resNoShow/{resNo}")
+    public String resNoShow(@PathVariable("resNo") int resNo, Principal principal) {
+        User loginUser = userService.findByUserId(principal.getName()).get();
+        Reservation reservation = reservationRepository.findById(resNo).get();
+        reservation.setRes_status(String.valueOf(ReservationStatus.NO_SHOW));
+        reservationRepository.save(reservation);
+        return "redirect:/owner/reservList";
+    }
+
+    @GetMapping("resCompleted/{resNo}")
+    public String resCompleted(@PathVariable("resNo") int resNo, Principal principal) {
+        User loginUser = userService.findByUserId(principal.getName()).get();
+        Reservation reservation = reservationRepository.findById(resNo).get();
+        reservation.setRes_status(String.valueOf(ReservationStatus.RESERVE_COMPLETED));
+        reservationRepository.save(reservation);
+        return "redirect:/owner/reservList";
+    }
+
+    @GetMapping("resCancel/{resNo}/{reason}")
+    public String resCancel(@PathVariable("resNo") int resNo, @PathVariable("reason") String reason, Principal principal) {
+        User loginUser = userService.findByUserId(principal.getName()).get();
+        Reservation reservation = reservationRepository.findById(resNo).get();
+        reservation.setRes_status(String.valueOf(ReservationStatus.REST_CANCEL));
+        reservation.setRes_rejection_reason(reason);
+        reservationRepository.save(reservation);
+        return "redirect:/owner/reservList";
     }
 
     // --------------------- 개인 정보 관리 -----------------------
