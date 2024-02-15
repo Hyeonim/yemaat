@@ -7,6 +7,7 @@
 
 <h1>My 정보</h1>
     <a th:href="@{/user/userPage/{userNo}(userNo=${user.get().userNo})}">돌아가기</a><br>
+    <div class="formDiv">
     <form th:action="@{/user/user_update/{userNo}(userNo=${user.get().getUserNo()})}" method="post" enctype="multipart/form-data">
     <label>유저 번호:</label>
     <input type="text" th:value="${user.get().getUserNo()}" readonly name="userNo"/><br>
@@ -26,6 +27,7 @@
     <input type="file" name="file"><br>
     <button type="submit">Update</button>
 </form>
+    </div>
 
 </th:block>
 </html>

@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/owner/viewRest}">
-<div class="menu-container" th:fragment="menuContent" style="border:1px solid black">
+<div class="menu-container" th:fragment="menuContent" style="border:1px dashed black;padding: 6px 6px;">
 
 <form id="addMenuForm" th:action="@{/owner/viewRest/addMenu}" method="post">
     <label>메뉴 이름 : </label><input type="text" name="menuName"><br/>

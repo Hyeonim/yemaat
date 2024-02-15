@@ -1,0 +1,16 @@
+div.formDiv {
+    width: 600px;
+    margin: 0 auto;
+}
+div.formDiv form label {
+    width:20%;
+    height:34px;
+}
+div.formDiv form label::after {
+    /*content:":";*/
+}
+div.formDiv form label + input {
+    width:70%;
+    border:none;
+    border-bottom: 1px solid gray;
+}
