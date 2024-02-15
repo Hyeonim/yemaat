@@ -165,6 +165,18 @@
             });
     }
 
+    function searchDinning3() {
+        let searchInput3 = document.getElementById("searchInput3").value;
+        fetch("/manager/managerPage_UList?searchInput3=" + searchInput3)
+            .then(resp => resp.text())
+            .then(data => {
+                let doc = new DOMParser().parseFromString(data, 'text/html');
+                document.getElementById("UuserTable").innerHTML = doc.getElementById("UuserTable").innerHTML;
+                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+            });
+    }
+
+
 
     function drawGraph() {
         if ( ![[${drawGraph}]])
