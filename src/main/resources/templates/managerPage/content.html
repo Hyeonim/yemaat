@@ -9,6 +9,12 @@
 <div th:fragment="managerContent">
     <div id="right">
 
+        <div>
+            <a href="managerPage_QA">
+                <ion-icon id="alarm" name="mail-unread-outline"></ion-icon>
+                <span th:text="'남은 문의 : ' + ${qa.size()}"></span>
+            </a>
+        </div>
 
         <div id="main-box">
             <div style="border-bottom: solid 1px black">

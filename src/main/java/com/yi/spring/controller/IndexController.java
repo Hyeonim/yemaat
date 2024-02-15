@@ -36,6 +36,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String home() {
+
         return "redirect:/home";
     }
     @GetMapping("/home")

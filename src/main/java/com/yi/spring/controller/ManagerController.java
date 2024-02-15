@@ -29,10 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/manager")
@@ -75,76 +72,39 @@ public class ManagerController {
 
     @GetMapping("/content")
     public String managerMain(Model model) {
-
         List<User> uList = userRepository.findAll();
         List<Dinning> dList = dinningRepository.findAll();
+        List<QA> qa = qaRepository.findAll();
 
-        List<User> onlyUsers = new ArrayList<>();
-        List<User> onlyJum = new ArrayList<>();
-        List<User> onlyBlack = new ArrayList<>();
+        HashMap< String, Integer> userStat = new HashMap<>();
+        for ( User elem : uList ) {
+            String key;
+            if ( elem.getUserAuth().equals("3"))
+                continue;
+            if ( elem.isUserBlock() )
+                key = "4";
+            else
+                key = elem.getUserAuth();
 
-        List<Dinning> korean = new ArrayList<>();
-        List<Dinning> chinese = new ArrayList<>();
-        List<Dinning> japanese = new ArrayList<>();
-        List<Dinning> dessert = new ArrayList<>();
-        List<Dinning> usa = new ArrayList<>();
-
-
-        for (User result : uList) {
-            if (result.getUserAuth().equals("1") && !result.isUserBlock()) {
-                onlyUsers.add(result);
-            }
+            Integer statCount = userStat.computeIfAbsent(key, k -> 0);
+            statCount++;
+            userStat.put( key, statCount );
         }
 
-        for (User result : uList) {
-            if (result.getUserAuth().equals("2") && !result.isUserBlock()) {
-                onlyJum.add(result);
-            }
-        }
-
-        for (User result : uList) {
-            if (result.isUserBlock()) {
-                onlyBlack.add(result);
-            }
-        }
-
+        HashMap< String, Integer> restStat = new HashMap<>();
         for (Dinning restaurant : dList) {
-            switch (restaurant.getRestCategory()) {
-                case "한식":
-                    korean.add(restaurant);
-                    break;
-                case "중식":
-                    chinese.add(restaurant);
-                    break;
-                case "일식":
-                    japanese.add(restaurant);
-                    break;
-                case "디저트":
-                    dessert.add(restaurant);
-                    break;
-                case "양식":
-                    usa.add(restaurant);
-                    break;
-            }
+            String key = restaurant.getRestCategory();
+            Integer statCount = restStat.computeIfAbsent(key, k -> 0);
+            statCount++;
+            restStat.put( key, statCount );
         }
 
-//        int koreanCount = korean.size();
-//        int chineseCount = chinese.size();
-//        int japaneseCount = japanese.size();
-//        int dessertCount = dessert.size();
-
-        model.addAttribute("korean", korean);
-        model.addAttribute("chinese", chinese);
-        model.addAttribute("japanese", japanese);
-        model.addAttribute("dessert", dessert);
-        model.addAttribute("usa", usa);
-
-
-        model.addAttribute("user", onlyUsers);
-        model.addAttribute("jum", onlyJum);
-        model.addAttribute("black", onlyBlack);
+        model.addAttribute("drawGraph", true);
+        model.addAttribute("userStat", userStat);
+        model.addAttribute("restStat", restStat);
         model.addAttribute("uList", uList);
         model.addAttribute("dList", dList);
+        model.addAttribute("qa", qa);
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";

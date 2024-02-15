@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -67,7 +68,7 @@ public class UserController {
         model.addAttribute("user", userService.findByUserNo(userNo));
         model.addAttribute("restaurants", restaurantsForLatestReservation);
 
-        System.out.println(restaurantsForLatestReservation);
+//        System.out.println(restaurantsForLatestReservation);
 
         return "userPage/user_main";
     }
@@ -82,12 +83,28 @@ public class UserController {
     @GetMapping("user_posts/{userNo}")
     public String userPosts(@PathVariable("userNo") Long userNo, Model model) {
         List<Reservation> list = reservationRepository.findReservationDetailsByUserNo(userNo);
-//        List<String> list2 = dinningRepository.findRestImagesByUserNo(userNo);
-//        model.addAttribute("img", list2);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        Collections.sort(list, Comparator.comparing(Reservation::getResTime).reversed());
+
+        for (Reservation reservation : list) {
+            Timestamp resTimestamp = Timestamp.valueOf(reservation.getResTime());
+            if (currentDateTime.isBefore(resTimestamp.toLocalDateTime())) {
+                reservation.setRes_status("WAIT");
+            } else {
+                reservation.setRes_status(String.valueOf(ReservationStatus.EXPIRED));
+            }
+
+            if (reservation.getRes_status() == null) {
+                reservation.setRes_status("WAIT");
+            }
+        }
+
         model.addAttribute("list", list);
         System.out.println("리스트는 ==== " + list);
         return "userPage/user_posts";
     }
+
 
     // 유저가 작성한 리뷰 목록 페이지로 이동
     @GetMapping("user_review/{userNo}")
