@@ -40,18 +40,18 @@ public class ListController {
 //            System.out.println("Latitude: " + diningRest.getRestLatitude() + ", Longitude: " + diningRest.getRestLongitude() + "가게 이름" + diningRest.getRestName());
 //        }
 
-        List<Dinning> respList = new ArrayList<>();
-        for (Dinning diningRest : list) {
-            Dinning elem = new Dinning();
-            elem.setRestLatitude( diningRest.getRestLatitude());
-            elem.setRestLongitude( diningRest.getRestLongitude());
-            elem.setRestName( diningRest.getRestName());
-            elem.setRestNo(diningRest.getRestNo());
-            respList.add(elem);
-        }
+//        List<Dinning> respList = new ArrayList<>();
+//        for (Dinning diningRest : list) {
+//            Dinning elem = new Dinning();
+//            elem.setRestLatitude( diningRest.getRestLatitude());
+//            elem.setRestLongitude( diningRest.getRestLongitude());
+//            elem.setRestName( diningRest.getRestName());
+//            elem.setRestNo(diningRest.getRestNo());
+//            respList.add(elem);
+//        }
 
 
-        model.addAttribute("list", respList);
+        model.addAttribute("list", list);
 
         return "search";
     }
