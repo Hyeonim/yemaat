@@ -32,7 +32,7 @@
                 <br>
             </div>
 
-            <button>예약하기</button>
+            <button th:onclick="|location.href='@{/reserve/{restNo}(restNo=${dinning.restNo})}'|" >예약하기</button>
 
             <h2 style="margin-top: 50px">찾아 오는 길</h2>
             <div id="map">
