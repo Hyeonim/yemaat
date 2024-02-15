@@ -5,23 +5,48 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <table border="1">
-        <tr>
-            <th>예약자</th>
-            <th>예약 인원</th>
-            <th>예약 시간</th>
-            <th>예약 수락</th>
-            <th>예약 취소</th>
-        </tr>
-        <th:block th:each="reserv : ${reservList}">
-            <tr>
-                <td th:text="${reserv.getUserNo()}"></td>
-                <td th:text="${reserv.getRes_guest_count()}"></td>
-                <td th:text="${reserv.getResTime()}"></td>
-                <td><input type="button" value="수락"></td>
-                <td><input type="button" value="취소"></td>
-            </tr>
-        </th:block>
-    </table>
+    <div style="border: 1px solid #ccc;">
+        <h3>오늘 예약 목록</h3>
+        <ul>
+            <li>
+                <span>예약 번호</span>
+                <span>예약자</span>
+                <span>예약 인원</span>
+                <span>룸 타입</span>
+                <span>예약 상태</span> <!--select and button-->
+            </li>
+            <th:block th:each="reserv : ${reservList}" th:object="${reserv}">
+                <li>
+                    <span th:text="*{getRes_no()}"></span>
+                    <span th:text="*{getUserNo().getUserId()}"></span>
+                    <span th:text="*{getRes_guest_count()}"></span>
+                    <span th:text="*{getRes_table_type()}"></span>
+                    <span th:text="*{getRes_status()}"></span>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+
+    <div style="border: 1px solid #ccc;">
+        <h3>예약 대기 목록</h3>
+        <ul>
+            <li>
+                <span>예약 번호</span>
+                <span>예약자</span>
+                <span>예약 인원</span>
+                <span>룸 타입</span>
+                <span>예약 상태</span> <!--select and button-->
+            </li>
+            <th:block th:each="reserv : ${reservList}" th:object="${reserv}">
+                <li>
+                    <span th:text="*{getRes_no()}"></span>
+                    <span th:text="*{getUserNo().getUserId()}"></span>
+                    <span th:text="*{getRes_guest_count()}"></span>
+                    <span th:text="*{getRes_table_type()}"></span>
+                    <span th:text="*{getRes_status()}"></span>
+                </li>
+            </th:block>
+        </ul>
+    </div>
 </th:block>
 </html>
