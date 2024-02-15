@@ -29,14 +29,16 @@
 <div id="main">
 
 
-    <div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
+</div>
 
-    </div>
-    <div th:include="${page}::managerContent">
-
-    </div>
+<div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
 
 </div>
+<div th:include="${page}::managerContent">
+
+</div>
+
+
 
 <script>
     function previewImage(input) {
@@ -69,9 +71,6 @@
             });
         }
     }
-
-
-
 
 
 </script>
@@ -233,16 +232,17 @@
         let userCtx2 = document.getElementById('userBarChart').getContext('2d');
         let dinningCtx2 = document.getElementById('dinningBarChart').getContext('2d');
 
-        [ [userCtx, 'doughnut', userData], [dinningCtx, 'doughnut', dinningData]
-        , [userCtx2, 'bar', userData]    , [dinningCtx2, 'bar', dinningData]
-        ].forEach( elem=>{
-                new Chart( elem[0], {
-                    type: elem[1],
-                    data: elem[2],
-                    options:{}
-                });
+        [[userCtx, 'doughnut', userData], [dinningCtx, 'doughnut', dinningData]
+            , [userCtx2, 'bar', userData], [dinningCtx2, 'bar', dinningData]
+        ].forEach(elem => {
+            new Chart(elem[0], {
+                type: elem[1],
+                data: elem[2],
+                options: {}
+            });
         });
     }
+
     drawGraph();
 
 </script>

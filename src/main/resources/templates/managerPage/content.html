@@ -5,49 +5,57 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
 <!--<link rel="stylesheet" href="../../static/css/main.css">-->
 <div th:fragment="managerContent">
-    <div id="right">
+    <div id="right" style="margin-right:80px">
+        <h2>DASH BOARD</h2>
 
-        <div>
-            <a href="managerPage_QA">
-                <ion-icon id="alarm" name="mail-unread-outline"></ion-icon>
-                <span th:text="'남은 문의 : ' + ${qa.size()}"></span>
-            </a>
-        </div>
-
-        <div id="main-box">
-            <div style="border-bottom: solid 1px black">
-                <h2 th:text="'회원 현황 : ' + ${uList.size()} +' 명'"></h2>
+        <div style="display: flex; margin-top: 50px">
+            <div>
+                <a href="managerPage_QA">
+                    <ion-icon id="alarm" name="mail-unread-outline"
+                              style="font-size: 50px; margin-right: 13px"></ion-icon>
+                </a>
             </div>
-
-            <div id="content-box">
-                <div style="width: 200px; height: 200px; display: flex">
-                    <canvas id="userChart" style="width: 200px; height:200px "></canvas>
-                </div>
-                <div style="width: 200px; height: 200px; display: flex">
-                    <canvas id="userBarChart" style=" width:200px; height:200px "></canvas>
-                </div>
+            <div>
+                <a href="managerPage_QA">
+                    <span th:text="'전체 문의 : ' + ${qa.size()}"></span><br>
+                    <span th:text="'미 답변 문의 : ' + ${unansweredCount}"></span>
+                </a>
             </div>
         </div>
 
-
-        <div id="main-box2">
-            <div style="border-bottom: solid 1px black">
-                <h2 th:text="'가게 현황 : ' + ${dList.size()} + ' 개'"></h2>
+        <div id="main-box" class="main-box">
+            <div class="box-header">
+                <h2 th:text="'회원 현황: ' + ${uList.size()} +' 명'"></h2>
             </div>
-            <div id="content-box2">
-                <div style="width: 200px; height: 200px; display:flex;">
-                    <canvas id="dinningChart" style=" width:200px; height:200px "></canvas>
+            <div class="box-content">
+                <div class="chart-container" style="margin-left: 200px">
+                    <canvas id="userChart" class="chart"></canvas>
                 </div>
-                <div style="width: 200px; height: 200px; display:flex;">
-                    <canvas id="dinningBarChart" style=" width:200px; height:200px "></canvas>
+                <div class="chart-container" style="margin-right: 200px">
+                    <canvas id="userBarChart" class="chart"></canvas>
                 </div>
             </div>
+        </div>
 
-
+        <div id="main-box2" class="main-box">
+            <div class="box-header">
+                <h2 th:text="'가게 현황: ' + ${dList.size()} + ' 개'"></h2>
+            </div>
+            <div class="box-content" style="margin-left: 200px">
+                <div class="chart-container">
+                    <canvas id="dinningChart" class="chart"></canvas>
+                </div>
+                <div class="chart-container" style="margin-right: 200px">
+                    <canvas id="dinningBarChart" class="chart"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 </html>
+
+
