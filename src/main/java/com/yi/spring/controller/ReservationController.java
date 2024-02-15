@@ -3,8 +3,10 @@ package com.yi.spring.controller;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Reservation;
 import com.yi.spring.entity.ReservationStatus;
+import com.yi.spring.entity.User;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReservationRepository;
+import com.yi.spring.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,6 +34,8 @@ public class ReservationController {
     DinningRepository dinningRepository;
     @Autowired
     ReservationRepository reservationRepository;
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("/setUserNo/{userNo}")
@@ -236,11 +241,13 @@ public class ReservationController {
 
 
     @PostMapping("/insert/")
-    public ResponseEntity<String> handleJsonData(@RequestBody Map<String, Object> jsonData, HttpSession session ) {
+    public ResponseEntity<String> handleJsonData(Principal principal, @RequestBody Map<String, Object> jsonData, HttpSession session ) {
         Long iRestNo = Optional.ofNullable((String) session.getAttribute("restNo"))
                 .map(Long::valueOf).orElse(null);
-        Long iUserNo = Optional.ofNullable((String)session.getAttribute("userNo"))
-                .map(Long::valueOf).orElse(null);
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+
+
+        Long iUserNo = Long.valueOf(loginUser.getUserNo());
 
         String fieldCount = (String) jsonData.get("count");
         String time = (String) jsonData.get("time");

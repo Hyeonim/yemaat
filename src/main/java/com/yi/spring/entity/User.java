@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class User {
     private String userAuth;
 
     @Column(name = "user_start_date", length = 100)
-    private String userStartDate;
+    private String userStartDate = String.valueOf(LocalDateTime.now());
 
     @Lob
     @Column(name = "user_img" ,length = 5000)
