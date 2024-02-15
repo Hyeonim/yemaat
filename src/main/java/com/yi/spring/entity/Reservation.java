@@ -27,8 +27,9 @@ public class Reservation {
     @Column(name = "res_time")
     private LocalDateTime resTime;
 
-    @Column(name = "user_no")
-    private Long userNo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_no")
+    private User userNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_no")
