@@ -22,6 +22,7 @@ public class MyUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String insertedUserId) throws UsernameNotFoundException {
         User exampleUser = new User();
         exampleUser.setUserId( insertedUserId );
+        exampleUser.setUserStartDate(null);
         Optional<User> findOne = userRepository.findOne( Example.of(exampleUser) );
 
         User member = findOne.orElseThrow(() -> new UsernameNotFoundException("없는 회원입니다"));
