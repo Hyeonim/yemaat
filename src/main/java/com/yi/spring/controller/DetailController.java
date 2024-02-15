@@ -72,7 +72,7 @@ public class DetailController {
 
     @GetMapping("reviewTest")
     public void reviewTest(){
-//         processFilesInFolder( "C:/Users/lenovo/Documents//imgs/6734cd4eeb84e676/가게사진2/가게 사진2/" );
+//         processFilesInFolder( "C:/Users/lenovo/Documents/jjjjjjjh/imgs/6734cd4eeb84e676/가게사진2/가게 사진1/" );
     }
 //    public void processFilesInFolder(String folderPath) {
 //
@@ -102,13 +102,14 @@ public class DetailController {
 //                                "([0-9]{3})"
 //                        ).matcher( file.getName() );
 //                        matcher.find();
+//                        int restNo = Integer.parseInt(   matcher.group(1) );
 //
 //
-//                        Dinning dinning = new Dinning();
-//                        dinning.setRestNo(Integer.parseInt(   matcher.group(1)   ));
+//                        Dinning dinning = dinningRepository.findById(Long.valueOf(restNo)).orElse(null );
+////                        dinning.setRestNo( restNo );
 //                        dinning.setRestImg( revImg );
 //                        System.out.println( dinning );
-////                        dinningRepository.save( dinning );
+//                        dinningRepository.save( dinning );
 //                    }
 //
 //                } catch (IOException e) {
