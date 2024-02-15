@@ -1,8 +1,6 @@
 package com.yi.spring.service;
 
 import com.yi.spring.entity.Notice;
-import com.yi.spring.entity.QA;
-import com.yi.spring.entity.User;
 import com.yi.spring.repository.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,4 +35,12 @@ public class NoticeServiceImpl implements NoticeService {
         return new PageImpl<>(userQAs.subList(start, end), PageRequest.of(page, pageSize), userQAs.size());
 
     }
+
+    @Override
+    public Page<Notice> findBySubjectContaining(String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+
+        return noticeRepository.findBySubjectContaining(keyword, pageable);
+    }
+
 }
