@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/manager")
@@ -62,6 +63,7 @@ public class ManagerController {
     @Autowired
     NoticeService noticeService;
 
+
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
         model.addAttribute("page", "managerPage/" + subPage);
@@ -70,34 +72,76 @@ public class ManagerController {
     }
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
+//    @GetMapping("/content")
+//    public String managerMain(Model model) {
+//        List<User> uList = userRepository.findAll();
+//        List<Dinning> dList = dinningRepository.findAll();
+//        List<QA> qa = qaRepository.findAll();
+//
+//        HashMap<String, Integer> userStat = new HashMap<>();
+//        for (User elem : uList) {
+//            String key;
+//            if (elem.getUserAuth().equals("3"))
+//                continue;
+//            if (elem.isUserBlock())
+//                key = "4";
+//            else
+//                key = elem.getUserAuth();
+//
+//            Integer statCount = userStat.computeIfAbsent(key, k -> 0);
+//            statCount++;
+//            userStat.put(key, statCount);
+//        }
+//
+//        HashMap<String, Integer> restStat = new HashMap<>();
+//        for (Dinning restaurant : dList) {
+//            String key = restaurant.getRestCategory();
+//            Integer statCount = restStat.computeIfAbsent(key, k -> 0);
+//            statCount++;
+//            restStat.put(key, statCount);
+//        }
+//
+//        model.addAttribute("drawGraph", true);
+//        model.addAttribute("userStat", userStat);
+//        model.addAttribute("restStat", restStat);
+//        model.addAttribute("uList", uList);
+//        model.addAttribute("dList", dList);
+//        model.addAttribute("qa", qa);
+//        model.addAttribute("page", "managerPage/content");
+//
+//        return "managerPage";
+//    }
+
     @GetMapping("/content")
     public String managerMain(Model model) {
         List<User> uList = userRepository.findAll();
         List<Dinning> dList = dinningRepository.findAll();
         List<QA> qa = qaRepository.findAll();
 
-        HashMap< String, Integer> userStat = new HashMap<>();
-        for ( User elem : uList ) {
+        HashMap<String, Integer> userStat = new HashMap<>();
+        for (User elem : uList) {
             String key;
-            if ( elem.getUserAuth().equals("3"))
+            if (elem.getUserAuth().equals("3"))
                 continue;
-            if ( elem.isUserBlock() )
+            if (elem.isUserBlock())
                 key = "4";
             else
                 key = elem.getUserAuth();
 
             Integer statCount = userStat.computeIfAbsent(key, k -> 0);
             statCount++;
-            userStat.put( key, statCount );
+            userStat.put(key, statCount);
         }
 
-        HashMap< String, Integer> restStat = new HashMap<>();
+        HashMap<String, Integer> restStat = new HashMap<>();
         for (Dinning restaurant : dList) {
             String key = restaurant.getRestCategory();
             Integer statCount = restStat.computeIfAbsent(key, k -> 0);
             statCount++;
-            restStat.put( key, statCount );
+            restStat.put(key, statCount);
         }
+
+        long unansweredCount = qaRepository.countByQaStatusFalse();
 
         model.addAttribute("drawGraph", true);
         model.addAttribute("userStat", userStat);
@@ -105,10 +149,12 @@ public class ManagerController {
         model.addAttribute("uList", uList);
         model.addAttribute("dList", dList);
         model.addAttribute("qa", qa);
+        model.addAttribute("unansweredCount", unansweredCount);
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";
     }
+
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ유저꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -249,7 +295,7 @@ public class ManagerController {
 
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ문의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-    @GetMapping("managerPage_QA")
+        @GetMapping("managerPage_QA")
     public String ManagerQA(Model model
     ,  @RequestParam(value = "page", defaultValue = "0") int page) {
 
@@ -301,6 +347,7 @@ public class ManagerController {
 
         return "redirect:/manager/managerPage_QA";
     }
+
 
     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
@@ -379,13 +426,6 @@ public class ManagerController {
     }
 
 
-
-
-
-
-
-
-
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 //    // 이거 주석된거 지우지 마세요@@@@@@@@@@@@@@@@@@@
@@ -449,13 +489,6 @@ public class ManagerController {
 
         return "managerPage";
     }
-
-
-
-
-
-
-
 
 
 //    @GetMapping("/managerPage_JList")

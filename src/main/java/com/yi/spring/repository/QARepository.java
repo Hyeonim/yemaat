@@ -26,5 +26,11 @@ public interface QARepository extends JpaRepository<QA, Integer> {
     
     Page<QA> findAll(Pageable pageable);
 
+    long countByQaStatusFalse();
+
+
+
+
+
 
 }

@@ -24,7 +24,6 @@
             <label>
                 내용 : <p th:text="${qa.get().qaContent}"></p>
             </label>
-
         </div>
 
         <div>
@@ -33,10 +32,10 @@
             <form action="managerPage_QARequest" method="post">
                 <input type="hidden" name="id" th:value="${qa.get().id}" />
                 <p> 제목 : <input type="text" name="title" /></p>
-                <p> 내용 : <input type="text" name="content" /></p>
+<!--                <p> 내용 : <input type="text" name="content" /></p>-->
+                <p> 내용 : <textarea name="content" cols="30" rows="10"></textarea></p>
                 <input type="submit" value="Submit" />
             </form>
-
         </div>
 
 

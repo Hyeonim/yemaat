@@ -43,15 +43,15 @@
 }
 
 
-#main-box{
-    width: 1000px;
-    justify-content: space-around; /* 요소들을 가운데 정렬하여 공간을 동일하게 분배 */
-    align-items: center; /* 요소들을 세로 중앙에 정렬 */
-    border: solid 2px #f2f2f2;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); /* 그림자 속성 */
-    margin-top: 50px;
-}
+/*#main-box{*/
+/*    width: 1000px;*/
+/*    justify-content: space-around; !* 요소들을 가운데 정렬하여 공간을 동일하게 분배 *!*/
+/*    align-items: center; !* 요소들을 세로 중앙에 정렬 *!*/
+/*    border: solid 2px #f2f2f2;*/
+/*    border-radius: 20px;*/
+/*    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); !* 그림자 속성 *!*/
+/*    margin-top: 50px;*/
+/*}*/
 
 #content-box {
     height: 300px;
@@ -62,15 +62,15 @@
 }
 
 
-#main-box2{
-    width: 1000px;
-    justify-content: space-around; /* 요소들을 가운데 정렬하여 공간을 동일하게 분배 */
-    align-items: center; /* 요소들을 세로 중앙에 정렬 */
-    border: solid 2px #f2f2f2;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); /* 그림자 속성 */
-    margin-top: 50px;
-}
+/*#main-box2{*/
+/*    width: 1000px;*/
+/*    justify-content: space-around; !* 요소들을 가운데 정렬하여 공간을 동일하게 분배 *!*/
+/*    align-items: center; !* 요소들을 세로 중앙에 정렬 *!*/
+/*    border: solid 2px #f2f2f2;*/
+/*    border-radius: 20px;*/
+/*    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); !* 그림자 속성 *!*/
+/*    margin-top: 50px;*/
+/*}*/
 
 #content-box2 {
     height: 300px;
@@ -114,3 +114,46 @@
 
     font-size: 40px;
 }
+
+
+.main-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.box-header {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f7f7f7;
+    text-align: center;
+}
+
+.box-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.box-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+
+}
+
+.chart-container {
+    width: 45%;
+    height: 300px;
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+}
+/** {*/
+/*    border: solid 1px blue;*/
+/*}*/
