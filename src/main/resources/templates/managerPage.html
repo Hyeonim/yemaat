@@ -14,6 +14,7 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link th:href="@{/css/managerPage/managerPage.css}" rel="stylesheet">
+<link th:href="@{/css/managerPage/kkdy.css}" rel="stylesheet">
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -172,6 +173,17 @@
             .then(data => {
                 let doc = new DOMParser().parseFromString(data, 'text/html');
                 document.getElementById("UuserTable").innerHTML = doc.getElementById("UuserTable").innerHTML;
+                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+            });
+    }
+
+    function searchDinning4() {
+        let searchInput4 = document.getElementById("searchInput4").value;
+        fetch("/manager/managerPage_Notice?searchInput4=" + encodeURIComponent(searchInput4))
+            .then(resp => resp.text())
+            .then(data => {
+                let doc = new DOMParser().parseFromString(data, 'text/html');
+                document.getElementById("noticeTable").innerHTML = doc.getElementById("noticeTable").innerHTML;
                 document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
             });
     }

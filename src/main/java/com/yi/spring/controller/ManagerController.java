@@ -371,20 +371,50 @@ public class ManagerController {
     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 
-    @GetMapping("/managerPage_Notice")
-    public String managerNoticeList(Model model,
-                                    @RequestParam(value = "page", defaultValue = "0") int page) {
+//    @GetMapping("/managerPage_Notice")
+//    public String managerNoticeList(Model model,
+//                                    @RequestParam(value = "page", defaultValue = "0") int page,
+//                                    @RequestParam(value = "searchInput4", required = false) String searchInput4) {
+//
+//        Page<Notice> list = noticeService.findByAll(page);
+//        Page<Notice> noticeList;
+//
+//        if (searchInput4 != null && !searchInput4.isEmpty()) {
+//            // 검색어가 존재하는 경우
+//            noticeList = noticeService.findBySubjectContaining(searchInput4, page);
+//        } else {
+//            // 검색어가 없는 경우 전체 목록 조회
+//            noticeList = noticeService.findAll(page);
+//        }
+//
+//        model.addAttribute("page", "managerPage/managerPage_Notice");
+//        model.addAttribute("list", list);
+//
+//        return "managerPage";
+//    }
+@GetMapping("/managerPage_Notice")
+public String managerNoticeList(Model model,
+                                @RequestParam(value = "page", defaultValue = "0") int page,
+                                @RequestParam(value = "searchInput4", required = false) String searchInput4) {
 
-        Page<Notice> list = noticeService.findByAll(page);
+    Page<Notice> noticeList;
 
-//        System.out.println(list);
-
-
-        model.addAttribute("page", "managerPage/managerPage_Notice");
-        model.addAttribute("list", list);
-
-        return "managerPage";
+    if (searchInput4 != null && !searchInput4.isEmpty()) {
+        // 검색어가 존재하는 경우
+        noticeList = noticeService.findBySubjectContaining(searchInput4, page);
+    } else {
+        // 검색어가 없는 경우 전체 목록 조회
+        noticeList = noticeService.findAll(page);
     }
+
+    model.addAttribute("page", "managerPage/managerPage_Notice");
+    model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
+
+    return "managerPage";
+}
+
+
+
 
     @GetMapping("/managerPage_NoticeDetail")
     public String managerNoticeDetail(@RequestParam int id,
