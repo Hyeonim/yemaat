@@ -40,7 +40,7 @@ public class User {
     private String userAuth;
 
     @Column(name = "user_start_date", length = 100)
-    private String userStartDate = String.valueOf(LocalDateTime.now());
+    private String userStartDate;
 
     @Lob
     @Column(name = "user_img" ,length = 5000)
