@@ -27,14 +27,17 @@
 
 <div id="main">
 
-    <div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
-
-    </div>
-    <div th:include="${page}::managerContent">
-
-    </div>
 
 </div>
+
+<div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
+
+</div>
+<div th:include="${page}::managerContent">
+
+</div>
+
+
 
 <script>
     function previewImage(input) {
@@ -67,9 +70,6 @@
             });
         }
     }
-
-
-
 
 
 </script>
@@ -166,7 +166,7 @@
 
 
     function drawGraph() {
-        if ( ![[${drawGraph}]])
+        if (![[${drawGraph}]])
             return;
 
         // ----------------------------도넛, 막대그래프 를 위한 변수 선언------------------
@@ -174,14 +174,14 @@
         var dListSize = [[${dList != null ? dList.size() : 0}]];
 
         let userDataList = [];
-        [# th:if="${userStat != null}"]
+        [# th:if= "${userStat != null}"]
         [# th:each = "entry : ${userStat.entrySet()}"]
-            userDataList.push( [[${entry.value}]] )
-        [/][/]
+        userDataList.push([[${entry.value}]])
+            [/][/]
         let restDataMap = {};
-        [# th:if="${restStat != null}"]
+        [# th:if= "${restStat != null}"]
         [# th:each = "entry : ${restStat.entrySet()}"]
-        restDataMap[ [[${entry.key}]] ]=[[${entry.value}]];
+        restDataMap[ [[${entry.key}]]] = [[${entry.value}]];
         [/][/]
         // 객체의 키와 값을 배열로 변환
         var dataArray = Object.entries(restDataMap);
@@ -189,9 +189,9 @@
         dataArray.sort((a, b) => b[1] - a[1]);
         let restDataColNames = [];
         let restDataList = [];
-        dataArray.forEach( elem=>{
-            restDataColNames.push( elem[0] );
-            restDataList.push( elem[1] );
+        dataArray.forEach(elem => {
+            restDataColNames.push(elem[0]);
+            restDataList.push(elem[1]);
         })
 
         var userData = {
@@ -231,16 +231,17 @@
         let userCtx2 = document.getElementById('userBarChart').getContext('2d');
         let dinningCtx2 = document.getElementById('dinningBarChart').getContext('2d');
 
-        [ [userCtx, 'doughnut', userData], [dinningCtx, 'doughnut', dinningData]
-        , [userCtx2, 'bar', userData]    , [dinningCtx2, 'bar', dinningData]
-        ].forEach( elem=>{
-                new Chart( elem[0], {
-                    type: elem[1],
-                    data: elem[2],
-                    options:{}
-                });
+        [[userCtx, 'doughnut', userData], [dinningCtx, 'doughnut', dinningData]
+            , [userCtx2, 'bar', userData], [dinningCtx2, 'bar', dinningData]
+        ].forEach(elem => {
+            new Chart(elem[0], {
+                type: elem[1],
+                data: elem[2],
+                options: {}
+            });
         });
     }
+
     drawGraph();
 
 </script>
