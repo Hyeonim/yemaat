@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -42,6 +43,8 @@ public class UserController {
     DiningRestRepository diningRestRepository;
 
 
+    private User user = null;
+
     public List<Dinning> getRestaurantsForLatestReservation(Long userNo){
         PageRequest pageRequest = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("resTime")));
         List<Reservation> latestReservationList = reservationRepository.findLatestReservationByUserNo(userNo, pageRequest);
@@ -60,12 +63,12 @@ public class UserController {
     }
 
     // 유저 컨텐츠 페이지로 이동
-    @GetMapping("userPage/{userNo}")
-    public String userPageForm(@PathVariable("userNo") int userNo, Model model) {
+    @GetMapping("userPage")
+    public String userPageForm(Principal principal , Model model) {
+        user = userRepository.findByUserId(principal.getName()).get();
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
 
-        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation((long) userNo);
-
-        model.addAttribute("user", userService.findByUserNo(userNo));
+        model.addAttribute("user", user);
         model.addAttribute("restaurants", restaurantsForLatestReservation);
 
 //        System.out.println(restaurantsForLatestReservation);
@@ -80,8 +83,10 @@ public class UserController {
 //    }
 
     // 유저가 작성한 포스트 목록 페이지로 이동
-    @GetMapping("user_posts/{userNo}")
-    public String userPosts(@PathVariable("userNo") Long userNo, Model model) {
+    @GetMapping("user_posts")
+    public String userPosts(Model model) {
+        Long userNo = Long.valueOf(user.getUserNo());
+
         List<Reservation> list = reservationRepository.findReservationDetailsByUserNo(userNo);
         LocalDateTime currentDateTime = LocalDateTime.now();
 

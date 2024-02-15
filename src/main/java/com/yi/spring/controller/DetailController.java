@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import java.time.LocalTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/*")
@@ -38,7 +40,8 @@ public class DetailController {
 
         List<Review> list = reviewRepository.findByRestNo(new Dinning(Math.toIntExact(restNo)));
 
-        double sum = list.stream().mapToDouble(Review::getRevScore).sum();
+        double sum = list.stream().mapToDouble(Review::getRevScore).sum() * 10;
+
         double result = sum /list.size();
 
 
@@ -70,7 +73,7 @@ public class DetailController {
 
     @GetMapping("reviewTest")
     public void reviewTest(){
-        // processFilesInFolder( "C:/Users/lenovo/Documents//img" );
+//         processFilesInFolder( "C:/Users/lenovo/Documents/jjjjjjjh/imgs/6734cd4eeb84e676/가게사진2/가게 사진1/" );
     }
 //    public void processFilesInFolder(String folderPath) {
 //
@@ -86,12 +89,30 @@ public class DetailController {
 //                    byte[] revImg = StreamUtils.copyToByteArray(new FileInputStream(file));
 //
 //
+//                    if ( false ) {
 //                    Review review = new Review();
-//                    review.setRevContent( "이미지 업로드 테스트" );
-//                    review.setRevScore( 50 );
-//                    review.setRevWriteTime( LocalTime.now().toString() );
+//                    review.setRevContent("이미지 업로드 테스트");
+//                    review.setRevScore(50);
+//                    review.setRevWriteTime(LocalTime.now().toString());
 //                    review.setRevImg(revImg);
 //                    reviewRepository.save(review);
+//                    }
+//                    else
+//                    {
+//                        Matcher matcher = Pattern.compile(
+//                                "([0-9]{3})"
+//                        ).matcher( file.getName() );
+//                        matcher.find();
+//                        int restNo = Integer.parseInt(   matcher.group(1) );
+//
+//
+//                        Dinning dinning = dinningRepository.findById(Long.valueOf(restNo)).orElse(null );
+////                        dinning.setRestNo( restNo );
+//                        dinning.setRestImg( revImg );
+//                        System.out.println( dinning );
+//                        dinningRepository.save( dinning );
+//                    }
+//
 //                } catch (IOException e) {
 //                    throw new RuntimeException(e);
 //                }
@@ -100,7 +121,7 @@ public class DetailController {
 //            System.err.println("Folder is empty or does not exist: " + folderPath);
 //        }
 //    }
-//
+
 
     @PostMapping("/ownerRestImgAdd")
     public void ownerRestImgAdd(@RequestParam MultipartFile file, Dinning dinning) {

@@ -139,9 +139,8 @@
             height: 790px;
 
         }
-
-
     </style>
+
 </head>
 
 <body>
@@ -152,7 +151,7 @@
         <div class="userBox" style="display: flex">
             <div style="text-align: center; padding: 10px; width: 60%; border-right: 1px solid lightgray; ">
                 <div style="display: flex; font-size: 18px; font-weight: bold"
-                     th:text="${user.get().getUserName()} + '님 반가워요'"></div>
+                     th:text="${user.getUserName()} + '님 반가워요'"></div>
                 <div style="text-align: center; font-size: 18px; margin-top: 1rem;">현재 예약 중인 식당</div>
                 <div style="display: flex; justify-content: center">
                     <div class="resBox" th:if="${restaurants != null and restaurants.size() > 0}"
@@ -179,23 +178,24 @@
         <div id="main"
              style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 76vh; margin-top: -170px;">
 
+
             <div id="content" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin-top: 150px;">
-                <a id="myReservation" th:href="@{/user/user_posts/{userNo}(userNo=${user.get().userNo})}"
+                <a id="myReservation" th:href="@{/user/user_posts}"
                    class="grid-item round-top-left button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-calendar"></i>
                     <div class="text-below">My예약</div>
                 </a>
-                <a id="myReview" th:href="@{/user/user_review/{userNo}(userNo=${user.get().userNo})}"
+                <a id="myReview" th:href="@{/user/user_review/{userNo}(userNo=${user.userNo})}"
                    class="grid-item round-top-right button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-star"></i>
                     <div class="text-below">My리뷰</div>
                 </a>
-                <a id="myInquiry" th:href="@{/QA/user_qa/{userNo}(userNo=${user.get().userNo})}"
+                <a id="myInquiry" th:href="@{/QA/user_qa/{userNo}(userNo=${user.userNo})}"
                    class="grid-item round-bottom-left button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-question-circle"></i>
                     <div class="text-below">My문의</div>
                 </a>
-                <a id="myInfo" th:href="@{/user/user_info/{userNo}(userNo=${user.get().userNo})}"
+                <a id="myInfo" th:href="@{/user/user_info/{userNo}(userNo=${user.userNo})}"
                    class="grid-item round-bottom-right button button--pipaluk button--inverted button--round-l button--text-thick button--text-upper">
                     <i class="fas fa-user-cog"></i>
                     <div class="text-below">My정보</div>

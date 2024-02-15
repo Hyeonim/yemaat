@@ -18,7 +18,7 @@
                 <span class="status">예약 상태</span>
                 <span class="result">이용완료/노쇼</span>
             </li>
-            <th:block th:each="reserv : ${reservList}" th:object="${reserv}" th:if="${reserv.getRes_status() != null}">
+            <th:block th:each="reserv : ${todayReserv}" th:object="${reserv}">
                 <li>
                     <span class="resNo" th:text="*{getRes_no()}"></span>
                     <span class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></span>
@@ -49,7 +49,7 @@
                 <span class="status">예약 상태</span>
                 <span class="result">수락/거절</span>
             </li>
-            <th:block th:each="reserv : ${reservList}" th:object="${reserv}">
+            <th:block th:each="reserv : ${waitReserv}" th:object="${reserv}">
                 <li>
                     <span class="resNo" th:text="*{getRes_no()}"></span>
                     <span class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></span>
