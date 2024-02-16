@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Getter
@@ -27,8 +28,8 @@ public class Event {
     @Column(name = "event_img")
     private byte[] eventImg;
 
-
-
+    @Column(name = "event_time")
+    private LocalDateTime eventTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_no")

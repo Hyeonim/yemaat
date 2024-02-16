@@ -13,6 +13,9 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByRestNo(Dinning restNo);
 
+    @Query(value="select * from event e where DATE(e.event_time) <= CURDATE()", nativeQuery = true)
+    List<Event> getNewEvents();
+
     @Query("SELECT e from Event e order by e.writeDate desc limit 5")
     List<Event> getList();
 

@@ -1,7 +1,11 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
-import com.yi.spring.repository.*;
+import com.yi.spring.repository.DinningRepository;
+import com.yi.spring.repository.NoticeRepository;
+import com.yi.spring.repository.ReviewRepository;
+import com.yi.spring.repository.UserRepository;
+import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +44,9 @@ public class IndexController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    EventService eventService;
+
     @GetMapping("/")
     public String home() {
 
@@ -48,11 +55,13 @@ public class IndexController {
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
         List<Dinning> list = dinningRepository.getRandomList("5");
+        List<Event> eventList = eventService.getNewEvents();
         List<Notice> NList = noticeRepository.getList();
         List<Dinning> dList = dinningRepository.findAll();
         List<Event> EList = eventRepository.getList();
 
 
+        model.addAttribute("eventList", eventList);
 
         if (dList != null && !dList.isEmpty()) {
             Random random = new Random();
@@ -63,13 +72,12 @@ public class IndexController {
 
         model.addAttribute("dinning", list);
 
-
         List<Review> reviewList = new ArrayList<>();
         for ( int i = 0; i < 2; i++ )
             reviewList.addAll( reviewRepository.getRandomList( "10" ) );
 
-
         model.addAttribute("NList", NList);
+
         model.addAttribute("EList", EList);
         model.addAttribute("revList1", reviewList.subList(0, 10) );
         model.addAttribute("revList2", reviewList.subList(5, 15) );
