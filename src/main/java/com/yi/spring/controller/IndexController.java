@@ -1,13 +1,11 @@
 package com.yi.spring.controller;
 
-import com.yi.spring.entity.Dinning;
-import com.yi.spring.entity.Notice;
-import com.yi.spring.entity.Review;
-import com.yi.spring.entity.User;
+import com.yi.spring.entity.*;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.NoticeRepository;
 import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.repository.UserRepository;
+import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +41,9 @@ public class IndexController {
     @Autowired
     NoticeService noticeService;
 
+    @Autowired
+    EventService eventService;
+
     @GetMapping("/")
     public String home() {
 
@@ -50,11 +51,11 @@ public class IndexController {
     }
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
-        List<Dinning> list = dinningRepository.getRandomList("5");
+        List<Event> eventList = eventService.getNewEvents();
         List<Notice> NList = noticeRepository.getList();
 
         System.out.println(NList);
-        model.addAttribute("dinning", list);
+        model.addAttribute("eventList", eventList);
 
         List<Review> reviewList = new ArrayList<>();
         for ( int i = 0; i < 2; i++ )

@@ -35,18 +35,18 @@
 
 
 
-            <div id="new_box">
-                <div class="slideshow-container1">
-                    <div class="Slidesbackground1">
-                        <div th:each="dinning : ${dinning}" class="mySlides fade">
-                            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                새로 추가된 가게 박스<br>
-                가게 등록일을 기준으로 최근 시간 순으로 5개 노출<br>
-                새로 추가된 가게는 가게명, 업태가 화면에 노출
+            <div id="new_event_box">
+                <h2>새로운 이벤트</h2>
+                <div class="event_slide_box">
+                    <th:block th:each="event : ${eventList}">
+                        <a th:href="@{/detail?restNo={restNo}(restNo=${event.getRestNo().getRestNo()})}">
+                            <div  class="mySlides fade">
+                                <img th:src="'data:image/png;base64,' + ${event.getBase64Image()}" alt="Image"/>
+                                <span>[[${event.getRestNo().getRestName()}]]<[[${event.getEventTitle()}]]></span>
+                            </div>
+                        </a>
+
+                    </th:block>
                 </div>
             </div>
         </div>
