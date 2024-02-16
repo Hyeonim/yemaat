@@ -109,6 +109,9 @@
 #topDiv{
     height: 270px;
     background: white;
+    border-radius: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
 
     /*flex-basis: 100px;*/
 }
@@ -131,9 +134,12 @@
 
 #random_box{
     height: 270px;
-    background-color: orange;
+    background-color: white;
     /*float: 1;*/
     text-align: center;
+    margin-right: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
 
 }
 
@@ -142,6 +148,9 @@
     background-color: yellow;
     /*flex-basis: 150px;*/
     text-align: center;
+    border-radius: 20px;
+    margin-top: 20px;
+
 }
 
 #subject1 {

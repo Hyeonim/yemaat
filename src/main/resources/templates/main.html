@@ -143,6 +143,16 @@
 
 </script>
 
+<script>
+    // "click!" 요소를 클릭했을 때 실행되는 함수
+    document.getElementById("clickText").addEventListener("click", function() {
+        // "click!" 요소 숨김 처리
+        document.getElementById("clickText").style.display = "none";
+        // "restName" 요소 표시
+        document.getElementById("restName").style.display = "block";
+    });
+</script>
+
 
 </body>
 </html>
