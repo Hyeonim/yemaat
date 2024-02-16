@@ -16,6 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -35,6 +39,26 @@ public class OwnerController {
     @Autowired
     private DeleteUserRepository deleteUserRepository;
 
+    private List<Reservation> status(List<Reservation> list) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        for (Reservation reservation : list) {
+            Timestamp resTimestamp = Timestamp.valueOf(reservation.getResTime());
+
+            if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getRes_status())) {
+                if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
+                    reservation.setRes_status(ReservationStatus.EXPIRED.name());
+                    reservationRepository.save(reservation);
+                }
+            } else if (ReservationStatus.WAIT.name().equals(reservation.getRes_status())) {
+                if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
+                    reservation.setRes_status(ReservationStatus.REST_CANCEL.name());
+                    reservationRepository.save(reservation);
+                }
+            }
+        }
+        return list;
+    }
 
     @GetMapping("home")
     public String home(Principal principal, Model model) {
@@ -237,10 +261,15 @@ public class OwnerController {
         }
         model.addAttribute("dinning", dinning);
 
-        List<Reservation> todayReserv = reservationRepository.getTodayReservation((long) dinning.getRestNo());
-        model.addAttribute("todayReserv", todayReserv);
-        List<Reservation> waitReserv = reservationRepository.getWaitReservation((long) dinning.getRestNo());
+
+        List<Reservation> todayReserv = status(reservationRepository.getTodayReservation((long) dinning.getRestNo()));
+        List<Reservation> waitReserv = status(reservationRepository.getWaitReservation((long) dinning.getRestNo()));
+        List<Reservation> pastReserv = status(reservationRepository.getPastReservation((long) dinning.getRestNo()));
+        model.addAttribute("pastReserv", pastReserv);
         model.addAttribute("waitReserv", waitReserv);
+
+
+        model.addAttribute("todayReserv", todayReserv);
 
         model.addAttribute("pageName", "예약 목록");
         return "owner/reservList";

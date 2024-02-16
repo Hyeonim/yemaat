@@ -39,11 +39,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "WHERE r.userNo.userNo = :userNo")
     List<Reservation> findReservationDetailsByUserNo(Long userNo);
 
-    @Query(value = "select * from reservation r where DATE(r.res_time) = CURDATE() and r.rest_no = :restNo", nativeQuery = true)
+    @Query(value = "select * from reservation r where DATE(r.res_time) = CURDATE() and r.rest_no = :restNo order by r.res_time asc", nativeQuery = true)
     List<Reservation> getTodayReservation(Long restNo);
 
-    @Query(value="select * from reservation r where DATE(r.res_time) > CURDATE() and r.rest_no = :restNo", nativeQuery = true)
+    @Query(value = "select * from reservation r where DATE(r.res_time) > CURDATE() and r.rest_no = :restNo order by r.res_time asc", nativeQuery = true)
     List<Reservation> getWaitReservation(Long restNo);
+
+    @Query(value="select * from reservation r where DATE(r.res_time) < CURDATE() and r.rest_no = :restNo order by r.res_time desc", nativeQuery = true)
+    List<Reservation> getPastReservation(Long restNo);
+
 //    List<Reservation> findByRestNo_RestNameAndRestNo_RestCategoryAndResTimeAndRes_guest_countAndRestNo_RestAddr(String restName, String restCategory, LocalDateTime resTime, String res_guest_count, String restAddr);
 
 

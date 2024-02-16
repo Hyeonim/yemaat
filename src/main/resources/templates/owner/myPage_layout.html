@@ -14,82 +14,8 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="/css/formdiv.css">
+    <link rel="stylesheet" href="/css/ownerPage/ownerPage.css">
 </head>
-<style>
-    body {
-        width: 100%;
-    }
-
-    .side-container {
-        float: left;
-        box-sizing: border-box;
-    }
-    .main-container {
-        width : 100%;
-        margin-left: 200px;
-        float: left;
-        box-sizing: border-box;
-        background-color: #f2f2f2;
-    }
-
-    .main-container header {
-        padding : 5px;
-        box-shadow: 0px 0px 5px 0px #333;
-        background-color: #FFF;
-    }
-
-    .content-container {
-        width: 1000px;
-        height:100%;
-        margin: 20px auto 30px auto;
-        padding:10px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    ul{
-        list-style: none;
-        box-sizing: border-box;
-    }
-    li {
-        width:100%;
-    }
-    li span.resNo {
-        display: inline-block;
-        width: 70px;
-        /*border: 1px solid #ccc;*/
-    }
-    li span.resTime {
-        display: inline-block;
-        width: 140px;
-    }
-    li span.userId {
-        display: inline-block;
-        width: 100px;
-    }
-    li span.questCount {
-        display: inline-block;
-        width: 70px;
-    }
-    li span.tableType{
-        display: inline-block;
-        width: 70px;
-    }
-    li span.comment {
-        display: inline-block;
-        width: 150px;
-    }
-    li span.status {
-        display: inline-block;
-        width: 180px;
-        /*border: 1px solid #ccc;*/
-    }
-    li span.result {
-        display: inline-block;
-        width:130px;
-        /*border: 1px solid #ccc;*/
-    }
-</style>
 <body>
 <div class="side-container" th:include="~{/owner/owner_sidebar::ownerSide}"></div>
 

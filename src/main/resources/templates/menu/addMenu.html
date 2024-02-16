@@ -13,12 +13,16 @@
 </form>
 
 <script>
-    function submitMenuForm() {
-        if(confirm("등록하시겠습니까?")) {
+        function submitMenuForm() {
             let form = document.getElementById("addMenuForm");
-            form.submit();
+            if (form) { // Form 존재 여부 확인
+                if (confirm("등록하시겠습니까?")) {
+                    form.submit();
+                }
+            } else {
+                console.error("Form element not found!");
+            }
         }
-    }
 </script>
 </div>
 </html>
