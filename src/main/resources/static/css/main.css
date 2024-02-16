@@ -145,12 +145,21 @@
 
 #new_box{
     height: 270px;
-    background-color: yellow;
+    background-color: white;
     /*flex-basis: 150px;*/
-    text-align: center;
     border-radius: 20px;
     margin-top: 20px;
 
+}
+
+#new_box h2{
+    text-align: center;
+
+}
+
+#new_box ul{
+    text-align: left;
+    list-style: square;
 }
 
 #subject1 {
