@@ -60,17 +60,17 @@ public class ListController {
     public String findRestName(@RequestParam(name = "keyword") String restName, Model model) {
         System.out.println("Controller method called with keyword: " + restName);
 
-        List<Dinning> list = dinningRepository.findAll();
-
-        List<Dinning> respList = new ArrayList<>();
-        for (Dinning diningRest : list) {
-            Dinning elem = new Dinning();
-            elem.setRestLatitude( diningRest.getRestLatitude());
-            elem.setRestLongitude( diningRest.getRestLongitude());
-            elem.setRestName( diningRest.getRestName());
-            elem.setRestNo(diningRest.getRestNo());
-            respList.add(elem);
-        }
+//        List<Dinning> list = dinningRepository.findAll();
+//
+//        List<Dinning> respList = new ArrayList<>();
+//        for (Dinning diningRest : list) {
+//            Dinning elem = new Dinning();
+//            elem.setRestLatitude( diningRest.getRestLatitude());
+//            elem.setRestLongitude( diningRest.getRestLongitude());
+//            elem.setRestName( diningRest.getRestName());
+//            elem.setRestNo(diningRest.getRestNo());
+//            respList.add(elem);
+//        }
 
         List<Dinning> rest_name = dinningRepository.findByRestNameContaining(restName);
 
