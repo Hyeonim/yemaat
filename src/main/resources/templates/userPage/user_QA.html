@@ -1,13 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{userPage/Layout_userPage}">
+      layout:decorate="~{userPage/Layout_userPage2}">
 
 <th:block th:fragment="content">
 
     <h1>My 문의</h1>
     <a th:href="@{/QA/user_qa_form/{userNo}(userNo=${Num})}">문의추가  </a>
-    <a th:href="@{/user/userPage/{userNo}(userNo=${userNo.getUserNo()})}">돌아가기</a><br>
+<!--    <a th:href="@{/user/userPage/{userNo}(userNo=${userNo.getUserNo()})}">돌아가기</a><br>-->
 
 
     <table>
@@ -23,11 +23,11 @@
         <tbody>
         <tr th:each="QAs, iterStat : ${QA}">
             <td th:text="${iterStat.count + (QA.getNumber() * QA.getSize())}"></td>
-            <td th:text="${QAs.getQaTitle()}"></td>
-            <td th:text="${QAs.getQaContent()}"></td>
-            <td th:text="${QAs.getQaWriteTime()}"></td>
+            <td th:text="${QAs.qaTitle}"></td>
+            <td th:text="${QAs.qaContent}"></td>
+            <td th:text="${QAs.qaWriteTime}"></td>
             <td>
-                <a th:if="${QAs.qaStatus}" th:href="@{/QA/Qa_answer/{qaNo}(qaNo=${QAs.getId()})}">
+                <a th:if="${QAs.qaStatus}">
                     <span>처리완료</span>
                 </a>
                 <span th:unless="${QAs.qaStatus}">처리중</span>

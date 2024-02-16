@@ -96,17 +96,17 @@ public class UserController {
             Timestamp resTimestamp = Timestamp.valueOf(reservation.getResTime());
 
             if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getRes_status())) {
-                // RESERVE_COMPLETED 상태일 때만 처리
                 if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
-                    // 현재 시간이 예약 시간을 지났을 경우에만 업데이트
                     reservation.setRes_status(ReservationStatus.EXPIRED.name());
+                    reservationRepository.save(reservation);
+                }
+            } else if (ReservationStatus.WAIT.name().equals(reservation.getRes_status())) {
+                if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
+                    reservation.setRes_status(ReservationStatus.REST_CANCEL.name());
                     reservationRepository.save(reservation);
                 }
             }
         }
-
-
-
 
         model.addAttribute("list", list);
         System.out.println("리스트는 ==== " + list);
@@ -115,17 +115,19 @@ public class UserController {
 
 
     // 유저가 작성한 리뷰 목록 페이지로 이동
-    @GetMapping("user_review/{userNo}")
-    public String userReviews(@PathVariable("userNo") User userNo, Model model) {
-        List<Review> list = reviewRepository.findByUserNo(userNo);
+    @GetMapping("user_review")
+    public String userReviews(Model model) {
+
+        List<Review> list = reviewRepository.findByUserNo(user);
         model.addAttribute("review", list);
+        System.out.println("리스트는" + list);
         return "userPage/user_review";
     }
 
     // 유저 정보 페이지로 이동
-    @GetMapping("user_info/{userNo}")
-    public String userUpdateForm(@PathVariable("userNo") int userNo, Model model) {
-        model.addAttribute("user", userService.findByUserNo(userNo));
+    @GetMapping("user_info")
+    public String userUpdateForm(Model model) {
+        model.addAttribute("user", userService.findByUserNo(user.getUserNo()));
         return "userPage/user_info";
     }
 

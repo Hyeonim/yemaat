@@ -5,6 +5,7 @@ import com.yi.spring.entity.QaAnswer;
 import com.yi.spring.entity.User;
 import com.yi.spring.repository.QARepository;
 import com.yi.spring.repository.QaAnswerRepository;
+import com.yi.spring.repository.UserRepository;
 import com.yi.spring.service.QAService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -29,15 +31,20 @@ public class QaController {
     QAService qaService;
     @Autowired
     UserService userService;
+    @Autowired
+    UserRepository userRepository;
+
+    private User user = null;
 
     // 유저가 작성한 Q&A 목록 페이지로 이동
-    @GetMapping("user_qa/{userNo}")
-    public String userQA(@PathVariable("userNo") User userNo, @RequestParam(value = "page", defaultValue = "0") int page , Model model) {
-        Page<QA> paging = this.qaService.findByUserNoPaged(userNo, page);
-        int userNoCount = qaService.countByUserNo(userNo);
+    @GetMapping("user_qa")
+    public String userQA(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page , Model model) {
+        user = userRepository.findByUserId(principal.getName()).get();
+        Page<QA> paging = this.qaService.findByUserNoPaged(user, page);
+        int userNoCount = qaService.countByUserNo(user);
 //        Page<QA> paging = this.qaService.findByUserNo(userNo.getUserNo())
 //        model.addAttribute("userNoCount", userNoCount);
-        model.addAttribute("Num", userNo.getUserNo());
+        model.addAttribute("Num", user.getUserNo());
         model.addAttribute("QA", paging);
 
         System.out.println(userNoCount);

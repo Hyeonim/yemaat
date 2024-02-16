@@ -1,12 +1,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{userPage/Layout_userPage}">
+      layout:decorate="~{userPage/Layout_userPage2}">
 
 <th:block th:fragment="content">
 
+    <style>
+        .mypage_sidebar_nav{
+            color: gray;
+        }
+        #reviewSelect {
+            font-weight: bold;
+            color: black;
+            border-bottom: 2px solid black;
+        }
+    </style>
+
     <h1>My 리뷰</h1>
-    <a th:href="@{/user/userPage/{userNo}(userNo=${userNo.getUserNo()})}">돌아가기</a><br>
+    <a th:href="@{/user/userPage}">돌아가기</a><br>
 
     <table>
         <thead>
@@ -19,10 +30,10 @@
         </thead>
         <tbody>
         <tr th:each="reviews : ${review}">
-            <td th:text="${reviews.getUserNo().getUserNo()}"></td>
-            <td th:text="${reviews.getRestNo().getRestName()}"></td>
-            <td th:text="${reviews.getRevScore()}"></td>
-            <td th:text="${reviews.getRevContent()}"></td>
+            <td th:text="${reviews.getUserNo().userNo}"></td>
+            <td th:text="${reviews.getRestNo().restName}"></td>
+            <td th:text="${reviews.revScore}"></td>
+            <td th:text="${reviews.revContent}"></td>
         </tr>
         </tbody>
     </table>
