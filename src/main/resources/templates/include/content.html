@@ -11,17 +11,30 @@
 
         <div id="center_box">
             <div id="topDiv">
-                공지사항 박스<br>
-                공지사항 데이터 들어갈곳(5개)<br>
-                최근 업로드한 공지사항에 대해 시간 순으로 5개 노출<br>
-                제목, 업로드 시간, 게시글 번호가 화면에 노출<br>
-                공지사항을 눌렀을때 해당 공지사항 상세보기 페이지 전환
+
+                <H2>공지사항</H2>
+
+        <ul style="margin-top: 20px">
+            <li th:each="NList: ${NList}">
+
+                <p th:text="${NList.subject}"></p>
+
+            </li>
+
+        </ul>
+
+
             </div>
             <div id="random_box">
-                랜덤 박스<br>
-                랜덤 음식 결정 버튼 누르면 사진과 음식이름 출력<br>
-                영역을 클릭했을 때 음식에 대한 검색 결과 페이지로 전환<br>
+
+                <h2>랜덤박스</h2>
+
             </div>
+
+
+
+
+
             <div id="new_box">
                 <div class="slideshow-container1">
                     <div class="Slidesbackground1">

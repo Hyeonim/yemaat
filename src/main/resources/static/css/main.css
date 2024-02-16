@@ -103,15 +103,31 @@
     /*margin-top: 50px;*/
     margin-left: 100px;
     margin-right: 100px;
-    display: none;
+    /*display: none;*/
 }
 
 #topDiv{
     height: 270px;
-    background: red;
-    text-align: center;
+    background: white;
+
     /*flex-basis: 100px;*/
 }
+
+#topDiv h2{
+    text-align: center;
+
+}
+
+
+
+#topDiv ul{
+    text-align: left;
+
+    list-style: square;
+}
+
+
+
 
 #random_box{
     height: 270px;
@@ -311,4 +327,3 @@
     letter-spacing: -0.0563rem;
     color: rgb(255, 255, 255);
 }
-
