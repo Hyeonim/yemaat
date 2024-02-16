@@ -188,6 +188,17 @@
             });
     }
 
+    function searchDinning5() {
+        let searchInput5 = document.getElementById("searchInput5").value;
+        fetch("/manager/managerPage_UBlackList?searchInput5=" + encodeURIComponent(searchInput5))
+            .then(resp => resp.text())
+            .then(data => {
+                let doc = new DOMParser().parseFromString(data, 'text/html');
+                document.getElementById("blackTable").innerHTML = doc.getElementById("blackTable").innerHTML;
+                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+            });
+    }
+
 
 
     function drawGraph() {

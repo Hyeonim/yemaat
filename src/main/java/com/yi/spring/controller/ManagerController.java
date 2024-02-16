@@ -207,11 +207,16 @@ public class ManagerController {
     }
 
     @GetMapping("/managerPage_UBlackList")
-    public String managerBlackListU(Model model) {
+    public String managerBlackListU(Model model, @RequestParam(value = "searchInput5", required = false) String searchInput5) {
 
         List<User> users = userRepository.findAll();
-
         List<User> onlyUsers = new ArrayList<>();
+
+        if (searchInput5 != null && !searchInput5.isEmpty()) {
+            users = userRepository.findByUserNameContainingIgnoreCaseAndUserAuthAndUserBlock(searchInput5, "1", true);
+        } else {
+            users = userRepository.findByUserAuthAndUserBlock("1", true);
+        }
 
         for (User result : users) {
             if (result.getUserAuth().equals("1") && result.isUserBlock()) {
@@ -219,14 +224,11 @@ public class ManagerController {
             }
         }
 
-//        System.out.println(onlyUsers);
-
+        model.addAttribute("users", users);
         model.addAttribute("users", onlyUsers);
-
         model.addAttribute("page", "managerPage/managerPage_UBlackList");
         return "managerPage";
     }
-
 
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user, Model model) {

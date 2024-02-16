@@ -75,11 +75,4 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(page, 10);
         return userRepository.findByUserAuthAndUserNameContaining(userAuth, userName, pageable);
     }
-
-
-
-
-
-
-
 }

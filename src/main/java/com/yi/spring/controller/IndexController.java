@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/")
@@ -51,11 +52,22 @@ public class IndexController {
     }
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
+        List<Dinning> list = dinningRepository.getRandomList("5");
         List<Event> eventList = eventService.getNewEvents();
         List<Notice> NList = noticeRepository.getList();
+        List<Dinning> dList = dinningRepository.findAll();
 
-        System.out.println(NList);
+
         model.addAttribute("eventList", eventList);
+
+        if (dList != null && !dList.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(dList.size()); // 리스트의 크기 내에서 랜덤 인덱스 생성
+            Dinning randomData = dList.get(randomIndex); // 랜덤한 요소 선택
+            model.addAttribute("randomData", randomData); // 모델에 랜덤한 요소 추가
+        }
+
+        model.addAttribute("dinning", list);
 
         List<Review> reviewList = new ArrayList<>();
         for ( int i = 0; i < 2; i++ )

@@ -74,10 +74,8 @@
 
         moveToSlide( target, 1 );
     }
-    function sleep(ms)
-    {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
     async function moveToSlide(slider) {
         let slideIndex = (slider?.index);
         const index = 1;
@@ -141,6 +139,16 @@
         }
     });
 
+</script>
+
+<script>
+    // "click!" 요소를 클릭했을 때 실행되는 함수
+    document.getElementById("clickText").addEventListener("click", function() {
+        // "click!" 요소 숨김 처리
+        document.getElementById("clickText").style.display = "none";
+        // "restName" 요소 표시
+        document.getElementById("restName").style.display = "block";
+    });
 </script>
 
 
