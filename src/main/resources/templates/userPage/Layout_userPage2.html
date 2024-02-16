@@ -13,21 +13,45 @@
 </head>
 
 <style>
+    a:link {
+        text-decoration: none;
+    }
     body {
         /*font-family: 'Arial', sans-serif;*/
         margin: 0;
         padding: 0;
         /*background-color: #f2f2f2;*/
     }
+    /*#u {*/
+    /*    max-width: 950px;*/
+    /*    margin: 0 auto 18px auto;*/
+    /*    background-color: #fff;*/
+    /*    border-radius: 8px;*/
+    /*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+    /*    !*opacity: 0.8*!*/
+    /*}*/
 
-    #u {
-        max-width: 950px;
-        margin: 0 auto 18px auto;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        /*opacity: 0.8*/
+
+
+    #mySideBar {
+        font-size: 20px;
+        color: rgb(69, 69, 69);
+        display: flex;
+        margin-bottom: 0.7rem;
+        margin-top: 14.8rem;
+        justify-content: space-between;
     }
+    .mypage_sidebar_nav {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        flex-grow: 1; /* 균등하게 공간을 분배 */
+        padding: 5px 118.9px;
+        text-align: center; /* 가운데 정렬 */
+        box-sizing: border-box; /* padding을 요소 크기에 포함 */
+    }
+
 
     #u h1 {
         font-size: 40px;
@@ -35,11 +59,49 @@
     }
 
 
+    #headerBox {
+        background-image: url("/img/ck_tica034m19090391_l-580x387.jpg");
+        background-size: cover; /* 이미지를 박스에 가득 차게 설정 */
+        background-position: center; /* 이미지를 가운데 정렬 */
+        filter: blur(2px); /* blur 값은 필요에 따라 조절하세요. */
+
+    }
+
+
 </style>
 <body>
 <header th:include="~{/userPage/userPage_header::headerFragment}"></header>
 
-    <div class="content-container" th:include="~{::content}"></div>
+<div id="headerBox" style="display: flex; justify-content: center;
+    align-items: center; width: auto; height: 340px;">
+    <h6 style="margin-top: -80px">
+        <span style="font-size: 48px; color: rgb(174, 102, 199);"></span>
+    </h6>
+</div>
+<div id="noticeBox" style="width: 1230px; height: 264.047px;
+    position: relative;
+    margin: 0 auto; /* 가로 중앙 정렬을 위한 margin 속성 추가 */
+    bottom: 166px;
+    z-index: 99;
+    margin-bottom: -90px;
+    box-shadow: 0px 3px 18px #f1e7f4; background-color: #fff">
+
+    <nav style="display: flex">
+        <div id="mySideBar">
+            <div class="mypage_sidebar_nav" id="postsSelect"><a
+                    th:href="@{/user/user_posts}">My 예약</a>
+            </div>
+            <div class="mypage_sidebar_nav" id="reviewSelect"><a
+                    th:href="@{/user/user_review}">My 리뷰</a></div>
+            <div class="mypage_sidebar_nav" id="QASelect"><a
+                    th:href="@{/QA/user_qa}">My 문의</a></div>
+            <div class="mypage_sidebar_nav" id="infoSelect"><a
+                    th:href="@{/user/user_info}">My 정보</a></div>
+        </div>
+    </nav>
+</div>
+
+<div class="content-container" th:include="~{::content}"></div>
 
 
 </body>

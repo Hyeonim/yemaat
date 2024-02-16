@@ -1,10 +1,7 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
-import com.yi.spring.repository.DinningRepository;
-import com.yi.spring.repository.NoticeRepository;
-import com.yi.spring.repository.ReviewRepository;
-import com.yi.spring.repository.UserRepository;
+import com.yi.spring.repository.*;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
 import jakarta.servlet.http.HttpSession;

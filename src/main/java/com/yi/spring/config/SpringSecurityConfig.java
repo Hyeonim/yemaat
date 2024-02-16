@@ -22,6 +22,7 @@ public class SpringSecurityConfig {
                         .requestMatchers("/status","/images/**","/css/**","/js/**").permitAll()
                         .requestMatchers( "/", "/home", "/homeSlide","/signUp","/join").permitAll()
                         .requestMatchers("/user/**").hasAnyRole("1", "2", "3")
+                        .requestMatchers("/QA/**").hasAnyRole("1", "2", "3")
                         .requestMatchers("/owner/**").hasAnyRole("2", "3")
                         .requestMatchers("/manager/**").hasRole("3")
 //                        .anyRequest().authenticated()
