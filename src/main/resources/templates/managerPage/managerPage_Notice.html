@@ -10,14 +10,17 @@
         <hr>
         <input type="text" id="searchInput4" placeholder="공지사항 제목으로 검색" onchange="searchDinning4()">
         <button onclick="searchDinning4()">검색</button>
-        <table id="noticeTable" class="table table-bordered table-hover" style="text-align: center;">
+        <table id="noticeTable" style="text-align: center;">
+            <thead>
             <tr>
-                <td>no</td>
-                <td>subject</td>
-                <td>writer</td>
-                <td>writer_date</td>
+                <th>no</th>
+                <th>subject</th>
+                <th>writer</th>
+                <th>writer_date</th>
             </tr>
+            </thead>
 
+            <tbody>
             <tr th:each="list : ${list}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
 
                 <td th:text="${list.id}"></td>
@@ -25,6 +28,7 @@
                 <td th:text="${list.writer}"></td>
                 <td th:text="${list.writeDate}"></td>
             </tr>
+            </tbody>
         </table>
 
         <div th:if="${!list.isEmpty()}">

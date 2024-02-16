@@ -38,8 +38,9 @@ public class IndexController {
 
     @Autowired
     NoticeService noticeService;
+
     @Autowired
-    private EventRepository eventRepository;
+    EventRepository eventRepository;
 
     @Autowired
     EventService eventService;

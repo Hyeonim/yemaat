@@ -11,8 +11,9 @@
         <hr>
         <input type="text" id="searchInput3" placeholder="고객 이름으로 검색" onchange="searchDinning3()">
         <button onclick="searchDinning3()">검색</button>
-        <table id="UuserTable" class="table table-bordered table-hover" style="text-align: center;">
+        <table id="UuserTable"  style="text-align: center;">
 
+            <thead>
             <tr>
                 <th class="table-header">No</th>
                 <th class="table-header">아이디</th>
@@ -21,8 +22,10 @@
                 <th class="table-header">전화번호</th>
                 <th class="table-header">시작일</th>
             </tr>
+            </thead>
 
-            <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'" >
+            <tbody>
+            <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">
                 <td th:text="${user.userNo}">Name</td>
                 <td th:text="${user.userId}">ID</td>
                 <td th:text="${user.userName}">Name</td>
@@ -30,6 +33,7 @@
                 <td th:text="${user.userTel}">Name</td>
                 <td th:text="${user.userStartDate}">Name</td>
             </tr>
+            </tbody>
         </table>
 
         <div th:if="${!users.isEmpty()}">
@@ -51,16 +55,8 @@
                         <span>다음</span>
                     </a>
                 </li>
-
             </ul>
-
         </div>
-
-
-
     </div>
-
 </div>
-
-
 </html>

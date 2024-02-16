@@ -34,27 +34,6 @@
             </div>
 
 
-            <div id="new_box">
-                <H2>*이벤트*</H2>
-
-                <!--                <div class="slideshow-container1">-->
-                <!--                    <div class="Slidesbackground1">-->
-                <!--                        <div th:each="dinning : ${dinning}" class="mySlides fade">-->
-                <!--                            <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="Image"/>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <ul th:each="EList:${EList}">
-                    <li th:text="${EList.eventTitle}">
-
-
-
-                    </li>
-
-                </ul>
-
-
-
             <div id="new_event_box">
                 <h2>새로운 이벤트</h2>
                 <div class="event_slide_box">
@@ -69,6 +48,7 @@
                     </th:block>
                 </div>
             </div>
+
         </div>
         <hr>
 

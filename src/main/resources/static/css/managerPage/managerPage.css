@@ -157,3 +157,83 @@
 /** {*/
 /*    border: solid 1px blue;*/
 /*}*/
+
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+#right {
+    margin-top: 60px;
+    background-color: #ffffff;
+    padding: 90px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+th {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination li {
+    cursor: pointer;
+}
+
+.pagination li.active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination li.disabled a {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+/*상세보기 글들*/
+#right2 {
+    margin-top: 40px;
+    margin-right: 75px;
+    background-color: #ffffff;
+    padding: 90px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    width: 75%;
+    height: auto;
+    float: right;
+    box-sizing: border-box;
+    /*overflow:auto;*/
+
+}
+
+
+
+
