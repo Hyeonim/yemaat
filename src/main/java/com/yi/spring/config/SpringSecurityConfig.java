@@ -24,7 +24,8 @@ public class SpringSecurityConfig {
                         .requestMatchers("/user/**").hasAnyRole("1", "2", "3")
                         .requestMatchers("/owner/**").hasAnyRole("2", "3")
                         .requestMatchers("/manager/**").hasRole("3")
-                        .anyRequest().authenticated()
+//                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 ).formLogin(login->login
                         .loginPage("/login")
                         .loginProcessingUrl("/login-process")
