@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 목록</title>
+</head>
 
 <div th:fragment="managerContent">
-
     <div id="right3" style="margin-right: 100px">
-
         <h1 style="margin-top: 100px">고객 목록</h1>
         <hr>
         <input type="text" id="searchInput3" placeholder="고객 이름으로 검색" onchange="searchDinning3()">
         <button onclick="searchDinning3()">검색</button>
-        <table id="UuserTable"  style="text-align: center;">
+        <table id="UuserTable" style="text-align: center;">
 
             <thead>
             <tr>
-                <th class="table-header">No</th>
-                <th class="table-header">아이디</th>
-                <th class="table-header">이름</th>
-                <th class="table-header">이메일</th>
-                <th class="table-header">전화번호</th>
-                <th class="table-header">시작일</th>
+                <th>고객 번호</th>
+                <th>고객 아이디</th>
+                <th>고객 이름</th>
+                <th>고객 이메일</th>
+                <th>고객 전화번호</th>
+                <th>시작일</th>
             </tr>
             </thead>
 

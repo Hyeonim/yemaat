@@ -8,7 +8,7 @@
 
         <h2>detail</h2>
 
-
+        <div class="formDiv">
         <form action="/manager/managerPage_NoticeUpdate" method="post">
             <input type="hidden" name="id" th:value="${notice.get().id}" />
             <span>no : <input th:value="${notice.get().id}" readonly></span><br>
@@ -18,11 +18,13 @@
     <textarea th:text="${notice.get().content}" name="content" style="width: 400px; height: 400px;"></textarea></span>
             <input type="submit" value="수정">
         </form>
+
+
         <form action="/manager/managerPage_NoticeDelete" method="post">
             <input type="hidden" name="id" th:value="${notice.get().id}" readonly></input>
             <button type="submit">삭제</button>
         </form>
-
+        </div>
 
 
     </div>
