@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>개인 회원가입</title>
+    <link rel="stylesheet" href="/css/formdiv.css">
     <style>
         div#step1 div {
             display: inline-block;
@@ -102,7 +103,7 @@
             display: flex;
             align-items: center;
         }
-        .hKwVlz button {
+        .step button {
             width: 500px;
             margin: 20px auto 10px auto;
             padding: 15px 20px;
@@ -114,7 +115,7 @@
             cursor: pointer;
             border-radius : 10px;
         }
-        .hKwVlz button:disabled {
+        .step button:disabled {
             background: rgb(186,186,186);
             cursor: default;
         }
@@ -129,6 +130,10 @@
         }
         div#step1 {
             display: block;
+        }
+        #step3>div {
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
@@ -162,7 +167,7 @@
 <div id="step2" class="step">
     <div>
     <p>약관동의</p>
-    <div class="sc-jtrUWv hKwVlz">
+    <div class="sc-jtrUWv">
         <div class="sc-kjokSJ dWUEBt"><input type="checkbox" name="all">
             <div class="sc-elITqc jqDOvc"><div style="margin-left: 12px; font-size: 20px;">전체동의하기</div>
             </div>
@@ -189,23 +194,27 @@
     </div>
 </div>
 <div id="step3" class="step">
+    <div>
+        <input type="radio" id="user" name="type" value="1" disabled>
+        <label for="user">유저</label>
+        <input type="radio" id="merchant" name="type" value="2" disabled><br>
+        <label for="merchant">점주</label>
+    </div>
+    <div class="formDiv" style="width: 550px;">
     <form action="/join" method="post" enctype="multipart/form-data">
-    <label for="user">유저</label>
-    <input type="radio" id="user" name="type" value="1" disabled>
-    <label for="merchant">점주</label>
-    <input type="radio" id="merchant" name="type" value="2" disabled><br>
     <input type="hidden" name="userType" value="">
-    닉네임<input type="text" name="userNickName"><br>
-    이름<input type="text" name="userName"><br>
-    아이디<input type="text" name="userId"><br>
-    비밀번호<input type="password" name="userPassword" required><br>
-    이메일<input type="email" name="userEmail"><br>
-    전화번호<input type="text" name="userTel"><br>
+    <label for="in1">닉네임</label><input type="text" id="in1" name="userNickName"><br>
+    <label for="in2">이름</label><input type="text" id="in2" name="userName"><br>
+    <label for="in3">아이디</label><input type="text" id="in3" name="userId"><br>
+    <label for="in4">비밀번호</label><input type="password" id="in4" name="userPassword" required><br>
+    <label for="in5">이메일</label><input type="email" id="in5" name="userEmail"><br>
+    <label for="in6">전화번호</label><input type="text" id="in6" name="userTel"><br>
     <input type="hidden" name="userImg" value="">
-    프로필 사진<input type="file" accept="image/*" name="file"><br>
+    <label for="in7">프로필 사진</label><i></i><input type="file" id="in7" accept="image/*" name="file"><br>
     <!--    자기소개<input type="text" name="userNickName"><br>-->
-    <input type="submit" value="회원가입">
+    <button>회원가입</button>
     </form>
+    </div>
 </div>
 
 
