@@ -20,6 +20,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByRestNo(Dinning dinning);
     List<Review> findByUserNo(User userNo);
 
+    long countByUserNo(User user);
+
 
 
 

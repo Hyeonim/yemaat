@@ -3,6 +3,7 @@ package com.yi.spring.controller;
 import com.yi.spring.entity.*;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.QAService;
+import com.yi.spring.service.ReservationService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,18 +42,20 @@ public class UserController {
     DinningRepository dinningRepository;
     @Autowired
     DiningRestRepository diningRestRepository;
+    @Autowired
+    ReservationService reservationService;
 
 
     private User user = null;
 
-    public List<Dinning> getRestaurantsForLatestReservation(Long userNo){
+    public List<Dinning> getRestaurantsForLatestReservation(Long userNo) {
         PageRequest pageRequest = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("resTime")));
         List<Reservation> latestReservationList = reservationRepository.findLatestReservationByUserNo(userNo, pageRequest);
 
         if (!latestReservationList.isEmpty()) {
             List<Dinning> dinningList = new ArrayList<>();
-            for ( Reservation r : latestReservationList )
-                dinningList.add( r.getRestNo() );
+            for (Reservation r : latestReservationList)
+                dinningList.add(r.getRestNo());
             return dinningList;
 //            Long latestRestNo = latestReservationList.get(0).getRestNo();
 //            return dinningRepository.findByRestNo(latestRestNo);
@@ -64,69 +67,65 @@ public class UserController {
 
     // 유저 컨텐츠 페이지로 이동
     @GetMapping("userPage")
-    public String userPageForm(Principal principal , Model model) {
+    public String userPageForm1(Principal principal, Model model) {
         user = userRepository.findByUserId(principal.getName()).get();
         List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
 
         model.addAttribute("user", user);
         model.addAttribute("restaurants", restaurantsForLatestReservation);
 
-//        System.out.println(restaurantsForLatestReservation);
-
+        System.out.println(user);
         return "userPage/user_main";
     }
 
-//    @GetMapping("userPage_root/{userNo}")
-//    public String GoRoot(@PathVariable("userNo") int userNo, Model model) {
-//        model.addAttribute("user", userService.findByUserNo(userNo));
-//        return "userPage/user_main";
-//    }
-
     // 유저가 작성한 포스트 목록 페이지로 이동
     @GetMapping("user_posts")
-    public String userPosts(Model model) {
-        Long userNo = Long.valueOf(user.getUserNo());
+    public String userPosts(Principal principal, Model model) {
+        User user = userRepository.findByUserId(principal.getName()).orElse(null);
 
-        List<Reservation> list = reservationRepository.findReservationDetailsByUserNo(userNo);
-        LocalDateTime currentDateTime = LocalDateTime.now();
+        if (user != null) {
+            Long userNo = Long.valueOf(user.getUserNo());
+            List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+            reservationService.processReservations(reservations, model);
 
-        Collections.sort(list, Comparator.comparing(Reservation::getResTime).reversed());
-
-        for (Reservation reservation : list) {
-            Timestamp resTimestamp = Timestamp.valueOf(reservation.getResTime());
-
-            if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getRes_status())) {
-                if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
-                    reservation.setRes_status(ReservationStatus.EXPIRED.name());
-                    reservationRepository.save(reservation);
-                }
-            } else if (ReservationStatus.WAIT.name().equals(reservation.getRes_status())) {
-                if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
-                    reservation.setRes_status(ReservationStatus.REST_CANCEL.name());
-                    reservationRepository.save(reservation);
-                }
-            }
+            model.addAttribute("main_user", user);
+            model.addAttribute("list", reservations);
         }
 
-        model.addAttribute("list", list);
-        System.out.println("리스트는 ==== " + list);
         return "userPage/user_posts";
     }
 
-
     // 유저가 작성한 리뷰 목록 페이지로 이동
     @GetMapping("user_review")
-    public String userReviews(Model model) {
+    public String userReviews(Principal principal, Model model) {
+        User user = userRepository.findByUserId(principal.getName()).orElse(null);
 
-        List<Review> list = reviewRepository.findByUserNo(user);
-        model.addAttribute("review", list);
-        System.out.println("리스트는" + list);
+        if (user != null) {
+            List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+            List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(Long.valueOf(user.getUserNo()));
+            List<Review> reviews = reviewRepository.findByUserNo(user);
+            long userNoCount = reviewRepository.countByUserNo(user);
+
+            reservationService.processReservations(reservations, model);
+
+            model.addAttribute("main_user", user);
+            model.addAttribute("userNoCount", userNoCount);
+            model.addAttribute("restaurants", restaurantsForLatestReservation);
+            model.addAttribute("list", reservations);
+            model.addAttribute("review", reviews);
+        }
+
         return "userPage/user_review";
     }
 
     // 유저 정보 페이지로 이동
     @GetMapping("user_info")
-    public String userUpdateForm(Model model) {
+    public String userUpdateForm(Principal principal, Model model) {
+        user = userRepository.findByUserId(principal.getName()).get();
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
         model.addAttribute("user", userService.findByUserNo(user.getUserNo()));
         return "userPage/user_info";
     }

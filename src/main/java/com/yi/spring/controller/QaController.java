@@ -1,15 +1,16 @@
 package com.yi.spring.controller;
 
-import com.yi.spring.entity.QA;
-import com.yi.spring.entity.QaAnswer;
-import com.yi.spring.entity.User;
+import com.yi.spring.entity.*;
 import com.yi.spring.repository.QARepository;
 import com.yi.spring.repository.QaAnswerRepository;
+import com.yi.spring.repository.ReservationRepository;
 import com.yi.spring.repository.UserRepository;
 import com.yi.spring.service.QAService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -33,17 +37,44 @@ public class QaController {
     UserService userService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ReservationRepository reservationRepository;
 
     private User user = null;
+
+    public List<Dinning> getRestaurantsForLatestReservation(Long userNo){
+        PageRequest pageRequest = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("resTime")));
+        List<Reservation> latestReservationList = reservationRepository.findLatestReservationByUserNo(userNo, pageRequest);
+
+        if (!latestReservationList.isEmpty()) {
+            List<Dinning> dinningList = new ArrayList<>();
+            for ( Reservation r : latestReservationList )
+                dinningList.add( r.getRestNo() );
+            return dinningList;
+//            Long latestRestNo = latestReservationList.get(0).getRestNo();
+//            return dinningRepository.findByRestNo(latestRestNo);
+        } else {
+            // 예약 기록이 없는 경우 처리
+            return Collections.emptyList();
+        }
+    }
 
     // 유저가 작성한 Q&A 목록 페이지로 이동
     @GetMapping("user_qa")
     public String userQA(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page , Model model) {
         user = userRepository.findByUserId(principal.getName()).get();
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+
+
+        user = userRepository.findByUserId(principal.getName()).get();
         Page<QA> paging = this.qaService.findByUserNoPaged(user, page);
         int userNoCount = qaService.countByUserNo(user);
 //        Page<QA> paging = this.qaService.findByUserNo(userNo.getUserNo())
 //        model.addAttribute("userNoCount", userNoCount);
+
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
+
         model.addAttribute("Num", user.getUserNo());
         model.addAttribute("QA", paging);
 
