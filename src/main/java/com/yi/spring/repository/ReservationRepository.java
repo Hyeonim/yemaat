@@ -39,6 +39,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "WHERE r.userNo.userNo = :userNo")
     List<Reservation> findReservationDetailsByUserNo(Long userNo);
 
+
+    /*
     @Query(value = "select * from reservation r where DATE(r.res_time) = CURDATE() and r.rest_no = :restNo order by r.res_time asc", nativeQuery = true)
     List<Reservation> getTodayReservation(Long restNo);
 
@@ -47,6 +49,36 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @Query(value="select * from reservation r where DATE(r.res_time) < CURDATE() and r.rest_no = :restNo order by r.res_time desc", nativeQuery = true)
     List<Reservation> getPastReservation(Long restNo);
+     */
+    @Query(value = "SELECT r.res_no, res_time, user_no, res_guest_count, res_table_type, res_comment, res_status, " +
+            " res_rejection_reason, res_time_new, rest_no , " +
+            "CASE " +
+            "    WHEN DATE(r.res_time) < CURDATE() THEN -1 " +
+            "    WHEN DATE(r.res_time) = CURDATE() THEN 0 " +
+            "    ELSE 1 " +
+            "END AS datetype " +
+            "FROM reservation r " +
+            "WHERE r.rest_no = :restNo", nativeQuery = true)
+    List<Reservation> getReservationWithDateType333(Long restNo);
+    @Query(value = "SELECT r.* " +
+//            ", CASE " +
+//            "    WHEN DATE(r.res_time) < CURDATE() THEN -1 " +
+//            "    WHEN DATE(r.res_time) = CURDATE() THEN 0 " +
+//            "    ELSE 1 " +
+//            "END AS datetype " +
+            "FROM reservation r " +
+            "WHERE r.rest_no = :restNo  order by r.res_time asc ", nativeQuery = true)
+    List<Reservation> getReservationWithDateType(Long restNo);
+    @Query(value = "SELECT r.*, " +
+            "CASE " +
+            "    WHEN DATE(r.res_time) < CURDATE() THEN -1 " +
+            "    WHEN DATE(r.res_time) = CURDATE() THEN 0 " +
+            "    ELSE 1 " +
+            "END AS dateType " +
+            "FROM reservation r " +
+            "WHERE r.rest_no = :restNo", nativeQuery = true)
+    List<Object[]>  getReservationWithDateType222(Long restNo);
+
 
 //    List<Reservation> findByRestNo_RestNameAndRestNo_RestCategoryAndResTimeAndRes_guest_countAndRestNo_RestAddr(String restName, String restCategory, LocalDateTime resTime, String res_guest_count, String restAddr);
 

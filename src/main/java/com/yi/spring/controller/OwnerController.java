@@ -38,6 +38,8 @@ public class OwnerController {
 
     @Autowired
     private DeleteUserRepository deleteUserRepository;
+//    @Autowired
+//    private ModelMapper modelMapper;
 
     private List<Reservation> status(List<Reservation> list) {
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -262,14 +264,19 @@ public class OwnerController {
         model.addAttribute("dinning", dinning);
 
 
-        List<Reservation> todayReserv = status(reservationRepository.getTodayReservation((long) dinning.getRestNo()));
-        List<Reservation> waitReserv = status(reservationRepository.getWaitReservation((long) dinning.getRestNo()));
-        List<Reservation> pastReserv = status(reservationRepository.getPastReservation((long) dinning.getRestNo()));
-        model.addAttribute("pastReserv", pastReserv);
-        model.addAttribute("waitReserv", waitReserv);
+//        List<Reservation> todayReserv = status(reservationRepository.getTodayReservation((long) dinning.getRestNo()));
+//        List<Reservation> waitReserv = status(reservationRepository.getWaitReservation((long) dinning.getRestNo()));
+//        List<Reservation> pastReserv = status(reservationRepository.getPastReservation((long) dinning.getRestNo()));
+//        model.addAttribute("pastReserv", pastReserv);
+//        model.addAttribute("waitReserv", waitReserv);
+//        model.addAttribute("todayReserv", todayReserv);
+        // ModelMapper
 
-
-        model.addAttribute("todayReserv", todayReserv);
+//        List<Object[]> reserveListObjObj = reservationRepository.getReservationWithDateType222((long) dinning.getRestNo());
+//        System.out.println( reserveListObjObj );
+        List<Reservation> reserveList = status(reservationRepository.getReservationWithDateType((long) dinning.getRestNo()));
+        reserveList.forEach(Reservation::updateDateType);
+        model.addAttribute("reserveList", reserveList);
 
         model.addAttribute("pageName", "예약 목록");
         return "owner/reservList";

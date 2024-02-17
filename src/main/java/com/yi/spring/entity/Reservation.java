@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,6 +22,9 @@ public class Reservation {
     @Column(name = "res_no", nullable = false)
     @JdbcTypeCode(SqlTypes.INTEGER)
     private Long res_no;
+//    public Long getRes_no(){ return this.res_no; }
+//    public void setRes_no( Long resNo ){ this.res_no = resNo; }
+
 
     private LocalDateTime res_time_new;
 
@@ -44,7 +48,32 @@ public class Reservation {
 
 
 
-    public ReservationStatus getReservationStatusEnum() {
+////    @Access(AccessType.PROPERTY)
+//    @Transient
+    // transient (직렬화 방지) 디비에 저장될 필요 없음
+    private transient Long dateType; // 0:오늘 -1:지남 1:예약대기
+//    @Access(AccessType.PROPERTY)
+//    @Transient
+//    public Long getDatetype() {
+//        return datetype;
+//    }
+//    @Column(name = "datetype")
+//    public void setDatetype( Long datetype) {
+//        this.ddatetype = datetype;
+//    }
+//    @Column(name = "datetype")
+//    public Long getDatetype() {
+//        return ddatetype;
+//    }
+    public void updateDateType() {
+        long date_diff = Duration.between(LocalDateTime.now(), resTime).toDays();
+        dateType = Math.abs(date_diff) / (date_diff==0?1:date_diff);
+    }
+
+
+
+
+        public ReservationStatus getReservationStatusEnum() {
         try {
             return ReservationStatus.valueOf(res_status);
         } catch (Exception e) {
