@@ -1,6 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="headerFragment" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 100;" id="top">
+<title th:fragment="titleFragment">맛집 예약, 예맛!</title>
+
+<div th:fragment="headerFragment" id="top">
     <script>
         function sendSearchQuery() {
             const keyword = document.getElementById('searchBar').value;
@@ -27,7 +29,7 @@
         }
     </script>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light" style="background: wheat;">
+        <nav class="navbar navbar-expand-lg navbar-light" >
             <div th:replace="~{/include/logo::logoContent(30,1)}"></div>
 
             <form th:action="@{/find_rest_name}" method="get">
@@ -45,6 +47,7 @@
                          transform-origin: right top;
                          right: 16px;
                          top: 62px;
+                         background-color: #ffffffa0;
                          max-height: 865px;
                          "
                     class="dropmenu" name="mymenu">
@@ -64,6 +67,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/manager/content">관리자페이지</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">로그아웃</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -78,7 +84,7 @@
             await hsleep(100)
             document.querySelector( "[name=mymenu]" ).classList.remove( "visible" );
         }
-        function hsleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
     </script>
 </div>
