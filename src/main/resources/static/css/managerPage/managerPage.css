@@ -164,11 +164,12 @@ body {
 }
 
 #right {
-    margin-top: 60px;
+    margin-top: 33px;
     background-color: #ffffff;
     padding: 90px;
     border-radius: 10px;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    height: 107vh; /* 높이를 화면 높이의 80%로 설정 */
 }
 
 h1 {
@@ -231,7 +232,21 @@ tr:hover {
     float: right;
     box-sizing: border-box;
     /*overflow:auto;*/
+}
 
+/*목록*/
+#right3 {
+    width: 75%;
+    /*height: auto;*/
+    float: right;
+    box-sizing: border-box;
+    margin-top: -74px;
+    background-color: #ffffff;
+    padding: 90px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    height: 107vh; /* 높이를 화면 높이의 80%로 설정 */
+    /*overflow:auto;*/
 }
 
 
