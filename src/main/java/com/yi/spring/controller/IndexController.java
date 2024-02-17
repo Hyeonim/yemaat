@@ -55,17 +55,19 @@ public class IndexController {
         List<Dinning> list = dinningRepository.getRandomList("5");
         List<Event> eventList = eventService.getNewEvents();
         List<Notice> NList = noticeRepository.getList();
-        List<Dinning> dList = dinningRepository.findAll();
+        List<Dinning> dList = dinningRepository.getRandomList("1");
         List<Event> EList = eventRepository.getList();
 
 
         model.addAttribute("eventList", eventList);
 
         if (dList != null && !dList.isEmpty()) {
+            /*
             Random random = new Random();
             int randomIndex = random.nextInt(dList.size()); // 리스트의 크기 내에서 랜덤 인덱스 생성
             Dinning randomData = dList.get(randomIndex); // 랜덤한 요소 선택
-            model.addAttribute("randomData", randomData); // 모델에 랜덤한 요소 추가
+             */
+            model.addAttribute("randomData", dList.get(0)); // 모델에 랜덤한 요소 추가
         }
 
         model.addAttribute("dinning", list);

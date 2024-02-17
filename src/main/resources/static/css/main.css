@@ -145,7 +145,7 @@
     text-align: center;
     border-radius: 20px;
     margin-top: 20px;
-
+    overflow: hidden;
 }
 
 .event_slide_box {
