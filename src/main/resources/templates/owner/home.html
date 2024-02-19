@@ -13,11 +13,68 @@
         <ion-icon name="checkmark-circle-outline"></ion-icon><span>[[${cancel}]] 건</span>
     </div>
     <ul>
-        <li>시간별 예약 통계</li>
+
+        <li><div class="box-content"
+             style="
+             display: flex;
+             justify-content: flex-start;
+             align-items: center;
+             padding: 20px 0;
+             width: 473px;
+             ">
+            <canvas id="reserveChart" class="chart" width="258" height="258" style="display: block; box-sizing: border-box; height: 258px; width: 258px;"></canvas>
+            <canvas id="reserveBarChart" class="chart" width="258" height="129" style="display: block; box-sizing: border-box; height: 129px; width: 258px;"></canvas>
+            </div></li>
         <li>주간 방문자 통계</li>
         <li>방문자 유형 통계</li>
     </ul>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    function drawGraph() {
+        if ( ![[${drawGraph}]])
+            return;
+        let reserveLabel = [];
+        let reserveDataList = [];
+        [# th:if="${reserveStat != null}"]
+        [# th:each = "entry : ${reserveStat.entrySet()}"]
+        reserveLabel.push( [[${entry.key}]])
+        reserveDataList.push( [[${entry.value}]] )
+        [/][/]
 
+        let reserveData = {
+            labels: reserveLabel,
+            datasets: [{
+                label: '시간별 예약 통계',
+                data: reserveDataList,
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(54, 102, 235, 0.5)',
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(52, 191, 182, 0.5)',
+                    'rgba(255, 159, 64, 0.5)',
+                    'rgba(75, 192, 192, 0.5)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // -------------------------------도넛 그래프--------------------------------
+        let reserveCtx = document.getElementById('reserveChart').getContext('2d');
+        // -------------------------------막대 그래프--------------------------------
+        let reserveCtx2 = document.getElementById('reserveBarChart').getContext('2d');
+
+        [[reserveCtx, 'doughnut', reserveData], [reserveCtx2, 'bar', reserveData]
+        ].forEach(elem => {
+            new Chart(elem[0], {
+                type: elem[1],
+                data: elem[2],
+                options: {}
+            });
+        });
+    }drawGraph();
+
+</script>
 </th:block>
 </html>

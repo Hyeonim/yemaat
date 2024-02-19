@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -93,7 +94,24 @@ public class OwnerController {
             }
             model.addAttribute("complete", complete);
             model.addAttribute("cancel", cancel);
+
+            // List<Reservation> rList = reservationRepository.findAll();
+            List<Reservation> rList = reservationRepository.findByRestNo_RestNo((long) dinning.getRestNo());
+            HashMap<String, Integer> reserveStat = new HashMap<>();
+            for (Reservation reservation : rList) {
+                String key = reservation.getResTime().toLocalTime().toString();
+                Integer statCount = reserveStat.computeIfAbsent(key, k -> 0);
+                statCount++;
+                reserveStat.put(key, statCount);
+            }
+            model.addAttribute("reserveStat", reserveStat);
+            model.addAttribute("drawGraph", true);
         }
+
+
+
+
+
         return "owner/home";
     }
 
