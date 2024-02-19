@@ -8,10 +8,11 @@
 
     <div class="formDiv">
     <form id="updateEventForm" th:action="@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}" method="post" enctype="multipart/form-data">
-        <label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></br>
-        <label>내용</label><textarea name="eventContent">[[${event.getEventContent()}]]</textarea></br>
-        <label>이미지</label><input type="file" name="file"></br>
-        <input type="hidden" name="eventNo" th:value="${event.getEventNo()}"></br>
+        <p><label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></p>
+        <p><label>내용</label><textarea name="eventContent" rows="5">[[${event.getEventContent()}]]</textarea></p>
+        <p><label>이미지</label><input type="file" name="file"></p>
+
+        <input type="hidden" name="eventNo" th:value="${event.getEventNo()}">
         <input type="button" value="등록" onclick="submitRestForm()">
         <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
     </form>
