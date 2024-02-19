@@ -43,13 +43,29 @@
 <script>
 
 
-    document.getElementById("fifthU").addEventListener("click", function(event) {
-        document.getElementById("NFormUpdate").submit(); // 폼 제출
-    });
 
-    document.getElementById("fifthD").addEventListener("click", function(event) {
-        document.getElementById("NFormDel").submit(); // 폼 제출
-    });
+    // document.getElementById("fifthU").addEventListener("click", function(event) {
+    //     document.getElementById("NFormUpdate").submit(); // 폼 제출
+    // });
+    //
+    // document.getElementById("fifthD").addEventListener("click", function(event) {
+    //     document.getElementById("NFormDel").submit(); // 폼 제출
+    // });
+    //
+    //
+    // // 점
+    // document.getElementById("fifthJ").addEventListener("click", function(event) {
+    //     document.getElementById("updateForm").submit(); // 폼 제출
+    // });
+    //
+    // document.getElementById("fifthJ2").addEventListener("click", function(event) {
+    //     document.getElementById("JFormDel").submit(); // 폼 제출
+    // });
+
+
+
+
+
 
 
 
@@ -291,6 +307,24 @@
     }
 
     drawGraph();
+
+
+    //
+
+    function previewImage2(input) {
+        var preview2 = document.getElementById('preview');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview2.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
 
 </script>
 </body>

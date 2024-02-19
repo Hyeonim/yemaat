@@ -11,11 +11,11 @@
         <h2>유저 정보</h2>
         <div class="formDiv">
             <form id="myForm" action="/manager/managerPage_UUpdate" method="post" enctype="multipart/form-data" style="display: flex; align-items: center;">
-                <div style="flex: 1;">
+                <div style="flex: 1; border:solid 1px blue">
                     <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}" alt="User Image" style="max-width: 300px; max-height: 500px; margin-right: 80px; cursor: pointer;">
                     <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
                 </div>
-                <div style="flex: 1;">
+                <div style="flex: 1; border:solid 1px blue">
                     <p><label>번호 </label><input id="userNo" name="userNo" type="text" th:value="${user.get().userNo}" readonly></p>
                     <p><label>User ID </label><input id="userId" name="userId" type="text" th:value="${user.get().userId}"></p>
                     <p><label>User Name </label><input id="userName" name="userName" type="text" th:value="${user.get().userName}"></p>

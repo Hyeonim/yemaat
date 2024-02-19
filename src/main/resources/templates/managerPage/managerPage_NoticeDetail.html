@@ -6,7 +6,7 @@
 <div th:fragment="managerContent">
     <div id="right2">
 
-        <H2>상세보기</H2>
+        <h2>공지사항 상세보기</h2>
 
         <div class="formDiv"
              style="margin: 20px; width: 1200px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; text-align: left">
@@ -26,17 +26,21 @@
             </form>
 
             <div id="NBoxDiv">
-                <button type="submit" class="fifth" id="fifthU" >수정</button>
-
+                <button type="submit" class="fifth" id="fifthU">수정</button>
                 <button type="submit" class="fifth" id="fifthD" style="margin-left: 10px">삭제</button>
             </div>
         </div>
-
-
     </div>
+    <script>
+        document.getElementById("fifthU").addEventListener("click", function(event) {
+            document.getElementById("NFormUpdate").submit(); // 폼 제출
+        });
+
+        document.getElementById("fifthD").addEventListener("click", function(event) {
+            document.getElementById("NFormDel").submit(); // 폼 제출
+        });
+    </script>
 </div>
-
-
 </html>
 
 
