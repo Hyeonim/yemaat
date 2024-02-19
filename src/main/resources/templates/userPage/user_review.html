@@ -5,6 +5,8 @@
 
 <th:block th:fragment="content">
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <style>
         ul {
             list-style: none;
@@ -27,35 +29,107 @@
             flex-direction: column;
             width: 64%;
         }
+
+        .reviewMainBox {
+            border-top: 1px solid rgba(128, 128, 128, 0.2);
+            padding-top: 13px;
+            padding-bottom: 17px;
+            overflow: hidden;
+            transition: padding-bottom 0.5s ease-in-out; /* 애니메이션 효과를 적용할 속성과 시간 및 타이밍 함수 설정 */
+        }
+
+
+        /*padding-bottom: 370px;*/
     </style>
 
     <div style="display: flex; justify-content: center;">
         <div class="reviewForm" style="">
             <h3 th:text="'전체글(' + ${userNoCount} + ')'"></h3>
 
-            <ul th:each="reviews : ${review}"
-                style="border-top: 1px solid rgba(128, 128, 128, 0.2); padding-top: 13px; padding-bottom: 10px;">
+            <ul class="reviewMainBox" th:each="reviews : ${review}">
                 <div style="display:flex;">
                     <div>
                         <div>
-                            <img style="max-width: 60px; max-height: 60px;" th:src="'data:image/png;base64,' + ${reviews.base64Image}" alt="리뷰이미지">
+                            <th:block th:if="${not #strings.isEmpty(reviews.base64Image)}">
+                                <img style="max-width: 60px; max-height: 60px;"
+                                     th:src="'data:image/png;base64,' + ${reviews.base64Image}" alt="리뷰이미지">
+                            </th:block>
+                            <th:block th:unless="${not #strings.isEmpty(reviews.base64Image)}">
+                                <div style="width: 60px; height: 60px;"></div>
+                            </th:block>
                         </div>
                     </div>
                     <div style="margin-left: 10px">
-                        <li th:text="${reviews.getRestNo().restName}" style="font-size: 12px;padding-bottom: 1px; padding-left: 1px; padding-top: 1px;"></li>
+                        <li th:text="${reviews.getRestNo().restName}"
+                            style="font-size: 12px;padding-bottom: 1px; padding-left: 1px; padding-top: 1px;"></li>
+
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var reviews = document.querySelectorAll('.reviewMainBox li');
+
+                                reviews.forEach(function (review) {
+                                    review.addEventListener('click', function () {
+                                        var reviewMainBox = this.closest('.reviewMainBox');
+                                        if (reviewMainBox && !reviewMainBox.classList.contains('selected')) {
+                                            reviews.forEach(function (otherReview) {
+                                                var otherReviewMainBox = otherReview.closest('.reviewMainBox');
+                                                if (otherReviewMainBox && otherReviewMainBox.classList.contains('selected')) {
+                                                    otherReviewMainBox.style.paddingBottom = '';
+                                                    otherReviewMainBox.classList.remove('selected');
+
+                                                    var otherHiddenContent = otherReviewMainBox.querySelector('.hiddenContent');
+                                                    if (otherHiddenContent) {
+                                                        $(otherHiddenContent).fadeOut(200);
+                                                    }
+                                                }
+                                            });
+
+                                            reviewMainBox.style.paddingBottom = '255px';
+                                            reviewMainBox.classList.add('selected');
+
+                                            var hiddenContent = reviewMainBox.querySelector('.hiddenContent');
+                                            if (hiddenContent) {
+                                                $(hiddenContent).fadeIn(430, function () {
+                                                    // 선택된 reviewMainBox로 스크롤 이동
+                                                    var selectedOffset = reviewMainBox.offsetTop;
+                                                    window.scrollTo({
+                                                        top: selectedOffset,
+                                                        behavior: 'auto'
+                                                    });
+                                                });
+                                            }
+                                        }
+                                    });
+                                });
+                            });
+
+                        </script>
+
+
                         <li th:text="${reviews.revContent}" style="margin: 10px 0"></li>
+
                         <div style="display: flex">
-                            <li th:text="${reviews.getUserNo().userId}" style="font-size: 12px; margin-right: 5px">(여기에 닉네임)</li>
-                            <li th:text="${reviews.revWriteTime}" style="font-size: 12px; margin-right: 5px">(여기에 시간)</li>
+                            <li th:text="${reviews.getUserNo().userId}" style="font-size: 12px; margin-right: 5px">(여기에
+                                닉네임)
+                            </li>
+                            <li th:text="${reviews.revWriteTime}" style="font-size: 12px; margin-right: 5px">(여기에 시간)
+                            </li>
                             <li th:text="${reviews.revScore}" style="font-size: 12px">(여기에 별점)</li>
                         </div>
                     </div>
                 </div>
 
-
-                <!--                <li th:text="${reviews.getRestNo().restName}"></li>-->
-                <!--                <li th:text="${reviews.revScore}"></li>-->
-                <!--                <li th:text="${reviews.revContent}"></li>-->
+                <div class="hiddenContent"
+                     style="width: 50%; display: none; align-items: center; flex-direction: column; margin-top: 45px;margin-left: 64px;">
+                    <div>
+                        <div style="display: flex; justify-content: center; flex-direction: column; margin-right: 1px">
+                            <img style="max-width: 330px; max-height: 330px;"
+                                 th:src="'data:image/png;base64,' + ${reviews.base64Image}" alt="리뷰이미지">
+                            <div style="margin-top: 30px" th:text="${reviews.revContent}"></div>
+                        </div>
+                    </div>
+                </div>
             </ul>
         </div>
     </div>

@@ -10,6 +10,7 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy4Ck6YfI6cE2HpjP+9ynS2Z+L4heOzC1" crossorigin="anonymous">-->
 
 
 </head>
@@ -73,6 +74,7 @@
         font-weight: bold;
         margin-bottom: 1rem;
     }
+
     .resBox2 {
         display: block;
         margin: 30px auto 0;
@@ -95,6 +97,7 @@
         font-weight: bold;
         margin-bottom: 1rem;
     }
+
     .resBox3 {
         display: block;
         margin: 30px auto 0;
@@ -154,7 +157,6 @@
 
     .header {
         width: 100%;
-        /*background: #eee;*/
         position: absolute;
         top: 0;
         left: 0;
@@ -164,6 +166,7 @@
     .header.drop {
         position: fixed;
         animation: dropHeader 0.3s;
+        background-color: skyblue;
     }
 
     @keyframes dropHeader {
@@ -173,6 +176,34 @@
         100% {
             top: 0;
         }
+    }
+
+    .custom-tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .custom-tooltip .tooltip-text {
+        visibility: hidden;
+        width: 120px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .custom-tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
     }
 
 
@@ -196,7 +227,7 @@
 </script>
 
 <div id="headerBox" style="display: flex; justify-content: center;
-    align-items: center; width: auto; height: 340px;">
+    align-items: center; width: auto; height: 370px;">
     <h6 style="margin-top: -80px">
         <span style="font-size: 48px; color: rgb(174, 102, 199);"></span>
     </h6>
@@ -217,15 +248,26 @@
             <div style="text-align: center; font-size: 18px; margin-top: 1rem;">최근 예약 한 식당</div>
 
             <div style="display: flex; justify-content: center">
-                <div th:if="${statusMessage == 'OK' and list.size() > 0}" class="resBox1" th:text="${list.get(0).getRestNo().restName}"></div>
-                <div th:if="${statusMessage == 'READY' and list.size() > 0}" class="resBox2" th:text="${list.get(0).getRestNo().restName}"></div>
-                <div th:unless="${statusMessage == 'OK' or statusMessage == 'READY' or list.size() > 0}" class="resBox3">없음</div>
+                <div th:switch="${statusMessage}">
+                    <div th:case="'Reservation Completed'" class="resBox1"
+                         th:text="${latestReservation != null ? latestReservation.getRestNo().restName : ''}"></div>
+                    <div th:case="'Waiting for Confirmation'" class="resBox2"
+                         th:text="${latestReservation != null ? latestReservation.getRestNo().restName : ''}"></div>
+                    <div th:case="'Reservation Canceled by User' or 'Reservation Rejected by Restaurant' or 'No Show - User did not arrive' or 'Reservation Expired'"
+                         class="resBox3">없음
+                    </div>
+                    <div th:case="*" class="resBox3">없음</div>
+                </div>
+
+
+                <div class="custom-tooltip">
+                    <img style="width: 17px; height: 17px" src="/img/info2.jpeg">
+                    <div class="tooltip-text">초록색은 예약이 완료된 가게, 노란색은 예약을 수락대기중인 가게입니다. </div>
+                </div>
+
+
             </div>
         </div>
-
-        <!--                <div class="resBox" th:if="${restaurants != null and restaurants.size() > 0}"-->
-        <!--                     th:text=""></div>-->
-        <!--                <div class="resBox" th:if="${restaurants == null or restaurants.size() == 0}">없음</div>-->
 
         <div style="width: 40%;">
             <div class="pointBox">

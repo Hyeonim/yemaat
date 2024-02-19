@@ -86,7 +86,8 @@ public class UserController {
         if (user != null) {
             Long userNo = Long.valueOf(user.getUserNo());
             List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
-            reservationService.processReservations(reservations, model);
+            reservationService.processReservations(reservations);
+            reservationService.checkReservationStatus(reservations, model);
 
             model.addAttribute("main_user", user);
             model.addAttribute("list", reservations);
@@ -106,7 +107,7 @@ public class UserController {
             List<Review> reviews = reviewRepository.findByUserNo(user);
             long userNoCount = reviewRepository.countByUserNo(user);
 
-            reservationService.processReservations(reservations, model);
+            reservationService.checkReservationStatus(reservations, model);
 
             model.addAttribute("main_user", user);
             model.addAttribute("userNoCount", userNoCount);
@@ -117,6 +118,7 @@ public class UserController {
 
         return "userPage/user_review";
     }
+
 
     // 유저 정보 페이지로 이동
     @GetMapping("user_info")
