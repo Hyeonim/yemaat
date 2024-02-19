@@ -231,8 +231,10 @@ public class ManagerController {
     }
 
     @PostMapping("managerPage_UAdd")
-    public String managerAddU(@RequestParam MultipartFile file, User user, Model model) {
+    public String managerAddU(@RequestParam MultipartFile file, User user) {
 
+        System.out.println("11111111111111111111111:"+file);
+        System.out.println(user);
 
         if (file.isEmpty()) {
             userRepository.save(user);

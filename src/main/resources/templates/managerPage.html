@@ -308,24 +308,6 @@
 
     drawGraph();
 
-
-    //
-
-    function previewImage2(input) {
-        var preview2 = document.getElementById('preview');
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                preview2.src = e.target.result;
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-
 </script>
 </body>
 </html>

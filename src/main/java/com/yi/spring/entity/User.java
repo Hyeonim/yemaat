@@ -43,7 +43,7 @@ public class User {
     private String userStartDate= String.valueOf(LocalDateTime.now());
 
     @Lob
-    @Column(name = "user_img" ,length = 5000)
+    @Column(name = "user_img" ,length = 10000)
     private byte[] userImg;
 
     @Column(name = "user_block")
