@@ -37,11 +37,24 @@ public class ReservationController {
     @Autowired
     private UserService userService;
 
-
+    /*
     @GetMapping("/setUserNo/{userNo}")
     public void setUserNo( HttpSession httpSession, @PathVariable String userNo ) {
         httpSession.setAttribute("userNo", userNo);
     }
+    */
+
+
+    private static class ReservationTime{
+//        adjustedTime_start;
+        ReservationTime( String time)
+        {
+
+        }
+
+    }
+
+
     @GetMapping("/{restNo}")
     public String reserve(Model model, HttpSession httpSession, @PathVariable String restNo){
         httpSession.setAttribute("restNo", restNo);
@@ -65,13 +78,16 @@ public class ReservationController {
         String strRestStart = "";
         String strRestEnd= "";
 
+
+
+
         // 매칭된 부분 추출
         if (matcher.find() && 4 <= matcher.groupCount() ) {
             strRestStart = matcher.group(1) + ":" + matcher.group(2);
             strRestEnd = matcher.group(3) + ":" + matcher.group(4);
         } else if ( "24시간".equals( strRestTime )) {
             strRestStart = "00:00";
-            strRestEnd = "23:59";
+            strRestEnd = "00:00";
         }
 
 
@@ -79,20 +95,26 @@ public class ReservationController {
 
 
 
-        LocalTime rest_start = LocalTime.parse(strRestStart, DateTimeFormatter.ofPattern("HH:mm"));
-        LocalTime rest_end = LocalTime.parse(strRestEnd, DateTimeFormatter.ofPattern("HH:mm"));
 
         LocalDateTime now = LocalDateTime.now();
-        LocalTime currentTime = now.toLocalTime();
+        LocalDate rest_end_day = LocalDateTime.now().toLocalDate();
 
-        LocalTime laterTime = currentTime.isAfter(rest_start) ? currentTime : rest_start;
+        LocalTime rest_start_time = LocalTime.parse(strRestStart, DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime rest_end_time = LocalTime.parse(strRestEnd, DateTimeFormatter.ofPattern("HH:mm"));
+        if ( rest_start_time.isAfter( rest_end_time ))
+            rest_end_day = rest_end_day.plusDays(1);
+        LocalDateTime rest_start = now.toLocalDate().atTime(rest_start_time);
+        LocalDateTime rest_end = rest_end_day.atTime(rest_end_time);
+
+        LocalDateTime currentTime = now;
+
+        LocalDateTime laterTime = currentTime.isAfter(rest_start) ? currentTime : rest_start;
 
         int minutesToAdd = (30 - laterTime.getMinute() % 30) % 30;  // 30의 배수로 맞추기 위해 분을 조정
 
-        LocalTime adjustedTime_start = laterTime.plusMinutes(minutesToAdd).truncatedTo(ChronoUnit.MINUTES);
+        LocalDateTime adjustedTime_start = laterTime.plusMinutes(minutesToAdd).truncatedTo(ChronoUnit.MINUTES);
 
         model.addAttribute("rest_time_start", adjustedTime_start.format(DateTimeFormatter.ofPattern("HH:mm")));
-//        model.addAttribute("rest_time_start", adjustedTime );
 
         Duration duration = Duration.between(adjustedTime_start, rest_end);
         long minutesDiff = duration.toMinutes();
@@ -172,10 +194,14 @@ public class ReservationController {
 
 //        LocalDateTime now = LocalDateTime.now();
 //        List<List<Reservation>> reservationListByTime = new ArrayList<>();
-        class _TempDto{ public LocalTime date; public int count; public String toString(){return date + "," + count;}}
+
+
+        // 24:00 넘어가면 무한루프
+        // 식당번호 255 : 24시, 346 : 01시
+        class _TempDto{ public LocalDateTime date; public int count; public String toString(){return date + "," + count;}}
         List<_TempDto> reservationListByTime = new ArrayList<>();
 
-        for ( LocalTime loopTime = adjustedTime_start; loopTime.isBefore( rest_end )
+        for ( LocalDateTime loopTime = adjustedTime_start; loopTime.isBefore( rest_end )
                 ; loopTime = loopTime.plusMinutes(30)
         )
         {
@@ -192,7 +218,7 @@ public class ReservationController {
                 if ( !Arrays.asList(ReservationStatus.NONE, ReservationStatus.RESERVE_COMPLETED).contains(elem.getReservationStatusEnum()))
                     continue;
 
-                LocalTime res_time = res_time_withDate.toLocalTime();
+                LocalDateTime res_time = res_time_withDate/*.toLocalTime()*/;
                 if ( false == loopTime.isBefore( res_time ) &&
                          loopTime.plusMinutes( 30 ).isBefore( res_time.plusMinutes( 60* 2 ) )
                 )
@@ -212,7 +238,7 @@ public class ReservationController {
 
             if ( 1 <= tempDto.count )
 //            reservationListByTime.add( partTimeList );
-            reservationListByTime.add( tempDto );
+                reservationListByTime.add( tempDto );
 
 
 
@@ -283,7 +309,6 @@ public class ReservationController {
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
-
 
 
 
