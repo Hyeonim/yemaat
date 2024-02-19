@@ -255,8 +255,7 @@ tr:hover {
     height: 50px;
 // border: 0;
     border-radius: 10px;
-    color: black
-
+    color: black;
 ;
     position: relative;
     overflow: hidden;
@@ -286,14 +285,7 @@ tr:hover {
     }
 }
 
-#fifthD{
+#NBoxDiv{
 
-    margin-left: 1000px;
-}
-
-#fifthU{
-
-  position: absolute;
-    bottom: 203px;
-    right: 210px;
+    margin-left: 960px;
 }

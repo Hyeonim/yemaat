@@ -8,25 +8,29 @@
 
         <H2>상세보기</H2>
 
-        <div class="formDiv" style="margin: 20px; width: 1200px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; text-align: left">
-            <form id="myForm" action="/manager/managerPage_NoticeUpdate" method="post" style="margin-left: 40px">
+        <div class="formDiv"
+             style="margin: 20px; width: 1200px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; text-align: left">
+            <form id="NFormUpdate" action="/manager/managerPage_NoticeUpdate" method="post" style="margin-left: 40px">
                 <input type="hidden" name="id" th:value="${notice.get().id}"/>
-                <span>공지 제목 : <input name="subject" th:value="${notice.get().subject}" style="width: 400px; padding: 10px; border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; margin-top: 30px; margin-bottom: 20px"></span><br>
-                <span>작성자    : <input name="writer" th:value="${notice.get().writer}" style="padding: 10px;  border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px;margin-bottom: 20px"></span><br>
+                <span>공지 제목 : <input name="subject" th:value="${notice.get().subject}"
+                                     style="width: 400px; padding: 10px; border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; margin-top: 30px; margin-bottom: 20px"></span><br>
+                <span>작성자    : <input name="writer" th:value="${notice.get().writer}"
+                                      style="padding: 10px;  border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px;margin-bottom: 20px"></span><br>
                 <span>공지 내용 : <br>
-        <textarea th:text="${notice.get().content}" name="content" style="width: 900px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea></span>
+        <textarea th:text="${notice.get().content}" name="content"
+                  style="width: 900px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea></span>
             </form>
 
-            <form id="yourForm" action="/manager/managerPage_NoticeDelete" method="post">
+            <form id="NFormDel" action="/manager/managerPage_NoticeDelete" method="post">
                 <input type="hidden" name="id" th:value="${notice.get().id}" readonly style="display: none;"></input>
             </form>
 
-            <button type="submit" class="fifth" id="fifthU">수정</button>
+            <div id="NBoxDiv">
+                <button type="submit" class="fifth" id="fifthU" >수정</button>
 
-            <button type="submit" class="fifth" id="fifthD">삭제</button>
-
+                <button type="submit" class="fifth" id="fifthD" style="margin-left: 10px">삭제</button>
+            </div>
         </div>
-
 
 
     </div>
