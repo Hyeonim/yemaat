@@ -4,12 +4,20 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{owner/myPage_layout}">
 <th:block th:fragment="content">
+    <div>
+        <h6>금일([[${today}]]) 예약 건 수</h6>
+        <ion-icon name="checkmark-circle-outline"></ion-icon><span>[[${complete}]] 건</span>
+    </div>
+    <div>
+        <h6>금일([[${today}]]) 취소 건 수</h6>
+        <ion-icon name="checkmark-circle-outline"></ion-icon><span>[[${cancel}]] 건</span>
+    </div>
     <ul>
-        <li>금일 예약 건 수</li>
-        <li>금일 최소 건 수</li>
         <li>시간별 예약 통계</li>
         <li>주간 방문자 통계</li>
         <li>방문자 유형 통계</li>
     </ul>
+
+
 </th:block>
 </html>

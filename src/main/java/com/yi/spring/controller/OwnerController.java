@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -71,6 +73,27 @@ public class OwnerController {
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("pageName", "DASH BOARD");
+
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        model.addAttribute("today", today);
+
+        if(dinning!=null) {
+            List<Reservation> reservations = reservationRepository.getTodayReservation((long) dinning.getRestNo());
+            int complete = 0;
+            int cancel = 0;
+            for(Reservation reserv : reservations) {
+                if(reserv.getRes_status().equals(String.valueOf(ReservationStatus.RESERVE_COMPLETED)) ||
+                        reserv.getRes_status().equals(String.valueOf(ReservationStatus.EXPIRED))) {
+                    complete++;
+                } else if (reserv.getRes_status().equals(String.valueOf(ReservationStatus.USER_CANCEL)) ||
+                        reserv.getRes_status().equals(String.valueOf(ReservationStatus.REST_CANCEL)) ||
+                        reserv.getRes_status().equals(String.valueOf(ReservationStatus.NO_SHOW))) {
+                    cancel++;
+                }
+            }
+            model.addAttribute("complete", complete);
+            model.addAttribute("cancel", cancel);
+        }
         return "owner/home";
     }
 

@@ -7,7 +7,7 @@ body {
     box-sizing: border-box;
 }
 .main-container {
-    width : 87vw;
+    width : 85vw;
     margin-left: 200px;
     float: left;
     box-sizing: border-box;
@@ -29,45 +29,54 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-ul{
-    list-style: none;
-    box-sizing: border-box;
-}
-li {
+
+table {
     width:100%;
+    text-align: center;
 }
-li span.resNo {
-    display: inline-block;
-    width: 70px;
-    /*border: 1px solid #ccc;*/
+
+table tr {
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
 }
-li span.resTime {
-    display: inline-block;
-    width: 140px;
+
+th, td {
+    padding: 5px;
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
 }
-li span.userId {
-    display: inline-block;
-    width: 100px;
+
+.blockDiv {
+    margin : 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid gray;
 }
-li span.questCount {
-    display: inline-block;
-    width: 70px;
+
+.resNo {
+    width : 8%;
 }
-li span.tableType{
-    display: inline-block;
-    width: 70px;
+.resTime {
+    width : 16%;
 }
-li span.comment {
-    display: inline-block;
-    width: 150px;
+.userId {
+    width : 10%;
 }
-li span.status {
-    display: inline-block;
-    width: 180px;
-    /*border: 1px solid #ccc;*/
+.questCount {
+    width : 8%;
 }
-li span.result {
-    display: inline-block;
-    width:130px;
-    /*border: 1px solid #ccc;*/
+.tableType {
+    width : 8%;
 }
+.comment {
+    width : 20%;
+}
+.status {
+    width : 20%;
+}
+.result {
+    width : 10%;
+}
+td.comment {
+    text-align: left;
+}
+

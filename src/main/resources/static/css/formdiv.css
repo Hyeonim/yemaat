@@ -8,12 +8,24 @@ label {
 div.formDiv label {
     width:20%;
     height:34px;
+    vertical-align: top;
 }
 div.formDiv label::after {
     /*content:":";*/
 }
-div.formDiv label + input {
+div.formDiv label + input:not([type=file]) {
     width:70%;
     border:none;
     border-bottom: 1px solid gray;
 }
+
+div.formDiv label + textarea {
+    width:70%;
+    border: 1px solid gray;
+}
+div.formDiv label + img {
+    width:70%;
+}
+/*div.formDiv label + div.menu-container {*/
+/*    width:70%;*/
+/*}*/
