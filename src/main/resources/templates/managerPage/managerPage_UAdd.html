@@ -8,21 +8,45 @@
 
         <h1>고객 추가</h1>
 
-        <form action="/manager/managerPage_UAdd" method="post" enctype="multipart/form-data">
-            <label>이름 : <input type="text" name="userName" id="userName"></label><br>
-            <label>ID : <input type="text" name="userId" id="userId"></label><br>
-            <label>비밀번호 : <input type="text" name="userPassword" id="userPassword"></label><br>
-            <label>이메일 : <input type="text" name="userEmail" id="userEmail"> </label><br>
-            <label>전화번호 : <input type="text" name="userTel" id="userTel"></label><br>
-            <label>권한 : <select name="userAuth" id="userAuth">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-            </select></label><br>
-            <label>이미지 : <input type="text" name="userImg" id="userImg"></label><br>
-            <input type="file" name="file" id="file"><br>
+        <form action="/manager/managerPage_UAdd" method="post" enctype="multipart/form-data" style="display: flex;">
+            <!-- 왼쪽에 이미지 -->
+            <div style="flex: 1;">
+                <img id="preview" src="#" style="width: 400px; height: 600px;" alt="">
+                <input type="file" name="file" id="file"><br>
+            </div>
+            <!-- 오른쪽에 나머지 요소들 -->
+            <div style="flex: 1;">
+                <label>ID : <input type="text" name="userId" id="userId"></label><br>
+                <label>이름 : <input type="text" name="userName" id="userName"></label><br>
+                <label>비밀번호 : <input type="text" name="userPassword" id="userPassword"></label><br>
+                <label>이메일 : <input type="text" name="userEmail" id="userEmail"> </label><br>
+                <label>전화번호 : <input type="text" name="userTel" id="userTel"></label><br>
+                <input type="hidden" name="userAuth" id="userAuth" value="1">
+            </div>
             <button type="submit">등록</button>
+
         </form>
+
+
     </div>
+
+    <script>
+        // 파일 입력란의 변경 이벤트를 감지하여 이미지를 표시하는 함수
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    document.getElementById('preview').setAttribute('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.getElementById('file').addEventListener('change', function() {
+            previewImage(this);
+        });
+    </script>
 </div>
 </html>
