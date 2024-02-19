@@ -10,21 +10,27 @@
 
         <h2>유저 정보</h2>
         <div class="formDiv">
-            <form id="myForm" action="/manager/managerPage_UUpdate" method="post" enctype="multipart/form-data">
-                <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}" alt="User Image" style="max-width: 200px; max-height: 200px; cursor: pointer;"><br>
-                <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
-                <p><label>번호 </label><input id="userNo" name="userNo" type="text" th:value="${user.get().userNo}" readonly></p>
-                <p><label>User ID </label><input id="userId" name="userId" type="text"  th:value="${user.get().userId}"></p>
-                <p><label>User Name </label><input id="userName" name="userName" type="text" th:value="${user.get().userName}"></p>
-                <p><label>User Email </label><input id="userEmail" name="userEmail" type="email"  th:value="${user.get().userEmail}"></p>
-                <p><label>User Password </label><input id="userPassword" name="userPassword" type="password"  th:value="${user.get().userPassword}"></p>
-                <p><label>User Tel </label><input id="userTel" name="userTel" type="tel" th:value="${user.get().userTel}"></p>
-                <p><label>User Auth </label><input id="userAuth" name="userAuth" type="text"  th:value="${user.get().userAuth}"></p>
-                <p><label>Black y/n </label><select id="userBlock" name="userBlock" >
-                    <option value="1" th:selected="${user.get().userBlock == 1}">Yes</option>
-                    <option value="0" th:selected="${user.get().userBlock == 0}">No</option>
-                </select></p><br>
-                <button type="submit">수정</button>
+            <form id="myForm" action="/manager/managerPage_UUpdate" method="post" enctype="multipart/form-data" style="display: flex; align-items: center;">
+                <div style="flex: 1;">
+                    <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}" alt="User Image" style="max-width: 300px; max-height: 500px; margin-right: 80px; cursor: pointer;">
+                    <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
+                </div>
+                <div style="flex: 1;">
+                    <p><label>번호 </label><input id="userNo" name="userNo" type="text" th:value="${user.get().userNo}" readonly></p>
+                    <p><label>User ID </label><input id="userId" name="userId" type="text" th:value="${user.get().userId}"></p>
+                    <p><label>User Name </label><input id="userName" name="userName" type="text" th:value="${user.get().userName}"></p>
+                    <p><label>User Email </label><input id="userEmail" name="userEmail" type="email" th:value="${user.get().userEmail}"></p>
+                    <p><label>User Password </label><input id="userPassword" name="userPassword" type="password" th:value="${user.get().userPassword}"></p>
+                    <p><label>User Tel </label><input id="userTel" name="userTel" type="tel" th:value="${user.get().userTel}"></p>
+                    <p><label>User Auth </label><input id="userAuth" name="userAuth" type="text" th:value="${user.get().userAuth}"></p>
+                    <p><label>Black y/n </label><select id="userBlock" name="userBlock" >
+                        <option value="1" th:selected="${user.get().userBlock == 1}">Yes</option>
+                        <option value="0" th:selected="${user.get().userBlock == 0}">No</option>
+                    </select></p>
+                </div>
+                <br>
+
+                <button style="position:absolute; bottom: 250px" type="submit">수정</button>
             </form>
 
         <form action="/manager/managerPage_UDel" method="post">
