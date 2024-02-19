@@ -6,16 +6,17 @@
 
 <th:block th:fragment="content">
     <th:block th:object="${user}">
-        <div class="formDiv"><form>
-        <label>아이디</label><input type="text" th:value="*{getUserId()}" readonly><br/>
-        <label>이름</label><input type="text" th:value="*{getUserName()}" readonly><br/>
-        <label>비밀번호</label><input type="password" th:value="*{getUserPassword()}" readonly><br/>
-        <label>이메일</label><input type="email" th:value="*{getUserEmail()}" readonly><br/>
-        <label>전화번호</label><input type="tel" th:value="*{getUserTel()}" readonly><br/>
-        <img th:if="*{getUserImg() != null}" th:src="'data:image/jpeg;base64,' + *{getBase64Image()}" alt="User Image">
-        <input type="button" value="수정하기" th:onclick="|location.href='@{/owner/userUpdate}'|">
-        <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/home}'|">
-        </form></div>
+        <div class="formDiv">
+            <p><label>아이디</label><input type="text" th:value="*{getUserId()}" readonly></p>
+            <p><label>이름</label><input type="text" th:value="*{getUserName()}" readonly></p>
+            <p><label>비밀번호</label><input type="password" th:value="*{getUserPassword()}" readonly></p>
+            <p><label>이메일</label><input type="email" th:value="*{getUserEmail()}" readonly></p>
+            <p><label>전화번호</label><input type="tel" th:value="*{getUserTel()}" readonly></p>
+            <p><label>프로필 사진</label><img th:if="*{getUserImg() != null}" th:src="'data:image/jpeg;base64,' + *{getBase64Image()}" alt="User Image"></p>
+
+            <input type="button" value="수정하기" th:onclick="|location.href='@{/owner/userUpdate}'|">
+            <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/home}'|">
+        </div>
     </th:block>
 </th:block>
 </html>
