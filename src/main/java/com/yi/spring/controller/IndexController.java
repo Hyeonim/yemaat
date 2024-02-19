@@ -90,6 +90,7 @@ public class IndexController {
     public String homeSlide(Model model){
         List<Review> reviewList = reviewRepository.getRandomList( "10" );
         model.addAttribute("list", reviewList );
+        model.addAttribute("bSlide", 1 );
         return "/include/detail_review_template";
     }
 

@@ -421,6 +421,26 @@ header nav:nth-of-type(1) {
     top: 243px;
     left: 0px;
 }
+.slideshow div.overtip {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    z-index: 20;
+    opacity: 0;
+    transition: all 0.6s ease 0s;
+    width: 207px;
+    padding: 14px 17px 14px 14px;
+    background-color: rgba(0, 0, 0, 0.64);
+    border-radius: 0px 30px 12px 12px;
+}
+.slideshow div.overtip hr {
+    border-color:rgb(159 159 159 / 20%)
+}
+.slideshow div.overtip span, .slideshow div.overtip a {
+    display: block;
+    color: #fff;
+}
+
 .bRrzOM {
     position: absolute;
     left: 0px;

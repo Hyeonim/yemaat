@@ -47,16 +47,50 @@
 
             // Element의 height가 화면을 가리면서 조건을 만족하지 않도록 함
             if (elementTop < screenHeight && elementBottom - elementHeight > 0 && null === target ) {
-                // 화면에 보이는 요소에 대한 동작 수행
-                // console.log('화면에 보이는 요소:', element.textContent);
+                if ( element.classList.contains( "over") )
+                {
+                    // target = undefined;
+                    return;
+                }
+
                 target = element;
             }
         });
-        if ( null === target )
+        if ( !target )
             return;
 
         moveToSlide( target, 1 );
     }
+    gv = [];
+    document.addEventListener('mouseover', function(event) {
+        let slide = event.target.closest( ".slideshow .background");
+        if ( slide )
+        {
+            let mouseLeaveHandler = function(event) {
+                slide.classList.remove("over")
+                this.removeEventListener('mouseleave', mouseLeaveHandler );
+            }
+
+            slide.classList.add( "over" );
+            slide.addEventListener( 'mouseleave', mouseLeaveHandler );
+        }
+
+        let review = event.target.closest( ".reviewT");
+        if ( review )
+        {
+            let tip = review.querySelector( ".overtip" );
+            if ( tip ) {
+                let mouseLeaveHandler = function (event) {
+                    tip.style.opacity = "0";
+                    this.removeEventListener('mouseleave', mouseLeaveHandler);
+                }
+
+                tip.style.opacity = "1";
+                tip.addEventListener('mouseleave', mouseLeaveHandler);
+            }
+        }
+    });
+
     // <!--/*[+ function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); } +]*/-->
 
     async function moveToSlide(slider) {
