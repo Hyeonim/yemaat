@@ -1,10 +1,10 @@
 package com.yi.spring.controller;
 
-import com.yi.spring.entity.Dinning;
-import com.yi.spring.entity.Review;
-import com.yi.spring.entity.User;
+import com.yi.spring.entity.*;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReviewRepository;
+import com.yi.spring.service.EventService;
+import com.yi.spring.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +32,12 @@ public class DetailController {
     @Autowired
     ReviewRepository reviewRepository;
 
+    @Autowired
+    MenuService menuService;
+
+    @Autowired
+    EventService eventService;
+
     @GetMapping("/detail")
     public void getDinningByRestNo(@RequestParam Long restNo, Model model) {
 
@@ -44,13 +50,16 @@ public class DetailController {
 
         double result = sum /list.size();
 
-
-
         dinningOptional.ifPresent(dinning -> model.addAttribute("dinning", dinning));
 
         model.addAttribute("list",list);
         model.addAttribute("reg", result);
 
+        List<Menu> menuList =  menuService.getMenusByRestNo(Math.toIntExact(restNo));
+        model.addAttribute("menuList", menuList);
+
+        List<Event> eventList =  eventService.findByRestNo(dinningOptional.get());
+        model.addAttribute("eventList", eventList);
 //        return "detail";
 
     }
