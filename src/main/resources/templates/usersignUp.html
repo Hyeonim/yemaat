@@ -6,9 +6,12 @@
     <title>개인 회원가입</title>
     <link rel="stylesheet" href="/css/formdiv.css">
     <style>
+        ul, li {
+            list-style-type: none;
+        }
         div#step1 div {
             display: inline-block;
-            margin: 0px 8px;
+            margin: 0px 0px 1px 40px;
         }
         div#step1 > div{
             display: flex;
@@ -17,7 +20,7 @@
         div#step1 span {
             border-radius: 42px;
             /*border: 1px solid black;*/
-            background: #94bee0;
+            background: rgb(255, 110, 0);
             width: 40px;
             height: 40px;
             padding: 12px 8px 12px 14px;
@@ -25,7 +28,7 @@
         }
         div#step1 span:hover
         {
-            background: #5696c9;
+            background: rgb(255 110 0 / 63%);
         }
         div#step1 p {
             text-align: center;
@@ -132,17 +135,55 @@
             display: block;
         }
         #step3>div {
+            justify-content: center;
+            margin: 0 auto;
+            width: 500px;
+            text-align: center;
+        }
+        #step4>div {
             display: flex;
             justify-content: center;
+        }
+        #step4 form .req {
+            color:red;
+        }
+        a {
+            text-decoration: none;
+        }
+        body {
+            width: 472px;
+            /* text-align: center; */
+            margin: 5% auto 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ejGvhi {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 550px;
+            margin: 40px auto 10px;
+            text-align: center;
+            color: rgb(150, 150, 150);
+        }
+        .ejGvhi .userId, .ejGvhi .certification {
+            color: rgb(255, 110, 0);
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-<div><h1>로고</h1></div>
+<div><h1><span th:replace="~{/include/logo::logoContent(30, 'no')}"></span>로고</h1></div>
 
 <div>
-<h2>개인 신규 회원가입하기</h2>
-
+<!--<h2>개인 신규 회원가입하기</h2>-->
+    <div class="sc-eVAmPc ejGvhi">
+        <span class="userId" onclick="jumpStep(this)">1. 유형선택</span>
+        <span class="" onclick="jumpStep(this)">2. 약관동의</span>
+        <span class="" onclick="jumpStep(this)">3. 인증</span>
+        <span class="" onclick="jumpStep(this)">4. 정보입력</span>
+    </div>
 </div>
 
 <div id="step1" class="step">
@@ -166,7 +207,7 @@
 </div>
 <div id="step2" class="step">
     <div>
-    <p>약관동의</p>
+    <p></p>
     <div class="sc-jtrUWv">
         <div class="sc-kjokSJ dWUEBt"><input type="checkbox" name="all">
             <div class="sc-elITqc jqDOvc"><div style="margin-left: 12px; font-size: 20px;">전체동의하기</div>
@@ -195,6 +236,16 @@
 </div>
 <div id="step3" class="step">
     <div>
+        <p>인증 방법을 선택하여 주십시오</p>
+        <ul>
+            <li>이메일 인증</li>
+            <li>휴대폰 인증</li>
+        </ul>
+        <button onclick="nextStep(this)">다음 단계로 진행</button>
+    </div>
+</div>
+<div id="step4" class="step">
+    <div>
         <input type="radio" id="user" name="type" value="1" disabled>
         <label for="user">유저</label>
         <input type="radio" id="merchant" name="type" value="2" disabled><br>
@@ -204,9 +255,9 @@
     <form action="/join" method="post" enctype="multipart/form-data">
     <input type="hidden" name="userType" value="">
     <label for="in1">닉네임</label><input type="text" id="in1" name="userNickName"><br>
-    <label for="in2">이름</label><input type="text" id="in2" name="userName"><br>
-    <label for="in3">아이디</label><input type="text" id="in3" name="userId"><br>
-    <label for="in4">비밀번호</label><input type="password" id="in4" name="userPassword" required><br>
+    <label for="in2">이름 <span class="req">*</span></label><input type="text" id="in2" name="userName"required><br>
+    <label for="in3">아이디 <span class="req">*</span></label><input type="text" id="in3" name="userId"required><br>
+    <label for="in4">비밀번호 <span class="req">*</span></label><input type="password" id="in4" name="userPassword" required><br>
     <label for="in5">이메일</label><input type="email" id="in5" name="userEmail"><br>
     <label for="in6">전화번호</label><input type="text" id="in6" name="userTel"><br>
     <input type="hidden" name="userImg" value="">
@@ -217,7 +268,7 @@
     </div>
 </div>
 
-
+<!--/*[+
 
 <br><br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br>
@@ -231,15 +282,17 @@
     이용약관<input type="checkbox" name="true"> 내용보기(링크? ? ? )<br>
     개인정보 취급방침<input type="checkbox" name="true"> 내용보기(링크? ? ? )<br>
     위치기반 서비스 이용약관<input type="checkbox" name="true"> 내용보기(링크? ? ? )<br>
+
 </div>
 <button>회원가입 완료</button>
++]*/-->
 <script>
     document.querySelectorAll( "div#step1 .type" ).forEach( elem=>{
        elem.addEventListener( "click", function(){
            const index = this.parentNode.children[0] === this ? 0 : 1;
-           const checkbox = document.querySelectorAll( "div#step3 input[type=radio]")[ index ];
+           const checkbox = document.querySelectorAll( "div#step4 input[type=radio]")[ index ];
            checkbox.checked = true;
-           document.querySelector( "div#step3 [name=userType]").value = checkbox.value;
+           document.querySelector( "div#step4 [name=userType]").value = checkbox.value;
            nextStep( elem );
        })
     });
@@ -257,13 +310,31 @@
             document.querySelector( "button" ).disabled = !bClickable;
         });
     }
-    function nextStep( comp ){
-        const myStepId = parseInt( comp.closest( ".step" ).id.match( /[0-9]+/ )[0] );
-        const nextStepC = document.querySelector( "div#step" + (myStepId+1) );
-        if ( nextStepC )
-            document.querySelectorAll( ".step" ).forEach( elem=>{
-                elem.style = "display:" + ( elem === nextStepC ? "block" : "none" ) + ";" ;
+    function nextStep( comp ) {
+        const myStepId = parseInt(comp.closest(".step").id.match(/[0-9]+/)[0]);
+        updateStep( myStepId+1 );
+    }
+    function updateStep( nextStepId ) {
+        const nextStepC = document.querySelector( "div#step" + nextStepId );
+        if ( nextStepC ) {
+            document.querySelectorAll(".step").forEach(elem => {
+                elem.style = "display:" + (elem === nextStepC ? "block" : "none") + ";";
             });
+
+            Array.from(document.querySelector( ".ejGvhi" ).children).forEach( (elem,index)=>{
+                if(index<nextStepId)
+                    elem.classList.add( "certification")
+                else
+                    elem.classList.remove( "certification")
+            });
+        }
+    }
+    function jumpStep( comp ){
+        if ( !comp.classList.contains( "certification" ) )
+            return;
+
+        // nextStep( document.querySelector( "#step" + ( 1 + Array.from(comp.parentNode.children).findIndex( e=>e===comp ) )));
+        updateStep( 1 + Array.from(comp.parentNode.children).findIndex( e=>e===comp ) );
     }
 
 

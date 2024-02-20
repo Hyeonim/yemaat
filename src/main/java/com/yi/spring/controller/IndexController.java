@@ -123,15 +123,7 @@ public class IndexController {
         return "redirect:/login";
     }
 
-//    @GetMapping("/hostsignUp")
-//    public String hostsignUp(Model model, HttpSession httpSession) {
-//        return "hostsignUp";
-//    }
 
-//    @GetMapping("/signUp")
-//    public String signUp(Model model, HttpSession httpSession) {
-//        return "signUp";
-//    }
 
     @GetMapping("/restHost")
     public String host(Model model, HttpSession httpSession) {
