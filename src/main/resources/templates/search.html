@@ -71,7 +71,12 @@
 
         <div id="category">
             <button>평점 높은 순</button>
-            <button>리뷰 많은 순</button>
+
+
+            <button id="reviewMany" onclick="redirectToManyReview()">리뷰 많은 순</button>
+
+
+
             <button>예약 많은 순</button>
         </div>
 
@@ -87,7 +92,7 @@
                     <p th:text="${coordinate.restTel} "></p>
                     <p th:text="'평점 : ' + ${coordinate.restScore} "></p>
                 </div>
-</div>
+               </div>
             </li>
 
         </ul>
@@ -117,6 +122,20 @@
             alert(restaurantName);
         });
     });
+
+    function redirectToManyReview() {
+        // 검색어를 가져옴
+        var keyword = document.getElementById("searchBar").value;
+
+        if (!keyword) {
+            keyword = "";
+        }
+        // URL을 생성하고 manyReview 페이지로 이동
+        var url = "http://localhost:8080/manyReview?keyword=" + keyword;
+        window.location.href = url;
+    }
+
+
 
 
 </script>

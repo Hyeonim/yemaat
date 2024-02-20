@@ -73,6 +73,9 @@ public class Dinning {
     private String restStatus;
 
 
+    @Transient
+    private int totalReviews;
+
     public Dinning(){}
     public Dinning( int restNo )
     {
