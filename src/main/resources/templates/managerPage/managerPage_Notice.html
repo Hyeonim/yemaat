@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 목록</title>
+</head>
 
 <div th:fragment="managerContent">
     <div id="right3" style="margin-right: 100px">
@@ -10,19 +12,18 @@
         <hr>
         <input type="text" id="searchInput4" placeholder="공지사항 제목으로 검색" onchange="searchDinning4()">
         <button onclick="searchDinning4()">검색</button>
+
         <table id="noticeTable" style="text-align: center;">
             <thead>
             <tr>
-                <th>no</th>
-                <th>subject</th>
-                <th>writer</th>
-                <th>writer_date</th>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
             </tr>
             </thead>
-
             <tbody>
             <tr th:each="list : ${list}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
-
                 <td th:text="${list.id}"></td>
                 <td th:text="${list.subject}"></td>
                 <td th:text="${list.writer}"></td>
@@ -54,6 +55,4 @@
         </div>
     </div>
 </div>
-
-
 </html>

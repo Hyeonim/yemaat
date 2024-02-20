@@ -601,6 +601,7 @@ public String managerNoticeList(Model model,
         return "managerPage";
     }
 
+
     @PostMapping("managerPage_JUpdate")
     public String jumUpdate(
             @RequestParam MultipartFile file,

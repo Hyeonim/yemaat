@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>가게 관리 메인 페이지</title>
+    <meta charset="UTF-8">
+    <title>가게 목록</title>
 </head>
-<body>
+
 <div th:fragment="managerContent">
     <div id="right3" style="margin-right: 100px">
+
         <h1 style="margin-top: 100px">가게 목록</h1>
         <hr>
-
         <input type="text" id="searchInput" placeholder="가게 이름으로 검색" onchange="searchDinning()">
         <button onclick="searchDinning()">검색</button>
 
-        <!--        <input type="text" id="searchInput" placeholder="가게 이름으로 검색" onkeyup="searchDinning()">-->
-        <!--        <button onclick="search()">검색</button>-->
             <table  id="dinningTable"  style="text-align: center;">
             <thead>
             <tr>
@@ -57,7 +55,6 @@
             </tbody>
         </table>
 
-
         <div th:if="${!dinningList.isEmpty()}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${!dinningList.hasPrevious} ? 'disabled'">
@@ -79,11 +76,8 @@
                 </li>
             </ul>
         </div>
-
     </div>
 </div>
-
-</body>
 </html>
 
 

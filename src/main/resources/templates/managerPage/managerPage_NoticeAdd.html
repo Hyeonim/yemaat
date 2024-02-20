@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>공지 사항 추가</title>
+</head>
 
 <div th:fragment="managerContent">
     <div id="right">
 
         <h2>공지 사항 추가</h2>
+        <hr>
 
         <form action="/manager/managerPage_NoticeAdd" method="post">
             <div class="form-group">
@@ -16,16 +19,12 @@
             <input type="hidden" name="writer" value="admin">
             <div class="form-group">
                 <label for="content">내용:</label>
-                <textarea style="width: 700px; height: 600px" name="content" class="form-control" id="content"></textarea>
+                <textarea style="width: 700px; height: 600px" name="content" class="form-control"
+                          id="content"></textarea>
             </div>
             <input type="hidden" name="writerdate" value="">
             <button type="submit" class="fifth">등록</button>
         </form>
-
-
-
     </div>
 </div>
-
-
 </html>

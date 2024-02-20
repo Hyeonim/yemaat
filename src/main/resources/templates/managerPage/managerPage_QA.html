@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 목록</title>
+</head>
 
 <div th:fragment="managerContent">
     <div id="right3" style="margin-right: 100px">
+
         <h1 style="margin-top: 100px">문의 목록 </h1>
         <hr>
 
-        <table  style="text-align: center;">
-
+        <table style="text-align: center;">
             <thead>
             <tr>
                 <th>qaNo</th>
@@ -20,7 +22,6 @@
                 <th>답변</th>
             </tr>
             </thead>
-
             <tbody>
             <tr th:each="qa : ${qa}">
                 <td th:text="${qa.id}"></td>
@@ -64,14 +65,8 @@
                         <span>다음</span>
                     </a>
                 </li>
-
             </ul>
-
         </div>
-
-
     </div>
 </div>
-
-
 </html>
