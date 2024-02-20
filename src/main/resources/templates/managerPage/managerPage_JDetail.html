@@ -6,17 +6,22 @@
 </head>
 
 <div th:fragment="managerContent">
+<style>
+/** {*/
+/*    border: solid 1px black;*/
+/*}*/
+</style>
+
     <div id="right2">
         <div>
             <h2>점주 상세 정보</h2>
-            <div class="formDiv">
+            <div class="formDiv" style="width: 700px;">
                 <form id="updateForm" action="/manager/managerPage_JUpdate" method="post" enctype="multipart/form-data"  style="display: flex;">
-                    <div style="flex: 1; border:solid 1px blue">
-<!--                        <img id="preview2" th:src="'data:image/jpeg;base64,' + ${Dinning.base64Image}" alt="Rest Image" style="max-width: 300px; max-height: 500px; margin-right: 80px; cursor: pointer;">-->
+                    <div style="flex: 1; margin-right: 30px;">
                         <img id="preview2" th:if="${Dinning != null}" th:src="${Dinning.base64Image != null ? 'data:image/jpeg;base64,' + Dinning.base64Image : ''}" alt="Rest Image" style="max-width: 300px; max-height: 500px; margin-right: 80px; cursor: pointer;">
-                        <p><input type="file" id="file" name="file" onchange="previewImage2(this);"></p>
+                        <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
                     </div>
-                    <div style="flex: 1; border:solid 1px blue">
+                    <div style="flex: 1;">
                     <p><label>번호 </label><input type="text" th:value="${user.userNo}" name="userNo" readonly></p>
                     <p><label>아이디 </label><input type="text" th:value="${user.userId}" name="userId"></p>
                     <p><label>이름 </label><input type="text" th:value="${user.userName}" name="userName"></p>
@@ -24,22 +29,14 @@
                     <p><label>Email </label><input type="text" th:value="${user.userEmail}" name="userEmail"></p>
                     <p><label>전화번호 </label><input type="tel" th:value="${user.userTel}" name="userTel"></p>
                     <input type="hidden" th:value="2" name="userAuth">
-<!--                    <p>사진 : <input type="file" name="file"></p> &lt;!&ndash; 파일 업로드 &ndash;&gt;-->
                     <p>블랙리스트 여부 : <input type="text" th:value="${user.userBlock}"><br>
                         블랙리스트는 true 와 false로 나뉜다.</p>
-<!--                    <input type="submit" value="수정">-->
                     </div>
                 </form>
 
                 <form id="JFormDel" action="/manager/managerPage_JDel" method="post">
                     <input type="hidden" name="userNo" th:value="${user.userNo}" readonly></input>
-<!--                    <button type="submit">삭제</button>-->
                 </form>
-
-                <div id="JBoxDIV">
-                    <button type="button" class="fifth2" id="fifthJ">수정</button>
-                    <button type="button" class="fifth2" id="fifthJ2">삭제</button>
-                </div>
 
             </div>
         </div>
@@ -70,6 +67,10 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div id="JBoxDIV" style="text-align: right">
+            <button type="button" class="fifth" id="fifthJ">수정</button>
+            <button type="button" class="fifth" id="fifthJ2">삭제</button>
         </div>
     </div>
     <script>

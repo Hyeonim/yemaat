@@ -4,21 +4,32 @@
 
 
 <div th:fragment="managerContent">
+    <style>
+        /**{*/
+        /*    border: solid 1px blue;*/
+        /*}*/
+    </style>
     <div id="right" style="margin-right: 100px">
 
         <h2>점주 추가</h2>
 
+        <div class="formDiv">
         <form action="/manager/managerPage_JAdd" method="post" enctype="multipart/form-data">
-            <label>이름 : <input type="text" name="userName"></label><br>
-            <label>ID : <input type="text" name="userId"></label><br>
-            <label>비밀번호 : <input type="text" name="userPassword"></label><br>
-            <label>이메일 : <input type="text" name="userEmail"></label><br>
-            <label>전화번호 : <input type="text" name="userTel"></label><br>
-            <input type="hidden" name="userAuth" value="2"></label>
-            <label>이미지 : <input type="text" name="userImg"></label><br>
-            <input type="file" name="file"><br>
-            <input type="submit" value="등록">
+            <div>
+                <p><label>이미지 : </label><input type="text" name="userImg"></p><br>
+                <p><input type="file" name="file"></p><br>
+            </div>
+
+            <p><label>이름 : </label><input type="text" name="userName"></p><br>
+            <p><label>ID : </label><input type="text" name="userId"></p><br>
+            <p><label>비밀번호 : </label><input type="text" name="userPassword"></p><br>
+            <p><label>이메일 : </label><input type="text" name="userEmail"></p><br>
+            <p><label>전화번호 : </label><input type="text" name="userTel"></p><br>
+            <p><input type="hidden" name="userAuth" value="2"></p></label>
+
+            <input type="submit" class="fifth" value="등록">
         </form>
+        </div>
     </div>
 </div>
 </html>
