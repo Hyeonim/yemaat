@@ -20,10 +20,9 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/owner/*")
@@ -65,6 +64,38 @@ public class OwnerController {
         return list;
     }
 
+    private List<String> getTimeList() {
+
+        List<String> timeSlots = new ArrayList<>();
+
+        int startHour = 0;
+        int endHour = 24;
+
+        while (startHour != endHour) {
+            timeSlots.add(String.format("%02d:00", startHour));
+            startHour++;
+        }
+        timeSlots.add(String.format("%02d:00", endHour));
+
+        return timeSlots;
+    }
+
+    private TreeMap<String, Integer> getStringIntegerTreeMap(List<Reservation> rList) {
+        List<String> timeList = getTimeList();
+        TreeMap<String, Integer> reserveStat = new TreeMap<>();
+        for(String time : timeList) {
+            reserveStat.put(time, 0);
+        }
+        for (Reservation reservation : rList) {
+            String key = reservation.getResTime().toLocalTime().toString();
+            String formattedKey = String.format("%02d:00", Integer.parseInt(key.split(":")[0]));
+            Integer statCount = reserveStat.computeIfAbsent(formattedKey, k -> 0);
+            statCount++;
+            reserveStat.put(formattedKey, statCount);
+        }
+        return reserveStat;
+    }
+
     @GetMapping("home")
     public String home(Principal principal, Model model) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
@@ -97,20 +128,11 @@ public class OwnerController {
 
             // List<Reservation> rList = reservationRepository.findAll();
             List<Reservation> rList = reservationRepository.findByRestNo_RestNo((long) dinning.getRestNo());
-            HashMap<String, Integer> reserveStat = new HashMap<>();
-            for (Reservation reservation : rList) {
-                String key = reservation.getResTime().toLocalTime().toString();
-                Integer statCount = reserveStat.computeIfAbsent(key, k -> 0);
-                statCount++;
-                reserveStat.put(key, statCount);
-            }
+            TreeMap<String, Integer> reserveStat = getStringIntegerTreeMap(rList);
+
             model.addAttribute("reserveStat", reserveStat);
             model.addAttribute("drawGraph", true);
         }
-
-
-
-
 
         return "owner/home";
     }

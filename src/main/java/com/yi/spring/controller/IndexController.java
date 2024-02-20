@@ -58,7 +58,7 @@ public class IndexController {
         List<Dinning> dList = dinningRepository.getRandomList("1");
         List<Event> EList = eventRepository.getList();
 
-
+        System.out.println(eventList);
         model.addAttribute("eventList", eventList);
 
         if (dList != null && !dList.isEmpty()) {
