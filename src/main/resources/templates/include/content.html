@@ -40,7 +40,7 @@
                     <th:block th:each="event : ${eventList}">
                         <a th:href="@{/detail?restNo={restNo}(restNo=${event.getRestNo().getRestNo()})}">
                             <div  class="mySlides fade">
-                                <img th:src="'data:image/png;base64,' + ${event.getBase64Image()}" alt="Image"/>
+                                <img th:src="'data:image/png;base64,' + ${event.getBase64Image()}" alt="Event Image"/>
                                 <span>[[${event.getRestNo().getRestName()}]]<[[${event.getEventTitle()}]]></span>
                             </div>
                         </a>
@@ -71,12 +71,12 @@
         </div>
 
 
-
+<!--/*[+
         추천(슬라이드 형식)<br> 가게예약, 좋아요 많은 순<br>
         전체 가게 중에서 예약이 많고, 좋아요를 많이 받은 순(10개 정도)<br>
         가게 클릭 시 해당 가게 상세보기 페이지로 전환<br>
         이전, 다음 버튼 필요함
-
++]*/-->
 
     </div>
 

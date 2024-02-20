@@ -61,7 +61,6 @@
 
         moveToSlide( target, 1 );
     }
-    gv = [];
     document.addEventListener('mouseover', function(event) {
         let slide = event.target.closest( ".slideshow .background");
         if ( slide )
@@ -82,11 +81,11 @@
             if ( tip ) {
                 let mouseLeaveHandler = function (event) {
                     tip.style.opacity = "0";
-                    this.removeEventListener('mouseleave', mouseLeaveHandler);
+                    review.removeEventListener('mouseleave', mouseLeaveHandler);
                 }
 
                 tip.style.opacity = "1";
-                tip.addEventListener('mouseleave', mouseLeaveHandler);
+                review.addEventListener('mouseleave', mouseLeaveHandler);
             }
         }
     });
