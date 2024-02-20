@@ -56,8 +56,8 @@ public class Dinning {
     @Column(name = "rest_img")
     private byte[] restImg;
 
-    @Column(name = "rest_score")
-    private Float restScore;
+    @Transient
+    private Double restScore;
 
     @Column(name = "rest_description", length = 100)
     private String restDescription;
