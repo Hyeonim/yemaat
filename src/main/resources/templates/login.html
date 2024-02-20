@@ -231,6 +231,7 @@ function handleSubmit(){
 (function(){
     document.querySelector( "[name=userId]" ).value = document.cookie.match( /savedIdentification=([^;"]+)/ )?.at(1)||"";
     document.querySelector( "[type=checkbox]" ).checked = ( !!document.querySelector( "[name=userId]" ).value );
+    let s;document.querySelectorAll( "input" ).forEach( elem=>{if(!elem.value&&!s){elem.focus();s=1;}});
 })();
 function onPasswordClick(myDiv){
     let arr = [ "text", "password"];

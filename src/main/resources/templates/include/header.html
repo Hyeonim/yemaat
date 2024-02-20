@@ -39,7 +39,7 @@
                 <button>
 
                 </button>
-                <button onclick="onMenuClick()" >
+                <button onclick="onMenuClick()" onblur="handleBlur()">
                     <img src="/images/logo_avatar_32dp.png" alt="avatar">
                 </button>
                 <div>
@@ -81,7 +81,7 @@
             document.querySelector( "[name=mymenu]" ).classList.toggle( "visible" );
         }
         async function handleBlur() {
-            await hsleep(100)
+            await sleep(100)
             document.querySelector( "[name=mymenu]" ).classList.remove( "visible" );
         }
         function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }

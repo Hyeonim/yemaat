@@ -23,9 +23,8 @@
                 <p th:text="${dinning.restCategory}"></p><br>
                 +]*/-->
 
-                <p><ion-icon name="navigate-circle-outline"></ion-icon>[[${dinning.restAddr}]]</p>
+                <p><ion-icon name="list-outline"></ion-icon>[[${dinning.restCategory}]]</p>
                 <p><ion-icon name="call-outline"></ion-icon>[[${dinning.restTel}]]</p>
-                <p><ion-icon name="accessibility-outline"></ion-icon>[['자리 : ' + ${dinning.restSeat}]]</p>
                 <p style="display: inline-block"><ion-icon name="fast-food-outline"></ion-icon>
                     <th:block th:if="${menuList.isEmpty()}">
                         등록된 메뉴가 없습니다.
@@ -33,11 +32,11 @@
                     <th:block th:unless="${menuList.isEmpty()}">
                         <th:block th:each="menu : ${menuList}" th:object="${menu}">
                             <label class="menuName">[[*{getMenuName()}]]</label>:
-                            <label class="menuPrice">[[*{getMenuPrice()}]]</label> /
+                            <label class="menuPrice">[[*{getMenuPrice()}]]</label> <th:block th:text="${!menuStat.last?'/':''}"></th:block>
                         </th:block>
                     </th:block>
                 </p>
-                <p><ion-icon name="list-outline"></ion-icon>[[${dinning.restCategory}]]</p>
+                <p><ion-icon name="accessibility-outline"></ion-icon><th:block th:text="${dinning.restSeat == null ? '현장 손님만 받는 매장입니다' : '예약가능한 자리 : '+dinning.restSeat}"></th:block></p>
                 <p><ion-icon name="navigate-circle-outline"></ion-icon>[[${dinning.restAddr}]]</p>
                 <br>
             </div>
