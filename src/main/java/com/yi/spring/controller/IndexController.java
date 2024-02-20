@@ -52,15 +52,14 @@ public class IndexController {
     }
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession) {
-        List<Dinning> list = dinningRepository.getRandomList("5");
-        List<Event> eventList = eventService.getNewEvents();
-        List<Notice> NList = noticeRepository.getList();
-        List<Dinning> dList = dinningRepository.getRandomList("1");
-        List<Event> EList = eventRepository.getList();
-
-        System.out.println(eventList);
+        List<Event> eventList = eventService.getNewEvents(); // 상단 배너 새로운 이벤트
         model.addAttribute("eventList", eventList);
 
+        List<Notice> NList = noticeRepository.getList(); // 상단 배너 공지사항 목록
+        model.addAttribute("NList", NList);
+
+
+        List<Dinning> dList = dinningRepository.getRandomList("1"); // 상단 배너 추천 식당(랜덤)
         if (dList != null && !dList.isEmpty()) {
             /*
             Random random = new Random();
@@ -70,15 +69,13 @@ public class IndexController {
             model.addAttribute("randomData", dList.get(0)); // 모델에 랜덤한 요소 추가
         }
 
-        model.addAttribute("dinning", list);
+
 
         List<Review> reviewList = new ArrayList<>();
         for ( int i = 0; i < 2; i++ )
             reviewList.addAll( reviewRepository.getRandomList( "10" ) );
 
-        model.addAttribute("NList", NList);
 
-        model.addAttribute("EList", EList);
         model.addAttribute("revList1", reviewList.subList(0, 10) );
         model.addAttribute("revList2", reviewList.subList(5, 15) );
         model.addAttribute("revList3", reviewList.subList(10, 20) );
