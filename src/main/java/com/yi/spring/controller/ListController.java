@@ -31,7 +31,6 @@ public class ListController {
         this.dinningService = dinningService;
     }
 
-
     @GetMapping("search")
     public String map(Model model) {
        List<Dinning> list = dinningRepository.findAll();
