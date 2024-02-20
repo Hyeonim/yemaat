@@ -22,6 +22,7 @@ div.formDiv label + input:not([type=file]) {
 div.formDiv label + textarea {
     width:70%;
     border: 1px solid gray;
+
 }
 div.formDiv label + img {
     width:70%;

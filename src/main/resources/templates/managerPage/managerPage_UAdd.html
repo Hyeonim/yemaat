@@ -6,27 +6,49 @@
 <div th:fragment="managerContent">
     <div id="right" style="margin-right: 100px">
 
+        <style>
+
+            *{
+                /*border: solid 1px black*/
+            ;
+            }
+
+            .container {
+                display: flex;
+                justify-content: center;
+            }
+
+        </style>
+
         <h1>고객 추가</h1>
 
-        <form action="/manager/managerPage_UAdd" method="post" enctype="multipart/form-data" style="display: flex;">
-            <!-- 왼쪽에 이미지 -->
-            <div style="flex: 1;">
-                <img id="preview" src="#" style="width: 400px; height: 600px;" alt="">
+        <div class="formDiv" style=" width: 700px">
+
+        <form id="form"  action="/manager/managerPage_UAdd" method="post" enctype="multipart/form-data" style="display: flex;">
+
+            <div style="flex: 1; width: 300px; height: 400px; text-align: right; margin-right: 30px">
+                <img id="preview" src="#" style="width: 300px; height: 400px;" alt="">
+                <br>
                 <input type="file" name="file" id="file"><br>
             </div>
-            <!-- 오른쪽에 나머지 요소들 -->
-            <div style="flex: 1;">
-                <label>ID : <input type="text" name="userId" id="userId"></label><br>
-                <label>이름 : <input type="text" name="userName" id="userName"></label><br>
-                <label>비밀번호 : <input type="text" name="userPassword" id="userPassword"></label><br>
-                <label>이메일 : <input type="text" name="userEmail" id="userEmail"> </label><br>
-                <label>전화번호 : <input type="text" name="userTel" id="userTel"></label><br>
-                <input type="hidden" name="userAuth" id="userAuth" value="1">
+
+            <div style="flex: 1; width: 500px">
+              <p>  <label>ID </label> <input type="text" name="userId" id="userId"></p>
+                <p><label>이름 </label> <input type="text" name="userName" id="userName"></p>
+                <p><label>비밀번호</label>  <input type="text" name="userPassword" id="userPassword"></p>
+                <p><label>이메일   </label><input type="text" name="userEmail" id="userEmail"></p>
+                <p><label>전화번호  </label> <input type="text" name="userTel" id="userTel"></p>
+                <p><input type="hidden" name="userAuth" id="userAuth" value="1">
             </div>
-            <button type="submit">등록</button>
+
+
 
         </form>
-
+        </div>
+        <br><br>
+        <div class="container">
+            <button id="submit" class="fifth" type="submit">등록</button>
+        </div>
 
     </div>
 
@@ -47,6 +69,17 @@
         document.getElementById('file').addEventListener('change', function() {
             previewImage(this);
         });
+
+
+        document.getElementById("submit").addEventListener("click", function(event) {
+            document.getElementById("form").submit(); // 폼 제출
+        });
+
+
     </script>
+
 </div>
 </html>
+
+       A
+b  - c   d /    *e
