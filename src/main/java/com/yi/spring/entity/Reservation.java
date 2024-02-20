@@ -10,6 +10,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Entity
 @Getter
@@ -66,7 +67,7 @@ public class Reservation {
 //        return ddatetype;
 //    }
     public void updateDateType() {
-        long date_diff = Duration.between(LocalDateTime.now(), resTime).toDays();
+        long date_diff = Period.between(LocalDateTime.now().toLocalDate(), resTime.toLocalDate()).getDays();
         dateType = Math.abs(date_diff) / (date_diff==0?1:date_diff);
     }
 
