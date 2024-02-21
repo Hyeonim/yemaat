@@ -41,8 +41,6 @@ public class UserController {
     @Autowired
     DinningRepository dinningRepository;
     @Autowired
-    DiningRestRepository diningRestRepository;
-    @Autowired
     ReservationService reservationService;
 
 

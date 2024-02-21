@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface DiningRestService {
     List<Dinning> getAllRestaurants();
-    Dinning getRestByRestNo(int restNo);
+    Dinning getRestByRestNo(long restNo);
     void createRestaurant(Dinning dinning);
     Dinning updateRestaurant(Dinning dinning);
-    void deleteRestaurant(int restNo);
+    void deleteRestaurant(long restNo);
 
-    Dinning deleteApply(int restNo);
+    Dinning deleteApply(long restNo);
     Dinning getByUserNo(User userNo);
 }
