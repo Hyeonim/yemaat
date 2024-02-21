@@ -1,11 +1,8 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
-import com.yi.spring.entity.DinningDto;
-import com.yi.spring.entity.DinningInfo;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.service.DinningService;
-import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")

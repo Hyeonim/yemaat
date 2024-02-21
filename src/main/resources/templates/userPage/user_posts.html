@@ -175,7 +175,7 @@
                 <div class="container1" th:each="res : ${list}">
 
                     <div id="left">
-                        <img th:src="'data:image/png;base64,' + ${res.restNo.getBase64Image()}"
+                        <img th:attr="mysrc=${res.restNo.base64Image}"
                              th:class="${res.getReservationStatusEnum.getName()} == '대기' or ${res.getReservationStatusEnum.getName()} == '예약완료' ? 'disabled-filter' : 'filter'"
                              style="width: 300px; height: 221px; border-radius: 10px;">
 
@@ -203,6 +203,6 @@
             </div>
         </div>
     </div>
-
+<script src="/js/imglazy.js"></script>
 </th:block>
 </html>
