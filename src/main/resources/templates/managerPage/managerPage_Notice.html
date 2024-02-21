@@ -72,27 +72,28 @@
         <input type="text" id="searchInput4" placeholder="공지사항 제목으로 검색" onchange="searchDinning4()">
         <button onclick="searchDinning4()">검색</button>
 
-        <table id="noticeTable" style="text-align: center;">
-            <thead>
-            <tr>
-                <th>선택</th> <!-- 체크박스 추가 -->
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- 체크박스를 통해 선택한 항목 추적 -->
-            <tr th:each="list : ${list}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
-                <td><input type="checkbox" name="selectedNotice" th:value="${list.id}" onchange="toggleNoticeFixed(this)"></td>
-                <td th:text="${list.id}"></td>
-                <td th:text="${list.subject}"></td>
-                <td th:text="${list.writer}"></td>
-                <td th:text="${list.writeDate}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <form id="noticeForm" action="/redirect-to-notice-detail" method="post">
+            <table id="noticeTable" style="text-align: center;">
+                <thead>
+                <tr>
+                    <th>고정</th>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="list, listIndex : ${list}">
+                    <td><input type="checkbox" name="selectedNotice" th:value="${list.id}" onchange="moveNotice(this)"></td>
+                    <td th:text="${list.id}"></td>
+                    <td><a href="javascript:void(0)" th:onclick="'redirectToNoticeDetail(\'' + ${list.id} + '\')'" th:text="${list.subject}"></a></td>
+                    <td th:text="${list.writer}"></td>
+                    <td th:text="${list.writeDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
 
         <div th:if="${!list.isEmpty()}">
             <ul class="pagination justify-content-center">
@@ -116,21 +117,30 @@
             </ul>
         </div>
     </div>
-    <script>
-        // 선택한 공지사항을 고정 또는 해제하는 함수
-        function toggleNoticeFixed(checkbox) {
-            var noticeId = checkbox.value;
-            var isFixed = checkbox.checked; // 체크 여부 확인
 
-            // 서버로 선택한 공지사항 ID와 고정 여부 전송
-            // 이 부분은 서버와의 통신을 위한 AJAX 요청으로 변경 가능
-            // 여기서는 간단히 콘솔에 출력하는 예시를 보여줍니다.
-            console.log("Notice ID:", noticeId);
-            console.log("Is Fixed:", isFixed);
+    <script>
+        function moveNotice(checkbox) {
+            var isChecked = checkbox.checked;
+            var row = checkbox.parentNode.parentNode; // 선택한 체크박스가 속한 행
+            var tableBody = row.parentNode; // 행이 속한 테이블 바디
+
+            if (isChecked) {
+                // 테이블에서 해당 행을 삭제
+                tableBody.removeChild(row);
+                // 테이블의 맨 위에 해당 행을 삽입
+                tableBody.insertBefore(row, tableBody.firstChild);
+            } else {
+                // 선택 해제된 경우에는 아무 작업도 수행하지 않습니다.
+            }
+        }
+
+        function redirectToNoticeDetail(noticeId) {
+            document.getElementById("noticeForm").action = "/notice-detail?id=" + noticeId;
+            document.getElementById("noticeForm").submit();
         }
     </script>
+
 </div>
-
-
-
 </html>
+
+
