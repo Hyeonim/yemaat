@@ -9,8 +9,9 @@
     <div id="right2">
 
             <h2>점주 상세 정보</h2>
+            <hr>
 
-            <div class="formDiv" style="width: 800px;">
+            <div class="formDiv" style="width: 1000px;">
                 <form id="updateForm" action="/manager/managerPage_JUpdate" method="post" enctype="multipart/form-data"
                       style="display: flex;">
 
@@ -28,8 +29,8 @@
                         <p><label>Email </label><input type="text" th:value="${user.userEmail}" name="userEmail"></p>
                         <p><label>전화번호 </label><input type="tel" th:value="${user.userTel}" name="userTel"></p>
                         <input type="hidden" th:value="2" name="userAuth">
-                        <p>블랙리스트 여부 : <input type="text" th:value="${user.userBlock}"><br>
-                            블랙리스트는 true 와 false로 나뉜다.</p>
+<!--                        <p>블랙리스트 여부 : <input type="text" th:value="${user.userBlock}"><br>-->
+<!--                            블랙리스트는 true 와 false로 나뉜다.</p>-->
                     </div>
                 </form>
 
@@ -39,7 +40,7 @@
             </div>
 
         <div>
-            <h3>소유한 가게 정보</h3>
+            <h3>소유한 가게 정보</h3> - 가게를 클릭하면 상세정보를 확인 하실 수 있습니다.
             <table>
                 <thead>
                 <tr>
@@ -49,18 +50,19 @@
                     <th>전화번호</th>
                     <th>좌석 수</th>
                     <th>운영시간</th>
-                    <th>가게 사진</th>
+<!--                    <th>가게 사진</th>-->
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="dinning : ${dinningList}">
+                <tr th:each="dinning : ${dinningList}"
+                    th:onclick="'javascript:redirectToJumrestDetail(\'' + ${dinning.restNo} + '\')'">
                     <td th:text="${dinning.restNo}"></td>
                     <td th:text="${dinning.restName}"></td>
                     <td th:text="${dinning.restAddr}"></td>
                     <td th:text="${dinning.restTel}"></td>
                     <td th:text="${dinning.restSeat}"></td>
                     <td th:text="${dinning.restTime}"></td>
-                    <td th:text="${dinning.restImg}"></td>
+<!--                    <td th:text="${dinning.restImg}"></td>-->
                 </tr>
                 </tbody>
             </table>
@@ -69,6 +71,7 @@
         <div id="JBoxDIV" style="text-align: center">
             <button type="button" class="fifth" id="fifthJ">수정</button>
             <button type="button" class="fifth" id="fifthJ2">삭제</button>
+            <button style="margin-left: 50px;" onclick="history.go(-1);" class="fifth" id="backButton">이전</button>
         </div>
     </div>
 

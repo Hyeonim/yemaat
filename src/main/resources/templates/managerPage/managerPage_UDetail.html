@@ -10,7 +10,7 @@
 
         <h2>고객 상세 정보</h2>
 
-        <div class="formDiv" style="width: 800px">
+        <div class="formDiv" style="width: 1050px">
             <form  id="UUpdForm" action="/manager/managerPage_UUpdate" method="post" enctype="multipart/form-data"
                    style="display: flex; align-items: center;">
 
@@ -20,15 +20,15 @@
                     <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
                 </div>
 
-                <div style="flex: 1;">
+                <div style="flex: 1; width: 50px">
                     <p><label>번호 </label><input id="userNo" name="userNo" type="text" th:value="${user.get().userNo}" readonly></p>
-                    <p><label>User ID </label><input id="userId" name="userId" type="text" th:value="${user.get().userId}"></p>
-                    <p><label>User Name </label><input id="userName" name="userName" type="text" th:value="${user.get().userName}"></p>
-                    <p><label>User Email </label><input id="userEmail" name="userEmail" type="email" th:value="${user.get().userEmail}"></p>
-                    <p><label>User Password </label><input id="userPassword" name="userPassword" type="password" th:value="${user.get().userPassword}"></p>
-                    <p><label>User Tel </label><input id="userTel" name="userTel" type="tel" th:value="${user.get().userTel}"></p>
-                    <p><label>User Auth </label><input id="userAuth" name="userAuth" type="text" th:value="${user.get().userAuth}"></p>
-                    <p><label>Black y/n </label><select id="userBlock" name="userBlock" >
+                    <p><label>아이디 </label><input id="userId" name="userId" type="text" th:value="${user.get().userId}"></p>
+                    <p><label>이름 </label><input id="userName" name="userName" type="text" th:value="${user.get().userName}"></p>
+                    <p><label>이메일 </label><input id="userEmail" name="userEmail" type="email" th:value="${user.get().userEmail}"></p>
+                    <p><label>비밀번호 </label><input id="userPassword" name="userPassword" type="password" th:value="${user.get().userPassword}"></p>
+                    <p><label>전화번호 </label><input id="userTel" name="userTel" type="tel" th:value="${user.get().userTel}"></p>
+                    <input id="userAuth" name="userAuth" type="hidden" readonly th:value="${user.get().userAuth}">
+                    <p><label>블랙리스트 여부 </label><select id="userBlock" name="userBlock" >
                         <option value="1" th:selected="${user.get().userBlock == 1}">Yes</option>
                         <option value="0" th:selected="${user.get().userBlock == 0}">No</option>
                     </select></p>
@@ -43,6 +43,7 @@
         <div style="margin-left: 500px">
             <button id="UUpd" class="fifth" type="button">수정</button>
             <button id="UDel" class="fifth" type="button">삭제</button>
+            <button style="margin-left: 50px" onclick="history.go(-1);" class="fifth" id="backButton">이전</button>
         </div>
     </div>
 

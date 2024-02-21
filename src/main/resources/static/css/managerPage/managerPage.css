@@ -285,6 +285,40 @@ tr:hover {
     }
 }
 
+.fifth2 {
+    border-color: black;
+    width: 90px;
+    height: 50px;
+    border-radius: 10px;
+    color: black;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 150ms ease-in-out;
+
+    &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 100%;
+        background: #007bff; /* 바꾸고자 하는 배경색 */
+        z-index: -1;
+        transition: width 150ms ease-in-out;
+    }
+
+    &:hover {
+        color: white;
+        &:after {
+            width: 110%;
+        }
+    }
+}
+
+
 #NBoxDiv{
 
     margin-left: 960px;

@@ -254,31 +254,66 @@ public class ManagerController {
     }
 
 
-    @PostMapping("managerPage_UUpdate")
+//    @PostMapping("managerPage_UUpdate")
+//    public String userUpdate(
+//            @RequestParam MultipartFile file,
+//            @RequestParam int userNo,
+//            @RequestParam String userName,
+//            @RequestParam String userId,
+//            @RequestParam String userEmail,
+//            @RequestParam String userPassword,
+//            @RequestParam String userTel,
+//            @RequestParam String userAuth,
+//            User users) throws IOException {
+//
+//        userRepository.save(users);
+//
+//        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+//        userOptional.ifPresent(user -> {
+//            byte[] userImg = new byte[0];
+//            try {
+//                userImg = file.getBytes();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            user.setUserImg(userImg);
+//            userRepository.save(user);
+//        });
+//        return "redirect:/manager/managerPage_UList";
+//    }
+
+    @PostMapping("/managerPage_UUpdate")
     public String userUpdate(
-            @RequestParam MultipartFile file,
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam int userNo,
             @RequestParam String userName,
             @RequestParam String userId,
             @RequestParam String userEmail,
             @RequestParam String userPassword,
             @RequestParam String userTel,
-            @RequestParam String userAuth,
-            User users) throws IOException {
-
-        userRepository.save(users);
+            @RequestParam String userAuth) throws IOException {
 
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
         userOptional.ifPresent(user -> {
-            byte[] userImg = new byte[0];
-            try {
-                userImg = file.getBytes();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            // 업로드된 파일이 존재하는 경우에만 처리
+            if (file != null && !file.isEmpty()) {
+                try {
+                    byte[] userImg = file.getBytes();
+                    user.setUserImg(userImg);
+                } catch (IOException e) {
+                    throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+                }
             }
-            user.setUserImg(userImg);
+            // 사용자 정보 업데이트
+            user.setUserName(userName);
+            user.setUserId(userId);
+            user.setUserEmail(userEmail);
+            user.setUserPassword(userPassword);
+            user.setUserTel(userTel);
+            user.setUserAuth(userAuth);
             userRepository.save(user);
         });
+
         return "redirect:/manager/managerPage_UList";
     }
 
@@ -602,35 +637,79 @@ public String managerNoticeList(Model model,
     }
 
 
-    @PostMapping("managerPage_JUpdate")
+//    @PostMapping("managerPage_JUpdate")
+//    public String jumUpdate(
+//            @RequestParam MultipartFile file,
+//            @RequestParam int userNo,
+//            @RequestParam String userName,
+//            @RequestParam String userId,
+//            @RequestParam String userEmail,
+//            @RequestParam String userPassword,
+//            @RequestParam String userTel,
+//            @RequestParam String userAuth,
+//            User users) throws IOException {
+//
+//        userRepository.save(users);
+//
+//        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+//        userOptional.ifPresent(user -> {
+//            byte[] userImg = new byte[0];
+//            try {
+//                userImg = file.getBytes();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            user.setUserImg(userImg);
+//            userRepository.save(user);
+//        });
+//
+//        return "redirect:/manager/managerPage_JList";
+//    }
+//
+//
+//    @PostMapping("managerPage_JDel")
+//    @Transactional
+//    public String jumDelete(@RequestParam int userNo, Model model) {
+//
+//        userRepository.deleteByUserNo(userNo);
+//
+//        return "redirect:/manager/managerPage_JList";
+//    }
+
+    @PostMapping("/managerPage_JUpdate")
     public String jumUpdate(
-            @RequestParam MultipartFile file,
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam int userNo,
             @RequestParam String userName,
             @RequestParam String userId,
             @RequestParam String userEmail,
             @RequestParam String userPassword,
             @RequestParam String userTel,
-            @RequestParam String userAuth,
-            User users) throws IOException {
-
-        userRepository.save(users);
+            @RequestParam String userAuth) throws IOException {
 
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
         userOptional.ifPresent(user -> {
-            byte[] userImg = new byte[0];
-            try {
-                userImg = file.getBytes();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            // 업로드된 파일이 존재하는 경우에만 처리
+            if (file != null && !file.isEmpty()) {
+                try {
+                    byte[] userImg = file.getBytes();
+                    user.setUserImg(userImg);
+                } catch (IOException e) {
+                    throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+                }
             }
-            user.setUserImg(userImg);
+            // 사용자 정보 업데이트
+            user.setUserName(userName);
+            user.setUserId(userId);
+            user.setUserEmail(userEmail);
+            user.setUserPassword(userPassword);
+            user.setUserTel(userTel);
+            user.setUserAuth(userAuth);
             userRepository.save(user);
         });
 
         return "redirect:/manager/managerPage_JList";
     }
-
 
     @PostMapping("managerPage_JDel")
     @Transactional
@@ -640,6 +719,7 @@ public String managerNoticeList(Model model,
 
         return "redirect:/manager/managerPage_JList";
     }
+
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -672,9 +752,43 @@ public String managerNoticeList(Model model,
         return "managerPage";
     }
 
+//    @PostMapping("/managerPage_JrestUpdate")
+//    public String jrestUpdate(
+//            @RequestParam MultipartFile file,
+//            @RequestParam int restNo,
+//            @RequestParam String restName,
+//            @RequestParam String restAddr,
+//            @RequestParam String restTel,
+//            @RequestParam String restSeat,
+//            @RequestParam String restTime,
+//            @RequestParam String restOffDays,
+//            @RequestParam String restParking,
+//            @RequestParam String restMenu,
+//            @RequestParam String restCategory,
+//            @RequestParam Double restLatitude,
+//            @RequestParam Double restLongitude,
+//            @RequestParam String restDescription,
+//            Dinning dinning) throws IOException {
+//
+//        dinningRepository.save(dinning);
+//
+//        Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
+//        dinningList.ifPresent(din -> {
+//            try {
+//                byte[] restImgBytes = file.getBytes();
+//                din.setRestImg(restImgBytes);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            dinningRepository.save(din);
+//        });
+//
+//        return "redirect:/manager/managerPage_JrestList";
+//    }
+
     @PostMapping("/managerPage_JrestUpdate")
     public String jrestUpdate(
-            @RequestParam MultipartFile file,
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam int restNo,
             @RequestParam String restName,
             @RequestParam String restAddr,
@@ -687,24 +801,38 @@ public String managerNoticeList(Model model,
             @RequestParam String restCategory,
             @RequestParam Double restLatitude,
             @RequestParam Double restLongitude,
-            @RequestParam String restDescription,
-            Dinning dinning) throws IOException {
-
-        dinningRepository.save(dinning);
+            @RequestParam String restDescription) throws IOException {
 
         Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
         dinningList.ifPresent(din -> {
-            try {
-                byte[] restImgBytes = file.getBytes();
-                din.setRestImg(restImgBytes);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            // 업로드된 파일이 존재하는 경우에만 처리
+            if (file != null && !file.isEmpty()) {
+                try {
+                    byte[] restImgBytes = file.getBytes();
+                    din.setRestImg(restImgBytes);
+                } catch (IOException e) {
+                    throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+                }
             }
+            // 식당 정보 업데이트
+            din.setRestName(restName);
+            din.setRestAddr(restAddr);
+            din.setRestTel(restTel);
+            din.setRestSeat(restSeat);
+            din.setRestTime(restTime);
+            din.setRestOffDays(restOffDays);
+            din.setRestParking(restParking);
+            din.setRestMenu(restMenu);
+            din.setRestCategory(restCategory);
+            din.setRestLatitude(restLatitude);
+            din.setRestLongitude(restLongitude);
+            din.setRestDescription(restDescription);
             dinningRepository.save(din);
         });
 
         return "redirect:/manager/managerPage_JrestList";
     }
+
 
     @PostMapping("managerPage_JrestAdd")
     public String JrestAdd(@RequestParam(required = false) MultipartFile file, Dinning dinning, Model model) {
@@ -724,7 +852,13 @@ public String managerNoticeList(Model model,
         return "redirect:/manager/managerPage_JrestList";
     }
 
+    @PostMapping("managerPage_JrestDel")
+    @Transactional
+    public String jrestDel(@RequestParam int restNo, Model model){
+        dinningRepository.deleteDinningByRestNo(restNo);
 
+        return "redirect:/manager/managerPage_JrestList";
+    }
 }
 
 

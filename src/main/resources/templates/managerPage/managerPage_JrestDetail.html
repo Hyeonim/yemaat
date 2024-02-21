@@ -18,7 +18,7 @@
         <h2>가게 상세 정보</h2>
         <hr>
 
-        <div class="formDiv" style="width: 700px">
+        <div class="formDiv" style="width: 1000px">
             <form id="restUpd" action="/manager/managerPage_JrestUpdate" method="post" enctype="multipart/form-data"
                   style="display: flex">
 
@@ -59,10 +59,19 @@
                 <!--                      </form>-->
                 </div>
             </form>
+
+
+
             <div class="container" style="text-align: center">
                 <button id="JrestUpd" class="fifth" type="button">수정</button>
+                <button id="JrestDel" class="fifth" type="button">삭제</button>
+                <button style="margin-left: 50px" onclick="history.go(-1);" class="fifth" id="backButton">이전</button>
             </div>
         </div>
+
+        <form id="JrestFormDel" action="/manager/managerPage_JrestDel" method="post">
+            <input type="hidden" name="restNo" th:value="${dinning.get().restNo}" readonly></input>
+        </form>
     </div>
 
     <script>
@@ -87,6 +96,10 @@
 
         document.getElementById("JrestUpd").addEventListener("click", function (event) {
             document.getElementById("restUpd").submit(); // 폼 제출
+        });
+
+        document.getElementById("JrestDel").addEventListener("click", function (event) {
+            document.getElementById("JrestFormDel").submit(); // 폼 제출
         });
     </script>
 </div>

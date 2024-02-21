@@ -17,15 +17,19 @@
 
         <h2>점주 추가</h2>
         <hr>
+        <hr>
+        <hr>
+        <hr>
+        <hr>
 
-        <div class="formDiv" style="width: 700px">
+        <div class="formDiv" style="width: 1000px">
             <form id="form2" action="/manager/managerPage_JAdd" method="post" enctype="multipart/form-data"
                   style="display: flex">
 
                 <div style="flex: 1; width: 300px; height: 400px; text-align: right; margin-right: 30px">
-                    <img id="preview" src="#" style="width: 300px; height: 400px;" alt="">
+                    <img id="preview" src="/images/jumPerson.png" style="width: 300px; height: 400px; margin-right: 160px;" alt="">
                     <br>
-                    <input type="file" name="file" id="file"><br>
+                    <input type="file" name="file" id="file" style="margin-right: 139px"><br>
                 </div>
 
                 <div style="flex:1; width: 500px">
@@ -41,6 +45,7 @@
         <br><br>
         <div class="container">
             <button id="submit" class="fifth" type="submit">등록</button>
+            <button style="margin-left: 50px" onclick="history.go(-1);" class="fifth" id="backButton">이전</button>
         </div>
     </div>
 
