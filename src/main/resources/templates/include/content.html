@@ -25,14 +25,6 @@
 
 
             </div>
-            <div id="random_box">
-
-                <h2>추천 식당</h2><br><br><br>
-
-                <h2 id="clickText">click!</h2>
-                <p id="restName" th:text="${randomData.restName}" style="display:none;"></p>
-            </div>
-
 
             <div id="new_event_box">
                 <h2>새로운 이벤트</h2>
@@ -48,6 +40,17 @@
                     </th:block>
                 </div>
             </div>
+
+
+
+            <div id="random_box">
+
+                <h2>추천 식당</h2><br><br><br>
+
+                <h2 id="clickText">click!</h2>
+                <p id="restName" th:text="${randomData.restName}" style="display:none;"></p>
+            </div>
+
 
         </div>
         <hr>
@@ -81,6 +84,26 @@
     </div>
 
 
+    <div class="right_menu_list">
+        <button onclick="onMenuListButton()"><</button>
+        <div class="slideshow" style="width: 0px;">
+
+        </div>
+    </div>
+    <script>
+        function addWishList( compo, restNo ){
+            let newDiv = compo.closest( ".reviewT" ).cloneNode( true );
+            newDiv.querySelector( "span[onclick]").remove();
+            newDiv.querySelectorAll( ".reviewT>p" ).forEach( elem=>elem.remove() );
+            newDiv.querySelector( ".overtip" ).style.opacity = "0";
+            document.querySelector( ".right_menu_list .slideshow" ).appendChild( newDiv )
+        }
+        function onMenuListButton(){
+            let d = document.querySelector( ".right_menu_list button" ).checked|0;
+            document.querySelector( ".right_menu_list button" ).checked = !d;
+            document.querySelector( ".right_menu_list .slideshow" ).style="width: " + (d?"0":"328") + "px;padding-left: "+(d?"0":"9") +"px;";
+        }
+    </script>
 </div>
 
 

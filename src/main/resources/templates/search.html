@@ -144,48 +144,73 @@
 <script map th:inline="javascript">
 
     // 마커 생성 및 이벤트 핸들러 등록
-    [# th:each = "coordinate : ${list}"]
+    [# th:each = "rest : ${list}"]
     {
 
         let marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng([[${coordinate.restLatitude}]], [[${coordinate.restLongitude}]]),
+            position: new naver.maps.LatLng([[${rest.restLatitude}]], [[${rest.restLongitude}]]),
+            icon : {
+                content: [
+                    '<img src="/img/marker.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />'
+                ].join('')
+            },
             map: map
         });
 
-        let aaa = [ [[${coordinate.restName}]], [[${coordinate.restCategory}]] ]
+        let aaa = [ [[${rest.restName}]], [[${rest.restCategory}]] ]
+
+        // let contentString =`
+        //     <div style="width:auto; height:30px: 10px; border: solid 1px transparent; border-radius: 20px;">
+        //         <h3 style="margin: 5px 10px 5px 10px">${aaa[0]}</h3>
+        //         <p style="text-align: center">${aaa[1]}</p>
+        //     </div>`
+        // ;
 
         let contentString =`
-            <div style="width:auto; height:30px: 10px; border: solid 1px transparent; border-radius: 20px;">
-                <h3 style="margin: 5px 10px 5px 10px">${aaa[0]}</h3>
-                <p style="text-align: center">${aaa[1]}</p>
-            </div>`
+                <div style="padding:5px;border:1px solid black; border-radius: 20px; background-color: white;">
+                <img src="/img/marker_on.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
+                <span style="margin-left: 25px;">${aaa[0]}</span>
+                </div>`
         ;
 
 
-        let infowindow = new naver.maps.InfoWindow({
-            content: contentString
-        });
+        // let infowindow = new naver.maps.InfoWindow({
+        //     content: contentString,
+        // });
 
         // 마커 클릭 이벤트
         naver.maps.Event.addListener(marker, "mouseover", function (e) {
+            marker.setIcon({
+                content: contentString
+            });
             // console.log(infowindow)
-            if (infowindow.getMap()) {
-                infowindow.close();
-            } else {
-                infowindow.open(map, marker);
-            }
+            // if (infowindow.getMap()) {
+            //     infowindow.close();
+            // } else {
+            //     infowindow.open(map, marker);
+            // }
         });
 
         naver.maps.Event.addListener(marker, "mouseout", function (e) {
+            marker.setIcon({
+                content: [
+                    '<img src="/img/marker.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />'
+                ].join('')
+            });
             // console.log(infowindow)
-            if (infowindow.getMap()) {
-                infowindow.close();
-            } else {
-                infowindow.open(map, marker);
-            }
+            // if (infowindow.getMap()) {
+            //     infowindow.close();
+            // } else {
+            //     infowindow.open(map, marker);
+            // }
         });
 
-        infowindow.open(map, marker);
+        naver.maps.Event.addListener(marker, 'click', function() {
+            map.panTo(new naver.maps.LatLng([[${rest.getRestLatitude()}]], [[${rest.getRestLongitude()}]]));
+        });
+
+        // infowindow.open(map, marker);
+        marker.setMap(map);
     }
     [/]
 

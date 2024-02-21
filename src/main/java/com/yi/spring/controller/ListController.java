@@ -1,14 +1,9 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
-import com.yi.spring.entity.TablingDto;
-import com.yi.spring.repository.DiningRestRepository;
 import com.yi.spring.repository.DinningRepository;
-import com.yi.spring.repository.TablingRepository;
 import com.yi.spring.service.DinningService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -29,8 +23,6 @@ public class ListController {
     @Autowired
     private DinningRepository dinningRepository;
 
-    @Autowired
-    private DiningRestRepository diningRestRepository;
 
     public ListController(DinningService dinningService){
         this.dinningService = dinningService;
@@ -57,7 +49,7 @@ public class ListController {
 
         model.addAttribute("list", list);
 
-        List<Dinning> listOrderByRestScore = diningRestRepository.getRestScore();
+        List<Dinning> listOrderByRestScore = dinningRepository.getRestScore();
         model.addAttribute("listOrderByRestScore", listOrderByRestScore);
 
         return "search";
@@ -82,7 +74,7 @@ public class ListController {
         List<Dinning> rest_name = dinningRepository.findByRestNameContaining(restName);
 
         model.addAttribute("list", rest_name);
-        List<Object[]> listOrderByRestScore2 = diningRestRepository.getRestScore2();
+        List<Object[]> listOrderByRestScore2 = dinningRepository.getRestScore2();
         List<Dinning> listOrderByRestScore = new ArrayList<>();
         for ( Object[] items : listOrderByRestScore2 )
         {

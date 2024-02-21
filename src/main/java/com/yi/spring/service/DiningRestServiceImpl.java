@@ -3,12 +3,8 @@ package com.yi.spring.service;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.DinningStatus;
 import com.yi.spring.entity.User;
-import com.yi.spring.repository.DiningRestRepository;
+import com.yi.spring.repository.DinningRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,24 +13,24 @@ import java.util.Optional;
 @Service
 public class DiningRestServiceImpl implements DiningRestService{
     @Autowired
-    private DiningRestRepository diningRestRepository;
+    private DinningRepository dinningRepository;
 
 
 
     @Override
     public List<Dinning> getAllRestaurants() {
-        return diningRestRepository.findAll();
+        return dinningRepository.findAll();
     }
 
     @Override
-    public Dinning getRestByRestNo(int restNo) {
-        Optional<Dinning> optionalDiningRest = diningRestRepository.findById(restNo);
+    public Dinning getRestByRestNo(long restNo) {
+        Optional<Dinning> optionalDiningRest = dinningRepository.findById(restNo);
         return optionalDiningRest.orElse(null);
     }
 
     @Override
     public void createRestaurant(Dinning dinning) {
-        diningRestRepository.save(dinning);
+        dinningRepository.save(dinning);
     }
 
     @Override
@@ -42,25 +38,25 @@ public class DiningRestServiceImpl implements DiningRestService{
 //        DiningRest existingDiningRest = diningRestRepository.findById(diningRest.getRest_no()).orElse(null);
 //        assert existingDiningRest != null;
 //        existingDiningRest.setRest_name(diningRest.getRest_name());
-        return diningRestRepository.save(dinning);
+        return dinningRepository.save(dinning);
     }
 
     @Override
-    public void deleteRestaurant(int restNo) {
-        diningRestRepository.deleteById(restNo);
+    public void deleteRestaurant(long restNo) {
+        dinningRepository.deleteById(restNo);
     }
 
     @Override
-    public Dinning deleteApply(int restNo) {
-        Dinning dinning = diningRestRepository.findById(restNo).get();
+    public Dinning deleteApply(long restNo) {
+        Dinning dinning = dinningRepository.findById(restNo).get();
         dinning.setRestStatus(String.valueOf(DinningStatus.WAIT));
-        diningRestRepository.save(dinning);
+        dinningRepository.save(dinning);
         return dinning;
     }
 
     @Override
     public Dinning getByUserNo(User userNo) {
-        Optional<Dinning> optionalDiningRest = diningRestRepository.findByUserNoAndRestStatusNot(userNo, "CLOSED");
+        Optional<Dinning> optionalDiningRest = dinningRepository.findByUserNoAndRestStatusNot(userNo, "CLOSED");
         return optionalDiningRest.orElse(null);
     }
 
