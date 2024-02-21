@@ -17,8 +17,8 @@
             <thead>
             <tr>
                 <th>점주 번호</th>
-                <th>점주 아이디</th>
                 <th>점주 이름</th>
+                <th>점주 아이디</th>
                 <th>점주 이메일</th>
                 <th>점주 전화번호</th>
                 <th>시작일</th>
@@ -28,8 +28,8 @@
             <tr th:each="users : ${users}"
                 th:onclick="'javascript:redirectToJumDetail(\'' + ${users.userNo} + '\')'">
                 <td th:text="${users.userNo}"></td>
-                <td th:text="${users.userId}"></td>
                 <td th:text="${users.userName}"></td>
+                <td th:text="${users.userId}"></td>
                 <td th:text="${users.userEmail}"></td>
                 <td th:text="${users.userTel}"></td>
                 <td th:text="${users.userStartDate}"></td>

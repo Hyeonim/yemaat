@@ -33,7 +33,6 @@ public class NoticeServiceImpl implements NoticeService {
         int end = Math.min((page + 1) * pageSize, userQAs.size());
 
         return new PageImpl<>(userQAs.subList(start, end), PageRequest.of(page, pageSize), userQAs.size());
-
     }
 
     @Override
@@ -42,5 +41,4 @@ public class NoticeServiceImpl implements NoticeService {
 
         return noticeRepository.findBySubjectContaining(keyword, pageable);
     }
-
 }

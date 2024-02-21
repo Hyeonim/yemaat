@@ -138,6 +138,19 @@
             document.getElementById("noticeForm").action = "/notice-detail?id=" + noticeId;
             document.getElementById("noticeForm").submit();
         }
+
+        function moveNoticeToTop() {
+            var tableBody = document.getElementById("noticeTable").getElementsByTagName('tbody')[0];
+            var checkedRows = tableBody.querySelectorAll('input[type="checkbox"]:checked');
+
+            // Loop through checked checkboxes
+            for (var i = 0; i < checkedRows.length; i++) {
+                var row = checkedRows[i].parentNode.parentNode; // Get the row of the checked checkbox
+                tableBody.removeChild(row); // Remove the row from its current position
+                tableBody.insertBefore(row, tableBody.firstChild); // Insert the row at the top of the table
+            }
+        }
+
     </script>
 
 </div>
