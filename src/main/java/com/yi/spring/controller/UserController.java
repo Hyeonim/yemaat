@@ -80,15 +80,18 @@ public class UserController {
     @GetMapping("user_posts")
     public String userPosts(Principal principal, Model model) {
         User user = userRepository.findByUserId(principal.getName()).orElse(null);
+//        List<Review> reviews = reviewRepository.findByUserNo(user);
 
         if (user != null) {
             Long userNo = Long.valueOf(user.getUserNo());
             List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
             reservationService.processReservations(reservations);
             reservationService.checkReservationStatus(reservations, model);
+//            reservationRepository.updateReservationStatusToReviewWithJoin();
 
             model.addAttribute("main_user", user);
             model.addAttribute("list", reservations);
+//            model.addAttribute("review", reviews);
         }
 
         return "userPage/user_posts";
@@ -115,6 +118,25 @@ public class UserController {
         }
 
         return "userPage/user_review";
+    }
+
+    @PostMapping("submitReview")
+    public String reviewAdd(Principal principal,Review review,@RequestParam MultipartFile file){
+        user = userRepository.findByUserId(principal.getName()).get();
+
+        byte[] revImg;
+        try {
+            revImg = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        review.setRevScore((int) (review.getRevScore() * 10));
+        review.setUserNo(user);
+        review.setRevImg(revImg);
+
+        reviewRepository.save(review);
+        reservationRepository.updateReservationStatusToReviewWithJoin();
+        return "redirect:/user/user_posts";
     }
 
 

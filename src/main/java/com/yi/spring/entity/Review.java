@@ -32,6 +32,10 @@ public class Review {
     @JoinColumn(name = "rest_no")
     private Dinning restNo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "res_no")
+    private Reservation resNo;
+
     @Column(name = "rev_write_time", length = 100)
     private String revWriteTime;
 

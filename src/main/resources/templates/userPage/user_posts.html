@@ -3,8 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{userPage/Layout_userPage2}">
 
-
-
 <th:block th:fragment="content">
 
     <style>
@@ -23,16 +21,28 @@
         .container1 {
             display: flex;
             padding: 15px;
+            padding-bottom: 15px;
+            /*padding-bottom: 435px;*/
             background: #fff;
             border: 1.6px solid #dddddd;
             border-radius: 4px;
             box-sizing: border-box;
             margin-bottom: 15px;
             margin-top: 60px;
+            transition: padding-bottom 0.5s ease-in-out; /* 애니메이션을 추가합니다. */
         }
 
         .left {
             background-color: gray;
+            display: inline-block;
+            width: 300px;
+            height: 221px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .left2 {
+            /*background-color: gray;*/
             display: inline-block;
             width: 300px;
             height: 221px;
@@ -106,7 +116,7 @@
             pointer-events: none;
         }
 
-        #reviewBtn {
+        .reviewBtn {
             margin-left: -10px;
             width: 50%;
             height: 36px;
@@ -122,87 +132,299 @@
             margin-left: 0px;
         }
 
+        .reviewBtn.expanded {
+            display: none;
+        }
+
+
+        .reviewBtn2 {
+            margin-left: -10px;
+            width: 50%;
+            height: 36px;
+            border: none;
+            font-size: 15px;
+            line-height: 36px;
+            color: #fff;
+            background-color: rgba(0, 119, 255, 0.66);
+            text-align: center;
+            cursor: pointer;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .reviewAddBtn {
+            margin-left: -10px;
+            width: 50%;
+            height: 36px;
+            border: none;
+            font-size: 15px;
+            line-height: 36px;
+            color: #fff;
+            background-color: rgba(0, 119, 255, 0.66);
+            text-align: center;
+            cursor: pointer;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .reviewBtnComplete {
+            margin-left: -10px;
+            width: 50%;
+            height: 36px;
+            border: none;
+            font-size: 15px;
+            line-height: 36px;
+            color: #fff;
+            /*background-color: rgb(112 102 245);*/
+            background-color: gray;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
         .filter {
             filter: grayscale(100%);
         }
 
-        .mypage_sidebar_nav{
+        .mypage_sidebar_nav {
             color: gray;
         }
+
         #postsSelect {
             font-weight: bold;
             color: black;
             border-bottom: 2px solid black;
         }
 
+        /*.writeRev {*/
+        /*    display: flex;*/
+        /*    padding: 15px;*/
+        /*    background: #fff;*/
+        /*    border: 1.6px solid #dddddd;*/
+        /*    border-radius: 4px;*/
+        /*    box-sizing: border-box;*/
+        /*    margin-bottom: 15px;*/
+        /*    margin-top: 60px;*/
+        /*}*/
+
+        .mid {
+            border-top: 1.6px solid #dddddd;
+            width: 96%;
+            margin-bottom: 169px;
+            align-items: center;
+            flex-direction: column;
+            margin-top: -679px;
+            margin-left: 15px;
+            display: none;
+        }
+
+        .containers.expanded .mid {
+            display: block;
+        }
 
     </style>
 
-<!--    <h1>My 예약 현황</h1>-->
-
-
     <div style="display: flex; justify-content: center; margin-bottom: 10px">
         <div id="posts_main">
-<!--                            <nav>-->
-<!--                                <div id="mySideBar">-->
-<!--                                    <div class="mypage_sidebar_nav"-->
-<!--                                         style="font-weight: bold; color: black; border-bottom: 2px solid black;"><a href="#">My-->
-<!--                                        예약</a>-->
-<!--                                    </div>-->
-<!--                                    <div class="mypage_sidebar_nav" style="color: gray;"><a-->
-<!--                                            th:href="@{/user/user_review}">My 리뷰</a></div>-->
-<!--                                    <div class="mypage_sidebar_nav" style="color: gray;"><a-->
-<!--                                            href="#">My 문의</a></div>-->
-<!--                                    <div class="mypage_sidebar_nav" style="color: gray;"><a-->
-<!--                                            href="#">My 정보</a></div>-->
-<!--                                </div>-->
-<!--                            </nav>-->
 
+            <div id="wrap" class="containers" th:each="res : ${list}">
 
-            <div id="wrap">
-                <div class="container1" th:if="${list == null or #lists.isEmpty(list)}">
+                <div id="container1" class="container1" style="display: flex">
                     <div class="left">
-                        <!--                            <img style="width: 300px; height: 221px; border: 1px solid black; ">-->
-                    </div>
-                    <div class="right">
-                        <p class="gary-text p-right" style="color: gray;">
-                            <b style="font-size: 20px;">현재 이용 중인 가게가 없습니다.</b><br>
-                        <hr>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="container1" th:each="res : ${list}">
-
-                    <div id="left">
-                        <img th:attr="mysrc=${res.restNo.base64Image}"
+                        <img th:attr="mysrc=${res.restNo.getBase64Image()}"
                              th:class="${res.getReservationStatusEnum.getName()} == '대기' or ${res.getReservationStatusEnum.getName()} == '예약완료' ? 'disabled-filter' : 'filter'"
                              style="width: 300px; height: 221px; border-radius: 10px;">
-
                     </div>
                     <div class="right">
-                        <p class="gray-text p-right"
-                           th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' ? 'color: gray;' : 'color: black;'">
+                        <p class="gray-text p-right" th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'">
                             <b style="font-size: 20px;" th:text="${res.restNo.restName}"></b><br>
                             <b th:text="${res.restNo.restCategory}"></b><br>
                             <b th:text="${res.resTime}"></b><br>
                         <hr>
-                        <div>예약 인원 : <b th:text="${res.res_guest_count}"></b></div>
+                        <div><b th:text="'예약 인원 : ' + ${res.res_guest_count}"
+                                th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b></div>
                         <br>
-                        <b th:text="${res.restNo.restAddr}"></b><br>
+                        <b th:text="${res.restNo.restAddr}"
+                           th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b><br>
                         <button id="cancelBtn1"
+                                th:if="${res.getReservationStatusEnum.getName() != '리뷰작성완료'}"
                                 th:class="${res.getReservationStatusEnum.getName() == '대기' ? 'yellowBtn' : (res.getReservationStatusEnum.getName() == '예약완료' ? 'greenBtn' : 'grayBtn')}"
-                                th:text="${res.getReservationStatusEnum.getName()}"></button>
-                        <button id="reviewBtn" class="reviewBtn"
-                                th:if="${res.getReservationStatusEnum.getName() eq '이용완료'}">리뷰작성
+                                th:text="${res.getReservationStatusEnum.getName()}">
                         </button>
-                        </p>
+                        <button id="reviewBtn" class="reviewBtn" th:if="${res.getReservationStatusEnum.getName() eq '이용완료' and revStatus ne 'OK'}">리뷰작성</button>
+                        <button id="reviewCompleteBtn" class="reviewBtnComplete" th:if="${res.getReservationStatusEnum.getName() eq '리뷰작성완료'}">리뷰작성완료</button>
+                        <button id="reviewBtn2" class="reviewBtn2" th:if="${res.getReservationStatusEnum.getName() eq '이용완료'}" style="display: none">작성취소</button>
                     </div>
+                </div>
+                <div class="mid">
+                    <div style="padding: 33px">
+                        <div style="display: flex; justify-content: flex-start; flex-direction: column; margin-right: 1px; height: 412px">
+                            <form id="addRevForm" action="/user/submitReview" method="post" enctype="multipart/form-data">
+                                <label for="file">이미지:</label><br>
+                                <img style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;" id="preview" src="#" alt="">
+                                <br>
+                                <input type="file" id="file" name="file"><br>
+                                <hr>
+                                <div style="margin-top: 30px">
+                                    <label>식당 이름:</label>
+                                    <div th:text="${res.getRestNo().restName}"></div>
+                                    <input th:if="${not #strings.isEmpty(res.res_no)}" th:value="${res.res_no}" name="resNo" th:hidden="true" />
+                                    <input th:value="${res.getRestNo().restNo}" name="restNo" th:hidden="true" />
+                                </div>
+                                <hr>
+                                <div style="margin-top: 30px">
+                                    <label for="rating">평점:</label>
+                                    <select id="rating" name="revScore">
+                                        <option value="10">1</option>
+                                        <option value="20">2</option>
+                                        <option value="30">3</option>
+                                        <option value="40">4</option>
+                                        <option value="50">5</option>
+                                    </select>
+                                </div>
+                                <div style="margin-top: 30px">
+                                    <!--                                    <label for="reviewContent">리뷰 내용:</label>-->
+                                    <textarea id="reviewContent" name="revContent" rows="4" cols="50" style="resize: none;"></textarea>
+                                </div>
+                                <button id="revAdd" class="reviewAddBtn" type="submit"
+                                        style="margin-top: 81px; position: relative; left: -37px; width: 114%;">리뷰 제출</button>
+                            </form>
+                            <script>
+                                function previewImage(input) {
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
 
+                                        reader.onload = function (e) {
+                                            input.parentNode.querySelector("#preview").setAttribute('src', e.target.result);
+                                        }
+
+                                        reader.readAsDataURL(input.files[0]);
+                                    }
+                                }
+
+                                document.querySelectorAll('#file').forEach(e => e.addEventListener('change', function () {
+                                    previewImage(e);
+                                }));
+
+                                document.getElementById("revAdd").addEventListener("click", function(event) {
+                                    document.getElementById("addRevForm").submit(); // 폼 제출
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container1" th:if="${list == null or #lists.isEmpty(list)}">
+                <div class="left">
+                </div>
+                <div class="right">
+                    <p class="gary-text p-right" style="color: gray;">
+                        <b style="font-size: 20px;">현재 이용 중인 가게가 없습니다.</b><br>
+                    <hr>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        gv=[];
+        document.addEventListener('DOMContentLoaded', function () {
+            var reviewBtns = document.querySelectorAll('.reviewBtn');
+            var reviewBtns2 = document.querySelectorAll('.reviewBtn2');
+
+            reviewBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var confirmation = window.confirm('리뷰를 작성하시겠습니까?');
+
+                    if (confirmation) {
+                        let container1 = this.closest('.container1');
+                        var container2 = this.closest('.containers');
+
+                        if (container1) {
+                            container1.style.paddingBottom = '689px';
+
+                            let container1ById = document.getElementById('container1');
+                            console.log('container1ById:', container1ById);
+
+                            let reviewBtn = container1.querySelector('#reviewBtn');
+                            console.log('reviewBtn:', reviewBtn);
+                            if (reviewBtn) {
+                                reviewBtn.style.display = 'none';
+                            }
+
+                            let cancelBtn1 = container1.querySelector('#cancelBtn1');
+                            if (cancelBtn1) {
+                                cancelBtn1.style.display = 'none';
+                            }
+
+                            let reviewBtn2 = container1.querySelector('#reviewBtn2');
+                            if (reviewBtn2) {
+                                reviewBtn2.style.display = '';
+                            }
+                        }
+
+                        if (container2) {
+                            var delay = 400;
+
+                            setTimeout(function () {
+                                container2.classList.toggle('expanded');
+                                console.log('리뷰 작성 버튼이 눌렸습니다.');
+                            }, delay);
+                        }
+                    } else {
+                        console.log('리뷰 작성이 취소되었습니다.');
+                    }
+                });
+            });
+            reviewBtns2.forEach(function (btn){
+                btn.addEventListener('click', function() {
+                    var confirmation = window.confirm('리뷰를 작성을 취소하시겠습니까?');
+                    if (confirmation) {
+                        let container1 = this.closest('.container1');
+                        var container2 = this.closest('.containers');
+
+                        if (container1) {
+                            container1.style.paddingBottom = '15px';
+
+                            let container1ById = document.getElementById('container1');
+                            console.log('container1ById:', container1ById);
+
+                            let reviewBtn = container1.querySelector('#reviewBtn');
+                            console.log('reviewBtn:', reviewBtn);
+                            if (reviewBtn) {
+                                reviewBtn.style.display = '';
+                            }
+
+                            let cancelBtn1 = container1.querySelector('#cancelBtn1');
+                            if (cancelBtn1) {
+                                cancelBtn1.style.display = '';
+                            }
+
+                            let reviewBtn2 = container1.querySelector('#reviewBtn2');
+                            if (reviewBtn2) {
+                                reviewBtn2.style.display = 'none';
+                            }
+                        }
+
+                        if (container2) {
+                            var delay = 100;
+
+                            setTimeout(function () {
+                                container2.classList.remove('expanded');
+                            }, delay);
+                        }
+                    } else {
+                    }
+                })
+            })
+        });
+
+
+
+
+    </script>
 <script src="/js/imglazy.js"></script>
 </th:block>
 </html>

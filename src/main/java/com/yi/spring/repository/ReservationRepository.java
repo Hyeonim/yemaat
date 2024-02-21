@@ -2,10 +2,12 @@ package com.yi.spring.repository;
 
 import com.yi.spring.entity.Reservation;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,5 +82,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
 //    List<Reservation> findByRestNo_RestNameAndRestNo_RestCategoryAndResTimeAndRes_guest_countAndRestNo_RestAddr(String restName, String restCategory, LocalDateTime resTime, String res_guest_count, String restAddr);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE reservation r INNER JOIN review rv ON r.res_no = rv.res_no SET r.res_status = 'REVIEW' WHERE r.res_no = rv.res_no", nativeQuery = true)
+    int updateReservationStatusToReviewWithJoin();
 
 }

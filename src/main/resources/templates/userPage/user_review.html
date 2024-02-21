@@ -13,7 +13,6 @@
             padding: 0;
             margin: 0;
         }
-
         .mypage_sidebar_nav {
             color: gray;
         }
@@ -23,31 +22,36 @@
             color: black;
             border-bottom: 2px solid black;
         }
-
         .reviewForm {
             display: flex;
             flex-direction: column;
             width: 64%;
         }
-
         .reviewMainBox {
             border-top: 1px solid rgba(128, 128, 128, 0.2);
             padding-top: 13px;
             padding-bottom: 17px;
             overflow: hidden;
-            transition: padding-bottom 0.5s ease-in-out; /* 애니메이션 효과를 적용할 속성과 시간 및 타이밍 함수 설정 */
+            transition: padding-bottom 0.5s ease-in-out;
         }
 
+        .reviewItem {
+            transition: background-color 0.3s;
+        }
+        .reviewItem:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
 
-        /*padding-bottom: 370px;*/
     </style>
 
     <div style="display: flex; justify-content: center;">
         <div class="reviewForm" style="">
             <h3 th:text="'전체글(' + ${userNoCount} + ')'"></h3>
 
-            <ul class="reviewMainBox" th:each="reviews : ${review}">
-                <div style="display:flex;">
+            <ul class="reviewMainBox" th:each="reviews : ${review}" style="">
+
+                <div class="reviewItem" style="display:flex; ">
                     <div>
                         <div>
                             <th:block th:if="${not #strings.isEmpty(reviews.base64Image)}">
@@ -62,50 +66,6 @@
                     <div style="margin-left: 10px">
                         <li th:text="${reviews.getRestNo().restName}"
                             style="font-size: 12px;padding-bottom: 1px; padding-left: 1px; padding-top: 1px;"></li>
-
-
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                var reviews = document.querySelectorAll('.reviewMainBox li');
-
-                                reviews.forEach(function (review) {
-                                    review.addEventListener('click', function () {
-                                        var reviewMainBox = this.closest('.reviewMainBox');
-                                        if (reviewMainBox && !reviewMainBox.classList.contains('selected')) {
-                                            reviews.forEach(function (otherReview) {
-                                                var otherReviewMainBox = otherReview.closest('.reviewMainBox');
-                                                if (otherReviewMainBox && otherReviewMainBox.classList.contains('selected')) {
-                                                    otherReviewMainBox.style.paddingBottom = '';
-                                                    otherReviewMainBox.classList.remove('selected');
-
-                                                    var otherHiddenContent = otherReviewMainBox.querySelector('.hiddenContent');
-                                                    if (otherHiddenContent) {
-                                                        $(otherHiddenContent).fadeOut(200);
-                                                    }
-                                                }
-                                            });
-
-                                            reviewMainBox.style.paddingBottom = '255px';
-                                            reviewMainBox.classList.add('selected');
-
-                                            var hiddenContent = reviewMainBox.querySelector('.hiddenContent');
-                                            if (hiddenContent) {
-                                                $(hiddenContent).fadeIn(430, function () {
-                                                    // 선택된 reviewMainBox로 스크롤 이동
-                                                    var selectedOffset = reviewMainBox.offsetTop;
-                                                    window.scrollTo({
-                                                        top: selectedOffset,
-                                                        behavior: 'auto'
-                                                    });
-                                                });
-                                            }
-                                        }
-                                    });
-                                });
-                            });
-
-                        </script>
-
 
                         <li th:text="${reviews.revContent}" style="margin: 10px 0"></li>
 
@@ -131,8 +91,50 @@
                     </div>
                 </div>
             </ul>
+
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var reviews = document.querySelectorAll('.reviewMainBox li');
+
+            reviews.forEach(function (review) {
+                review.addEventListener('click', function () {
+                    var reviewMainBox = this.closest('.reviewMainBox');
+                    if (reviewMainBox && !reviewMainBox.classList.contains('selected')) {
+                        reviews.forEach(function (otherReview) {
+                            var otherReviewMainBox = otherReview.closest('.reviewMainBox');
+                            if (otherReviewMainBox && otherReviewMainBox.classList.contains('selected')) {
+                                otherReviewMainBox.style.paddingBottom = '';
+                                otherReviewMainBox.classList.remove('selected');
+
+                                var otherHiddenContent = otherReviewMainBox.querySelector('.hiddenContent');
+                                if (otherHiddenContent) {
+                                    $(otherHiddenContent).fadeOut(200);
+                                }
+                            }
+                        });
+
+                        reviewMainBox.style.paddingBottom = '255px';
+                        reviewMainBox.classList.add('selected');
+
+                        var hiddenContent = reviewMainBox.querySelector('.hiddenContent');
+                        if (hiddenContent) {
+                            $(hiddenContent).fadeIn(430, function () {
+                                // var selectedOffset = reviewMainBox.offsetTop;
+                                // window.scrollTo({
+                                //     top: selectedOffset,
+                                //     behavior: 'auto'
+                                // });
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
 
 </th:block>
 </html>

@@ -2,9 +2,12 @@ package com.yi.spring.service;
 
 import com.yi.spring.entity.Reservation;
 import com.yi.spring.entity.ReservationStatus;
+import com.yi.spring.entity.Review;
 import com.yi.spring.repository.ReservationRepository;
+import com.yi.spring.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 
@@ -16,10 +19,12 @@ import java.util.*;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final ReviewRepository reviewRepository;
 
     @Autowired
-    public ReservationService(ReservationRepository reservationRepository) {
+    public ReservationService(ReservationRepository reservationRepository, ReviewRepository reviewRepository) {
         this.reservationRepository = reservationRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     public void processReservations(List<Reservation> list) {
@@ -41,6 +46,7 @@ public class ReservationService {
             }
         }
     }
+
     private void updateReservationStatus(Reservation reservation, String newStatus) {
         reservation.setRes_status(newStatus);
         reservationRepository.save(reservation);
@@ -88,4 +94,33 @@ public class ReservationService {
 
         model.addAttribute("filteredStatusMessages", filteredStatusMessages);
     }
+
+    @Transactional
+    public void reviewCheck(List<Review> reviews, List<Reservation> reservations) {
+        for (Review review : reviews) {
+            String reviewResNo = String.valueOf(review.getResNo());
+            if (reviewResNo != null) {
+                Optional<Reservation> matchingReservation = findReservationByResNo(reservations, reviewResNo);
+
+                if (matchingReservation.isPresent()) {
+                    Reservation reservation = matchingReservation.get();
+                    reservation.setRes_status(String.valueOf(ReservationStatus.REVIEW));
+                    reservationRepository.save(reservation);
+                }
+            }
+        }
+    }
+
+    private Optional<Reservation> findReservationByResNo(List<Reservation> reservations, String resNo) {
+        for (Reservation reservation : reservations) {
+            if (resNo.equals(reservation.getRes_no())) {
+                return Optional.of(reservation);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+
+
 }
