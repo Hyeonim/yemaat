@@ -13,6 +13,7 @@
                 display: flex;
                 justify-content: center;
             }
+
             /**{*/
             /*    border: solid 1px blue;*/
             /*}*/
@@ -30,7 +31,8 @@
                   style="display: flex;">
 
                 <div style="flex: 1; width: 300px; height: 400px; text-align: right; margin-right: 30px">
-                    <img id="preview" src="/images/nonePerson.png" style="width: 300px; height: 400px; margin-right: 160px" alt="고객사진">
+                    <img id="preview" src="/images/nonePerson.png"
+                         style="width: 300px; height: 400px; margin-right: 160px" alt="고객사진">
                     <br>
                     <input type="file" name="file" id="file" style="margin-right: 139px"><br>
                 </div>
@@ -70,8 +72,43 @@
             previewImage(this);
         });
 
+        // document.getElementById("submit").addEventListener("click", function (event) {
+        //     document.getElementById("form").submit(); // 폼 제출
+        // });
+
         document.getElementById("submit").addEventListener("click", function (event) {
-            document.getElementById("form").submit(); // 폼 제출
+            const userName = document.getElementById('userName').value;
+            const userId = document.getElementById('userId').value;
+            const userPassword = document.getElementById('userPassword').value;
+            const userEamil = document.getElementById('userEmail').value;
+            const userTel = document.getElementById('userTel').value;
+
+            if (userName === '' || userId === '' || userPassword === '' || userEamil === '' || userTel === '') {
+                swal('모든 항목을 입력하세요 :)');
+                return;
+            }
+
+            swal({
+                title: "등록하시겠습니까?",
+                text: "등록하시려면 OK를 누르세요.",
+                icon: "info",
+                buttons: true,
+                dangerMode: false,
+            })
+                .then((willSubmit) => {
+                    if (willSubmit) {
+                        swal("Success!", "(고객)" + userName + " 님의 정보가 등록 되었습니다!", "success")
+                            .then(function () {
+                                document.getElementById("form").submit();
+                            });
+                    } else {
+                        swal("Cancel", "등록이 취소되었습니다.", "error")
+                        // 기본 이미지로 다시 설정
+                        // document.getElementById('preview').setAttribute('src', '/images/jumPerson.png');
+                        // 파일 입력 필드 초기화
+                        // document.getElementById('file').value = null;
+                    }
+                });
         });
     </script>
 </div>

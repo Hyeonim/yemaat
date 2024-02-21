@@ -33,18 +33,18 @@
                 </div>
 
                 <div style="flex:1; width: 500px">
-                    <p><label>이름 </label><input type="text" name="userName"></p><br>
-                    <p><label>ID </label><input type="text" name="userId"></p><br>
-                    <p><label>비밀번호 </label><input type="text" name="userPassword"></p><br>
-                    <p><label>이메일 </label><input type="text" name="userEmail"></p><br>
-                    <p><label>전화번호 </label><input type="text" name="userTel"></p><br>
+                    <p><label>이름 </label><input type="text" name="userName" id="userName"></p><br>
+                    <p><label>ID </label><input type="text" name="userId" id="userId"></p><br>
+                    <p><label>비밀번호 </label><input type="text" name="userPassword" id="userPassword"></p><br>
+                    <p><label>이메일 </label><input type="text" name="userEmail" id="userEmail"></p><br>
+                    <p><label>전화번호 </label><input type="text" name="userTel" id="userTel"></p><br>
                     <p><input type="hidden" name="userAuth" value="2"></p>
                 </div>
             </form>
         </div>
         <br><br>
         <div class="container">
-            <button id="submit" class="fifth" type="submit">등록</button>
+            <button id="submit" class="fifth" type="button">등록</button>
             <button style="margin-left: 50px" onclick="history.go(-1);" class="fifth" id="backButton">이전</button>
         </div>
     </div>
@@ -68,8 +68,44 @@
         });
 
         document.getElementById("submit").addEventListener("click", function (event) {
-            document.getElementById("form2").submit(); // 폼 제출
+            // 각 필드의 값이 비어 있는지 확인
+            const userName = document.getElementById('userName').value;
+            const userId = document.getElementById('userId').value;
+            const userPassword = document.getElementById('userPassword').value;
+            const userEmail = document.getElementById('userEmail').value;
+            const userTel = document.getElementById('userTel').value;
+
+            if (userName === '' || userId === '' || userPassword === '' || userEmail === '' || userTel === '') {
+                swal('모든 항목을 입력하세요 :)');
+                return; //
+            }
+
+            swal({
+                title: "등록하시겠습니까?",
+                text: "등록하시려면 OK를 누르세요.",
+                icon: "info",
+                buttons: true,
+                dangerMode: false,
+            })
+                .then((willSubmit) => {
+                    if (willSubmit) {
+                        swal("Good job!", "(점주)" + userName + "님의 정보가 등록 되었습니다!", "success")
+                            .then(function (){
+                                document.getElementById("form2").submit(); // 폼 제출
+                            });
+                    } else {
+                        swal("Cancelled", "등록이 취소되었습니다.", "error");
+                        // 기본 이미지로 다시 설정
+                        // document.getElementById('preview').setAttribute('src', '/images/jumPerson.png');
+                        // 파일 입력 필드 초기화
+                        // document.getElementById('file').value = null;
+                    }
+                });
         });
+
     </script>
 </div>
 </html>
+
+
+
