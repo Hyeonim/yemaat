@@ -33,6 +33,13 @@ public class Dinning {
     @Column(name = "rest_time")
     private String restTime;
 
+    private transient DinningTimeMan timeManager;
+    public void updateDinningTime(){
+        if ( null == restTime )
+            return;
+
+    }
+
     @Column(name = "rest_off_days")
     private String restOffDays;
 
@@ -52,9 +59,11 @@ public class Dinning {
     @Column(name = "rest_longitude")
     private Double restLongitude;
 
-    @ToString.Exclude
+//    @ToString.Exclude
     @Column(name = "rest_img")
-    private byte[] restImg;
+    private String restImg;
+    @Transient
+    private ImageMan restImgMan = new ImageMan( restImg );
 
     @Transient
     private Double restScore;
@@ -84,10 +93,10 @@ public class Dinning {
 
     // 이미지를 Base64 문자열로 변환하는 메서드
     public String getBase64Image() {
-        if (restImg != null && restImg.length > 0) {
-            return Base64.getEncoder().encodeToString(restImg);
-        }
-        return "";
+//        if (restImg != null && restImg.length > 0) {
+//            return Base64.getEncoder().encodeToString(restImg);
+//        }
+        return restImg;
     }
 
     public DinningStatus getRestStatusEnum() {

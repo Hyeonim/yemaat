@@ -1,6 +1,7 @@
 package com.yi.spring.repository;
 
 import com.yi.spring.entity.*;
+import jakarta.persistence.Tuple;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +29,8 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
 
     @Query("SELECT d FROM Dinning d WHERE d.restName LIKE %:keyword%")
     List<Dinning> findByRestNameContaining(@Param("keyword") String keyword);
+    @Query(value = "SELECT * FROM rest_except_img_view d WHERE d.rest_name LIKE %:keyword%", nativeQuery = true)
+    List<Object[]> findByRestNameContainingFromView(@Param("keyword") String keyword);
     @Query("select d from Dinning d where d.restImg is not null order by RAND() LIMIT :sLimit")
     List<Dinning> getRandomList(@Param("sLimit") String sLimit);
     @Query("SELECT d, COALESCE((SELECT COUNT(r) FROM Review r WHERE r.restNo.restNo = d.restNo), 0) AS totalReviews FROM Dinning d ORDER BY totalReviews DESC")

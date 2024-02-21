@@ -1,8 +1,11 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.DinningDto;
+import com.yi.spring.entity.DinningInfo;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.service.DinningService;
+import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -72,18 +76,23 @@ public class ListController {
 //        }
 
         List<Dinning> rest_name = dinningRepository.findByRestNameContaining(restName);
+//        List<DinningDto> rest_name = dinningRepository.findByRestNameContainingFromView(restName);
+//        List<Object[]> rest_name2 = dinningRepository.findByRestNameContainingFromView(restName);
+//        List<DinningDto> rest_name = rest_name2.stream().map(DinningDto::new).toList();
 
         model.addAttribute("list", rest_name);
-        List<Object[]> listOrderByRestScore2 = dinningRepository.getRestScore2();
-        List<Dinning> listOrderByRestScore = new ArrayList<>();
-        for ( Object[] items : listOrderByRestScore2 )
-        {
-            Dinning elem = (Dinning)items[0];
-            elem.setRestScore( (Double)items[1] );
-            listOrderByRestScore.add( elem );
-        }
 
-        model.addAttribute("listOrderByRestScore", listOrderByRestScore);
+
+//        List<Object[]> listOrderByRestScore2 = dinningRepository.getRestScore2();
+//        List<Dinning> listOrderByRestScore = new ArrayList<>();
+//        for ( Object[] items : listOrderByRestScore2 )
+//        {
+//            Dinning elem = (Dinning)items[0];
+//            elem.setRestScore( (Double)items[1] );
+//            listOrderByRestScore.add( elem );
+//        }
+
+//        model.addAttribute("listOrderByRestScore", listOrderByRestScore);
         return "search";
     }
 

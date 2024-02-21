@@ -3,7 +3,7 @@
     <div id="c">
         <div id="main" style="padding-top: 66px;">
             <div id="img-cont">
-                <img th:src="'data:image/png;base64,' + ${dinning.base64Image}" alt="식당 이미지"/>
+                <img th:attr="mysrc=${dinning.base64Image}" alt="식당 이미지"/>
             </div>
             <div style="text-align: left; margin-left: 40px; padding-top: 10px;">
                 <h1 th:text="${dinning.restName}"></h1>
@@ -90,5 +90,25 @@
 
         </div>
     </div>
+    <script>
+        (function(){
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.intersectionRatio > 0) {
+                        if ( entry.target.attributes.mysrc )
+                        {
+                            fetch("/api/loadImg/"+entry.target.attributes.mysrc.value )
+                                .then(resp => resp.text())
+                                .then(data =>{
+                                    entry.target.setAttribute( "src", 'data:image/jpeg;base64,' + data );
+                                    entry.target.removeAttribute( "mysrc" )
+                            });
+                        }
+                    }
+                })
+            })
+            document.querySelectorAll( "img[mysrc]" ).forEach( e=>io.observe(e))
+        })();
+    </script>
 </div>
 </html>

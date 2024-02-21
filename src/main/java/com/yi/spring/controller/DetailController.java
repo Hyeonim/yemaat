@@ -2,6 +2,7 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
 import com.yi.spring.repository.DinningRepository;
+import com.yi.spring.repository.ImgTableRepository;
 import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.MenuService;
@@ -31,6 +32,8 @@ public class DetailController {
 
     @Autowired
     ReviewRepository reviewRepository;
+    @Autowired
+    ImgTableRepository imageTableRepository;
 
     @Autowired
     MenuService menuService;
@@ -140,8 +143,8 @@ public class DetailController {
         if (file.isEmpty())
             return;
         try {
-            byte[] revImg = file.getBytes();
-            dbObject.get().setRestImg(revImg);
+            byte[] resImg = file.getBytes();
+            dbObject.get().setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, resImg) );
             dinningRepository.save(dbObject.get());
         } catch (IOException e) {
             throw new RuntimeException(e);

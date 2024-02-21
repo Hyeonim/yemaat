@@ -2,6 +2,7 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
 import com.yi.spring.repository.DeleteUserRepository;
+import com.yi.spring.repository.ImgTableRepository;
 import com.yi.spring.repository.ReservationRepository;
 import com.yi.spring.service.DiningRestService;
 import com.yi.spring.service.EventService;
@@ -37,6 +38,8 @@ public class OwnerController {
     private ReservationRepository reservationRepository;
     @Autowired
     private EventService eventService;
+    @Autowired
+    private ImgTableRepository imageTableRepository;
 
     @Autowired
     private DeleteUserRepository deleteUserRepository;
@@ -154,7 +157,7 @@ public class OwnerController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        dinning.setRestImg(restImg);
+        dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
         dinning.setUserNo(loginUser);
         dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         diningRestService.createRestaurant(dinning);
@@ -280,7 +283,7 @@ public class OwnerController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        dinning.setRestImg(restImg);
+        dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
         dinning.setUserNo(loginUser);
         dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);

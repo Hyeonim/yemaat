@@ -83,10 +83,10 @@
 
         <ul id="resultList" style="list-style: none;">
 
-            <li th:each="rest : ${listOrderByRestScore}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 50px;"
+            <li th:each="rest : ${list}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 50px;"
                 th:onclick="'javascript:redirectdetail(\'' + ${rest.restNo} + '\')'" >
                 <div style="height: 250px">
-                <img th:src="'data:image/jpeg;base64,' + ${rest.base64Image}" style="width: 100px; height: 120px; margin-right: 10px; margin-bottom: 20px">
+                <img th:attr="mysrc=${rest.base64Image}" style="width: 100px; height: 120px; margin-right: 10px; margin-bottom: 20px">
 
                 <div style="display: flex; flex-direction: column;">
                     <h2 style="font-size: 28px" th:text="${rest.restName} "></h2>
@@ -289,6 +289,24 @@
         if (!marker.getMap()) return;
         marker.setMap(null);
     }
+    (function(){
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.intersectionRatio > 0) {
+                    if ( entry.target.attributes.mysrc )
+                    {
+                        fetch("/api/loadImg/"+entry.target.attributes.mysrc.value )
+                            .then(resp => resp.text())
+                            .then(data =>{
+                                entry.target.setAttribute( "src", 'data:image/jpeg;base64,' + data );
+                                entry.target.removeAttribute( "mysrc" )
+                        });
+                    }
+                }
+            })
+        })
+        document.querySelectorAll( "img[mysrc]" ).forEach( e=>io.observe(e))
+    })();
 
 </script>
 </body>

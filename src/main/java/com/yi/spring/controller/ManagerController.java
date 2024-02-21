@@ -56,6 +56,8 @@ public class ManagerController {
 
     @Autowired
     NoticeRepository noticeRepository;
+    @Autowired
+    ImgTableRepository imageTableRepository;
 
     @Autowired
     QAService qaService;
@@ -808,7 +810,7 @@ public String managerNoticeList(Model model,
             if (file != null && !file.isEmpty()) {
                 try {
                     byte[] restImgBytes = file.getBytes();
-                    din.setRestImg(restImgBytes);
+                    din.setRestImg( din.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImgBytes) );
                 } catch (IOException e) {
                     throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
                 }
@@ -843,7 +845,7 @@ public String managerNoticeList(Model model,
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            dinning.setRestImg(restImg);
+            dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
         }
 
         dinningRepository.save(dinning);

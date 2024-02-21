@@ -6,21 +6,17 @@ import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -32,6 +28,8 @@ public class IndexController {
     private ReviewRepository reviewRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ImgTableRepository imageTableRepository;
 
     @Autowired
     NoticeRepository noticeRepository;
@@ -131,4 +129,17 @@ public class IndexController {
     public String addRest() {
         return "myPage/addRest";
     }
+
+
+
+
+    @GetMapping("/api/loadImg/{imgNo}")
+    public ResponseEntity<String> getImage(@PathVariable String imgNo){
+        ImgTb imgDb = imageTableRepository.findById(Long.valueOf(imgNo)).orElse(null);
+        String result = "";
+        if ( null != imgDb && null != imgDb.getBytes())
+            result = Base64.getEncoder().encodeToString(imgDb.getBytes());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
