@@ -14,7 +14,7 @@
         <span th:text="${review.restNo.restCategory}"></span>
         <hr>
         <span><a th:href="'/detail?restNo='+${review.restNo.restNo}">식당바로가기</a></span>
-        <span onclick="">뭐먹지 등록</span>
+        <span th:onclick="|addWishList(this,${review.restNo.restNo})|">관심등록>></span>
     </div>
 </div>
 
