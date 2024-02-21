@@ -8,8 +8,8 @@
     <th:block>
         <div class="formDiv">
             <p><label>제목</label><input type="text" name="eventTitle" th:value="${event.getEventTitle()}"></p>
-            <p><label>이미지</label><img th:if="${event.getEventImg() != null}" th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}" alt="Event Image"></p>
             <p><label>내용</label><textarea name="eventContent" rows="5">[[${event.getEventContent()}]]</textarea></p>
+            <p><label id="last">이미지</label><img id="preview" th:if="${event.getEventImg() != null}" th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}" alt="Event Image"></p>
 
             <input type="button" value="수정" th:onclick="|location.href='@{/owner/updateEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
             <input type="button" value="삭제" th:onclick="|location.href='@{/owner/deleteEvent/{eventNo}(eventNo=${event.getEventNo()})}'|">
@@ -17,5 +17,17 @@
         </div>
 
     </th:block>
+    <script>
+        let preview = document.getElementById('preview');
+        if(!preview) {
+            var lastLabel = document.getElementById('last');
+            var img = document.createElement('img');
+            img.id = 'preview';
+            img.alt = '가게 사진';
+            img.src = '/img/no_image.png';
+
+            lastLabel.parentNode.insertBefore(img, lastLabel.nextSibling);
+        }
+    </script>
 </th:block>
 </html>

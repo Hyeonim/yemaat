@@ -19,7 +19,8 @@
             <p><label>가게 위도 : </label><input type="text" name="restLatitude" th:value="*{getRestLatitude()}"></p>
             <p><label>가게 경도 : </label><input type="text" name="restLongitude" th:value="*{getRestLongitude()}"></p>
             <p><label>가게 소개글 : </label><textarea name="restDesc" rows="5" th:value="*{getRestDescription()}"></textarea></p>
-            <p><label>대표 이미지 : </label><input type="file" name="file"></p>
+            <p><label>대표 이미지 : </label><input type="file" name="file" id="file"></p>
+            <p><label id="last"></label><img id="preview" th:if="*{getRestImg() != null}" th:src="'data:image/jpeg;base64,' + *{getBase64Image()}" alt="가게 사진"/></p>
 
             <input type="hidden" th:value="${dinning.getRestNo()}" name="restNo" >
             <input type="button" value="수정" onclick="submitRestForm()">
@@ -29,12 +30,38 @@
     </th:block>
 
     <script>
+        let preview = document.getElementById('preview');
+        if(!preview) {
+            var lastLabel = document.getElementById('last');
+            var img = document.createElement('img');
+            img.id = 'preview';
+            img.alt = '가게 사진';
+            img.src = '/img/no_image.png';
+
+            lastLabel.parentNode.insertBefore(img, lastLabel.nextSibling);
+        }
         function submitRestForm() {
             if(confirm("수정하시겠습니까?")) {
                 let form = document.getElementById("updateRestForm");
                 form.submit();
             }
         }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    document.getElementById('preview').setAttribute('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.getElementById('file').addEventListener('change', function () {
+            previewImage(this);
+        });
     </script>
 </th:block>
 </html>
