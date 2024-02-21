@@ -22,24 +22,41 @@
     let marker = null;
     let markers = [];
 
-
-
-    [# th:each="coordinate : ${list}"]
-
+    [# th:each="rest : ${list}"]
 
     marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng([[${coordinate.restLatitude}]], [[${coordinate.restLongitude}]]),
+        position: new naver.maps.LatLng([[${rest.getRestLatitude()}]], [[${rest.getRestLongitude()}]]),
         icon : {
-            content: '<p style="border-radius: 5px;">가게명 : ' + [[${coordinate.restName}]] + '</p>',
-            anchor: new naver.maps.Point(15, 50),
+            content: [
+                '<img src="/img/marker.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; border:1px solid black; border-radius: 50%; background-color: white;width:25px; height:25px;" />'
+            ].join(''),
+            size: new naver.maps.Size(38, 58),
+            anchor: new naver.maps.Point(19, 58),
         },
         map: map
-    })
-
-
+    });
     marker.setMap(map);
 
+    // 클릭 시 해당 마커를 지도 가운데로 부드럽게 움직이기
+    naver.maps.Event.addListener(marker, 'click', function(e) {
+        // e.preventDefault();
+        map.panTo(new naver.maps.LatLng([[${rest.getRestLatitude()}]], [[${rest.getRestLongitude()}]]));
+
+        marker.setIcon({
+            content: [
+                '<div style="padding:5px;border:1px solid black; border-radius: 20px; background-color: white;">',
+                '<img src="/img/marker.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; border:1px solid black; border-radius: 50%; background-color: white;width:25px; height:25px;" />',
+                '<span style="margin-left: 25px;">[[${rest.getRestName()}]]</span>',
+                '</div>'
+            ].join(''),
+            size: new naver.maps.Size(38, 58),
+            anchor: new naver.maps.Point(19, 58),
+        })
+    });
+
+
     [/]
+
 
 </script>
 </body>

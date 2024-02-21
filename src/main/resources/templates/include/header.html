@@ -81,7 +81,7 @@
             document.querySelector( "[name=mymenu]" ).classList.toggle( "visible" );
         }
         async function handleBlur() {
-            await sleep(100)
+            await sleep(200)
             document.querySelector( "[name=mymenu]" ).classList.remove( "visible" );
         }
         function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
