@@ -513,7 +513,6 @@ public String managerNoticeList(Model model,
         return "redirect:/manager/managerPage_Notice";
     }
 
-
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ점주꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 //    // 이거 주석된거 지우지 마세요@@@@@@@@@@@@@@@@@@@

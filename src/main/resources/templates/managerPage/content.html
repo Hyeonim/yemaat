@@ -27,7 +27,7 @@
 
         <div id="main-box" class="main-box">
             <div class="box-header">
-                <h2 th:text="'회원 현황: ' + ${uList.size()} +' 명'"></h2>
+                <h2 th:text="'전체 회원 현황: ' + ${uList.size()} +' 명'"></h2>
             </div>
             <div class="box-content">
                 <div class="chart-container" style="margin-left: 200px">
@@ -41,7 +41,7 @@
 
         <div id="main-box2" class="main-box">
             <div class="box-header">
-                <h2 th:text="'가게 현황: ' + ${dList.size()} + ' 개'"></h2>
+                <h2 th:text="'전체 가게 현황: ' + ${dList.size()} + ' 개'"></h2>
             </div>
             <div class="box-content" style="margin-left: 200px">
                 <div class="chart-container">
@@ -52,6 +52,12 @@
                 </div>
             </div>
         </div>
+
+        <div>
+            <h2>방문자 통계 집계? x,y축 있는 점선으로 이어진 그래프</h2>
+        </div>
+
+
     </div>
 </div>
 

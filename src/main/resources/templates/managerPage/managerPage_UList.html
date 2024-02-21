@@ -17,8 +17,8 @@
             <thead>
             <tr>
                 <th>고객 번호</th>
-                <th>고객 아이디</th>
                 <th>고객 이름</th>
+                <th>고객 아이디</th>
                 <th>고객 이메일</th>
                 <th>고객 전화번호</th>
                 <th>시작일</th>
@@ -27,8 +27,8 @@
             <tbody>
             <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">
                 <td th:text="${user.userNo}">Name</td>
-                <td th:text="${user.userId}">ID</td>
                 <td th:text="${user.userName}">Name</td>
+                <td th:text="${user.userId}">ID</td>
                 <td th:text="${user.userEmail}">Name</td>
                 <td th:text="${user.userTel}">Name</td>
                 <td th:text="${user.userStartDate}">Name</td>
