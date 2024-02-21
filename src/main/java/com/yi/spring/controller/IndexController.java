@@ -71,7 +71,9 @@ public class IndexController {
 
         List<Review> reviewList = new ArrayList<>();
         for ( int i = 0; i < 2; i++ )
-            reviewList.addAll( reviewRepository.getRandomList( "10" ) );
+            reviewList.addAll( reviewRepository.getRandomList( 10 ) );
+
+//        List<Object[]> test = reviewRepository.getRandomList1( 10 );
 
 
         model.addAttribute("revList1", reviewList.subList(0, 10) );
@@ -83,7 +85,7 @@ public class IndexController {
 
     @GetMapping("/homeSlide")
     public String homeSlide(Model model){
-        List<Review> reviewList = reviewRepository.getRandomList( "10" );
+        List<Review> reviewList = reviewRepository.getRandomList( 10 );
         model.addAttribute("list", reviewList );
         model.addAttribute("bSlide", 1 );
         return "/include/detail_review_template";

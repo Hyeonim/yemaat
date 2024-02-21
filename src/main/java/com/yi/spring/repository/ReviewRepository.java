@@ -28,8 +28,15 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByUserNo_Reviews_UserNo(int userNo);
 
 
+//    @Query("select r from Review r where r.revImg is not null and not count(r.revImg) > 0  order by RAND() LIMIT :sLimit")
+    @Query(value="select * from review r where r.rev_img is not null and r.rev_img != '' order by RAND() LIMIT :sLimit", nativeQuery = true)
+    List<Review> getRandomList(@Param("sLimit") int sLimit);
+//    @Query("select r from Review r where r.revImg is not null and SIZE(BYTE_LENGTH(r.revImg)) != 0 order by RAND() LIMIT :sLimit")
+//    List<Review> getRandomList(@Param("sLimit") String sLimit);
+//    @Query("select r from Review r where r.revImg is not null and SIZE(BYTE_LENGTH(r.revImg)) != 0 order by RAND() LIMIT :sLimit")
+//    List<Review> getRandomList(@Param("sLimit") String sLimit);
     @Query("select r from Review r where r.revImg is not null order by RAND() LIMIT :sLimit")
-    List<Review> getRandomList(@Param("sLimit") String sLimit);
+    List<Review> getRandomList0(@Param("sLimit") String sLimit);
 
 
 //    @Query("SELECT m FROM Review m WHERE m.name IN :names OR m.address IN :addresses")
