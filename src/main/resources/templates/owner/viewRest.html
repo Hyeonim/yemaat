@@ -19,7 +19,7 @@
             <p><label>가게 위도 : </label><input type="text" name="restLatitude" th:value="*{getRestLatitude()}" readonly></p>
             <p> <label>가게 경도 : </label><input type="text" name="restLongitude" th:value="*{getRestLongitude()}" readonly></p>
             <p><label>가게 소개글 : </label><textarea name="restDesc" rows="5" th:value="*{getRestDescription()}" readonly></textarea></p>
-            <p><label id="last">대표 이미지 : </label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
+            <p><label>대표 이미지 : </label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
 
             <input type="button" value="수정" th:onclick="|location.href='@{/owner/updateRest}'|">
             <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/home}'|">
