@@ -48,4 +48,10 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
     @Query("SELECT d FROM Dinning d JOIN FETCH d.userNo u WHERE u.userAuth = '2'")
 //    @Query("SELECT d FROM Dinning d inner join d.userNo u WHERE u.userAuth = '2'")
     List<Dinning> getAllByUserAuthIsOwner();
+
+
+    // 폐점 관련
+    Page<Dinning> findByRestNameAndRestStatus(String name, String status, Pageable pageable);
+
+    Page<Dinning> findByRestStatus(String status, Pageable pageable);
 }

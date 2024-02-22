@@ -37,10 +37,21 @@ public class DinningService {
         return dinningRepository.findAll(pageable);
     }
 
-
     public Page<Dinning> searchByDinningNamePaged(int page, String name) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("restNo").ascending());
         return dinningRepository.findByRestNameContainingIgnoreCase(name, pageable);
     }
 
+
+
+    // 가게 이름과 상태(CLOSED)를 사용하여 페이징된 결과를 검색하는 메서드
+
+    public Page<Dinning> searchByDinningNameAndStatusPaged(int page, String name, String status) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("restNo").ascending());
+        return dinningRepository.findByRestNameAndRestStatus(name, status, pageable);
+    }
+    public Page<Dinning> findByStatusPaged(int page, String status) {
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("restNo").ascending());
+        return dinningRepository.findByRestStatus(status, pageable);
+    }
 }
