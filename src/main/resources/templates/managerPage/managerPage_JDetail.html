@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <script>
+    <script th:inline="javascript">
         function previewImage(input) {
             var preview = document.getElementById('preview');
 
@@ -90,12 +90,57 @@
             }
         }
 
-        document.getElementById("fifthJ").addEventListener("click", function (event) {
-            document.getElementById("updateForm").submit(); // 폼 제출
+        // document.getElementById("fifthJ").addEventListener("click", function (event) {
+        //     document.getElementById("updateForm").submit(); // 폼 제출
+        // });
+        //
+        // document.getElementById("fifthJ2").addEventListener("click", function (event) {
+        //     document.getElementById("JFormDel").submit(); // 폼 제출
+        // });
+        // document.getElementById("submit").addEventListener("click", function (event){
+        //     const userName = document.getElementById('userName').value;
+        // })
+
+
+
+        document.getElementById("fifthJ2").addEventListener("click", function (event){
+            swal({
+                title : "삭제 하시겠습니까?",
+                text : "정말 삭제 하시겠습니까?",
+                icon : "warning",
+                buttons : true,
+                dangerMode : true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Success!", [[${user.userName}]]  + "님의 정보가 삭제 되었습니다!", "success")
+                            .then(function (){
+                                document.getElementById("JFormDel").submit();
+                            });
+                    }else {
+                        swal("삭제가 취소 되었습니다.");
+                    }
+                });
         });
 
-        document.getElementById("fifthJ2").addEventListener("click", function (event) {
-            document.getElementById("JFormDel").submit(); // 폼 제출
+        document.getElementById("fifthJ").addEventListener("click", function (){
+            swal({
+                title : "수정하시겠습니까?",
+                text : "정말 수정하시겠습니까?",
+                icon : "info",
+                buttons : true,
+                dangerMode : false,
+            })
+                .then((willUpdate) => {
+                    if (willUpdate) {
+                        swal("Success!", "삭제 되었습니다!", "success")
+                            .then(function (){
+                                document.getElementById("updateForm").submit();
+                            });
+                    }else {
+                        swal("수정이 취소 되었습니다.");
+                    }
+                });
         });
     </script>
 </div>
