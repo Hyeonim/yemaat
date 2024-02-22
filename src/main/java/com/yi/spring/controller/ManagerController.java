@@ -898,7 +898,7 @@ public class ManagerController {
 
     @PostMapping("/waitUpd")
     public String updateStatus(@RequestParam("restNo") int restNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
-        // 가게 번호와 상태를 받아와서 DB에 저장
+        // 가게 번호와 상태를 받아와서 DB에 저장함
         Optional<Dinning> optionalDinning = dinningRepository.findByRestNo(restNo);
         if (optionalDinning.isPresent()) {
             Dinning dinning = optionalDinning.get();
@@ -908,10 +908,7 @@ public class ManagerController {
         } else {
             redirectAttributes.addFlashAttribute("error", "가게를 찾을 수 없습니다.");
         }
-        // 변경 후 리다이렉트할 페이지 반환
-        return "redirect:/manager/managerPage_JrestListWait"; // 변경 후의 대기 목록 페이지로 리다이렉트
+
+        return "redirect:/manager/managerPage_JrestWaitList";
     }
-
-
-
 }

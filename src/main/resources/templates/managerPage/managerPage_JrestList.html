@@ -10,6 +10,7 @@
 
         <h1 style="margin-top: 100px">운영 중인 가게 목록</h1>
         <hr>
+
         <input type="text" id="searchInput" placeholder="가게 이름으로 검색" onchange="searchDinning()">
         <button onclick="searchDinning()">검색</button>
 
@@ -23,7 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="dinning : ${dinningList}" th:if="${dinning.restStatus eq 'NORMAL'}"
+            <tr th:each="dinning : ${dinningList}"
                 th:onclick="'javascript:redirectToJumrestDetail(\'' + ${dinning.restNo} + '\')'">
                 <td th:text="${dinning.restNo}"></td>
                 <td th:text="${dinning.restName}"></td>
