@@ -151,13 +151,15 @@ public class OwnerController {
     @PostMapping("addRest") // 등록 화면으로 전환은 되는데 등록은 안됨
     public String addRest(Principal principal, Dinning dinning, Model model, @RequestParam MultipartFile file) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
-        byte[] restImg;
-        try {
-            restImg = file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!file.isEmpty()) {
+            byte[] restImg;
+            try {
+                restImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
         }
-        dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
         dinning.setUserNo(loginUser);
         dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         diningRestService.createRestaurant(dinning);
@@ -276,14 +278,20 @@ public class OwnerController {
     @PostMapping("updateRest")
     public String updateRest(Principal principal, Dinning dinning, @RequestParam MultipartFile file) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
-
+        Dinning existRest = diningRestService.getByUserNo(loginUser);
         byte[] restImg;
-        try {
-            restImg = file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!file.isEmpty()) {
+            try {
+                restImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
         }
-        dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
+        else
+        {
+            dinning.setRestImg( existRest.getRestImg() );
+        }
         dinning.setUserNo(loginUser);
         dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
         Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);
@@ -407,11 +415,16 @@ public class OwnerController {
     @PostMapping("userUpdate")
     public String userUpdate(User user, @RequestParam MultipartFile file) {
         User existUser = userService.findByUserNo(user.getUserNo()).get();
+
         byte[] userImg;
-        try {
-            userImg = file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!file.isEmpty()) {
+            try {
+                userImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            userImg = existUser.getUserImg();
         }
         user.setUserImg(userImg);
         User updateUser = userService.updateUser(user);
@@ -483,11 +496,15 @@ public class OwnerController {
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("pageName", "이벤트 추가");
+
         return "event/addEvent";
     }
 
     @PostMapping("addEvent")
-    public String addEvent(Principal principal, Event event, Model model, @RequestParam MultipartFile file) {
+    public String addEvent(
+            Principal principal, Event event, Model model,
+            @RequestParam MultipartFile file, @RequestParam String strStartTime, @RequestParam String strEndTime
+    ) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
 
@@ -499,6 +516,8 @@ public class OwnerController {
         }
         event.setEventImg(eventImg);
 
+        event.setEventStartTime(LocalDate.parse(strStartTime));
+        event.setEventEndTime(LocalDate.parse(strEndTime));
         event.setRestNo(dinning);
         eventService.createEvent(event);
         return "redirect:/owner/eventList";
@@ -533,17 +552,26 @@ public class OwnerController {
     }
 
     @PostMapping("updateEvent/{eventNo}")
-    public String updateEvent(Principal principal, @PathVariable("eventNo") int eventNo, Event event, @RequestParam MultipartFile file) {
+    public String updateEvent(
+            Principal principal, @PathVariable("eventNo") int eventNo, Event event,
+            @RequestParam MultipartFile file, @RequestParam String strStartTime, @RequestParam String strEndTime
+    ) {
         User loginUser = userService.findByUserId( principal.getName() ).get();
         Dinning dinning = diningRestService.getByUserNo(loginUser);
-
+        Event exists = eventService.findByEventNo(eventNo);
         byte[] eventImg;
-        try {
-            eventImg = file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!file.isEmpty()) {
+            try {
+                eventImg = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            eventImg = exists.getEventImg();
         }
         event.setEventImg(eventImg);
+        event.setEventStartTime(LocalDate.parse(strStartTime));
+        event.setEventEndTime(LocalDate.parse(strEndTime));
         event.setRestNo(dinning);
         eventService.updateEvent(event);
         return "redirect:/owner/viewEvent/" + eventNo;
