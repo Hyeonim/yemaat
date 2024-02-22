@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.Blob;
 import java.util.Base64;
 
 @Getter
@@ -53,6 +54,13 @@ public class Review {
     }
 
     public String getBase64Image() {
+        // byte[]를 Blob 으로 변경하면 문제가 해결될까
+//        private Blob revImg;
+//        try {
+//            byte[] bytes = revImg.getBinaryStream().readAllBytes();
+//            if (bytes != null && bytes.length > 0) {
+//                return Base64.getEncoder().encodeToString(bytes);
+//            }
         if (revImg != null && revImg.length > 0) {
             return Base64.getEncoder().encodeToString(revImg);
         }

@@ -3,6 +3,7 @@ package com.yi.spring.repository;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Review;
 import com.yi.spring.entity.User;
+import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -27,6 +28,13 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     @Query("select r from Review r inner join r.userNo.reviews reviews where reviews.userNo = ?1")
     List<Review> findByUserNo_Reviews_UserNo(int userNo);
 
+
+    @Query("select im from ImgTb im where im.id = 3")
+    List<Object[]> getImgTest();
+    @Query(value="select bytes from img_tb im where im.id = 3", nativeQuery = true)
+    List<Object[]> getImgTest2();
+    @Query(value="select bytes from img_tb im where im.id = 3", nativeQuery = true)
+    List<Tuple> getImgTest3();
 
 //    @Query("select r from Review r where r.revImg is not null and not count(r.revImg) > 0  order by RAND() LIMIT :sLimit")
     @Query(value="select * from review r where r.rev_img is not null and r.rev_img != '' order by RAND() LIMIT :sLimit", nativeQuery = true)
