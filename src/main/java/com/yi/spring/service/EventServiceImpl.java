@@ -22,7 +22,6 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public void createEvent(Event event) {
-        event.setEventTime(LocalDateTime.now());
         eventRepository.save(event);
     }
 

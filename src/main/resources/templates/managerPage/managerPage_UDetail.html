@@ -62,13 +62,56 @@
             }
         }
 
-        document.getElementById("UDel").addEventListener("click", function(event) {
-            document.getElementById("UDelForm").submit(); // 폼 제출
+        // document.getElementById("UDel").addEventListener("click", function(event) {
+        //     document.getElementById("UDelForm").submit(); // 폼 제출
+        // });
+        //
+        // document.getElementById("UUpd").addEventListener("click", function(event) {
+        //     document.getElementById("UUpdForm").submit(); // 폼 제출
+        // });
+
+        document.getElementById("UDel").addEventListener("click", function (event){
+            swal({
+                title : "삭제 하시겠습니까?",
+                text : "정말 삭제 하시겠습니까?",
+                icon : "warning",
+                buttons : true,
+                dangerMode : true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Success!", "삭제 되었습니다!", "success")
+                            .then(function (){
+                                document.getElementById("UDelForm").submit();
+                            });
+                    }else {
+                        swal("삭제가 취소 되었습니다.");
+                    }
+                });
         });
 
-        document.getElementById("UUpd").addEventListener("click", function(event) {
-            document.getElementById("UUpdForm").submit(); // 폼 제출
+        document.getElementById("UUpd").addEventListener("click", function (event) {
+            swal({
+                title : "수정하시겠습니까?",
+                text : "정말 수정 하시겠습니까?",
+                icon : "info",
+                buttons : true,
+                dangerMode : false,
+            })
+                .then((willUpDate) => {
+                    if (willUpDate) {
+                        swal("Success!", "수정 되었습니다!", "success")
+                            .then(function (){
+                                document.getElementById("UUpdForm").submit();
+                            });
+                    }else {
+                        swal("수정이 취소 되었습니다.");
+                    }
+                });
         });
+
+
+
     </script>
 </div>
 </html>

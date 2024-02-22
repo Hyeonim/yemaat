@@ -7,6 +7,7 @@ import com.yi.spring.service.NoticeService;
 import com.yi.spring.service.QAService;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
+import org.codehaus.groovy.transform.SourceURIASTTransformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -156,7 +158,6 @@ public class ManagerController {
 
         return "managerPage";
     }
-
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ유저꺼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -355,9 +356,9 @@ public class ManagerController {
 
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ문의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-        @GetMapping("managerPage_QA")
+    @GetMapping("managerPage_QA")
     public String ManagerQA(Model model
-    ,  @RequestParam(value = "page", defaultValue = "0") int page) {
+            , @RequestParam(value = "page", defaultValue = "0") int page) {
 
         Page<QA> list = qaService.findByUserNoPaged(page);
 
@@ -433,29 +434,59 @@ public class ManagerController {
 //
 //        return "managerPage";
 //    }
-@GetMapping("/managerPage_Notice")
-public String managerNoticeList(Model model,
-                                @RequestParam(value = "page", defaultValue = "0") int page,
-                                @RequestParam(value = "searchInput4", required = false) String searchInput4) {
+    @GetMapping("/managerPage_Notice")
+    public String managerNoticeList(Model model,
+                                    @RequestParam(value = "page", defaultValue = "0") int page
+                                     ) {
 
-    Page<Notice> noticeList;
 
-    if (searchInput4 != null && !searchInput4.isEmpty()) {
-        // 검색어가 존재하는 경우
-        noticeList = noticeService.findBySubjectContaining(searchInput4, page);
-    } else {
-        // 검색어가 없는 경우 전체 목록 조회
-        noticeList = noticeService.findAll(page);
+List<Notice> head = noticeRepository.findByImportantNotice(true);
+
+        Page<Notice> noticeList = noticeService.findAll(page);
+
+
+        model.addAttribute("page", "managerPage/managerPage_Notice");
+        model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
+        model.addAttribute("head", head); // 수정된 부분: 검색 결과를 담도록 변경
+
+
+        return "managerPage";
     }
 
-    model.addAttribute("page", "managerPage/managerPage_Notice");
-    model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
-
-    return "managerPage";
-}
-
+    @PostMapping("/managerPage_NoticeHead")
+    public String managerNoticeHead(Model model,
+                                    @RequestParam() int id,
+                                    @RequestParam("head") Boolean importantNotice) {
 
 
+        System.out.println("id`~~~~~~~~~~~~" + id);
+
+
+        Optional<Notice> head = noticeRepository.findById(id);
+
+        System.out.println("importantNotice`~~~~~~~~~~~~" + head);
+
+
+
+        head.ifPresent(notice -> {
+            if (importantNotice) {
+                notice.setImportantNotice(true);
+                noticeRepository.save(notice);
+            } else {
+                notice.setImportantNotice(false);
+                noticeRepository.save(notice);
+            }
+        });
+
+
+//        model.addAttribute("page", "managerPage/managerPage_Notice");
+
+//        model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
+
+//        return "managerPage";
+        return "redirect:/manager/managerPage_Notice";
+
+    }
 
     @GetMapping("/managerPage_NoticeDetail")
     public String managerNoticeDetail(@RequestParam int id,
@@ -732,15 +763,33 @@ public String managerNoticeList(Model model,
         Page<Dinning> dinningList;
 
         if (searchInput != null && !searchInput.isEmpty()) {
-            dinningList = dinningService.searchByDinningNamePaged(page, searchInput);
+            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "NORMAL");
         } else {
-            dinningList = dinningService.findByDinningNoPaged(page);
+            dinningList = dinningService.findByStatusPaged(page, "NORMAL");
         }
 
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestList");
         return "managerPage";
     }
+
+    @GetMapping("/managerPage_JrestListWait")
+    public String restWait(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "searchInput", required = false) String searchInput) {
+        Page<Dinning> dinningList;
+
+        if (searchInput != null && !searchInput.isEmpty()) {
+            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "WAIT");
+        } else {
+            dinningList = dinningService.findByStatusPaged(page, "WAIT");
+        }
+
+        model.addAttribute("dinningList", dinningList);
+        model.addAttribute("page", "managerPage/managerPage_JrestListWait");
+        return "managerPage";
+    }
+
+
 
     @GetMapping("/managerPage_JrestDetail")
     public String JumRestDetail(Model model, @RequestParam int restNo) {
@@ -810,7 +859,7 @@ public String managerNoticeList(Model model,
             if (file != null && !file.isEmpty()) {
                 try {
                     byte[] restImgBytes = file.getBytes();
-                    din.setRestImg( din.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImgBytes) );
+                    din.setRestImg(din.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImgBytes));
                 } catch (IOException e) {
                     throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
                 }
@@ -845,7 +894,7 @@ public String managerNoticeList(Model model,
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
+            dinning.setRestImg(dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg));
         }
 
         dinningRepository.save(dinning);
@@ -855,11 +904,45 @@ public String managerNoticeList(Model model,
 
     @PostMapping("managerPage_JrestDel")
     @Transactional
-    public String jrestDel(@RequestParam int restNo, Model model){
+    public String jrestDel(@RequestParam int restNo, Model model) {
         dinningRepository.deleteDinningByRestNo(restNo);
 
         return "redirect:/manager/managerPage_JrestList";
     }
+
+
+// 폐점 관련
+
+    @GetMapping("/managerPage_JrestCloseList")
+    public String closeRestInfo(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+                                @RequestParam(value = "searchInput5", required = false) String searchInput5) {
+        Page<Dinning> dinningList;
+
+        if (searchInput5 != null && !searchInput5.isEmpty()) {
+            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput5, "CLOSED");
+        } else {
+            dinningList = dinningService.findByStatusPaged(page, "CLOSED");
+        }
+
+        model.addAttribute("dinningList", dinningList);
+        model.addAttribute("page", "managerPage/managerPage_JrestCloseList");
+        return "managerPage";
+    }
+
+
+    @PostMapping("/waitUpd")
+    public String updateStatus(@RequestParam("restNo") int restNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
+        // 가게 번호와 상태를 받아와서 DB에 저장함
+        Optional<Dinning> optionalDinning = dinningRepository.findByRestNo(restNo);
+        if (optionalDinning.isPresent()) {
+            Dinning dinning = optionalDinning.get();
+            dinning.setRestStatus(status);
+            dinningRepository.save(dinning);
+            redirectAttributes.addFlashAttribute("message", "가게 상태가 성공적으로 변경되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "가게를 찾을 수 없습니다.");
+        }
+
+        return "redirect:/manager/managerPage_JrestWaitList";
+    }
 }
-
-

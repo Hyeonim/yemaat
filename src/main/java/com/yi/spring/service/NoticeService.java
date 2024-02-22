@@ -14,5 +14,8 @@ public interface NoticeService {
     Page<Notice> findByAll(int page);
 
 
-    Page<Notice> findBySubjectContaining(String keyword, int page);
+//    Page<Notice> findBySubjectContaining(String keyword, int page);
+   Page<Notice> findBySubjectContaining(Boolean head,String keyword, int page);
+   Page<Notice> findBySubjectContaining(String keyword, int page);
+
 }

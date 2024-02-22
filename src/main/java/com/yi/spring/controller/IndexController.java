@@ -4,6 +4,7 @@ import com.yi.spring.entity.*;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
+import jakarta.persistence.Tuple;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,10 @@ import org.springframework.security.web.method.annotation.AuthenticationPrincipa
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.*;
 
 @Controller
@@ -73,7 +78,9 @@ public class IndexController {
         for ( int i = 0; i < 2; i++ )
             reviewList.addAll( reviewRepository.getRandomList( 10 ) );
 
-//        List<Object[]> test = reviewRepository.getRandomList1( 10 );
+        List<Object[]> test = reviewRepository.getImgTest();
+        List<Object[]> test2 = reviewRepository.getImgTest2();
+        List<Tuple> test3 = reviewRepository.getImgTest3();
 
 
         model.addAttribute("revList1", reviewList.subList(0, 10) );
