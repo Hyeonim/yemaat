@@ -7,6 +7,7 @@ import com.yi.spring.service.NoticeService;
 import com.yi.spring.service.QAService;
 import com.yi.spring.service.UserService;
 import javassist.NotFoundException;
+import org.codehaus.groovy.transform.SourceURIASTTransformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -235,7 +236,7 @@ public class ManagerController {
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user) {
 
-        System.out.println("11111111111111111111111:" + file);
+        System.out.println("11111111111111111111111:"+file);
         System.out.println(user);
 
         if (file.isEmpty()) {
@@ -412,7 +413,7 @@ public class ManagerController {
     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 
-    //    @GetMapping("/managerPage_Notice")
+//    @GetMapping("/managerPage_Notice")
 //    public String managerNoticeList(Model model,
 //                                    @RequestParam(value = "page", defaultValue = "0") int page,
 //                                    @RequestParam(value = "searchInput4", required = false) String searchInput4) {
@@ -435,25 +436,57 @@ public class ManagerController {
 //    }
     @GetMapping("/managerPage_Notice")
     public String managerNoticeList(Model model,
-                                    @RequestParam(value = "page", defaultValue = "0") int page,
-                                    @RequestParam(value = "searchInput4", required = false) String searchInput4) {
+                                    @RequestParam(value = "page", defaultValue = "0") int page
+                                     ) {
 
-        Page<Notice> noticeList;
 
-        if (searchInput4 != null && !searchInput4.isEmpty()) {
-            // 검색어가 존재하는 경우
-            noticeList = noticeService.findBySubjectContaining(searchInput4, page);
-        } else {
-            // 검색어가 없는 경우 전체 목록 조회
-            noticeList = noticeService.findAll(page);
-        }
+List<Notice> head = noticeRepository.findByImportantNotice(true);
+
+        Page<Notice> noticeList = noticeService.findAll(page);
+
 
         model.addAttribute("page", "managerPage/managerPage_Notice");
         model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
+        model.addAttribute("head", head); // 수정된 부분: 검색 결과를 담도록 변경
+
 
         return "managerPage";
     }
 
+    @PostMapping("/managerPage_NoticeHead")
+    public String managerNoticeHead(Model model,
+                                    @RequestParam() int id,
+                                    @RequestParam("head") Boolean importantNotice) {
+
+
+        System.out.println("id`~~~~~~~~~~~~" + id);
+
+
+        Optional<Notice> head = noticeRepository.findById(id);
+
+        System.out.println("importantNotice`~~~~~~~~~~~~" + head);
+
+
+
+        head.ifPresent(notice -> {
+            if (importantNotice) {
+                notice.setImportantNotice(true);
+                noticeRepository.save(notice);
+            } else {
+                notice.setImportantNotice(false);
+                noticeRepository.save(notice);
+            }
+        });
+
+
+//        model.addAttribute("page", "managerPage/managerPage_Notice");
+
+//        model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
+
+//        return "managerPage";
+        return "redirect:/manager/managerPage_Notice";
+
+    }
 
     @GetMapping("/managerPage_NoticeDetail")
     public String managerNoticeDetail(@RequestParam int id,
@@ -558,15 +591,16 @@ public class ManagerController {
 //        return "managerPage";
 //    }
 
-
     @GetMapping("/managerPage_JList")
     public String managerInfoA(Model model,
                                @RequestParam(value = "page", defaultValue = "0") int page,
                                @RequestParam(value = "searchInput2", required = false) String searchInput2) {
         Page<User> paging;
         if (searchInput2 != null && !searchInput2.isEmpty()) {
+            // 검색어가 존재하는 경우
             paging = userService.findByUserAuthAndUserNameContainingPaged("2", searchInput2, page);
         } else {
+            // 검색어가 없는 경우 전체 목록 조회
             paging = userService.findByJumNoPaged(page);
         }
 
@@ -575,7 +609,6 @@ public class ManagerController {
 
         return "managerPage";
     }
-
 
 
 //    @GetMapping("/managerPage_JList")
@@ -718,6 +751,7 @@ public class ManagerController {
 
         return "redirect:/manager/managerPage_JList";
     }
+
 
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

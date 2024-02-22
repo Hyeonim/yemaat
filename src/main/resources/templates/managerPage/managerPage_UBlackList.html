@@ -53,5 +53,22 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+
+        function confirmBlack(my) {
+            let confirmation = confirm("블랙을 푸시겠습니까?");
+            let form = document.getElementById("blackForm");
+            let confirmInput = my.parentNode.querySelector("input[name=confirm]");
+            confirmInput.value = confirmation;
+
+            form.submit();
+
+        }
+
+    </script>
+
+
+
 </div>
 </html>

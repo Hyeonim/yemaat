@@ -3,12 +3,14 @@ package com.yi.spring.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "notice")
 public class Notice {
     @Id
@@ -28,6 +30,9 @@ public class Notice {
     @Lob
     @Column(name = "content", columnDefinition = "text")
     private String content;
+
+    @Column(name = "important_notice")
+    private boolean importantNotice = false;
 
     // writerDate 필드에 대한 Setter 메서드
     public void setWriteDate(Instant writeDate) {
