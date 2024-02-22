@@ -13,7 +13,7 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByRestNo(Dinning restNo);
 
-    @Query(value="select * from event e where DATE(e.write_date) >= CURDATE()-7", nativeQuery = true)
+    @Query(value="select * from event where CURDATE() between event_start_time and event_end_time;", nativeQuery = true)
     List<Event> getNewEvents();
 
     @Query("SELECT e from Event e order by e.writeDate desc limit 5")
