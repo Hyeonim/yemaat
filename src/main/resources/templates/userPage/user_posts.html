@@ -3,7 +3,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{userPage/Layout_userPage2}">
 
+
 <th:block th:fragment="content">
+    <!--    <link th:href="@{/css/userPage/starRank.css}" rel="stylesheet">-->
+
 
     <style>
 
@@ -225,6 +228,116 @@
 
     </style>
 
+    <style>
+        /* 레이아웃 외곽 너비 400px 제한*/
+        .wrap1 {
+            max-width: 480px;
+            margin: 0 auto; /* 화면 가운데로 */
+            /*background-color: #ababab;*/
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+
+        }
+
+        /*.rating .rate_radio {*/
+        /*    z-index: 20;*/
+        /*    opacity: 0.1;*/
+        /*    width: 60px;*/
+        /*    height: 60px;*/
+        /*    background-color: #a19f9f;*/
+        /*    cursor: pointer;*/
+        /*    !*vertical-align: top;*!*/
+        /*    left: -100px;*/
+        /*    position: absolute;*/
+        /*}*/
+
+        #rating1 {
+            position: absolute;
+            left: 387px;
+            opacity: 0.001;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 20;
+
+        }
+
+        #rating2 {
+            position: absolute;
+            left: 447px;
+            opacity: 0.001;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 20;
+
+        }
+
+        #rating3 {
+            position: absolute;
+            left: 507px;
+            opacity: 0.001;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 20;
+
+        }
+
+        #rating4 {
+            position: absolute;
+            left: 567px;
+            opacity: 0.001;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 20;
+
+        }
+
+        #rating5 {
+            position: absolute;
+            left: 627px;
+            opacity: 0.001;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        .rating .rate_radio + label {
+            /*border: 0.5px solid gray;*/
+            position: relative;
+            display: block;
+            float: left;
+            z-index: 10;
+            width: 60px;
+            height: 60px;
+            background-image: url("/img/starrate.png");
+            background-repeat: no-repeat;
+            background-size: 60px 60px;
+            cursor: pointer;
+        }
+
+        .rating .ratefillYellow {
+            background-color: #ff8;
+            height: 60px;
+            position: absolute;
+            width: 60px; /* 초기에는 0으로 설정 */
+            transition: width 0.3s; /* 너비가 변경될 때 애니메이션을 추가합니다. */
+            z-index: 9;
+        }
+
+        .rating .ratefillGray {
+            position: absolute;
+            background-color: gray;
+            height: 60px;
+            width: 300px;
+            z-index: 1;
+        }
+    </style>
+
     <div style="display: flex; justify-content: center; margin-bottom: 10px">
         <div id="posts_main">
 
@@ -237,13 +350,15 @@
                              style="width: 300px; height: 221px; border-radius: 10px;">
                     </div>
                     <div class="right">
-                        <p class="gray-text p-right" th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'">
+                        <p class="gray-text p-right"
+                           th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'">
                             <b style="font-size: 20px;" th:text="${res.restNo.restName}"></b><br>
                             <b th:text="${res.restNo.restCategory}"></b><br>
                             <b th:text="${res.resTime}"></b><br>
                         <hr>
                         <div><b th:text="'예약 인원 : ' + ${res.res_guest_count}"
-                                th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b></div>
+                                th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b>
+                        </div>
                         <br>
                         <b th:text="${res.restNo.restAddr}"
                            th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b><br>
@@ -252,43 +367,100 @@
                                 th:class="${res.getReservationStatusEnum.getName() == '대기' ? 'yellowBtn' : (res.getReservationStatusEnum.getName() == '예약완료' ? 'greenBtn' : 'grayBtn')}"
                                 th:text="${res.getReservationStatusEnum.getName()}">
                         </button>
-                        <button id="reviewBtn" class="reviewBtn" th:if="${res.getReservationStatusEnum.getName() eq '이용완료' and revStatus ne 'OK'}">리뷰작성</button>
-                        <button id="reviewCompleteBtn" class="reviewBtnComplete" th:if="${res.getReservationStatusEnum.getName() eq '리뷰작성완료'}">리뷰작성완료</button>
-                        <button id="reviewBtn2" class="reviewBtn2" th:if="${res.getReservationStatusEnum.getName() eq '이용완료'}" style="display: none">작성취소</button>
+                        <button id="reviewBtn" class="reviewBtn"
+                                th:if="${res.getReservationStatusEnum.getName() eq '이용완료' and revStatus ne 'OK'}">리뷰작성
+                        </button>
+                        <button id="reviewCompleteBtn" class="reviewBtnComplete"
+                                th:if="${res.getReservationStatusEnum.getName() eq '리뷰작성완료'}">리뷰작성완료
+                        </button>
+                        <button id="reviewBtn2" class="reviewBtn2"
+                                th:if="${res.getReservationStatusEnum.getName() eq '이용완료'}" style="display: none">작성취소
+                        </button>
                     </div>
                 </div>
                 <div class="mid">
                     <div style="padding: 33px">
                         <div style="display: flex; justify-content: flex-start; flex-direction: column; margin-right: 1px; height: 412px">
-                            <form id="addRevForm" action="/user/submitReview" method="post" enctype="multipart/form-data">
-                                <label for="file">이미지:</label><br>
-                                <img style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;" id="preview" src="#" alt="">
-                                <br>
-                                <input type="file" id="file" name="file"><br>
+                            <input type="hidden" name="rate" id="rate" value="0"/>
+                            <p class="title_star">별점과 이용경험을 남겨주세요.</p>
+
+                            <form id="addRevForm" action="/user/submitReview" method="post"
+                                  enctype="multipart/form-data">
+                                <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <label for="file">이미지:</label><br>
+                                        <img style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;"
+                                             id="preview" src="#" alt="">
+                                        <br>
+                                        <input type="file" id="file" name="file">
+                                    </div>
+
+                                    <div class="rating">
+                                        <div class="ratefillGray"></div>
+                                        <div class="ratefillYellow"></div>
+                                        <input type="radio" name="revScore" id="rating1" value="10" class="rate_radio"
+                                               title="1점">
+                                        <label for="rating1"></label>
+                                        <input type="radio" name="revScore" id="rating2" value="20" class="rate_radio"
+                                               title="2점">
+                                        <label for="rating2"></label>
+                                        <input type="radio" name="revScore" id="rating3" value="30" class="rate_radio"
+                                               title="3점">
+                                        <label for="rating3"></label>
+                                        <input type="radio" name="revScore" id="rating4" value="40" class="rate_radio"
+                                               title="4점">
+                                        <label for="rating4"></label>
+                                        <input type="radio" name="revScore" id="rating5" value="50" class="rate_radio"
+                                               title="5점">
+                                        <label for="rating5"></label>
+                                        <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">
+                                    </div>
+                                    <br>
+
+                                </div>
                                 <hr>
-                                <div style="margin-top: 30px">
+                                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('[name="revScore"]').on('click', function () {
+                                            let ratingValue = $(this).val();
+                                            let selectedRevScore = document.querySelectorAll('.selectedRevScore')
+                                            let fillWidth = ratingValue * 6;
+
+                                            $('.ratefillYellow').css('width', fillWidth + 'px');
+
+                                            console.log('Selected Rating:', selectedRevScore.values());
+
+
+                                            // 선택된 별점 값을 hidden input 필드에 설정
+                                            $('#selectedRevScore').val(ratingValue);
+                                        });
+
+                                        // 리뷰 제출 버튼 클릭 시 hidden input 필드의 값을 확인
+                                        $('#revAdd').on('click', function () {
+                                            if ($('#selectedRevScore').val() === "") {
+                                                alert("별점을 선택해주세요."); // 또는 원하는 처리를 수행
+                                                return false; // 폼 전송 중단
+                                            }
+                                        });
+                                    });
+                                </script>
+
+                                <div style="margin-top: 53px">
                                     <label>식당 이름:</label>
                                     <div th:text="${res.getRestNo().restName}"></div>
-                                    <input th:if="${not #strings.isEmpty(res.res_no)}" th:value="${res.res_no}" name="resNo" th:hidden="true" />
-                                    <input th:value="${res.getRestNo().restNo}" name="restNo" th:hidden="true" />
+                                    <input th:if="${not #strings.isEmpty(res.res_no)}" th:value="${res.res_no}"
+                                           name="resNo" th:hidden="true"/>
+                                    <input th:value="${res.getRestNo().restNo}" name="restNo" th:hidden="true"/>
                                 </div>
                                 <hr>
                                 <div style="margin-top: 30px">
-                                    <label for="rating">평점:</label>
-                                    <select id="rating" name="revScore">
-                                        <option value="10">1</option>
-                                        <option value="20">2</option>
-                                        <option value="30">3</option>
-                                        <option value="40">4</option>
-                                        <option value="50">5</option>
-                                    </select>
-                                </div>
-                                <div style="margin-top: 30px">
-                                    <!--                                    <label for="reviewContent">리뷰 내용:</label>-->
-                                    <textarea id="reviewContent" name="revContent" rows="4" cols="50" style="resize: none;"></textarea>
+                                    <textarea id="reviewContent" name="revContent" rows="5" cols="82"
+                                              style="resize: none;"></textarea>
                                 </div>
                                 <button id="revAdd" class="reviewAddBtn" type="submit"
-                                        style="margin-top: 81px; position: relative; left: -37px; width: 114%;">리뷰 제출</button>
+                                        style="margin-top: 54px; position: relative; left: -37px; width: 114%;">리뷰 제출
+                                </button>
                             </form>
                             <script>
                                 function previewImage(input) {
@@ -307,7 +479,7 @@
                                     previewImage(e);
                                 }));
 
-                                document.getElementById("revAdd").addEventListener("click", function(event) {
+                                document.getElementById("revAdd").addEventListener("click", function (event) {
                                     document.getElementById("addRevForm").submit(); // 폼 제출
                                 });
                             </script>
@@ -329,7 +501,7 @@
     </div>
 
     <script>
-        gv=[];
+        gv = [];
         document.addEventListener('DOMContentLoaded', function () {
             var reviewBtns = document.querySelectorAll('.reviewBtn');
             var reviewBtns2 = document.querySelectorAll('.reviewBtn2');
@@ -378,8 +550,8 @@
                     }
                 });
             });
-            reviewBtns2.forEach(function (btn){
-                btn.addEventListener('click', function() {
+            reviewBtns2.forEach(function (btn) {
+                btn.addEventListener('click', function () {
                     var confirmation = window.confirm('리뷰를 작성을 취소하시겠습니까?');
                     if (confirmation) {
                         let container1 = this.closest('.container1');
@@ -422,9 +594,7 @@
         });
 
 
-
-
     </script>
-<script src="/js/imglazy.js"></script>
+    <script src="/js/imglazy.js"></script>
 </th:block>
 </html>

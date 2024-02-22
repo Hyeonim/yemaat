@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,7 @@ import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Controller
@@ -97,29 +99,6 @@ public class UserController {
         return "userPage/user_posts";
     }
 
-    // 유저가 작성한 리뷰 목록 페이지로 이동
-    @GetMapping("user_review")
-    public String userReviews(Principal principal, Model model) {
-        User user = userRepository.findByUserId(principal.getName()).orElse(null);
-
-        if (user != null) {
-            List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
-            List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(Long.valueOf(user.getUserNo()));
-            List<Review> reviews = reviewRepository.findByUserNo(user);
-            long userNoCount = reviewRepository.countByUserNo(user);
-
-            reservationService.checkReservationStatus(reservations, model);
-
-            model.addAttribute("main_user", user);
-            model.addAttribute("userNoCount", userNoCount);
-            model.addAttribute("restaurants", restaurantsForLatestReservation);
-            model.addAttribute("list", reservations);
-            model.addAttribute("review", reviews);
-        }
-
-        return "userPage/user_review";
-    }
-
     @PostMapping("submitReview")
     public String reviewAdd(Principal principal,Review review,@RequestParam MultipartFile file){
         user = userRepository.findByUserId(principal.getName()).get();
@@ -133,11 +112,105 @@ public class UserController {
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setUserNo(user);
         review.setRevImg(revImg);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedDateTime = LocalDateTime.now().format(formatter);
+        review.setRevWriteTime(String.valueOf(LocalDateTime.parse(formattedDateTime, formatter)));
 
         reviewRepository.save(review);
         reservationRepository.updateReservationStatusToReviewWithJoin();
         return "redirect:/user/user_posts";
     }
+
+    // 유저가 작성한 리뷰 목록 페이지로 이동
+    @GetMapping("user_review")
+    public String userReviews(Principal principal, Model model) {
+        User user = userRepository.findByUserId(principal.getName()).orElse(null);
+
+        if (user != null) {
+            List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+            List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(Long.valueOf(user.getUserNo()));
+            List<Review> reviews = reviewRepository.findByUserNoOrderByRevWriteTimeDesc(user);
+            long userNoCount = reviewRepository.countByUserNo(user);
+
+            // Check reservation status
+            reservationService.checkReservationStatus(reservations, model);
+
+            // Add user information to the model
+            model.addAttribute("main_user", user);
+            model.addAttribute("userNoCount", userNoCount);
+            model.addAttribute("restaurants", restaurantsForLatestReservation);
+            model.addAttribute("list", reservations);
+
+            // Calculate time ago for each review
+            List<String> timeAgoList = new ArrayList<>();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            LocalDateTime currentTime = LocalDateTime.now();
+
+            for (Review review : reviews) {
+                // Check if revWriteTime is not empty or null before parsing
+                if (StringUtils.hasText(review.getRevWriteTime())) {
+                    LocalDateTime reviewTime = LocalDateTime.parse(review.getRevWriteTime(), formatter);
+                    long minutesAgo = ChronoUnit.MINUTES.between(reviewTime, currentTime);
+
+                    if (minutesAgo < 60) {
+                        timeAgoList.add((minutesAgo == 0) ? "방금전" : minutesAgo + "분전");
+                    } else {
+                        long hoursAgo = ChronoUnit.HOURS.between(reviewTime, currentTime);
+
+                        if (hoursAgo < 24) {
+                            timeAgoList.add(hoursAgo + "시간전");
+                        } else {
+                            long daysAgo = ChronoUnit.DAYS.between(reviewTime, currentTime);
+
+                            if (daysAgo < 7) {
+                                timeAgoList.add(daysAgo + "일전");
+                            } else {
+                                long weeksAgo = daysAgo / 7;
+
+                                if (weeksAgo < 5) {
+                                    timeAgoList.add(weeksAgo + "주전");
+                                } else {
+                                    long monthsAgo = daysAgo / 30; // Assuming a month has 30 days
+
+                                    if (monthsAgo < 12) {
+                                        timeAgoList.add(monthsAgo + "개월전");
+                                    } else {
+                                        long yearsAgo = monthsAgo / 12;
+                                        timeAgoList.add(yearsAgo + "년전");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // Handle case where revWriteTime is empty or null
+                    timeAgoList.add("작성 시간 없음");
+                }
+            }
+
+
+
+            // Combine reviews and timeAgoList into a single attribute
+            List<Map<String, Object>> combinedList = new ArrayList<>();
+            for (int i = 0; i < reviews.size(); i++) {
+                Map<String, Object> combinedItem = new HashMap<>();
+                combinedItem.put("rev", reviews.get(i));
+                combinedItem.put("timeAgo", timeAgoList.get(i));
+                combinedList.add(combinedItem);
+
+                System.out.println(reviews.get(i).getRevScore());
+//                System.out.println("Combined Item " + i + ": " + combinedItem);
+//                System.out.println("Combined List " + i + ": " + combinedList);
+            }
+
+            // Add the combined list to the model
+            model.addAttribute("combinedList", combinedList);
+        }
+
+        return "userPage/user_review";
+    }
+
+
 
 
     // 유저 정보 페이지로 이동

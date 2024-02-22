@@ -18,7 +18,7 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findByRestNo(Dinning dinning);
-    List<Review> findByUserNo(User userNo);
+    List<Review> findByUserNoOrderByRevWriteTimeDesc(User userNo);
     long countByUserNo(User user);
 
 
