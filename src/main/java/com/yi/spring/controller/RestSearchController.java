@@ -89,7 +89,7 @@ public class RestSearchController {
         List<Dinning> restList = new ArrayList<>();
         boolean bActionDefault = true;
 
-//        System.out.println( params );
+        System.out.println( params );
         String filter1 = params.get( "filter1" );
         if ( null != filter1 )
         {

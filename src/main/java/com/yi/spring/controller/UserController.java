@@ -143,7 +143,7 @@ public class UserController {
 
             // Calculate time ago for each review
             List<String> timeAgoList = new ArrayList<>();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
             LocalDateTime currentTime = LocalDateTime.now();
 
             for (Review review : reviews) {
@@ -187,8 +187,6 @@ public class UserController {
                     timeAgoList.add("작성 시간 없음");
                 }
             }
-
-
 
             // Combine reviews and timeAgoList into a single attribute
             List<Map<String, Object>> combinedList = new ArrayList<>();
