@@ -59,7 +59,10 @@ public class IndexController {
         model.addAttribute("eventList", eventList);
 
         List<Notice> NList = noticeRepository.getList(); // 상단 배너 공지사항 목록
+        List<Notice> head = noticeRepository.findByImportantNotice(true); //고정 공지
+
         model.addAttribute("NList", NList);
+        model.addAttribute("head", head);
 
 
         List<Dinning> dList = dinningRepository.getRandomList("1"); // 상단 배너 추천 식당(랜덤)

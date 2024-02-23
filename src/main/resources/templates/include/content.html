@@ -13,18 +13,25 @@
 
             <div id="topDiv">
 
-                <div class="container mt-5" style="border: solid 1px black">
+                <div class="container mt-5">
                     <ul class="list">
                         <li class="tab-button selected"  onclick="changeTab(0)">주요 공지 사항</li>
-                        <li class="tab-button" onclick="changeTab(1)">Tab Menu02</li>
+                        <li class="tab-button" onclick="changeTab(1)">최근 공지 목록!</li>
+                        <li class="tab-button" onclick="changeTab(2)">모든 공지 보러 가기!</li>
                     </ul>
                     <div class="tab-content show">
+                        <ul th:each="head:${head}">
+                            <li th:text="${head.subject}"></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
                         <ul th:each="NList:${NList}">
                             <li th:text="${NList.subject}"></li>
                         </ul>
                     </div>
                     <div class="tab-content">
-                        <p>Menu02 설명내용</p>
+
+                       <a href="/notice/noticeList"> <h2>전체 공지 보러 가기!</h2></a>
                     </div>
 
                 </div>
