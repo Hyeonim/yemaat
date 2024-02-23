@@ -396,21 +396,21 @@
                                     <div class="rating">
                                         <div class="ratefillGray"></div>
                                         <div class="ratefillYellow"></div>
-                                        <input type="radio" name="revScore" id="rating1" value="10" class="rate_radio"
+                                        <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+1}" value="10" class="rate_radio"
                                                title="1점">
-                                        <label class="rate_label" for="rating1"></label>
-                                        <input type="radio" name="revScore" id="rating2" value="20" class="rate_radio"
+                                        <label class="rate_label" th:for="'rating'+${resStat.index*5+1}"></label>
+                                        <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+2}" value="20" class="rate_radio"
                                                title="2점">
-                                        <label class="rate_label" for="rating2"></label>
-                                        <input type="radio" name="revScore" id="rating3" value="30" class="rate_radio"
+                                        <label class="rate_label" th:for="'rating'+${resStat.index*5+2}"></label>
+                                        <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+3}" value="30" class="rate_radio"
                                                title="3점">
-                                        <label class="rate_label" for="rating3"></label>
-                                        <input type="radio" name="revScore" id="rating4" value="40" class="rate_radio"
+                                        <label class="rate_label" th:for="'rating'+${resStat.index*5+3}"></label>
+                                        <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+4}" value="40" class="rate_radio"
                                                title="4점">
-                                        <label class="rate_label" for="rating4"></label>
-                                        <input type="radio" name="revScore" id="rating5" value="50" class="rate_radio"
+                                        <label class="rate_label" th:for="'rating'+${resStat.index*5+4}"></label>
+                                        <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+5}" value="50" class="rate_radio"
                                                title="5점">
-                                        <label class="rate_label" for="rating5"></label>
+                                        <label class="rate_label" th:for="'rating'+${resStat.index*5+5}"></label>
                                         <input type="text" id="selectedRevScore" name="selectedRevScore" value="">
                                     </div>
                                     <br>
@@ -452,39 +452,48 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        // gv = [];
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var labels = document.querySelectorAll('.containers [class="rate_radio"]');
-            var inputs = document.querySelectorAll('.containers [class="rate_label"]');
+        gv = [];
+        gvl = [];
 
 
-            labels.forEach(function (label) {
-                label.addEventListener('click', function () {
+        // document.addEventListener('DOMContentLoaded', function () {
+        // 리뷰 작성 버튼을 누르면 동작
+        function reviewRateInput( reviewWriteBtn ){
+            var labels = reviewWriteBtn.closest( '.containers').querySelectorAll('[class="rate_radio"]');
+            // var inputs = document.querySelectorAll('.containers [class="rate_label"]');
+
+
+
+            labels.forEach(  function (label) {
+                gvl.push( label )
+                label.addEventListener('click', function (event) {
+                    gv.push( this );
+                    gv.push ( $(this ));
                     let ratingValue = $(this).val();
-                    let selectedRevScore = $(this).closest('.containers').find('#selectedRevScore');
+                    let container = $(this).closest('.containers')
+                    let selectedRevScore = container.find('#selectedRevScore');
                     let fillWidth = ratingValue * 6;
-                    let addRevForm = this.querySelectorAll('#addRevForm');
+                    // let addRevForm = this.querySelectorAll('#addRevForm');
 
-                    if (addRevForm) {
+                    // if (addRevForm) {
 
                         selectedRevScore.val(fillWidth);
 
-                    }
+                    // }
 
 
-                    $('.ratefillYellow').css('width', fillWidth + 'px');
-                });
-
-                inputs.forEach(function (input) {
-                    input.addEventListener('click', function () {
-                        console.log("11111")
-                        let radioId = $(this).attr('for');
-                        $(this).find('#' + radioId).prop('checked', true).trigger('click');  // 라디오 버튼 클릭 이벤트 트리거
-                    });
-                });
+                    container.find('.ratefillYellow').css('width', fillWidth + 'px');
+                })
             });
-        });
+                // inputs.forEach(function (input) {
+                //     input.addEventListener('click', function () {
+                //         console.log("11111")
+                //         let radioId = $(this).attr('for');
+                //         // $(this).find('#' + radioId).prop('checked', true).trigger('click');  // 라디오 버튼 클릭 이벤트 트리거
+                //     });
+                // });
+
+        };
     </script>
 
 
@@ -558,6 +567,9 @@
                     } else {
                         console.log('리뷰 작성이 취소되었습니다.');
                     }
+
+
+                    reviewRateInput(btn);
                 });
             });
             reviewBtns2.forEach(function (btn) {
