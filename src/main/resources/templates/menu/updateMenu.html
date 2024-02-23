@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/owner/viewRest}">
-<div class="menu-container" th:fragment="menuContent">
+<div class="menu-container" th:fragment="menuContent" style="margin-bottom: 20px;">
     <form id="updateMenuForm" th:action="@{/owner/viewRest/updateMenu/{menuNo}(menuNo=${menuNo})}" method="post">
         <label>메뉴 이름 : </label><input type="text" name="menuName" th:value="${menu.getMenuName()}"><br/>
         <label>메뉴 가격 : </label><input type="number" name="menuPrice" th:value="${menu.getMenuPrice()}"><br/>
@@ -13,6 +13,11 @@
     </form>
 
     <script>
+        (function () {
+            let menu = document.getElementsByClassName("menu-container")[0];
+            window.scrollBy({top: menu.getBoundingClientRect().top, behavior: 'smooth'});
+        })();
+
         function submitMenuForm() {
             if(confirm("수정하시겠습니까?")) {
                 let form = document.getElementById("updateMenuForm");
