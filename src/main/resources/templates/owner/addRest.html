@@ -19,7 +19,15 @@
             <p><label>가게 휴뮤일  </label><input type="text" name="restOffDays"></p>
             <p><label>가게 주차장  </label><input type="text" name="restParking"></p>
             <p><label>가게 메뉴  </label><input type="text" placeholder="가게 등록 후 상세보기 화면에서 추가 가능" readonly></p>
-            <p><label>가게 업태  </label><input type="text" name="restCategory"></p>
+            <p><label>가게 업태  </label>
+                <select name="restCategory">
+                    <option>전체</option>
+                    <option>한식</option>
+                    <option>양식</option>
+                    <option>일식</option>
+                    <option>중식</option>
+                    <option>디저트</option>
+                </select></p>
             <input type="hidden" name="restLatitude" id="restLatitude">
             <input type="hidden" name="restLongitude" id="restLongitude">
             <p><label>가게 소개글  </label><textarea name="restDescription" rows="5"></textarea> </p>
@@ -37,6 +45,7 @@
         let mapContainer = document.getElementById("map"),
             mapOption = {
                 center : new daum.maps.LatLng(35.86868025887658, 128.5987419727357),
+                draggable: false,
                 level : 5
             };
 

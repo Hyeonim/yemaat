@@ -16,7 +16,17 @@
             <p><label>가게 휴뮤일 : </label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}" readonly></p>
             <p><label>가게 주차장 : </label><input type="text" name="restParking" th:value="*{getRestParking()}" readonly></p>
             <label>가게 메뉴 : </label><th:block th:replace="${menuPage}::menuContent"></th:block>
-            <p> <label>가게 경도 : </label><input type="text" name="restLongitude" th:value="*{getRestLongitude()}" readonly></p>
+            <p><label>가게 업태 : </label>
+                <select name="restCategory" th:value="*{getRestCategory()}"
+                        onFocus="this.initialSelect = this.selectedIndex;"
+                        onChange="this.selectedIndex = this.initialSelect;">
+                    <option th:selected="*{getRestCategory()=='전체'}">전체</option>
+                    <option th:selected="*{getRestCategory()=='한식'}">한식</option>
+                    <option th:selected="*{getRestCategory()=='양식'}">양식</option>
+                    <option th:selected="*{getRestCategory()=='일식'}">일식</option>
+                    <option th:selected="*{getRestCategory()=='중식'}">중식</option>
+                    <option th:selected="*{getRestCategory()=='디저트'}">디저트</option>
+                </select></p>
             <p><label>가게 소개글 : </label><textarea name="restDesc" rows="5" readonly>[[*{getRestDescription()}]]</textarea></p>
             <p><label>대표 이미지 : </label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
 
@@ -32,6 +42,7 @@
         let mapContainer = document.getElementById("map"),
             mapOption = {
                 center : new daum.maps.LatLng(35.86868025887658, 128.5987419727357),
+                draggable: false,
                 level : 5
             };
 

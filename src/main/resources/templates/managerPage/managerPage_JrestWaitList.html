@@ -11,10 +11,10 @@
         <h1 style="margin-top: 100px">폐점 신청 목록</h1>
         <hr>
 
-        <input type="text" id="searchInput5" placeholder="가게 이름으로 검색" onchange="searchDinning5()">
-        <button onclick="searchDinning5()">검색</button>
+        <input type="text" id="searchInput7" placeholder="가게 이름으로 검색" onchange="searchDinning7()">
+        <button onclick="searchDinning7()">검색</button>
 
-        <table id="dinningCloseTable" style="text-align: center;">
+        <table id="dinningCloseTable2" style="text-align: center;">
             <thead>
             <tr>
                 <th>가게 번호</th>
@@ -46,8 +46,20 @@
             </tr>
             </tbody>
         </table>
-
-
     </div>
+
+    <script>
+        function searchDinning7() {
+            let searchInput7 = document.getElementById("searchInput7").value;
+            console.log(searchInput7)
+            fetch("/manager/managerPage_JrestWaitList?searchInput7=" + searchInput7)
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("dinningCloseTable2").innerHTML = doc.getElementById("dinningCloseTable2").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+    </script>
 </div>
 </html>

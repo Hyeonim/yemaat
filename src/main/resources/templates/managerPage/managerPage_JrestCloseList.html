@@ -11,8 +11,8 @@
         <h1 style="margin-top: 100px">폐점 가게 목록</h1>
         <hr>
 
-        <input type="text" id="searchInput5" placeholder="가게 이름으로 검색" onchange="searchDinning5()">
-        <button onclick="searchDinning5()">검색</button>
+        <input type="text" id="searchInput6" placeholder="폐점된 가게 이름으로 검색" onchange="searchDinning6()">
+        <button onclick="searchDinning6()">검색</button>
 
         <table id="dinningCloseTable" style="text-align: center;">
             <thead>
@@ -32,6 +32,41 @@
             </tr>
             </tbody>
         </table>
+        <div th:if="${!dinningList.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!dinningList.hasPrevious} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{|?page=${dinningList.number-1 < 0 ? 0 : dinningList.number-1}|}">
+                        <span>이전</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0, dinningList.totalPages-1)}"
+                    th:if="${page >= dinningList.number-5 and page <= dinningList.number+5}"
+                    th:classappend="${page == dinningList.number} ? 'active'"
+                    class="page-item">
+                    <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!dinningList.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${dinningList.number+1}|}">
+                        <span>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
+    <script>
+
+        function searchDinning6() {
+            let searchInput6 = document.getElementById("searchInput6").value;
+            console.log(searchInput6)
+            fetch("/manager/managerPage_JrestCloseList?searchInput6=" + searchInput6)
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("dinningCloseTable").innerHTML = doc.getElementById("dinningCloseTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+    </script>
 </div>
 </html>
