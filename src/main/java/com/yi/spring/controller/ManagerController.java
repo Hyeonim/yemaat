@@ -758,9 +758,10 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-
+//앙
     @GetMapping("/managerPage_JrestList")
-    public String restInfo(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+    public String restInfo(Model model,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
                            @RequestParam(value = "searchInput", required = false) String searchInput) {
         Page<Dinning> dinningList;
 
@@ -775,23 +776,22 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         return "managerPage";
     }
 
-    @GetMapping("/managerPage_JrestListWait")
-    public String restWait(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                           @RequestParam(value = "searchInput", required = false) String searchInput) {
+    @GetMapping("/managerPage_JrestWaitList")
+    public String restWait(Model model,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "searchInput7", required = false) String searchInput7) {
         Page<Dinning> dinningList;
 
-        if (searchInput != null && !searchInput.isEmpty()) {
-            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "WAIT");
+        if (searchInput7 != null && !searchInput7.isEmpty()) {
+            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput7, "WAIT");
         } else {
             dinningList = dinningService.findByStatusPaged(page, "WAIT");
         }
 
         model.addAttribute("dinningList", dinningList);
-        model.addAttribute("page", "managerPage/managerPage_JrestListWait");
+        model.addAttribute("page", "managerPage/managerPage_JrestWaitList");
         return "managerPage";
     }
-
-
 
     @GetMapping("/managerPage_JrestDetail")
     public String JumRestDetail(Model model, @RequestParam int restNo) {
@@ -916,15 +916,20 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 // 폐점 관련
 
     @GetMapping("/managerPage_JrestCloseList")
-    public String closeRestInfo(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                                @RequestParam(value = "searchInput5", required = false) String searchInput5) {
+    public String closeRestInfo(Model model,
+                                @RequestParam(value = "page", defaultValue = "0") int page,
+                                @RequestParam(value = "searchInput6", required = false) String searchInput6) {
+
+        System.out.println("aaaaaaaaaaaaaaaaaa" +searchInput6);
+
         Page<Dinning> dinningList;
 
-        if (searchInput5 != null && !searchInput5.isEmpty()) {
-            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput5, "CLOSED");
+        if (searchInput6 != null && !searchInput6.isEmpty()) {
+            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput6, "CLOSED");
         } else {
             dinningList = dinningService.findByStatusPaged(page, "CLOSED");
         }
+
 
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestCloseList");

@@ -152,16 +152,7 @@
         window.location.href = '/manager/managerPage_JrestDetail?restNo=' + restNo;
     }
 
-    function searchDinning() {
-        let searchInput = document.getElementById("searchInput").value;
-        fetch("/manager/managerPage_JrestList?searchInput=" + searchInput)
-            .then(resp => resp.text())
-            .then(data => {
-                let doc = new DOMParser().parseFromString(data, 'text/html');
-                document.getElementById("dinningTable").innerHTML = doc.getElementById("dinningTable").innerHTML;
-                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-            });
-    }
+
 
     function searchDinning2() {
         let searchInput2 = document.getElementById("searchInput2").value;
@@ -206,6 +197,10 @@
                 document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
             });
     }
+
+
+
+
 
 
 

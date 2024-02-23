@@ -14,7 +14,7 @@
         <input type="text" id="searchInput" placeholder="가게 이름으로 검색" onchange="searchDinning()">
         <button onclick="searchDinning()">검색</button>
 
-            <table  id="dinningTable"  style="text-align: center;">
+        <table id="dinningTable" style="text-align: center;">
             <thead>
             <tr>
                 <th>가게 번호</th>
@@ -56,6 +56,19 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        function searchDinning() {
+            let searchInput = document.getElementById("searchInput").value;
+            fetch("/manager/managerPage_JrestList?searchInput=" + searchInput)
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("dinningTable").innerHTML = doc.getElementById("dinningTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+    </script>
 </div>
 </html>
 

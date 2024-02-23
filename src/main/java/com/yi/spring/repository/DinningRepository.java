@@ -50,8 +50,12 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
     List<Dinning> getAllByUserAuthIsOwner();
 
 
+
     // 폐점 관련
-    Page<Dinning> findByRestNameAndRestStatus(String name, String status, Pageable pageable);
+
+    Page<Dinning> findByRestNameContainingAndRestStatus(String name, String status, Pageable pageable);
+
+
 
     Page<Dinning> findByRestStatus(String status, Pageable pageable);
 }

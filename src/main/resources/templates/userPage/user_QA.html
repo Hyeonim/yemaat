@@ -5,10 +5,43 @@
 
 <th:block th:fragment="content">
 
-    <h1>My 문의</h1>
-    <a th:href="@{/QA/user_qa_form/{userNo}(userNo=${Num})}">문의추가  </a>
-<!--    <a th:href="@{/user/userPage/{userNo}(userNo=${userNo.getUserNo()})}">돌아가기</a><br>-->
+    <style>
 
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 64.4%;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+
+        .page-item {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .page-link {
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        .page-link:hover {
+            color: #0056b3;
+        }
+
+    </style>
+
+<!--    <a th:href="@{/QA/user_qa_form/{userNo}(userNo=${Num})}">문의추가</a>-->
 
     <table>
         <thead>

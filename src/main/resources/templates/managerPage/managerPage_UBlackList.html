@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>블랙리스트 목록</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <div th:fragment="managerContent">
@@ -10,6 +11,7 @@
 
         <h1 style="margin-top: 100px">블랙 리스트 목록</h1>
         <hr>
+
         <input type="text" id="searchInput5" placeholder="블랙리스트 이름으로 검색" onchange="searchDinning5()">
         <button onclick="searchDinning5()">검색</button>
 
@@ -33,10 +35,10 @@
                 <td th:text="${user.userTel}">Name</td>
                 <!--                <td th:text="${user.userStartDate}">Name</td>-->
                 <td>
-                    <form action="managerPage_UBlack" method="get">
+                    <form id="blackForm" action="managerPage_UBlack" method="get">
                         <input type="hidden" name="userNo" th:value="${user.userNo}"></input>
                         <input type="hidden" name="confirm" value="false"></input>
-                        <button type="submit" onclick="confirmBlack(this)" style="background-color: black;
+                        <button type="button" onclick="confirmBlack(this)" style="background-color: black;
   border: none;
   color: white;
   text-align: center;
@@ -57,18 +59,29 @@
     <script>
 
         function confirmBlack(my) {
-            let confirmation = confirm("블랙을 푸시겠습니까?");
-            let form = document.getElementById("blackForm");
-            let confirmInput = my.parentNode.querySelector("input[name=confirm]");
-            confirmInput.value = confirmation;
-
-            form.submit();
-
+            swal({
+                title: "블랙리스트를 해제 하시겠습니까?",
+                text: "해제 하시려면 OK를 누르세요.",
+                icon: "info",
+                buttons: true,
+                dangerMode: false,
+            })
+                .then((willUnblack) => {
+                    if (willUnblack) {
+                        swal("Success!", "해제되었습니다.", "success")
+                            .then(() => {
+                                let form = document.getElementById("blackForm");
+                                let confirmInput = my.parentNode.querySelector("input[name=confirm]");
+                                confirmInput.value = true;
+                                form.submit();
+                            });
+                    } else {
+                        swal("Cancelled", "취소되었습니다.", "info");
+                    }
+                });
         }
 
+
     </script>
-
-
-
 </div>
 </html>

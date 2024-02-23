@@ -11,11 +11,10 @@
     <style>
 
         #posts_main {
-            position: absolute;
             display: flex;
             /*justify-content: center;*/
             /*align-items: center;*/
-            /*left: 650px;*/
+            left: 744.3px;
             top: 410px;
             margin: 0;
             flex-direction: column;
@@ -240,73 +239,72 @@
 
         }
 
-        /*.rating .rate_radio {*/
-        /*    z-index: 20;*/
-        /*    opacity: 0.1;*/
+        .rate_radio {
+            z-index: 20;
+            opacity: 0;
+            width: 60px;
+            height: 60px;
+            background-color: #a19f9f;
+            cursor: pointer;
+            position: absolute;
+            left: -999px;
+        }
+
+        /*#rating1 {*/
+        /*    position: absolute;*/
+        /*    left: 387px;*/
+        /*    opacity: 0.001;*/
         /*    width: 60px;*/
         /*    height: 60px;*/
-        /*    background-color: #a19f9f;*/
         /*    cursor: pointer;*/
-        /*    !*vertical-align: top;*!*/
-        /*    left: -100px;*/
-        /*    position: absolute;*/
+        /*    z-index: 20;*/
+
         /*}*/
 
-        #rating1 {
-            position: absolute;
-            left: 387px;
-            opacity: 0.001;
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            z-index: 20;
+        /*#rating2 {*/
+        /*    position: absolute;*/
+        /*    left: 447px;*/
+        /*    opacity: 0.001;*/
+        /*    width: 60px;*/
+        /*    height: 60px;*/
+        /*    cursor: pointer;*/
+        /*    z-index: 20;*/
 
-        }
+        /*}*/
 
-        #rating2 {
-            position: absolute;
-            left: 447px;
-            opacity: 0.001;
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            z-index: 20;
+        /*#rating3 {*/
+        /*    position: absolute;*/
+        /*    left: 507px;*/
+        /*    opacity: 0.001;*/
+        /*    width: 60px;*/
+        /*    height: 60px;*/
+        /*    cursor: pointer;*/
+        /*    z-index: 20;*/
 
-        }
+        /*}*/
 
-        #rating3 {
-            position: absolute;
-            left: 507px;
-            opacity: 0.001;
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            z-index: 20;
+        /*#rating4 {*/
+        /*    position: absolute;*/
+        /*    left: 567px;*/
+        /*    opacity: 0.001;*/
+        /*    width: 60px;*/
+        /*    height: 60px;*/
+        /*    cursor: pointer;*/
+        /*    z-index: 20;*/
 
-        }
+        /*}*/
 
-        #rating4 {
-            position: absolute;
-            left: 567px;
-            opacity: 0.001;
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            z-index: 20;
+        /*#rating5 {*/
+        /*    position: absolute;*/
+        /*    left: 627px;*/
+        /*    opacity: 0.001;*/
+        /*    width: 60px;*/
+        /*    height: 60px;*/
+        /*    cursor: pointer;*/
+        /*    z-index: 20;*/
+        /*}*/
 
-        }
-
-        #rating5 {
-            position: absolute;
-            left: 627px;
-            opacity: 0.001;
-            width: 60px;
-            height: 60px;
-            cursor: pointer;
-            z-index: 20;
-        }
-
-        .rating .rate_radio + label {
+        .rate_radio + label {
             /*border: 0.5px solid gray;*/
             position: relative;
             display: block;
@@ -400,51 +398,24 @@
                                         <div class="ratefillYellow"></div>
                                         <input type="radio" name="revScore" id="rating1" value="10" class="rate_radio"
                                                title="1점">
-                                        <label for="rating1"></label>
+                                        <label class="rate_label" for="rating1"></label>
                                         <input type="radio" name="revScore" id="rating2" value="20" class="rate_radio"
                                                title="2점">
-                                        <label for="rating2"></label>
+                                        <label class="rate_label" for="rating2"></label>
                                         <input type="radio" name="revScore" id="rating3" value="30" class="rate_radio"
                                                title="3점">
-                                        <label for="rating3"></label>
+                                        <label class="rate_label" for="rating3"></label>
                                         <input type="radio" name="revScore" id="rating4" value="40" class="rate_radio"
                                                title="4점">
-                                        <label for="rating4"></label>
+                                        <label class="rate_label" for="rating4"></label>
                                         <input type="radio" name="revScore" id="rating5" value="50" class="rate_radio"
                                                title="5점">
-                                        <label for="rating5"></label>
-                                        <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">
+                                        <label class="rate_label" for="rating5"></label>
+                                        <input type="text" id="selectedRevScore" name="selectedRevScore" value="">
                                     </div>
                                     <br>
-
                                 </div>
                                 <hr>
-                                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                                <script>
-                                    $(document).ready(function () {
-                                        $('[name="revScore"]').on('click', function () {
-                                            let ratingValue = $(this).val();
-                                            let selectedRevScore = document.querySelectorAll('.selectedRevScore')
-                                            let fillWidth = ratingValue * 6;
-
-                                            $('.ratefillYellow').css('width', fillWidth + 'px');
-
-                                            console.log('Selected Rating:', selectedRevScore.values());
-
-
-                                            // 선택된 별점 값을 hidden input 필드에 설정
-                                            $('#selectedRevScore').val(ratingValue);
-                                        });
-
-                                        // 리뷰 제출 버튼 클릭 시 hidden input 필드의 값을 확인
-                                        $('#revAdd').on('click', function () {
-                                            if ($('#selectedRevScore').val() === "") {
-                                                alert("별점을 선택해주세요."); // 또는 원하는 처리를 수행
-                                                return false; // 폼 전송 중단
-                                            }
-                                        });
-                                    });
-                                </script>
 
                                 <div style="margin-top: 53px">
                                     <label>식당 이름:</label>
@@ -462,27 +433,6 @@
                                         style="margin-top: 54px; position: relative; left: -37px; width: 114%;">리뷰 제출
                                 </button>
                             </form>
-                            <script>
-                                function previewImage(input) {
-                                    if (input.files && input.files[0]) {
-                                        var reader = new FileReader();
-
-                                        reader.onload = function (e) {
-                                            input.parentNode.querySelector("#preview").setAttribute('src', e.target.result);
-                                        }
-
-                                        reader.readAsDataURL(input.files[0]);
-                                    }
-                                }
-
-                                document.querySelectorAll('#file').forEach(e => e.addEventListener('change', function () {
-                                    previewImage(e);
-                                }));
-
-                                document.getElementById("revAdd").addEventListener("click", function (event) {
-                                    document.getElementById("addRevForm").submit(); // 폼 제출
-                                });
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -499,6 +449,66 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // gv = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var labels = document.querySelectorAll('.containers [class="rate_radio"]');
+            var inputs = document.querySelectorAll('.containers [class="rate_label"]');
+
+
+            labels.forEach(function (label) {
+                label.addEventListener('click', function () {
+                    let ratingValue = $(this).val();
+                    let selectedRevScore = $(this).closest('.containers').find('#selectedRevScore');
+                    let fillWidth = ratingValue * 6;
+                    let addRevForm = this.querySelectorAll('#addRevForm');
+
+                    if (addRevForm) {
+
+                        selectedRevScore.val(fillWidth);
+
+                    }
+
+
+                    $('.ratefillYellow').css('width', fillWidth + 'px');
+                });
+
+                inputs.forEach(function (input) {
+                    input.addEventListener('click', function () {
+                        console.log("11111")
+                        let radioId = $(this).attr('for');
+                        $(this).find('#' + radioId).prop('checked', true).trigger('click');  // 라디오 버튼 클릭 이벤트 트리거
+                    });
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    input.parentNode.querySelector("#preview").setAttribute('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.querySelectorAll('#file').forEach(e => e.addEventListener('change', function () {
+            previewImage(e);
+        }));
+
+        document.getElementById("revAdd").addEventListener("click", function (event) {
+            document.getElementById("addRevForm").submit(); // 폼 제출
+        });
+    </script>
 
     <script>
         gv = [];
