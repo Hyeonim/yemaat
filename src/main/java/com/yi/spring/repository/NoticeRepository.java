@@ -22,6 +22,10 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
 
     Page<Notice> findAll(Pageable pageable);
 
+
+    Page<Notice> findAllByOrderByImportantNoticeDesc(Pageable pageable);
+    List<Notice> findAllByOrderByImportantNoticeDesc();
+
     Page<Notice> findByImportantNoticeAndSubjectContaining(Boolean head, String keyword, Pageable pageable);
 
     Page<Notice> findBySubjectContaining(String keyword, Pageable pageable);
@@ -29,6 +33,9 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
     List<Notice> findByImportantNotice(Boolean head);
 
     Page<Notice> findByImportantNotice(Boolean head, Pageable pageable);
+
+
+
 
 
     @Query("SELECT n from Notice n order by n.writeDate desc limit 5")

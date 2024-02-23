@@ -102,16 +102,6 @@
 
     <script>
 
-        // function submitForm(my) {
-        //     let confirmation = confirm("상단에 고정하시겠습니까?");
-        //     // let form = document.getElementById("myForm");
-        //     let form = document.getElementById("myForm");
-        //     let confirmInput = my.parentNode.querySelector("input[name=head]");
-        //
-        //     confirmInput.value = confirmation;
-        //     form.submit();
-        // }
-
         function submitForm(checkbox) {
             let confirmation = confirm("상단에 고정하시겠습니까?");
             let form = checkbox.form;
@@ -123,40 +113,18 @@
         }
 
 
-
-
-
-        // function moveNotice(checkbox) {
-        //     var isChecked = checkbox.checked;
-        //     var row = checkbox.parentNode.parentNode; // 선택한 체크박스가 속한 행
-        //     var tableBody = row.parentNode; // 행이 속한 테이블 바디
-        //
-        //     if (isChecked) {
-        //         // 테이블에서 해당 행을 삭제
-        //         tableBody.removeChild(row);
-        //         // 테이블의 맨 위에 해당 행을 삽입
-        //         tableBody.insertBefore(row, tableBody.firstChild);
-        //     } else {
-        //         // 선택 해제된 경우에는 아무 작업도 수행하지 않습니다.
-        //     }
-        // }
-
-        function redirectToNoticeDetail(noticeId) {
-            document.getElementById("noticeForm").action = "/notice-detail?id=" + noticeId;
-            document.getElementById("noticeForm").submit();
+        //디테일로 이동 버튼
+        function redirectToNoticeDetail(id) {
+            window.location.href = '/manager/managerPage_NoticeDetail?id=' + id;
         }
 
-        // function moveNoticeToTop() {
-        //     var tableBody = document.getElementById("noticeTable").getElementsByTagName('tbody')[0];
-        //     var checkedRows = tableBody.querySelectorAll('input[type="checkbox"]:checked');
-        //
-        //     // Loop through checked checkboxes
-        //     for (var i = 0; i < checkedRows.length; i++) {
-        //         var row = checkedRows[i].parentNode.parentNode; // Get the row of the checked checkbox
-        //         tableBody.removeChild(row); // Remove the row from its current position
-        //         tableBody.insertBefore(row, tableBody.firstChild); // Insert the row at the top of the table
-        //     }
+        // function redirectToNoticeDetail(noticeId) {
+        //     document.getElementById("noticeForm").action = "/notice-detail?id=" + noticeId;
+        //     document.getElementById("noticeForm").submit();
         // }
+
+
+
 
     </script>
 
