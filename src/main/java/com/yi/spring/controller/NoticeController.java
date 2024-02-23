@@ -41,12 +41,17 @@ public class NoticeController {
 
     @GetMapping("/notice_detail")
     public String noticeDetail(Model model,
-                               @RequestParam int id) {
+                               @RequestParam int id,
+                               @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        Optional<Notice> list = noticeRepository.findById(id);
+        Optional<Notice> notice = noticeRepository.findById(id);
+
+        Page<Notice> noticeList = noticeService.findByAllDESC(page);
 
 
-        model.addAttribute("list", list); // 수정된 부분: 검색 결과를 담도록 변경
+        model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
+
+        model.addAttribute("notice", notice); // 수정된 부분: 검색 결과를 담도록 변경
 
 
         return "/notice_detail";
