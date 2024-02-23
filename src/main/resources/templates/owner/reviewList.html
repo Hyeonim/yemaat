@@ -18,7 +18,7 @@
                     <td>[[*{getRevScore()}]]</td>
                     <td>[[*{getUserNo().getUserId()}]]</td>
                     <td>[[*{getRevContent()}]]</td>
-                    <td>[[*{getRevWriteTime()}]]</td>
+                    <td>[[*{#temporals.format(getRevWriteTime(), 'yyyy-MM-dd')}]]</td>
                 </tr>
             </th:block>
         </table>

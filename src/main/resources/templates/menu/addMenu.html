@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/owner/viewRest}">
-<div class="menu-container" th:fragment="menuContent">
+<div class="menu-container" th:fragment="menuContent" style="margin-bottom: 20px;">
 
 <form id="addMenuForm" th:action="@{/owner/viewRest/addMenu}" method="post">
     <label>메뉴 이름 : </label><input type="text" name="menuName"><br/>
@@ -13,14 +13,19 @@
 </form>
 
 <script>
-        function submitMenuForm() {
-            let form = document.getElementById("addMenuForm");
-            if (form) { // Form 존재 여부 확인
-                if (confirm("등록하시겠습니까?")) {
-                    form.submit();
-                }
-            } else {
-                console.error("Form element not found!");
+    (function () {
+        let menu = document.getElementsByClassName("menu-container")[0];
+        window.scrollBy({top: menu.getBoundingClientRect().top, behavior: 'smooth'});
+    })();
+
+    function submitMenuForm() {
+    let form = document.getElementById("addMenuForm");
+    if (form) { // Form 존재 여부 확인
+    if (confirm("등록하시겠습니까?")) {
+    form.submit();
+    }
+    } else {
+    console.error("Form element not found!");
             }
         }
 </script>

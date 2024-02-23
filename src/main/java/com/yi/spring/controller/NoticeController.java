@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/notice")
@@ -25,19 +26,30 @@ public class NoticeController {
     NoticeRepository noticeRepository;
 
     @GetMapping("/noticeList")
-    public String managerPage(Model model,
-                              @RequestParam(value = "page", defaultValue = "0") int page) {
+    public String noticeList(Model model,
+                             @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        List<Notice> head = noticeRepository.findByImportantNotice(true);
 
-        Page<Notice> noticeList = noticeService.findAll(page);
+        Page<Notice> noticeList = noticeService.findByAllDESC(page);
 
 
         model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
-        model.addAttribute("head", head); // 수정된 부분: 검색 결과를 담도록 변경
 
 
         return "notice";
+    }
+
+    @GetMapping("/notice_detail")
+    public String noticeDetail(Model model,
+                               @RequestParam int id) {
+
+        Optional<Notice> list = noticeRepository.findById(id);
+
+
+        model.addAttribute("list", list); // 수정된 부분: 검색 결과를 담도록 변경
+
+
+        return "/notice_detail";
     }
 
 }

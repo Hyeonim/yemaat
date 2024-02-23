@@ -1,0 +1,47 @@
+#noticeTable {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+#noticeTable th, td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+#noticeTable th {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: bold;
+}
+
+#noticeTable tbody tr:hover {
+    cursor: pointer;
+}
+
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination li {
+    cursor: pointer;
+}
+
+.pagination li.active a {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.pagination li.disabled a {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+#content{
+    margin-top: 70px;
+
+
+}

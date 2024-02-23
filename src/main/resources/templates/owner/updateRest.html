@@ -11,7 +11,7 @@
             <p><label>가게 이름 : </label><input type="text" name="restName" th:value="*{getRestName()}"></p>
             <p><label>가게 주소</label><button onclick="execDaumPostcode(event)">우편번호 찾기</button></p>
             <p><label></label><input type="text" id="roadAddress" placeholder="도로명주소" th:value="*{getRestAddr().split(', ')[0]}" readonly></p>
-            <p><label></label><input type="text" id="detailAddress" placeholder="상세주소" th:value="*{getRestAddr().split(', ')[1]}"></p>
+            <p><label></label><input type="text" id="detailAddress" placeholder="상세주소" th:value="*{getRestAddr().split(', ').length > 1} ? *{getRestAddr().split(', ')[1]} :''"></p>
             <input type="hidden" name="restAddr" id="restAddr">
             <div id="map" style="width:70%;height:300px;margin:10px;"></div>
             <p><label>가게 번호 : </label><input type="text" name="restTel" th:value="*{getRestTel()}"></p>
@@ -19,7 +19,15 @@
             <p><label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}"></p>
             <p><label>가게 휴뮤일 : </label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}"></p>
             <p><label>가게 주차장 : </label><input type="text" name="restParking" th:value="*{getRestParking()}"></p>
-            <p><label>가게 업태 : </label><input type="text" name="restCategory" th:value="*{getRestCategory()}"></p>
+            <p><label>가게 업태 : </label>
+                <select name="restCategory" th:value="*{getRestCategory()}" readonly>
+                    <option th:selected="*{getRestCategory()=='전체'}">전체</option>
+                    <option th:selected="*{getRestCategory()=='한식'}">한식</option>
+                    <option th:selected="*{getRestCategory()=='양식'}">양식</option>
+                    <option th:selected="*{getRestCategory()=='일식'}">일식</option>
+                    <option th:selected="*{getRestCategory()=='중식'}">중식</option>
+                    <option th:selected="*{getRestCategory()=='디저트'}">디저트</option>
+                </select></p>
             <input type="hidden" name="restLatitude" id="restLatitude" th:value="*{getRestLatitude()}">
             <input type="hidden" name="restLongitude" id="restLongitude" th:value="*{getRestLongitude()}">
             <p><label>가게 소개글 : </label><textarea name="restDesc" rows="5">[[*{getRestDescription()}]]</textarea></p>
@@ -42,6 +50,7 @@
         let mapContainer = document.getElementById("map"),
             mapOption = {
                 center : new daum.maps.LatLng(latitude, longitude),
+                draggable: false,
                 level : 5
             };
 
