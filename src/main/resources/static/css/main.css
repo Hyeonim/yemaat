@@ -11,12 +11,14 @@ img {
     vertical-align: middle;
     border-style: none;
 }
+
 a {
     /*color: #007bff;*/
     color: #000;
     text-decoration: none;
     background-color: transparent;
 }
+
 .navbar {
     --bs-navbar-padding-x: 0;
     --bs-navbar-padding-y: 0.5rem;
@@ -45,6 +47,7 @@ a {
     justify-content: space-between;
     padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
 }
+
 .navbar-brand {
     display: inline-block;
     padding-top: .3125rem;
@@ -55,15 +58,18 @@ a {
     white-space: nowrap;
     text-decoration: none;
 }
+
 .navbar-light .navbar-brand {
-    color: rgba(0,0,0,.9);
+    color: rgba(0, 0, 0, .9);
 }
+
 .navbar-expand-lg {
     -ms-flex-flow: row nowrap;
     flex-flow: row nowrap;
     -ms-flex-pack: start;
     justify-content: flex-start;
 }
+
 .navbar {
     position: relative;
     display: -ms-flexbox;
@@ -76,12 +82,14 @@ a {
     justify-content: space-between;
     padding: .5rem 1rem;
 }
+
 /*- bootstrap@4.3.1*/
 /*_nav.scss*/
 .nav-link {
     display: block;
     padding: .5rem 1rem;
 }
+
 .nav-link {
     display: block;
     /*padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);*/
@@ -91,38 +99,46 @@ a {
     text-decoration: none;
     background: 0 0;
     border: 0;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
 }
+
 /*_reboot.scss*/
 [type=search] {
     outline-offset: -2px;
     -webkit-appearance: none;
 }
+
 button, input {
     overflow: visible;
 }
+
 button, input, optgroup, select, textarea {
     margin: 0;
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
 }
+
 input:not([type="image" i]) {
     box-sizing: border-box;
 }
+
 input[type="search" i] {
     appearance: auto;
     box-sizing: border-box;
     padding-block: 1px;
     padding-inline: 2px;
 }
+
 dl, ol, ul {
     margin-top: 0;
     margin-bottom: 1rem;
 }
+
 ol, ul {
     padding-left: 2rem;
 }
+
 ul {
     display: block;
     list-style-type: disc;
@@ -132,53 +148,56 @@ ul {
     margin-inline-end: 0px;
     padding-inline-start: 40px;
 }
+
 li {
     display: list-item;
     text-align: -webkit-match-parent;
 }
 
 
-
-
-
-
-
-
-
-
 /*메인 css*/
 
-header{
-    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
 }
+
 header nav:nth-of-type(1) {
     background: wheat;
     justify-content: flex-start;
 }
-#top{
+
+#top {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
 }
-#searchBar{
+
+#searchBar {
     height: 40px;
     /*margin-left: 30%;*/
     width: 500px;
     border-radius: 10px;
 }
-#navbarNav{
+
+#navbarNav {
     width: 400px;
     display: flex;
     justify-content: flex-end;
     flex-grow: 1;
 }
+
 #navbarNav button {
     background: transparent;
     box-shadow: none;
     text-transform: none;
     border: none;
 }
+
 #navbarNav .dropmenu {
     display: none;
     position: absolute;
@@ -189,22 +208,25 @@ header nav:nth-of-type(1) {
     transform-origin: top left;
     opacity: 0;
     overflow: auto;
-    will-change: transform,opacity;
-    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2),0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12);
+    will-change: transform, opacity;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
     transform-origin-left: top left;
     transform-origin-right: top right;
     padding: 10px 10px 0px 0px;
     border-radius: 10px;
     z-index: 5;
 }
+
 #navbarNav .dropmenu.visible {
     display: inline-block;
     transform: scale(1);
     opacity: 1;
 }
-#navbarNav .dropmenu ul, #navbarNav .dropmenu li  {
+
+#navbarNav .dropmenu ul, #navbarNav .dropmenu li {
     list-style-type: none;
 }
+
 #navbarNav .dropmenu li:hover {
     background-color: #ffd9885c;
 }
@@ -245,7 +267,7 @@ header nav:nth-of-type(1) {
     margin-left: 50px;
 }
 
-#center_box{
+#center_box {
     display: flex;
     /*grid-template-columns: 1fr 1fr 1fr;*/
     /*margin-top: 50px;*/
@@ -253,7 +275,7 @@ header nav:nth-of-type(1) {
     margin-right: 100px;
 }
 
-#topDiv{
+#topDiv {
     height: 270px;
     background: white;
     border-radius: 20px;
@@ -262,13 +284,17 @@ header nav:nth-of-type(1) {
     flex-basis: 100px;
     flex-grow: 1;
 }
-#topDiv h2{ text-align: center; }
-#topDiv ul{
+
+#topDiv h2 {
+    text-align: center;
+}
+
+#topDiv ul {
     text-align: left;
     list-style: square;
 }
 
-#random_box{
+#random_box {
     height: 270px;
     background-color: white;
     /*float: 1;*/
@@ -280,7 +306,7 @@ header nav:nth-of-type(1) {
 }
 
 /*new_event_box*/
-#new_event_box{
+#new_event_box {
     width: 330px;
     height: 270px;
     background-color: white;
@@ -294,16 +320,18 @@ header nav:nth-of-type(1) {
 .event_slide_box {
     margin: 0;
     padding: 5px;
-    border-radius:3%;
+    border-radius: 3%;
 }
-.event_slide_box img{
-    border-radius:3%;
+
+.event_slide_box img {
+    border-radius: 3%;
     width: 100%;
     height: 185px;
     overflow: hidden;
 }
+
 .event_slide_box a {
-    color : black;
+    color: black;
     text-decoration: none;
 }
 
@@ -323,10 +351,10 @@ header nav:nth-of-type(1) {
 
 
 /*home (인덱스)*/
-.reviewT img{
-    width:238px;
-    height:238px;
-    border-radius:14px
+.reviewT img {
+    width: 238px;
+    height: 238px;
+    border-radius: 14px
 }
 
 .slideshow {
@@ -339,20 +367,25 @@ header nav:nth-of-type(1) {
     margin: 32px auto;
     padding: 20px 0px;
 }
+
 .slideshow .reviewT {
     margin: 0px 7px;
     position: relative;
 }
+
 .slideshow .background {
     display: flex;
     /*transition: transform 0.5s ease;*/
 }
+
 .slideshow div.reviewT {
     display: inline-block;
 }
-.slideshow span, .slideshow p{
+
+.slideshow span, .slideshow p {
     display: none;
 }
+
 .slideshow p:nth-of-type(2) {
     display: block;
     position: absolute;
@@ -366,14 +399,16 @@ header nav:nth-of-type(1) {
     font-size: 0.875rem;
     font-weight: 500;
 }
+
 .slideshow p:nth-of-type(3) {
-    width:100%;
+    width: 100%;
     display: block;
     font-weight: bold;
     position: absolute;
     top: 243px;
     left: 0px;
 }
+
 .slideshow div.overtip {
     position: absolute;
     left: 0px;
@@ -386,13 +421,16 @@ header nav:nth-of-type(1) {
     background-color: rgba(0, 0, 0, 0.64);
     border-radius: 0px 30px 12px 12px;
 }
+
 .slideshow div.overtip hr {
-    border-color:rgb(159 159 159 / 20%)
+    border-color: rgb(159 159 159 / 20%)
 }
+
 .slideshow div.overtip span, .slideshow div.overtip a {
     display: block;
     color: #fff;
 }
+
 .right_menu_list {
     position: fixed;
     top: 50%;
@@ -400,30 +438,35 @@ header nav:nth-of-type(1) {
     right: 1px;
     z-index: 3;
 }
+
 /*width와 padding-left는 js에서 조정함*/
-.right_menu_list .slideshow{
+.right_menu_list .slideshow {
     transition: all 0.6s ease 0s;
     overflow: auto;
     scrollbar-width: none;
-    width:328px;
+    width: 328px;
     /*padding-left:9px;*/
 }
-.right_menu_list .slideshow .reviewT{
+
+.right_menu_list .slideshow .reviewT {
     margin-bottom: 10px;
 }
+
 /*우측메뉴 스타일 비율조절*/
-.right_menu_list img{
-    width: calc(238px*0.6);
-    height: calc(238px*0.6);
+.right_menu_list img {
+    width: calc(238px * 0.6);
+    height: calc(238px * 0.6);
 }
-.right_menu_list div.overtip{
-    width: calc(187px*0.6);
+
+.right_menu_list div.overtip {
+    width: calc(187px * 0.6);
     /*height: 36px; 글자 크기만 줄이면 자동*/
     padding-top: 5px;
     border-top-right-radius: 9px;
 }
-.right_menu_list div.overtip span{
-    font-size:0.6rem;
+
+.right_menu_list div.overtip span {
+    font-size: 0.6rem;
     height: 17%;
 }
 
@@ -451,13 +494,16 @@ header nav:nth-of-type(1) {
     height: 1px;
     background-color: rgb(157 72 72);
 }
+
 .hraekA:hover {
     background-color: rgb(25, 183, 194);
     font-weight: 500;
 }
+
 .hraekA:hover .Read__More__Text {
     color: rgb(255, 255, 255);
 }
+
 .hraekA .Read__More__Text {
     min-height: 20px;
     font-size: 0.875rem;
@@ -465,6 +511,7 @@ header nav:nth-of-type(1) {
     color: rgb(80, 80, 80);
     transition: all 0.2s ease-in-out 0s;
 }
+
 .ixuUGo {
     display: flex;
     flex-direction: column;
@@ -475,6 +522,7 @@ header nav:nth-of-type(1) {
     box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
     background-color: rgb(255, 255, 255);
 }
+
 .MymCy {
     display: flex;
     -webkit-box-align: center;
@@ -490,6 +538,49 @@ header nav:nth-of-type(1) {
     color: rgb(255, 255, 255);
 }
 
+/*//공지사항css*/
 
+/*tab css*/
+/* 컨테이너 스타일 */
+ul.list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid gray;
+}
 
+ul.list::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.tab-button {
+    display: block;
+    padding: 10px 30px 10px 30px;
+    float: left;
+    margin-right: -1px;
+    margin-bottom: -1px;
+    color: grey;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.selected {
+    border-top: 2px solid dodgerblue;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid white;
+    border-left: 1px solid #ccc;
+    color: black;
+    margin-top: -2px;
+}
+
+.tab-content {
+    display: none;
+    padding: 10px;
+}
+
+.show {
+    display: block;
+}
 
