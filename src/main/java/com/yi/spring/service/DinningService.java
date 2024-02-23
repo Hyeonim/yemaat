@@ -48,7 +48,7 @@ public class DinningService {
 
     public Page<Dinning> searchByDinningNameAndStatusPaged(int page, String name, String status) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("restNo").ascending());
-        return dinningRepository.findByRestNameAndRestStatus(name, status, pageable);
+        return dinningRepository.findByRestNameContainingAndRestStatus(name, status, pageable);
     }
     public Page<Dinning> findByStatusPaged(int page, String status) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by("restNo").ascending());
