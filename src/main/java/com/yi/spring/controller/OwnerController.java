@@ -4,10 +4,12 @@ import com.yi.spring.entity.*;
 import com.yi.spring.repository.DeleteUserRepository;
 import com.yi.spring.repository.ImgTableRepository;
 import com.yi.spring.repository.ReservationRepository;
+import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.service.DiningRestService;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.MenuService;
 import com.yi.spring.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,22 +29,16 @@ import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/owner/*")
+@RequiredArgsConstructor
 public class OwnerController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private DiningRestService diningRestService;
-    @Autowired
-    private MenuService menuService;
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    private EventService eventService;
-    @Autowired
-    private ImgTableRepository imageTableRepository;
-
-    @Autowired
-    private DeleteUserRepository deleteUserRepository;
+    private final UserService userService;
+    private final DiningRestService diningRestService;
+    private final MenuService menuService;
+    private final ReservationRepository reservationRepository;
+    private final EventService eventService;
+    private final ImgTableRepository imageTableRepository;
+    private final ReviewRepository reviewRepository;
+    private final DeleteUserRepository deleteUserRepository;
 //    @Autowired
 //    private ModelMapper modelMapper;
 
@@ -479,7 +475,7 @@ public class OwnerController {
         model.addAttribute("eventList", eventList);
 
         model.addAttribute("pageName", "이벤트 목록");
-        return "/event/eventList";
+        return "event/eventList";
 
     }
 
@@ -582,5 +578,20 @@ public class OwnerController {
         Event event = eventService.findByEventNo(eventNo);
         eventService.deleteEvent(event);
         return "redirect:/owner/eventList";
+    }
+
+    // ------------------------ 리뷰 관련 ---------------------------
+    @GetMapping("reviewList")
+    public String reviewList(Principal principal, Model model) {
+        User loginUser = userService.findByUserId(principal.getName()).get();
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
+
+        List<Review> reviewList = reviewRepository.findByRestNo(dinning);
+        model.addAttribute("reviewList", reviewList);
+
+        model.addAttribute("pageName", "식당 리뷰 관리");
+        return "owner/reviewList";
     }
 }

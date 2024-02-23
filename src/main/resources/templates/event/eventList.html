@@ -5,17 +5,36 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <ul>
-        <li>
-            <span>번호</span>
-            <span>제목</span>
-        </li>
-        <th:block th:each="event : ${eventList}">
-            <li>
-                <span>[[${event.getEventNo()}]]</span>
-                <span><a th:href="@{/owner/viewEvent/{eventNo}(eventNo=${event.getEventNo()})}">[[${event.getEventTitle()}]]</a></span>
-            </li>
-        </th:block>
-    </ul>
+    <div class="blockDiv">
+        <table>
+            <tr>
+                <th>상태</th>
+                <th>제목</th>
+                <th>이벤트 시작일</th>
+                <th>이벤트 마감일</th>
+                <th>이벤트 작성일</th>
+            </tr>
+            <th:block th:each="event : ${eventList}" th:object="${event}">
+                <tr>
+                    <td id="status"></td>
+                    <td><a th:href="@{/owner/viewEvent/{eventNo}(eventNo=*{getEventNo()})}">[[*{getEventTitle()}]]</a></td>
+                    <td id="eventStartTime">[[*{getEventStartTime()}]]</td>
+                    <td id="eventEndTime">[[*{getEventEndTime()}]]</td>
+                    <td>[[*{#temporals.format(getWriteDate(), 'yyyy-MM-dd')}]]</td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+    <script>
+        let startTime = new Date(document.getElementById("eventStartTime").textContent);
+        let endTime = new Date(document.getElementById("eventEndTime").textContent);
+
+        let today = new Date();
+        if(startTime <= today && today <= endTime) {
+            document.getElementById("status").textContent = "진행중";
+        } else {
+            document.getElementById("status").textContent = "마감";
+        }
+    </script>
 </th:block>
 </html>

@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Blob;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Getter
@@ -38,7 +40,7 @@ public class Review {
     private Reservation resNo;
 
     @Column(name = "rev_write_time", length = 100)
-    private String revWriteTime;
+    private LocalDateTime revWriteTime;
 
     @Lob
     @Column(name = "rev_img" ,length = 105000)

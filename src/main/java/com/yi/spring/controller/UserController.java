@@ -114,7 +114,7 @@ public class UserController {
         review.setRevImg(revImg);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = LocalDateTime.now().format(formatter);
-        review.setRevWriteTime(String.valueOf(LocalDateTime.parse(formattedDateTime, formatter)));
+        review.setRevWriteTime(LocalDateTime.parse(formattedDateTime, formatter));
 
         reviewRepository.save(review);
         reservationRepository.updateReservationStatusToReviewWithJoin();
@@ -148,8 +148,8 @@ public class UserController {
 
             for (Review review : reviews) {
                 // Check if revWriteTime is not empty or null before parsing
-                if (StringUtils.hasText(review.getRevWriteTime())) {
-                    LocalDateTime reviewTime = LocalDateTime.parse(review.getRevWriteTime(), formatter);
+                if (review.getRevWriteTime() != null) {
+                    LocalDateTime reviewTime = review.getRevWriteTime();
                     long minutesAgo = ChronoUnit.MINUTES.between(reviewTime, currentTime);
 
                     if (minutesAgo < 60) {

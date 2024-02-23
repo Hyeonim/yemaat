@@ -40,7 +40,7 @@ public class Event {
     private Dinning restNo;
 
     @Column(name = "write_date")
-    private String writeDate = String.valueOf(LocalDateTime.now());
+    private LocalDateTime writeDate = LocalDateTime.now();
 
     public String getBase64Image() {
         if (eventImg != null && eventImg.length > 0) {
