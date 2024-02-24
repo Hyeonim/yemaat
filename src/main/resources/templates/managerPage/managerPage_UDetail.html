@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <script>
+    <script th:inline="javascript">
         function previewImage(input) {
             var preview = document.getElementById('preview');
 
@@ -80,7 +80,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Success!", "삭제 되었습니다!", "success")
+                        swal("Success!", [[${user.get().userName}]] + " 님의 정보가 삭제 되었습니다!", "success")
                             .then(function (){
                                 document.getElementById("UDelForm").submit();
                             });
@@ -100,7 +100,7 @@
             })
                 .then((willUpDate) => {
                     if (willUpDate) {
-                        swal("Success!", "수정 되었습니다!", "success")
+                        swal("Success!", [[${user.get().userName}]] + " 님의 정보가 수정 되었습니다!", "success")
                             .then(function (){
                                 document.getElementById("UUpdForm").submit();
                             });

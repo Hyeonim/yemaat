@@ -113,7 +113,7 @@
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Success!", [[${user.userName}]]  + "님의 정보가 삭제 되었습니다!", "success")
+                        swal("Success!", [[${user.userName}]] + "님의 정보가 삭제 되었습니다!", "success")
                             .then(function (){
                                 document.getElementById("JFormDel").submit();
                             });
@@ -126,14 +126,14 @@
         document.getElementById("fifthJ").addEventListener("click", function (){
             swal({
                 title : "수정하시겠습니까?",
-                text : "정말 수정하시겠습니까?",
+                text : "정말 수정 하시겠습니까?",
                 icon : "info",
                 buttons : true,
                 dangerMode : false,
             })
                 .then((willUpdate) => {
                     if (willUpdate) {
-                        swal("Success!", "삭제 되었습니다!", "success")
+                        swal("Success!", [[${user.userName}]] + " 님의 정보가 수정 되었습니다!", "success")
                             .then(function (){
                                 document.getElementById("updateForm").submit();
                             });

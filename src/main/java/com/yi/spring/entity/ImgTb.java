@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Base64;
+
 @Getter
 @Setter
 @Entity
@@ -19,5 +21,13 @@ public class ImgTb {
 
     @Column(name = "bytes")
     private byte[] bytes;
+
+
+    public String getBase64Image() {
+        if (bytes != null && bytes.length > 0) {
+            return Base64.getEncoder().encodeToString(bytes);
+        }
+        return "";
+    }
 
 }

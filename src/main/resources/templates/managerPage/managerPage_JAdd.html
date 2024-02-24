@@ -67,6 +67,7 @@
             previewImage(this);
         });
 
+
         document.getElementById("submit").addEventListener("click", function (event) {
             // 각 필드의 값이 비어 있는지 확인
             const userName = document.getElementById('userName').value;
@@ -82,19 +83,20 @@
 
             swal({
                 title: "등록하시겠습니까?",
-                text: "등록하시려면 OK를 누르세요.",
+                text: "추가한 내용을 확인하고 등록하시겠습니까?",
                 icon: "info",
                 buttons: true,
                 dangerMode: false,
             })
                 .then((willSubmit) => {
                     if (willSubmit) {
-                        swal("Good job!", "(점주)" + userName + "님의 정보가 등록 되었습니다!", "success")
+                        swal("Success!", "(점주)" + " " + userName + "님의 정보가 등록 되었습니다!", "success")
                             .then(function (){
                                 document.getElementById("form2").submit(); // 폼 제출
                             });
                     } else {
-                        swal("Cancelled", "등록이 취소되었습니다.", "error");
+                        // swal("Cancelled", "등록이 취소되었습니다.", "error");
+                        swal("등록이 취소 되었습니다.")
                         // 기본 이미지로 다시 설정
                         // document.getElementById('preview').setAttribute('src', '/images/jumPerson.png');
                         // 파일 입력 필드 초기화

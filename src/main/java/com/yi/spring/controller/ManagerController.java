@@ -67,6 +67,9 @@ public class ManagerController {
     @Autowired
     NoticeService noticeService;
 
+    @Autowired
+    ImgTableRepository imgTableRepository;
+
 
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
@@ -798,7 +801,11 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
 
+        Optional<ImgTb> img = imgTableRepository.findById(Long.valueOf(dinningList.get().getRestImg()));
+//        System.out.println("gggggggggggggggggggggGG" + img.get().getId());
+
         model.addAttribute("dinning", dinningList);
+        model.addAttribute("img", img);
         model.addAttribute("page", "managerPage/managerPage_JrestDetail");
 
         return "managerPage";
@@ -914,13 +921,10 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
 
 // 폐점 관련
-
     @GetMapping("/managerPage_JrestCloseList")
     public String closeRestInfo(Model model,
                                 @RequestParam(value = "page", defaultValue = "0") int page,
                                 @RequestParam(value = "searchInput6", required = false) String searchInput6) {
-
-        System.out.println("aaaaaaaaaaaaaaaaaa" +searchInput6);
 
         Page<Dinning> dinningList;
 
@@ -930,12 +934,10 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
             dinningList = dinningService.findByStatusPaged(page, "CLOSED");
         }
 
-
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestCloseList");
         return "managerPage";
     }
-
 
     @PostMapping("/waitUpd")
     public String updateStatus(@RequestParam("restNo") int restNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
@@ -949,7 +951,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         } else {
             redirectAttributes.addFlashAttribute("error", "가게를 찾을 수 없습니다.");
         }
-
         return "redirect:/manager/managerPage_JrestWaitList";
     }
+
 }
