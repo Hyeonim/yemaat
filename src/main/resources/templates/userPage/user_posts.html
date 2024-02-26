@@ -14,9 +14,6 @@
             display: flex;
             /*justify-content: center;*/
             /*align-items: center;*/
-            left: 744.3px;
-            top: 410px;
-            margin: 0;
             flex-direction: column;
         }
 
@@ -29,8 +26,8 @@
             border: 1.6px solid #dddddd;
             border-radius: 4px;
             box-sizing: border-box;
-            margin-bottom: 15px;
-            margin-top: 60px;
+            margin-bottom: 65px;
+            /*margin-top: 60px;*/
             transition: padding-bottom 0.5s ease-in-out; /* 애니메이션을 추가합니다. */
         }
 
@@ -162,11 +159,13 @@
             font-size: 15px;
             line-height: 36px;
             color: #fff;
-            background-color: rgba(0, 119, 255, 0.66);
+            background-color: rgb(94 166 249);
             text-align: center;
             cursor: pointer;
             margin-top: 18px;
             font-weight: bold;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
         }
 
         .reviewBtnComplete {
@@ -250,67 +249,13 @@
             left: -999px;
         }
 
-        /*#rating1 {*/
-        /*    position: absolute;*/
-        /*    left: 387px;*/
-        /*    opacity: 0.001;*/
-        /*    width: 60px;*/
-        /*    height: 60px;*/
-        /*    cursor: pointer;*/
-        /*    z-index: 20;*/
-
-        /*}*/
-
-        /*#rating2 {*/
-        /*    position: absolute;*/
-        /*    left: 447px;*/
-        /*    opacity: 0.001;*/
-        /*    width: 60px;*/
-        /*    height: 60px;*/
-        /*    cursor: pointer;*/
-        /*    z-index: 20;*/
-
-        /*}*/
-
-        /*#rating3 {*/
-        /*    position: absolute;*/
-        /*    left: 507px;*/
-        /*    opacity: 0.001;*/
-        /*    width: 60px;*/
-        /*    height: 60px;*/
-        /*    cursor: pointer;*/
-        /*    z-index: 20;*/
-
-        /*}*/
-
-        /*#rating4 {*/
-        /*    position: absolute;*/
-        /*    left: 567px;*/
-        /*    opacity: 0.001;*/
-        /*    width: 60px;*/
-        /*    height: 60px;*/
-        /*    cursor: pointer;*/
-        /*    z-index: 20;*/
-
-        /*}*/
-
-        /*#rating5 {*/
-        /*    position: absolute;*/
-        /*    left: 627px;*/
-        /*    opacity: 0.001;*/
-        /*    width: 60px;*/
-        /*    height: 60px;*/
-        /*    cursor: pointer;*/
-        /*    z-index: 20;*/
-        /*}*/
-
         .rate_radio + label {
             /*border: 0.5px solid gray;*/
             position: relative;
             display: block;
             float: left;
             z-index: 10;
-            width: 60px;
+            width: 59px;
             height: 60px;
             background-image: url("/img/starrate.png");
             background-repeat: no-repeat;
@@ -331,14 +276,70 @@
             position: absolute;
             background-color: gray;
             height: 60px;
-            width: 300px;
+            width: 295px;
             z-index: 1;
+        }
+
+        /*!* 홀수번째 요소 선택 *!*/
+        /*.posts_main .containers:nth-child(odd) {*/
+        /*    transform: translateX(24%); !* X축으로 50% 이동 *!*/
+        /*}*/
+
+        /*!* 짝수번째 요소 선택 *!*/
+        /*.posts_main .containers:nth-child(even) {*/
+        /*    transform: translateX(-24%); !* X축으로 50% 이동 *!*/
+
+        /*}*/
+
+        #remote {
+            border: 1px solid gray;
+            width: 320px;
+            height: 400px;
+            transition: margin-top 0.8s ease; /* 부드러운 이동을 위한 트랜지션 추가 */
         }
     </style>
 
-    <div style="display: flex; justify-content: center; margin-bottom: 10px">
-        <div id="posts_main">
+    <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+    <div>
+        <div id="remote" style="margin-left: 24%" >
+            <div style="display: flex">
+                <button onclick="filterExpired()">이용완료된 예약 보기</button>
+                <button onclick="filterReview()">리뷰작성된 예약 보기</button>
+                <button onclick="filterAll()">전체 예약 보기</button>
+            </div>
+        </div>
+        <script th:inline="javascript">
+            function filterExpired() {
+                window.location.href = /*[[ @{/user/user_posts(filterExpired='expired')} ]]*/ '';
+            }
 
+            function filterReview() {
+                window.location.href = /*[[ @{/user/user_posts(filterReview='review')} ]]*/ '';
+            }
+
+            function filterAll() {
+                window.location.href = /*[[ @{/user/user_posts(filterAll='All')} ]]*/ '';
+            }
+        </script>
+    </div>
+        <script>
+            // JavaScript 코드
+            const remote = document.getElementById('remote');
+            const triggerScroll = 200; // 스크롤 위치 트리거 값 설정 (조절 가능)
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+
+                if (scrollY > triggerScroll) {
+                    remote.style.marginTop = `${scrollY - triggerScroll}px`;
+                } else {
+                    remote.style.marginTop = '0';
+                }
+            });
+        </script>
+
+    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+        <div id="posts_main" class="posts_main" style="margin-right: 20%">
             <div id="wrap" class="containers" th:each="res : ${list}">
 
                 <div id="container1" class="container1" style="display: flex">
@@ -352,7 +353,7 @@
                            th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'">
                             <b style="font-size: 20px;" th:text="${res.restNo.restName}"></b><br>
                             <b th:text="${res.restNo.restCategory}"></b><br>
-                            <b th:text="${res.resTime}"></b><br>
+                            <b th:text="'예약 시간 : ' + @{${#strings.replace(res.resTime, 'T', ' ')}}"></b><br>
                         <hr>
                         <div><b th:text="'예약 인원 : ' + ${res.res_guest_count}"
                                 th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b>
@@ -411,7 +412,7 @@
                                         <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+5}" value="50" class="rate_radio"
                                                title="5점">
                                         <label class="rate_label" th:for="'rating'+${resStat.index*5+5}"></label>
-                                        <input type="text" id="selectedRevScore" name="selectedRevScore" value="">
+<!--                                        <input type="text" id="selectedRevScore" name="selectedRevScore" value="">-->
                                     </div>
                                     <br>
                                 </div>
@@ -430,7 +431,7 @@
                                               style="resize: none;"></textarea>
                                 </div>
                                 <button id="revAdd" class="reviewAddBtn" type="submit"
-                                        style="margin-top: 54px; position: relative; left: -37px; width: 114%;">리뷰 제출
+                                        style="margin-top: 21px; position: relative; left: -37px; width: 114%;">리뷰 제출
                                 </button>
                             </form>
                         </div>
@@ -448,6 +449,7 @@
                 </div>
             </div>
         </div>
+    </div >
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -472,7 +474,7 @@
                     let ratingValue = $(this).val();
                     let container = $(this).closest('.containers')
                     let selectedRevScore = container.find('#selectedRevScore');
-                    let fillWidth = ratingValue * 6;
+                    let fillWidth = ratingValue * 5.9;
                     // let addRevForm = this.querySelectorAll('#addRevForm');
 
                     // if (addRevForm) {
@@ -513,9 +515,13 @@
         document.querySelectorAll('#file').forEach(e => e.addEventListener('change', function () {
             previewImage(e);
         }));
-
         document.getElementById("revAdd").addEventListener("click", function (event) {
-            document.getElementById("addRevForm").submit(); // 폼 제출
+            event.preventDefault();
+            var confirmation = confirm("리뷰를 작성하시겠습니까?");
+            if (confirmation) {
+                document.getElementById("addRevForm").submit();
+            } else {
+            }
         });
     </script>
 

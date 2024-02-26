@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -21,6 +20,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo ORDER BY r.resTime DESC")
     List<Reservation> findLatestReservationByUserNo(@Param("userNo") Long userNo, Pageable pageable);
+
+    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus = 'EXPIRED' ORDER BY r.resTime DESC")
+    List<Reservation> ReservationStatusEXPIRED(@Param("userNo") Long userNo);
+    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus = 'REVIEW' ORDER BY r.resTime DESC")
+    List<Reservation> ReservationStatusREVIEW(@Param("userNo") Long userNo);
+//    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus like 'REST_CANCEL' ORDER BY r.resTime DESC")
+//    List<Reservation> ReservationStatusRESTCANCEL(@Param("userNo") Long userNo);
 
 //    @Query("SELECT dr.restName, dr.restCategory, r.reservationTime, r.guestCount, dr.restAddr " +
 //            "FROM Reservation r " +
