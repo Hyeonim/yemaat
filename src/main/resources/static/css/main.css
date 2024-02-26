@@ -331,6 +331,7 @@ footer {
     margin-top: 20px;
     flex-basis: 100px;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 #topDiv h2 {

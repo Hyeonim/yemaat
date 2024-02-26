@@ -3,7 +3,7 @@
 
 <div class="reviewT" th:each="rest : ${list}">
     <p th:text="${rest.restName}"></p>
-    <p th:text="${#numbers.formatDecimal(rest.restScore2.doubleValue() / 10, 1, 1)}"></p>
+    <p th:text="${ rest.restScore2!=null? #numbers.formatDecimal(rest.restScore2 / 10, 1, 1):' '}"></p>
     <p th:text="${rest.restName}"></p>
     <img th:attr="mysrc=${rest.base64Image}" alt="식당 이미지"/>
     <div class="overtip" th:if="${bSlide}==1">

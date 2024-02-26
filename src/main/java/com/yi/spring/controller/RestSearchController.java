@@ -130,11 +130,8 @@ public class RestSearchController {
 
                     dinningReviewList =
                             dinningWithReviewRepository.findAll( spec, pageable ).toList();
-//                    System.out.println( dinningReviewList );
 //                    org.thymeleaf.spring6.expression.Fields
-//                    model.addAttribute("list", dinningReviewList);
                 }
-//                bActionDefault = false;
                 break;
                 default :// System.out.println("Unexpected value: " + filter1);
             }
