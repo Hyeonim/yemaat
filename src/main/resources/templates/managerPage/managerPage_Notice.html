@@ -8,72 +8,116 @@
 
 <div th:fragment="managerContent">
 
+    <style>
+        .confirm-box {
+            border: 2px solid #ccc;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .confirm-box h2 {
+            margin-top: 0;
+        }
+
+        .confirm-box button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .confirm-box button:hover {
+            background-color: #45a049;
+        }
+
+        .confirm-box button.secondary {
+            background-color: #ccc;
+            margin-left: 10px;
+        }
+
+        .confirm-box button.secondary:hover {
+            background-color: #bbb;
+        }
+    </style>
+
 
     <div id="right2" style="margin-right: 100px;">
 
 
-<div style="display: flex; justify-content: center;">
+        <div style="display: flex; justify-content: center;">
 
-    <table id="noticeTable" style="text-align: center; width: 50%;">
-            <thead>
-            <tr>
-                <th>주요공지!</th>
-                <th>번호</th>
-                <th>제목</th>
-<!--                <th>작성자</th>-->
-                <th>작성일</th>
-            </tr>
-
-            </thead>
-
-            <tbody>
-            <tr th:each="list, listIndex : ${head}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
-                <td>
-                    <form id="myForm" action="/manager/managerPage_NoticeHead" method="POST">
-                        <input type="hidden" id="myInput" name="id" th:value="${list.id}">
-                        <input type="hidden" name="head" value="false">
-                        <input type="checkbox" id="myCheckbox" th:checked="${list.importantNotice}" onchange="submitForm(this)">
-                    </form>
-                </td>
-
-                <td th:text="${list.id}"></td>
-                <td th:text="${list.subject}"></td>
-<!--                <td th:text="${list.writer}"></td>-->
-                <td th:text="${list.writeDate}"></td>
-            </tr>
-            </tbody>
-        </table>
-</div>
-
-
-            <table id="noticeTable" style="text-align: center;">
+            <table id="noticeTable1" style="text-align: center; width: 50%;">
                 <thead>
                 <tr>
-                    <th>고정</th>
+                    <th>주요공지!</th>
                     <th>번호</th>
                     <th>제목</th>
-<!--                    <th>작성자</th>-->
+                    <!--                <th>작성자</th>-->
                     <th>작성일</th>
                 </tr>
-                </thead>
-                <tbody>
-                <tr th:each="list, listIndex : ${list}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'" >
 
+                </thead>
+
+                <tbody>
+                <tr th:each="list, listIndex : ${head}"
+                    th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
                     <td>
-                        <form id="myForm" action="/manager/managerPage_NoticeHead" method="POST">
-                            <input type="hidden" id="myInput" name="id" th:value="${list.id}">
+                        <form id="myForm1" action="/manager/managerPage_NoticeHead" method="POST">
+                            <input type="hidden" id="myInput1" name="id" th:value="${list.id}">
                             <input type="hidden" name="head" value="false">
-                            <input type="checkbox" id="myCheckbox" th:checked="${list.importantNotice}" onchange="submitForm(this)">
+                            <input type="checkbox" id="myCheckbox1" th:checked="${list.importantNotice}"
+                                   onchange="submitForm1(this)">
                         </form>
                     </td>
 
                     <td th:text="${list.id}"></td>
                     <td th:text="${list.subject}"></td>
-<!--                    <td th:text="${list.writer}"></td>-->
                     <td th:text="${list.writeDate}"></td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+
+
+        <table id="noticeTable2" style="text-align: center;">
+            <thead>
+            <tr>
+                <th>고정</th>
+                <th>번호</th>
+                <th>제목</th>
+                <!--                    <th>작성자</th>-->
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="list, listIndex : ${list}"
+                th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
+
+                <td>
+                    <form id="myForm2" action="/manager/managerPage_NoticeHead" method="POST">
+                        <input type="hidden" id="myInput2" name="id" th:value="${list.id}">
+                        <input type="hidden" name="head" value="false">
+                        <input type="checkbox" id="myCheckbox2" th:checked="${list.importantNotice}"
+                               onchange="submitForm2(this)">
+                    </form>
+                </td>
+
+                <td th:text="${list.id}"></td>
+                <td th:text="${list.subject}"></td>
+                <!--                    <td th:text="${list.writer}"></td>-->
+                <td th:text="${list.writeDate}"></td>
+            </tr>
+            </tbody>
+        </table>
 
 
         <div th:if="${!list.isEmpty()}">
@@ -100,34 +144,36 @@
     </div>
 
     <script>
-
-        function submitForm(checkbox) {
-            let confirmation = confirm("상단에 고정하시겠습니까?");
+        function submitForm1(checkbox) {
+            let confirmation = confirm("고정 해제 하시겠습니까?");
             let form = checkbox.form;
             let confirmInput = form.querySelector("input[name=head]");
-            let idInput = form.querySelector("input[name=id]");
 
-            confirmInput.value = confirmation;
+            if (confirmation) {
+                confirmInput.value = "false";
+            } else {
+                confirmInput.value = "true";
+            }
             form.submit();
         }
 
+        function submitForm2(checkbox) {
+            let confirmation = confirm("상단에 고정하시겠습니까?");
+            let form = checkbox.form;
+            let confirmInput = form.querySelector("input[name=head]");
+
+            if (confirmation) {
+                confirmInput.value = "true";
+            } else {
+                confirmInput.value = "false";
+            }
+            form.submit();
+        }
 
         //디테일로 이동 버튼
         function redirectToNoticeDetail(id) {
             window.location.href = '/manager/managerPage_NoticeDetail?id=' + id;
         }
-
-        // function redirectToNoticeDetail(noticeId) {
-        //     document.getElementById("noticeForm").action = "/notice-detail?id=" + noticeId;
-        //     document.getElementById("noticeForm").submit();
-        // }
-
-
-
-
     </script>
-
 </div>
 </html>
-
-
