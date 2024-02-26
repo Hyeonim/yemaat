@@ -27,15 +27,25 @@
 <body>
 
 
-<div id="main">
+<!--<div id="main">-->
 
 
-</div>
+<!--</div>-->
+
+
 
 <div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
 
 </div>
-<div th:include="${page}::managerContent">
+<div>
+    <div th:replace="~{/managerPage/managerPage_header::managerContentHeader}" style="z-index: 100">
+    </div>
+
+
+    <div th:include="${page}::managerContent">
+
+
+</div>
 
 </div>
 

@@ -7,9 +7,10 @@
     <div id="left">
 
         <div class="w3-sidebar w3-bar-block" style="background-color: #333; color:#FFF">
-            <h1 class="w3-bar-item"><a th:href="@{/home}"><img src="/img/logo.png" style="width: 150px; height: 150px"></a></h1>
+            <h1 class="w3-bar-item"><a th:href="@{/home}"><img src="/img/logo.png" style="width: 150px; height: 120px"></a></h1>
 
-            <a href="content" style="border-top: solid 1px white; margin-left: 40px">관리자페이지</a>
+            <a href="content">  <h4 class="w3-bar-item" style="border-top: 1px solid #FFF"><ion-icon name="laptop-outline"></ion-icon> 관리자페이지</h4></a>
+
 
             <h4 class="w3-bar-item" style="border-top: 1px solid #FFF"><ion-icon name="person"></ion-icon>고객</h4>
             <a th:href="managerPage_UList" class="w3-bar-item w3-button">고객 관리</a>

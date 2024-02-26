@@ -145,7 +145,9 @@ public class ManagerController {
         model.addAttribute("uList", uList);
         model.addAttribute("dList", dList);
         model.addAttribute("qa", qa);
+        model.addAttribute("header", "관리자 페이지 메인");
         model.addAttribute("unansweredCount", unansweredCount);
+
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";
@@ -165,6 +167,7 @@ public class ManagerController {
 
         model.addAttribute("user", user);
         model.addAttribute("page", "managerPage/managerPage_UDetail");
+        model.addAttribute("header", "고객 정보");
 
         return "managerPage";
     }
@@ -197,6 +200,16 @@ public class ManagerController {
 
         model.addAttribute("users", paging);
         model.addAttribute("page", "managerPage/managerPage_UList");
+        model.addAttribute("header", "고객 목록");
+
+        return "managerPage";
+    }
+
+    @GetMapping("/managerPage_UAdd")
+    public String managerPageManagerPageUAdd(Model model) {
+        model.addAttribute("header", "고객 추가");
+
+        model.addAttribute("page", "managerPage/managerPage_UAdd");
 
         return "managerPage";
     }
@@ -222,11 +235,13 @@ public class ManagerController {
         model.addAttribute("users", users);
         model.addAttribute("users", onlyUsers);
         model.addAttribute("page", "managerPage/managerPage_UBlackList");
+        model.addAttribute("header", "블랙리스트 목록");
+
         return "managerPage";
     }
 
     @PostMapping("managerPage_UAdd")
-    public String managerAddU(@RequestParam MultipartFile file, User user) {
+    public String managerAddU(@RequestParam MultipartFile file, User user,Model model) {
 
         System.out.println("11111111111111111111111:"+file);
         System.out.println(user);
@@ -245,37 +260,13 @@ public class ManagerController {
 
         userRepository.save(user);
 
+
+
+
         return "redirect:/manager/managerPage_UList";
     }
 
 
-//    @PostMapping("managerPage_UUpdate")
-//    public String userUpdate(
-//            @RequestParam MultipartFile file,
-//            @RequestParam int userNo,
-//            @RequestParam String userName,
-//            @RequestParam String userId,
-//            @RequestParam String userEmail,
-//            @RequestParam String userPassword,
-//            @RequestParam String userTel,
-//            @RequestParam String userAuth,
-//            User users) throws IOException {
-//
-//        userRepository.save(users);
-//
-//        Optional<User> userOptional = userRepository.findByUserNo(userNo);
-//        userOptional.ifPresent(user -> {
-//            byte[] userImg = new byte[0];
-//            try {
-//                userImg = file.getBytes();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            user.setUserImg(userImg);
-//            userRepository.save(user);
-//        });
-//        return "redirect:/manager/managerPage_UList";
-//    }
 
     @PostMapping("/managerPage_UUpdate")
     public String userUpdate(
@@ -359,6 +350,7 @@ public class ManagerController {
         System.out.println(list);
 
         model.addAttribute("page", "managerPage/managerPage_QA");
+        model.addAttribute("header", "문의 목록");
 
         model.addAttribute("qa", list);
         return "managerPage";
@@ -373,6 +365,7 @@ public class ManagerController {
         model.addAttribute("qa", qa);
 
         model.addAttribute("page", "managerPage/managerPage_QAAnswer");
+        model.addAttribute("header", "문의 답변");
 
         return "managerPage";
 
@@ -443,6 +436,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
         model.addAttribute("head", head); // 수정된 부분: 검색 결과를 담도록 변경
 
+        model.addAttribute("header", "공지사항 목록");
 
         return "managerPage";
     }
@@ -492,6 +486,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         model.addAttribute("notice", notice);
         model.addAttribute("page", "managerPage/managerPage_NoticeDetail");
+        model.addAttribute("header", "공지사항 상세보기");
 
         return "managerPage";
     }
@@ -513,6 +508,15 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
 
         return "redirect:/manager/managerPage_Notice";
+    }
+
+    @GetMapping("/managerPage_NoticeAdd")
+    public String managerPageManagerPageNoticeAdd(Model model) {
+        model.addAttribute("header", "고객 추가");
+
+        model.addAttribute("page", "managerPage/managerPage_NoticeAdd");
+
+        return "managerPage";
     }
 
 
@@ -600,6 +604,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         model.addAttribute("users", paging);
         model.addAttribute("page", "managerPage/managerPage_JList");
+        model.addAttribute("header", "점주 목록");
 
         return "managerPage";
     }
@@ -620,6 +625,16 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 //        model.addAttribute("page", "managerPage/managerPage_JList");
 //        return "managerPage";
 //    }
+
+
+    @GetMapping("managerPage_JAdd")
+    public String jumAdd(Model model) {
+
+        model.addAttribute("page", "managerPage/managerPage_JAdd");
+        model.addAttribute("header", "점주 추가");
+
+        return "managerPage";
+    }
 
     @PostMapping("managerPage_JAdd")
     public String jumAdd(@RequestParam MultipartFile file, User user, Model model) {
@@ -658,49 +673,12 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         model.addAttribute("dinningList", dinningList); // 가게 목록도 모델에 추가
 
         model.addAttribute("page", "managerPage/managerPage_JDetail");
+        model.addAttribute("header", "점주 상세보기");
 
         return "managerPage";
     }
 
 
-//    @PostMapping("managerPage_JUpdate")
-//    public String jumUpdate(
-//            @RequestParam MultipartFile file,
-//            @RequestParam int userNo,
-//            @RequestParam String userName,
-//            @RequestParam String userId,
-//            @RequestParam String userEmail,
-//            @RequestParam String userPassword,
-//            @RequestParam String userTel,
-//            @RequestParam String userAuth,
-//            User users) throws IOException {
-//
-//        userRepository.save(users);
-//
-//        Optional<User> userOptional = userRepository.findByUserNo(userNo);
-//        userOptional.ifPresent(user -> {
-//            byte[] userImg = new byte[0];
-//            try {
-//                userImg = file.getBytes();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            user.setUserImg(userImg);
-//            userRepository.save(user);
-//        });
-//
-//        return "redirect:/manager/managerPage_JList";
-//    }
-//
-//
-//    @PostMapping("managerPage_JDel")
-//    @Transactional
-//    public String jumDelete(@RequestParam int userNo, Model model) {
-//
-//        userRepository.deleteByUserNo(userNo);
-//
-//        return "redirect:/manager/managerPage_JList";
-//    }
 
     @PostMapping("/managerPage_JUpdate")
     public String jumUpdate(
@@ -765,6 +743,8 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestList");
+        model.addAttribute("header", "가게 목록");
+
         return "managerPage";
     }
 
@@ -782,7 +762,10 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestWaitList");
+        model.addAttribute("header", "폐점 신청 목록");
+
         return "managerPage";
+
     }
 
     @GetMapping("/managerPage_JrestDetail")
@@ -795,43 +778,11 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         model.addAttribute("dinning", dinningList);
         model.addAttribute("img", img);
         model.addAttribute("page", "managerPage/managerPage_JrestDetail");
+        model.addAttribute("header", "가게 상세보기");
 
         return "managerPage";
     }
 
-//    @PostMapping("/managerPage_JrestUpdate")
-//    public String jrestUpdate(
-//            @RequestParam MultipartFile file,
-//            @RequestParam int restNo,
-//            @RequestParam String restName,
-//            @RequestParam String restAddr,
-//            @RequestParam String restTel,
-//            @RequestParam String restSeat,
-//            @RequestParam String restTime,
-//            @RequestParam String restOffDays,
-//            @RequestParam String restParking,
-//            @RequestParam String restMenu,
-//            @RequestParam String restCategory,
-//            @RequestParam Double restLatitude,
-//            @RequestParam Double restLongitude,
-//            @RequestParam String restDescription,
-//            Dinning dinning) throws IOException {
-//
-//        dinningRepository.save(dinning);
-//
-//        Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
-//        dinningList.ifPresent(din -> {
-//            try {
-//                byte[] restImgBytes = file.getBytes();
-//                din.setRestImg(restImgBytes);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            dinningRepository.save(din);
-//        });
-//
-//        return "redirect:/manager/managerPage_JrestList";
-//    }
 
     @PostMapping("/managerPage_JrestUpdate")
     public String jrestUpdate(
@@ -899,6 +850,15 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         return "redirect:/manager/managerPage_JrestList";
     }
 
+    @GetMapping("managerPage_JrestAdd")
+    public String JRestPageAdd(Model model) {
+
+        model.addAttribute("page", "managerPage/managerPage_JrestAdd");
+        model.addAttribute("header", "가게 추가");
+
+        return "managerPage";
+    }
+
     @PostMapping("managerPage_JrestDel")
     @Transactional
     public String jrestDel(@RequestParam int restNo, Model model) {
@@ -924,6 +884,8 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestCloseList");
+        model.addAttribute("header", "폐점 목록");
+
         return "managerPage";
     }
 
