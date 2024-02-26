@@ -147,8 +147,10 @@
 
     </div>
 </div>
-<script map>
-    let map = new naver.maps.Map('map', {
+<script map >
+    gmap = {};
+
+        let map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(35.86868025887658, 128.5987419727357),
         zoom: 15,
         // 지도 좌측 위쪽 줌인, 줌아웃 버튼 생성
@@ -158,16 +160,17 @@
             style: naver.maps.ZoomControlStyle.SMALL
         }
     })
+        gmap = map;
 
     function redirectdetail(event, id) {
-        if ( event.target.tagName === "INPUT")
+        if (event.target.tagName === "INPUT")
             return;
         window.location.href = '/detail?restNo=' + id;
     }
 
 
-    document.querySelectorAll('#restaurantList li').forEach(function(item) {
-        item.addEventListener('mouseover', function() {
+    document.querySelectorAll('#restaurantList li').forEach(function (item) {
+        item.addEventListener('mouseover', function () {
             let restaurantName = this.querySelector('p:first-child').textContent;
             alert(restaurantName);
         });
@@ -196,6 +199,7 @@
 
 
 <script map th:inline="javascript">
+    {
     let markers = [];
     // 마커 생성 및 이벤트 핸들러 등록
     [# th:each = "rest : ${list}"]
@@ -339,7 +343,7 @@
 
     function mapToPoint(event, lat, lng) {
         event.preventDefault()
-        map.morph(new naver.maps.LatLng(lat, lng), 18);
+        gmap.morph(new naver.maps.LatLng(lat, lng), 18);
 
         let pointMarker = `
             <img src="/img/point_marker.gif" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
@@ -364,7 +368,7 @@
             Array.from( event.target.parentNode.children ).forEach( e=>e.classList.toggle( "picked", e===event.target));
         sendSearchQuery();
     }
-
+    }
 </script>
 <script src="/js/imglazy.js"></script>
 </body>
