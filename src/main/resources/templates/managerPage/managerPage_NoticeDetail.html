@@ -6,17 +6,42 @@
 </head>
 
 <div th:fragment="managerContent">
+
+    <style>
+        .formDiv ion-icon{
+            float: right;
+                font-size: 40px;
+            margin:20px 20px 0 0;
+        }
+
+        ion-icon:hover {
+            cursor: pointer;
+        }
+
+        .formDiv{
+            margin: 20px;
+            width: 1200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+
+
+
+    </style>
     <div id="right2">
 
         <h2>공지사항 상세보기</h2>
-        <hr>
 
         <div class="formDiv"
              style="margin: 20px; width: 1200px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; text-align: left">
+            <ion-icon onclick="history.go(-1);" name="close-outline"></ion-icon>
+
             <form id="NFormUpdate" action="/manager/managerPage_NoticeUpdate" method="post" style="margin-left: 40px">
                 <input type="hidden" name="id" th:value="${notice.get().id}"/>
                 <span>제목 : <input name="subject" th:value="${notice.get().subject}"
-                                     style="width: 400px; padding: 10px; border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; margin-top: 30px; margin-bottom: 20px"></span><br>
+                                  style="width: 400px; padding: 10px; border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; margin-top: 30px; margin-bottom: 20px"></span><br>
                 <span>작성자 : <input name="writer" th:value="${notice.get().writer}"
                                    style="padding: 10px;  border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px;margin-bottom: 20px"></span><br>
                 <span>내용 : <br>
@@ -31,7 +56,6 @@
             <div id="NBoxDiv">
                 <button type="submit" class="fifth" id="fifthU">수정</button>
                 <button type="submit" class="fifth" id="fifthD" style="margin-left: 10px">삭제</button>
-                <button style="margin-left: 50px" onclick="history.go(-1);" class="fifth" id="backButton">이전</button>
             </div>
         </div>
     </div>

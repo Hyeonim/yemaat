@@ -49,7 +49,7 @@ public class DetailController {
 
         List<Review> list = reviewRepository.findByRestNo(new Dinning(Math.toIntExact(restNo)));
 
-        double sum = list.stream().mapToDouble(Review::getRevScore).sum() * 10;
+        double sum = list.stream().mapToDouble(Review::getRevScore).sum();
 
         double result = sum /list.size();
 

@@ -632,3 +632,24 @@ ul.list::after {
     display: block;
 }
 
+
+     /* 화면 너비가 768px 이하일 때의 스타일 */
+@media (max-width: 1615px) {
+    #center_box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; /* 세로로 쌓이도록 설정 */
+    }
+    #new_event_box{
+        display: none;
+    }
+
+    #random_box{
+        display: none;
+    }
+
+
+
+    /* 다른 요소들의 반응형 스타일을 추가할 수 있음 */
+}

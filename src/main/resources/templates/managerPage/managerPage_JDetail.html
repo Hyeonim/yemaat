@@ -6,10 +6,17 @@
 </head>
 
 <div th:fragment="managerContent">
+
+    <Style>
+        ion-icon:hover {
+            cursor: pointer;
+        }
+    </Style>
     <div id="right2">
+        <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
             <h2>점주 상세 정보</h2>
-            <hr>
+
 
             <div class="formDiv" style="width: 1000px;">
                 <form id="updateForm" action="/manager/managerPage_JUpdate" method="post" enctype="multipart/form-data"

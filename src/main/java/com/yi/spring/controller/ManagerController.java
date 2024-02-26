@@ -62,13 +62,13 @@ public class ManagerController {
     ImgTableRepository imageTableRepository;
 
     @Autowired
+    ImgTableRepository imgTableRepository;
+
+    @Autowired
     QAService qaService;
 
     @Autowired
     NoticeService noticeService;
-
-    @Autowired
-    ImgTableRepository imgTableRepository;
 
 
     @GetMapping("/{subPage}")
@@ -797,12 +797,11 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
     @GetMapping("/managerPage_JrestDetail")
-    public String JumRestDetail(Model model, @RequestParam int restNo) {
+    public String JumRestDetail(Model model, @RequestParam Long restNo) {
 
-        Optional<Dinning> dinningList = dinningRepository.findByRestNo(restNo);
-
+        Optional<Dinning> dinningList = dinningRepository.findById(restNo);
         Optional<ImgTb> img = imgTableRepository.findById(Long.valueOf(dinningList.get().getRestImg()));
-//        System.out.println("gggggggggggggggggggggGG" + img.get().getId());
+
 
         model.addAttribute("dinning", dinningList);
         model.addAttribute("img", img);

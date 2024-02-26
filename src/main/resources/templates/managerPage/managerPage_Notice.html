@@ -7,28 +7,24 @@
 
 <div th:fragment="managerContent">
     <div id="right3" style="margin-right: 100px;">
+        <h2>주요 공지!</h2>
 
-<!--        <h1 style="margin-top: 100px">공지사항 목록</h1>-->
-
-<!--        <input type="text" id="searchInput4" placeholder="공지사항 제목으로 검색" onchange="searchDinning4()">-->
-<!--        <button onclick="searchDinning4()">검색</button>-->
 <div style="display: flex; justify-content: center;">
-        <table id="noticeTable" style="text-align: center; width: 50%;">
-            <h2>고정 공지사항</h2>
 
+    <table id="noticeTable" style="text-align: center; width: 50%;">
             <thead>
-
             <tr>
-                <th>고정</th>
+                <th>주요공지!</th>
                 <th>번호</th>
                 <th>제목</th>
 <!--                <th>작성자</th>-->
                 <th>작성일</th>
             </tr>
+
             </thead>
+
             <tbody>
             <tr th:each="list, listIndex : ${head}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
-
                 <td>
                     <form id="myForm" action="/manager/managerPage_NoticeHead" method="POST">
                         <input type="hidden" id="myInput" name="id" th:value="${list.id}">
