@@ -2,80 +2,32 @@
 /*    border: solid 1px black;*/
 /*}*/
 
-#top {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
 }
 
-#searchBar {
-    height: 40px;
-    margin-left: 30%;
-    width: 500px;
+
+
+/* 콘텐츠 영역 관련 */
+
+#right2 {
+    margin-top: 40px;
+    margin-right: 110px;
+    background-color: #ffffff;
+    padding: 90px;
     border-radius: 10px;
-}
-
-.f {
-    position: relative;
-    transform: translateY(0%);
-}
-
-#main {
-
-    width: 100%;
-}
-
-#left {
-    width: 25%;
-    height: auto;
-    float: left;
-    box-sizing: border-box;
-}
-
-#right {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
     width: 75%;
-    height: 20px;
+    height: auto;
     float: right;
     box-sizing: border-box;
     /*overflow:auto;*/
-
-}
-
-
-#content-box {
-    height: 300px;
-    display: flex; /* Flexbox 사용 */
-    justify-content: space-around; /* 요소들을 가운데 정렬하여 공간을 동일하게 분배 */
-    align-items: center; /* 요소들을 세로 중앙에 정렬 */
-    border-radius: 20px;
 }
 
 
 
-#content-box2 {
-    height: 300px;
-    display: flex; /* Flexbox 사용 */
-    justify-content: space-around; /* 요소들을 가운데 정렬하여 공간을 동일하게 분배 */
-    align-items: center; /* 요소들을 세로 중앙에 정렬 */
-    border-radius: 20px;
-}
-
-/* 스타일은 이 곳에 추가하세요 */
-.w3-sidebar {
-    width: 250px; /* 사이드바 너비 */
-    background-color: #333;
-    color: #FFF;
-    height: 100vh; /* viewport 높이의 100% */
-    overflow-y: auto; /* 너무 긴 경우 스크롤 허용 */
-}
-
-
-#alarm{
-
-    font-size: 40px;
-}
-
+/* DASH BOARD 페이지 그래프 관련 */
 
 .main-box {
     border: 1px solid #ddd;
@@ -103,7 +55,6 @@
     justify-content: space-around;
     align-items: center;
     padding: 20px 0;
-
 }
 
 .chart-container {
@@ -115,24 +66,10 @@
     width: 100%;
     height: 100%;
 }
-/** {*/
-/*    border: solid 1px blue;*/
-/*}*/
 
-body {
-    background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
-}
 
-#right {
-    margin-top: 33px;
-    background-color: #ffffff;
-    padding: 90px;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-    height: 200vh;
-}
 
+/*각 페이지 테이블 관련*/
 
 table {
     width: 100%;
@@ -155,6 +92,10 @@ tr:hover {
     background-color: #f8f9fa;
 }
 
+
+
+/*페이징 버튼 관련*/
+
 .pagination {
     justify-content: center;
     margin-top: 20px;
@@ -176,21 +117,9 @@ tr:hover {
     cursor: default;
 }
 
-/*상세보기 글들*/
-#right2 {
-    margin-top: 40px;
-    margin-right: 75px;
-    background-color: #ffffff;
-    padding: 90px;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-    width: 75%;
-    height: auto;
-    float: right;
-    box-sizing: border-box;
-    /*overflow:auto;*/
-}
 
+
+/*수정, 삭제 버튼 관련*/
 
 .fifth {
     border-color: black;
@@ -228,42 +157,11 @@ tr:hover {
     }
 }
 
-.fifth2 {
-    border-color: black;
-    width: 90px;
-    height: 50px;
-    border-radius: 10px;
-    color: black;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    transition: color 150ms ease-in-out;
 
-    &:after {
-        content: '';
-        position: absolute;
-        display: block;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 100%;
-        background: #007bff; /* 바꾸고자 하는 배경색 */
-        z-index: -1;
-        transition: width 150ms ease-in-out;
-    }
 
-    &:hover {
-        color: white;
-        &:after {
-            width: 110%;
-        }
-    }
-}
-
+/* 나머지는 몰?루 */
 
 #NBoxDiv{
-
     margin-left: 960px;
     margin-bottom: 10px;
 }
@@ -275,12 +173,10 @@ tr:hover {
 }
 
 .qu h2 {
-
     margin-left: 10px;
 }
 
 .qu p {
-
     margin-left: 10px;
 }
 
@@ -329,8 +225,6 @@ tr:hover {
 .an h2 {
     margin-left: 10px;
 }
-
-
 
 /* 화면이 768px 이하일 때 */
 @media screen and (max-width: 768px) {

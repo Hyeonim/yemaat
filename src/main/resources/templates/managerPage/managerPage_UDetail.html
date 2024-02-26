@@ -8,8 +8,6 @@
 <div th:fragment="managerContent">
 
     <style>
-
-
         #right2 ion-icon{
             float: right;
             font-size: 40px;
@@ -20,10 +18,11 @@
             cursor: pointer;
         }
     </style>
+
     <div id="right2">
         <ion-icon onclick="history.go(-1);" name="close-outline"></ion-icon>
 
-        <h2>고객 상세 정보</h2>
+        <h2 style="margin-bottom: 100px">고객 상세 정보</h2>
 
         <div class="formDiv" style="width: 1050px">
 
@@ -51,18 +50,19 @@
                 </div>
             </form>
 
-            <form id="UDelForm" action="/manager/managerPage_UDel" method="post">
-                <input type="hidden" name="userNo" th:value="${user.get().userNo}" readonly></input>
-            </form>
-        </div>
-
         <div style="margin-left: 500px">
             <button id="UUpd" class="fifth" type="button">수정</button>
             <button id="UDel" class="fifth" type="button">삭제</button>
         </div>
+
+        <form id="UDelForm" action="/manager/managerPage_UDel" method="post">
+                <input type="hidden" name="userNo" th:value="${user.get().userNo}" readonly></input>
+        </form>
+        </div>
     </div>
 
     <script th:inline="javascript">
+        // 파일 입력란의 변경 이벤트를 감지하여 이미지를 표시하는 함수
         function previewImage(input) {
             var preview = document.getElementById('preview');
 
@@ -90,8 +90,23 @@
                 title : "삭제 하시겠습니까?",
                 text : "정말 삭제 하시겠습니까?",
                 icon : "warning",
-                buttons : true,
-                dangerMode : true,
+                buttons: {
+                    confirm : {
+                        text: "삭제",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
+                        className: "cancel-button",
+                        closeModal : true,
+                    }
+                },
+                dangerMode: false,
             })
                 .then((willDelete) => {
                     if (willDelete) {
@@ -107,11 +122,26 @@
 
         document.getElementById("UUpd").addEventListener("click", function (event) {
             swal({
-                title : "수정하시겠습니까?",
+                title : "수정 하시겠습니까?",
                 text : "정말 수정 하시겠습니까?",
                 icon : "info",
-                buttons : true,
-                dangerMode : false,
+                buttons: {
+                    confirm : {
+                        text: "수정",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
+                        className: "cancel-button",
+                        closeModal : true,
+                    }
+                },
+                dangerMode: false,
             })
                 .then((willUpDate) => {
                     if (willUpDate) {
@@ -124,9 +154,6 @@
                     }
                 });
         });
-
-
-
     </script>
 </div>
 </html>

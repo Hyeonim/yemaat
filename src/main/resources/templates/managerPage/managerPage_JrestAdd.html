@@ -6,7 +6,7 @@
 </head>
 
 <div th:fragment="managerContent">
-    <div id="right" style="margin-right: 100px">
+    <div id="right2">
 
         <style>
             .container {
@@ -14,12 +14,6 @@
                 justify-content: center;
             }
         </style>
-
-        <h2>가게 추가</h2>
-        <hr>
-        <hr>
-
-
 
         <div class="formDiv" style="width: 1000px">
             <form id="form2" action="/manager/managerPage_JrestAdd" method="post" enctype="multipart/form-data"
@@ -107,22 +101,22 @@
                 text: "추가한 내용을 확인하고 등록하시겠습니까?",
                 icon: "info",
                 buttons: {
-                    confirm: {
+                    confirm : {
                         text: "등록",
-                        value: false,
+                        value: true,
                         visible: true,
                         className: "confirm-button",
                         closeModal: true
                     },
-                    cancel: {
-                        text: "취소",
-                        value: null,
-                        visible: true,
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
                         className: "cancel-button",
-                        closeModal: true,
+                        closeModal : true,
                     }
                 },
-                dangerMode: true,
+                dangerMode: false,
             })
                 .then((willAdd) => {
                     if (willAdd) {
@@ -135,7 +129,6 @@
                     }
                 });
         });
-
     </script>
 </div>
 </html>

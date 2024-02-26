@@ -7,24 +7,20 @@
 
 <div th:fragment="managerContent">
 
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+        }
 
-    <div id="right2" style="margin-right: 100px">
+        ion-icon:hover {
+            cursor: pointer;
+        }
+    </style>
 
-        <style>
-            .container {
-                display: flex;
-                justify-content: center;
-            }
+    <div id="right2">
 
-            ion-icon:hover {
-                cursor: pointer;
-            }
-
-        </style>
         <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
-
-        <h2>점주 추가</h2>
-
 
         <div class="formDiv" style="width: 1000px">
             <form id="form2" action="/manager/managerPage_JAdd" method="post" enctype="multipart/form-data"
@@ -89,7 +85,22 @@
                 title: "등록하시겠습니까?",
                 text: "추가한 내용을 확인하고 등록하시겠습니까?",
                 icon: "info",
-                buttons: true,
+                buttons: {
+                    confirm : {
+                        text: "등록",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
+                        className: "cancel-button",
+                        closeModal : true,
+                    }
+                },
                 dangerMode: false,
             })
                 .then((willSubmit) => {

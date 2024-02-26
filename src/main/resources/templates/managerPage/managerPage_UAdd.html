@@ -6,6 +6,7 @@
 </head>
 
 <div th:fragment="managerContent">
+    <div id="right2">
 
     <style>
 
@@ -19,15 +20,8 @@
         }
 
     </style>
-    <div id="right2" style="margin-right: 100px">
-
-
-
 
         <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
-
-        <h2>고객 추가</h2>
-
 
 
         <div class="formDiv" style=" width: 1000px">
@@ -94,12 +88,26 @@
 
             swal({
                 title: "등록하시겠습니까?",
-                text: "등록하시려면 OK를 누르세요.",
+                text: "추가한 내용을 확인하고 등록하시겠습니까?",
                 icon: "info",
-                buttons: true,
+                buttons: {
+                    confirm : {
+                        text: "등록",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
+                        className: "cancel-button",
+                        closeModal : true,
+                    }
+                },
                 dangerMode: false,
-            })
-                .then((willSubmit) => {
+            }).then((willSubmit) => {
                     if (willSubmit) {
                         swal("Success!", "(고객)" + userName + " 님의 정보가 등록 되었습니다!", "success")
                             .then(function () {

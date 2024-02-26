@@ -8,17 +8,17 @@
 <div th:fragment="managerContent">
 
     <style>
-        .formDiv ion-icon{
+        .formDiv ion-icon {
             float: right;
-                font-size: 40px;
-            margin:20px 20px 0 0;
+            font-size: 40px;
+            margin: 20px 20px 0 0;
         }
 
         ion-icon:hover {
             cursor: pointer;
         }
 
-        .formDiv{
+        .formDiv {
             margin: 20px;
             width: 1200px;
             border: 1px solid #ccc;
@@ -26,7 +26,6 @@
             background-color: #f9f9f9;
             text-align: left;
         }
-
 
 
     </style>
@@ -61,12 +60,80 @@
     </div>
 
     <script>
-        document.getElementById("fifthU").addEventListener("click", function (event) {
-            document.getElementById("NFormUpdate").submit(); // 폼 제출
-        });
+        // document.getElementById("fifthU").addEventListener("click", function (event) {
+        //     document.getElementById("NFormUpdate").submit(); // 폼 제출
+        // });
+        //
+        // document.getElementById("fifthD").addEventListener("click", function (event) {
+        //     document.getElementById("NFormDel").submit(); // 폼 제출
+        // });
+
 
         document.getElementById("fifthD").addEventListener("click", function (event) {
-            document.getElementById("NFormDel").submit(); // 폼 제출
+            swal({
+                title: "삭제 하시겠습니까?",
+                text: "공지사항을 삭제하시겠습니까?",
+                icon: "warning",
+                buttons: {
+                    confirm: {
+                        text: "삭제",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel: {
+                        text: "취소",
+                        value: null,
+                        visible: true,
+                        className: "cancel-button",
+                        closeModal: true
+                    }
+                }
+            }).then((willDelete) => {
+                if (willDelete) {
+                    swal("Success!", " 해당 공지사항을 삭제 했습니다.", "success")
+                        .then(function (){
+                            document.getElementById("NFormDel").submit(); // 폼 제출
+                        });
+                }else {
+                    swal("삭제가 취소 되었습니다.")
+                }
+            });
+        });
+
+        document.getElementById("fifthU").addEventListener("click", function (event) {
+            swal({
+                title: "수정 확인",
+                text: "공지사항을 수정하시겠습니까?",
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        text: "수정",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel: {
+                        text: "취소",
+                        value: null,
+                        visible: true,
+                        className: "cancel-button",
+                        closeModal: true
+                    }
+                }
+            })
+                .then((willUpdate) => {
+                    if (willUpdate) {
+                        swal("Success!", " 의 공지사항이 수정 되었습니다!", "success")
+                            .then(function () {
+                                document.getElementById("NFormUpdate").submit(); // 폼 제출
+                            });
+                    } else {
+                        swal("수정이 취소 되었습니다.")
+                    }
+                });
         });
     </script>
 </div>

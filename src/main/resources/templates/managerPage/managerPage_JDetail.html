@@ -12,11 +12,9 @@
             cursor: pointer;
         }
     </Style>
+
     <div id="right2">
         <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
-
-            <h2>점주 상세 정보</h2>
-
 
             <div class="formDiv" style="width: 1000px;">
                 <form id="updateForm" action="/manager/managerPage_JUpdate" method="post" enctype="multipart/form-data"
@@ -114,8 +112,23 @@
                 title : "삭제 하시겠습니까?",
                 text : "정말 삭제 하시겠습니까?",
                 icon : "warning",
-                buttons : true,
-                dangerMode : true,
+                buttons: {
+                    confirm : {
+                        text: "삭제",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
+                        className: "cancel-button",
+                        closeModal : true,
+                    }
+                },
+                dangerMode: false,
             })
                 .then((willDelete) => {
                     if (willDelete) {
@@ -134,8 +147,23 @@
                 title : "수정하시겠습니까?",
                 text : "정말 수정 하시겠습니까?",
                 icon : "info",
-                buttons : true,
-                dangerMode : false,
+                buttons: {
+                    confirm : {
+                        text: "수정",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
+                        className: "cancel-button",
+                        closeModal : true,
+                    }
+                },
+                dangerMode: false,
             })
                 .then((willUpdate) => {
                     if (willUpdate) {
