@@ -1,6 +1,7 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
+import com.yi.spring.entity.meta.DinningReviewView;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
@@ -47,6 +49,9 @@ public class IndexController {
 
     @Autowired
     EventService eventService;
+
+//    @Autowired
+//    RestSearchController restSearchController;
 
     @GetMapping("/")
     public String home() {
@@ -85,10 +90,26 @@ public class IndexController {
         List<Object[]> test2 = reviewRepository.getImgTest2();
         List<Tuple> test3 = reviewRepository.getImgTest3();
 
+        final Map<String, String> testMap1 = Map.of(
+                "filter1","1"
+        );
+        final Map<String, String> testMap2 = Map.of(
+                "filter1","1"
+        );
+        final Map<String, String> testMap3 = Map.of(
+                "filter1","1"
+        );
+//        List<Dinning>
+        List<DinningReviewView> dinningReviewList1 = RestSearchController.searchMain( null, testMap1, 12 );
+        List<DinningReviewView> dinningReviewList2 = RestSearchController.searchMain( null, testMap2, 12 );
+        List<DinningReviewView> dinningReviewList3 = RestSearchController.searchMain( null, testMap3, 12 );
 
-        model.addAttribute("revList1", reviewList.subList(0, 10) );
-        model.addAttribute("revList2", reviewList.subList(5, 15) );
-        model.addAttribute("revList3", reviewList.subList(10, 20) );
+//        List<Review> reviewList1 = dinningReviewList1.
+
+
+        model.addAttribute("dinningReviewList1", dinningReviewList1 );
+        model.addAttribute("dinningReviewList2", dinningReviewList2 );
+        model.addAttribute("dinningReviewList3", dinningReviewList3 );
 
         return "main";
     }

@@ -5,8 +5,18 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <div class="blockDiv">
-        <h3>오늘 예약 목록</h3>
+    <div class="top_content">
+        <h3 id="headline">오늘 예약 목록</h3>
+        <div class="selector">
+            <select id="reservPeriod">
+                <option selected value="today">오늘 예약 목록</option>
+                <option value="future">예약 대기 목록</option>
+                <option value="past">지난 예약 목록</option>
+            </select>
+            <input type="button" value="변경" onclick="showList(document.getElementById('reservPeriod').value)">
+        </div>
+    </div>
+    <div id="today" class="blockDiv">
         <table>
             <tr>
                 <th class="resNo">예약 번호</th>
@@ -37,8 +47,7 @@
         </table>
     </div>
 
-    <div class="blockDiv">
-        <h3>예약 대기 목록</h3>
+    <div id="future" class="blockDiv" style="display: none;">
         <table>
             <tr>
                 <th class="resNo">예약 번호</th>
@@ -70,8 +79,7 @@
         </table>
     </div>
 
-    <div class="blockDiv">
-        <h3>지난 예약 목록</h3>
+    <div id="past" class="blockDiv" style="display:none;">
         <table>
             <tr>
                 <th class="resNo">예약 번호</th>
@@ -83,28 +91,59 @@
                 <th class="status">예약 상태</th>
                 <th class="result">처리</th>
             </tr>
-            <th:block th:each="i : ${#numbers.sequence(reserveList.size() - 1, 0, -1)}" th:object="${reserveList[i]}">
-                <th:block th:if="*{getDateType()==-1}">
-                <tr>
-                    <td class="resNo" th:text="*{getRes_no()}"></td>
-                    <td class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></td>
-                    <td class="userId" th:text="*{getUserNo().getUserId()}"></td>
-                    <td class="questCount" th:text="*{getRes_guest_count()}"></td>
-                    <td class="tableType" th:text="*{getRes_table_type()}"></td>
-                    <td class="comment" th:text="*{getRes_comment()}"></td>
-                    <td class="status" th:text="*{getRes_status()}"></td>
-                    <td class="result">
-                        <input type="button" value="노쇼" th:onclick="|location.href='@{/owner/resNoShow/{resNo}(resNo=*{getRes_no()})}'|">
-                    </td>
-                </tr>
+            <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
+                <th:block th:if="*{getDateType()==1}">
+                    <tr>
+                        <td class="resNo" th:text="*{getRes_no()}"></td>
+                        <td class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></td>
+                        <td class="userId" th:text="*{getUserNo().getUserId()}"></td>
+                        <td class="questCount" th:text="*{getRes_guest_count()}"></td>
+                        <td class="tableType" th:text="*{getRes_table_type()}"></td>
+                        <td class="comment" th:text="*{getRes_comment()}"></td>
+                        <td class="status" th:text="*{getRes_status()}"></td>
+                        <td class="result">
+                            <input type="button" value="수락" th:onclick="|location.href='@{/owner/resCompleted/{resNo}(resNo=*{getRes_no()})}'|">
+                            <input type="button" value="거절" th:onclick="|cancel('*{getRes_no()}')|">
+                        </td>
+                    </tr>
                 </th:block>
             </th:block>
         </table>
     </div>
     <script>
+        function showList(value) {
+            switch (value) {
+                case "today" :
+                    document.getElementById("headline").textContent = "오늘 예약 목록";
+
+                    document.getElementById("today").style.display = "block";
+                    document.getElementById("future").style.display = "none";
+                    document.getElementById("past").style.display = "none";
+                    break;
+                case "future" :
+                    document.getElementById("headline").textContent = "예약 대기 목록";
+
+                    document.getElementById("today").style.display = "none";
+                    document.getElementById("future").style.display = "block";
+                    document.getElementById("past").style.display = "none";
+                    break;
+                case "past" :
+                    document.getElementById("headline").textContent = "지난 예약 목록";
+
+                    document.getElementById("today").style.display = "none";
+                    document.getElementById("future").style.display = "none";
+                    document.getElementById("past").style.display = "block";
+                    break;
+            }
+        }
+
         function cancel(resNo) {
             let reason = prompt("예약 거절 사유를 입력하시오")
-            location.href = "/owner/resCancel/"+resNo+"/"+reason;
+            if(reason) {
+                location.href = "/owner/resCancel/"+resNo+"/"+reason;
+            } else {
+                alert("거절 사유를 입력하지 않아 요청이 취소됩니다.")
+            }
         }
     </script>
 </th:block>
