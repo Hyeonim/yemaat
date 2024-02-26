@@ -23,8 +23,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByUserNoOrderByRevWriteTimeDesc(User userNo);
     long countByUserNo(User user);
 
-
-
+    @Query("select r from Review r where r.revStatus = 'NORMAL' and r.restNo.restNo= :restNo")
+    List<Review> findByRevStatusAndRestNo(long restNo);
 
     @Query("select r from Review r inner join r.userNo.reviews reviews where reviews.userNo = ?1")
     List<Review> findByUserNo_Reviews_UserNo(int userNo);

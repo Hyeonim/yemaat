@@ -19,7 +19,7 @@
                     <form id="reportReviewForm" th:action="@{/owner/review/report/{revNo}(revNo=*{getId()})}" method="post">
                         <p><label>신고 이유</label>
                             <select name="revStatus" th:value="*{getRevStatus()}">
-                                <option>전체</option>
+                                <option th:selected="*{getRevStatus() == 'NORMAL'}" value="NORMAL">전체</option>
                                 <option th:selected="*{getRevStatus() == 'INSULT'}" value="INSULT">욕설 및 비방</option>
                                 <option th:selected="*{getRevStatus() == 'FALSE_EXAGGERATION'}" value="FALSE_EXAGGERATION">허위 &#183; 과장</option>
                                 <option th:selected="*{getRevStatus() == 'WRONG_IMAGE'}" value="WRONG_IMAGE">잘못된 사진</option>

@@ -200,23 +200,26 @@
 
 
 <script map th:inline="javascript">
-    {
+
+
+    let normalMarker = `
+        <img src="/img/marker.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
+        `; // 마커에 mouseout 했을 때 적용할 html(기본 마커 스타일)
+
     let markers = [];
+
+
     // 마커 생성 및 이벤트 핸들러 등록
     [# th:each = "rest : ${list}"]
     {
-        let aaa = [ [[${rest.restName}]], [[${rest.restCategory}]] ]
+        // let info = []
+        let info = [ [[${rest.restName}]], [[${rest.restCategory}]] ]
         let focusMarker =`
-                <div style="padding:5px;border:1px solid black; border-radius: 20px; background-color: white;">
-                <img src="/img/marker_on.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
-                <span style="margin-left: 25px;">${aaa[0]} | ${aaa[1]}</span>
-                </div>
-            `; // 마커에 mouseover 했을 때 적용할 html
-
-        let normalMarker = `
-            <img src="/img/marker.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
-            `; // 마커에 mouseout 했을 때 적용할 html(기본 마커 스타일)
-
+            <div style="padding:5px;border:1px solid black; border-radius: 20px; background-color: white;">
+            <img src="/img/marker_on.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
+            <span style="margin-left: 25px;">${info[0]} | ${info[1]}</span>
+            </div>
+        `; // 마커에 mouseover 했을 때 적용할 html
         let marker = new naver.maps.Marker({
             position: new naver.maps.LatLng([[${rest.restLatitude}]], [[${rest.restLongitude}]]),
             icon : {
@@ -225,40 +228,17 @@
             map: map
         });
 
-
-        // let contentString =`
-        //     <div style="width:auto; height:30px: 10px; border: solid 1px transparent; border-radius: 20px;">
-        //         <h3 style="margin: 5px 10px 5px 10px">${aaa[0]}</h3>
-        //         <p style="text-align: center">${aaa[1]}</p>
-        //     </div>`
-        // ;
-
-        // let infowindow = new naver.maps.InfoWindow({
-        //     content: contentString,
-        // });
-
         // 마커 클릭 이벤트
         naver.maps.Event.addListener(marker, "mouseover", function (e) {
             marker.setIcon({
                 content: focusMarker // mouseover 했을 때 마커에 html 적용
             });
-            // if (infowindow.getMap()) {
-            //     infowindow.close();
-            // } else {
-            //     infowindow.open(map, marker);
-            // }
         });
 
         naver.maps.Event.addListener(marker, "mouseout", function (e) {
             marker.setIcon({
                 content: normalMarker // mouseout 했을 때 마커에 html 적용
             });
-            // console.log(infowindow)
-            // if (infowindow.getMap()) {
-            //     infowindow.close();
-            // } else {
-            //     infowindow.open(map, marker);
-            // }
         });
 
         // 마커 클릭 시 해당 마커를 지도 가운데로 이동시킴(부드럽게 이동)
@@ -266,8 +246,7 @@
             map.panTo(new naver.maps.LatLng([[${rest.getRestLatitude()}]], [[${rest.getRestLongitude()}]]));
         });
 
-        // infowindow.open(map, marker);
-        // marker.setMap(map);
+        // setMarker(marker)
         markers.push(marker);
     }
     [/]
@@ -317,6 +296,28 @@
         updateMarkers(map, markerClustering);
     });
 
+    function setMarker(marker) {
+        console.log(marker.getPosition())
+
+        // 마커 클릭 이벤트
+        naver.maps.Event.addListener(marker, "mouseover", function (e) {
+            marker.setIcon({
+                content: focusMarker // mouseover 했을 때 마커에 html 적용
+            });
+        });
+
+        naver.maps.Event.addListener(marker, "mouseout", function (e) {
+            marker.setIcon({
+                content: normalMarker // mouseout 했을 때 마커에 html 적용
+            });
+        });
+
+        // 마커 클릭 시 해당 마커를 지도 가운데로 이동시킴(부드럽게 이동)
+        naver.maps.Event.addListener(marker, 'click', function() {
+      <!--/*[+      map.panTo(new naver.maps.LatLng([[${rest.getRestLatitude()}]], [[${rest.getRestLongitude()}]]));    +]*/-->
+        });
+    }
+
     function updateMarkers(map, markers) {
         let mapBounds = map.getBounds();
         let marker, position;
@@ -324,6 +325,7 @@
         for (var i = 0; i < markers.length; i++) {
             marker = markers[i]
             position = marker.getPosition();
+            // setMarker(marker)
             if (mapBounds.hasLatLng(position)) {
                 showMarker(map, marker);
             } else {
@@ -347,7 +349,7 @@
         gmap.morph(new naver.maps.LatLng(lat, lng), 18);
 
         let pointMarker = `
-            <img src="/img/point_marker.gif" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
+            <img src="/img/point_marker.gif" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px; z-index: 99;" />
             `;
 
         let marker = new naver.maps.Marker({
@@ -373,7 +375,7 @@
         const classNamesAfter = Array.from(event.target.parentNode.children).map(child => child.className);
         if ( JSON.stringify(classNamesBefore) !== JSON.stringify(classNamesAfter) )
             event.currentTarget.dispatchEvent( new Event( "change") );
-    }
+
     }
 </script>
 <script src="/js/imglazy.js"></script>
