@@ -43,16 +43,6 @@
 }
 
 
-/*#main-box{*/
-/*    width: 1000px;*/
-/*    justify-content: space-around; !* 요소들을 가운데 정렬하여 공간을 동일하게 분배 *!*/
-/*    align-items: center; !* 요소들을 세로 중앙에 정렬 *!*/
-/*    border: solid 2px #f2f2f2;*/
-/*    border-radius: 20px;*/
-/*    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); !* 그림자 속성 *!*/
-/*    margin-top: 50px;*/
-/*}*/
-
 #content-box {
     height: 300px;
     display: flex; /* Flexbox 사용 */
@@ -62,15 +52,6 @@
 }
 
 
-/*#main-box2{*/
-/*    width: 1000px;*/
-/*    justify-content: space-around; !* 요소들을 가운데 정렬하여 공간을 동일하게 분배 *!*/
-/*    align-items: center; !* 요소들을 세로 중앙에 정렬 *!*/
-/*    border: solid 2px #f2f2f2;*/
-/*    border-radius: 20px;*/
-/*    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); !* 그림자 속성 *!*/
-/*    margin-top: 50px;*/
-/*}*/
 
 #content-box2 {
     height: 300px;
@@ -89,26 +70,6 @@
     overflow-y: auto; /* 너무 긴 경우 스크롤 허용 */
 }
 
-/* 화면이 768px 이하일 때 */
-@media screen and (max-width: 768px) {
-    .w3-sidebar {
-        width: 100%; /* 전체 너비로 변경 */
-    }
-}
-/*table#dinningTable {*/
-/*    width: 130px;*/
-/*}*/
-/*table#dinningTable th:nth-of-type(3){*/
-/*    width:380px;*/
-/*}*/
-/*table#dinningTable th:nth-of-type(4){*/
-/*    width:200px;*/
-/*}*/
-
-/*canvas {*/
-/*    width: 200px;*/
-/*    height: 200px;*/
-/*}*/
 
 #alarm{
 
@@ -172,10 +133,6 @@ body {
     height: 200vh;
 }
 
-h1 {
-    color: #343a40;
-    margin-bottom: 20px;
-}
 
 table {
     width: 100%;
@@ -234,20 +191,6 @@ tr:hover {
     /*overflow:auto;*/
 }
 
-/*목록*/
-#right3 {
-    width: 75%;
-    /*height: auto;*/
-    float: right;
-    box-sizing: border-box;
-    margin-top: -74px;
-    background-color: #ffffff;
-    padding: 90px;
-    border-radius: 10px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-    height: 107vh; /* 높이를 화면 높이의 80%로 설정 */
-    /*overflow:auto;*/
-}
 
 .fifth {
     border-color: black;
@@ -323,4 +266,75 @@ tr:hover {
 
     margin-left: 960px;
     margin-bottom: 10px;
+}
+
+.qu {
+    width: 900px;
+    border: solid 2px gray;
+    border-radius: 10px;
+}
+
+.qu h2 {
+
+    margin-left: 10px;
+}
+
+.qu p {
+
+    margin-left: 10px;
+}
+
+.an {
+    width: 900px;
+    margin-top: 20px;
+    border: solid 2px gray;
+    border-radius: 10px;
+}
+
+.an .fifth{
+    text-align: center;
+}
+
+.an form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.ps{
+    text-align: center;
+}
+
+
+.an form p {
+    margin-bottom: 15px;
+}
+
+.an label {
+    font-weight: bold;
+    display: block;
+}
+
+.an input[type="text"],
+.an textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.an textarea {
+    resize: vertical;
+}
+
+.an h2 {
+    margin-left: 10px;
+}
+
+
+
+/* 화면이 768px 이하일 때 */
+@media screen and (max-width: 768px) {
+    .w3-sidebar {
+        width: 100%; /* 전체 너비로 변경 */
+    }
 }
