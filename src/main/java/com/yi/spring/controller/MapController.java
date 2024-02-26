@@ -54,27 +54,5 @@ public class MapController {
         return "map";
     }
 
-    @GetMapping("manyReview")
-    public String manyReview(@RequestParam(name = "keyword") String restName,
-                             Model model) {
-        // List로 캐스팅하여 반환된 데이터를 처리
-
-        System.out.println("Controller method called with keyword: " + restName);
-
-
-        if(restName == null || restName.isEmpty()) {
-            List<Dinning> list = dinningRepository.findAllWithTotalReviewsOrderByTotalReviewsDesc();
-            model.addAttribute("list", list);
-
-        }
-        else {
-            List<Dinning> list2 = dinningRepository.findAllWithTotalReviewsOrderByTotalReviewsDesc(restName);
-            model.addAttribute("list", list2);
-
-        }
-
-
-        return "search"; // 뷰 이름 반환
-    }
 
 }

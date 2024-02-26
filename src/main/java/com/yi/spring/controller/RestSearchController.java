@@ -2,9 +2,8 @@ package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.meta.DinningReviewView;
-import com.yi.spring.entity.Review;
-import com.yi.spring.entity.meta.DinningWithReviewRepository;
-import com.yi.spring.repository.DinningSpecifications;
+import com.yi.spring.repository.DinningWithReviewRepository;
+import com.yi.spring.repository.DinningReviewSpecifications;
 import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.service.DinningService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -33,8 +31,6 @@ public class RestSearchController {
 
     @Autowired
     private DinningRepository dinningRepository;
-    @Autowired
-    private ReviewRepository reviewRepository;
     @Autowired
     private DinningWithReviewRepository dinningWithReviewRepository;
 
@@ -83,8 +79,8 @@ public class RestSearchController {
 
         model.addAttribute("list", list);
 
-        List<Dinning> listOrderByRestScore = dinningRepository.getRestScore();
-        model.addAttribute("listOrderByRestScore", listOrderByRestScore);
+//        List<Dinning> listOrderByRestScore = dinningRepository.getRestScore();
+//        model.addAttribute("listOrderByRestScore", listOrderByRestScore);
 
         return "search";
     }
@@ -108,6 +104,7 @@ public class RestSearchController {
         if ( null != filter1 )
         {
             switch (filter1) {
+                /*
                 case "111": //-> System.out.println( 11 );
                 {
                     List<Object[]> listOrderByRestScore2 = dinningRepository.getRestScore2();
@@ -133,12 +130,11 @@ public class RestSearchController {
                 }
                 bActionDefault = false;
                 break;
+                */
                 case "1": //-> System.out.println( 13 );
                 case "2": //-> System.out.println( 13 );
                 case "3": //-> System.out.println( 13 );
                 {
-
-                    //final String[] sortStrategy = { "a", "b", "c" };
                     final Map<String, String> sortStrategy = Map.of(
                             "1","restScore2"
                             , "2","totalReviews"
@@ -152,22 +148,16 @@ public class RestSearchController {
                         mySort.add( sortStrategy.get( matcher.group() ));
                     }
 
-
-//                    Specification<Review> spec = Specification
-//                            .where(DinningSpecifications.joinReviewById());
-//                    List<Object[]> aaa = new ArrayList<>();
-//                    List<Review> result =reviewRepository.findAll(spec);
-//                    System.out.println( result );
+                    Specification<DinningReviewView> spec = Specification
+                        .where(DinningReviewSpecifications.likeRestName( restName ))
+                        .and(DinningReviewSpecifications.eqCategory(null))
+                        .and(DinningReviewSpecifications.likeAddr(null))
+                    ;
 
                     List<DinningReviewView> dinningReviewList =
-                            dinningWithReviewRepository.findAll( Sort.by( Sort.Direction.DESC, mySort.toArray(new String[0]) ));
-                    System.out.println( dinningReviewList );
-
-
+                            dinningWithReviewRepository.findAll( spec, Sort.by( Sort.Direction.DESC, mySort.toArray(new String[0]) ));
+//                    System.out.println( dinningReviewList );
 //                    org.thymeleaf.spring6.expression.Fields
-
-
-
                     model.addAttribute("list", dinningReviewList);
                 }
                 bActionDefault = false;
