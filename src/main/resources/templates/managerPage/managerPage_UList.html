@@ -7,10 +7,16 @@
 </head>
 
 <div th:fragment="managerContent">
+
+
     <div id="right2">
 
-        <input type="text" id="searchInput3" placeholder="고객 이름으로 검색" onchange="searchDinning3()">
-        <button onclick="searchDinning3()">검색</button>
+
+        <div class="searchDiv">
+            <input type="text" id="searchInput3" placeholder="고객 이름으로 검색" onchange="searchDinning3()">
+            <button onclick="searchDinning3()">검색</button>
+        </div>
+
 
         <table id="UuserTable" style="text-align: center;">
             <thead>

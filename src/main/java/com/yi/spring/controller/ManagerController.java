@@ -345,7 +345,8 @@ public class ManagerController {
     public String ManagerQA(Model model
             , @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        Page<QA> list = qaService.findByUserNoPaged(page);
+//        Page<QA> list = qaService.findByUserNoPaged(page);
+        Page<QA> list = qaService.findByStatusAsc(page);
 
         System.out.println(list);
 

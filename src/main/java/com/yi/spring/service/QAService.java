@@ -20,6 +20,7 @@ public interface QAService {
 
     int countByUserNo(User userNo);
 
+    public Page<QA> findByStatusAsc(int page);
 
 
-}
+    }

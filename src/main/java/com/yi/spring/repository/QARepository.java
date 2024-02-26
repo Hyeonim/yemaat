@@ -4,6 +4,7 @@ import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.QA;
 import com.yi.spring.entity.Review;
 import com.yi.spring.entity.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,11 @@ import java.util.Optional;
 public interface QARepository extends JpaRepository<QA, Integer> {
 
     List<QA> findByUserNo(User user);
+
+    @Query("select r from QA r order by r.qaStatus asc ")
+    List<QA> findAllByQaStatusOrderByAsc();
+
+
 
     int countByUserNo(User userNo);
 

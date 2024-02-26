@@ -226,6 +226,46 @@ a{
         margin-left: 10px;
     }
 
+.searchDiv{
+    float: right;
+    margin-bottom: 20px;
+}
+
+.searchDiv input{
+
+    height: 35px;
+    border-radius: 10px;
+}
+
+.searchDiv button {
+    padding: 8px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.searchDiv input:focus {
+    outline: none;
+    border-color: dodgerblue;
+}
+
+.searchDiv button {
+    padding: 8px 16px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.searchDiv button:hover {
+    color: black;
+}
+
+
     /* 화면이 768px 이하일 때 */
     @media screen and (max-width: 768px) {
         .w3-sidebar {
