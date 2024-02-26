@@ -290,7 +290,7 @@ public class ReservationController {
 
         Long reservationNo = null;
         {
-            List<Reservation> list = reservationRepository.findByRestNo_RestNoAndUserNo_UserNo( iRestNo, iUserNo );
+            List<Reservation> list = reservationRepository.findByRestNo_RestNoAndUserNo_UserNoAndResStatus( iRestNo, iUserNo, ReservationStatus.WAIT.toString() );
             if ( null != list && !list.isEmpty())
                 reservationNo = list.get(0).getRes_no();
         }
@@ -303,7 +303,7 @@ public class ReservationController {
         reservation.setRes_time_new( LocalDateTime.now() );
         reservation.setRes_guest_count( count );
         reservation.setRes_comment( message );
-        reservation.setRes_status(String.valueOf(ReservationStatus.WAIT));
+        reservation.setResStatus(String.valueOf(ReservationStatus.WAIT));
         reservation.setRes_table_type( String.valueOf(checked));
         reservationRepository.save( reservation );
 

@@ -27,7 +27,7 @@
                     <td class="questCount" th:text="*{getRes_guest_count()}"></td>
                     <td class="tableType" th:text="*{getRes_table_type() +' '+ getDateType()}"></td>
                     <td class="comment" th:text="*{getRes_comment()}"></td>
-                    <td class="status" th:text="*{getRes_status()}"></td>
+                    <td class="status" th:text="*{getResStatus()}"></td>
                     <td class="result">
                         <input type="button" value="노쇼" th:onclick="|location.href='@{/owner/resNoShow/{resNo}(resNo=*{getRes_no()})}'|">
                     </td>
@@ -59,7 +59,7 @@
                     <td class="questCount" th:text="*{getRes_guest_count()}"></td>
                     <td class="tableType" th:text="*{getRes_table_type()}"></td>
                     <td class="comment" th:text="*{getRes_comment()}"></td>
-                    <td class="status" th:text="*{getRes_status()}"></td>
+                    <td class="status" th:text="*{getResStatus()}"></td>
                     <td class="result">
                         <input type="button" value="수락" th:onclick="|location.href='@{/owner/resCompleted/{resNo}(resNo=*{getRes_no()})}'|">
                         <input type="button" value="거절" th:onclick="|cancel('*{getRes_no()}')|">

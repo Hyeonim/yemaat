@@ -35,11 +35,11 @@ public class ReservationService {
         for (Reservation reservation : list) {
             Timestamp resTimestamp = Timestamp.valueOf(reservation.getResTime());
 
-            if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getRes_status())) {
+            if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getResStatus())) {
                 if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
                     updateReservationStatus(reservation, ReservationStatus.EXPIRED.name());
                 }
-            } else if (ReservationStatus.WAIT.name().equals(reservation.getRes_status())) {
+            } else if (ReservationStatus.WAIT.name().equals(reservation.getResStatus())) {
                 if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
                     updateReservationStatus(reservation, ReservationStatus.REST_CANCEL.name());
                 }
@@ -48,7 +48,7 @@ public class ReservationService {
     }
 
     private void updateReservationStatus(Reservation reservation, String newStatus) {
-        reservation.setRes_status(newStatus);
+        reservation.setResStatus(newStatus);
         reservationRepository.save(reservation);
     }
 
@@ -56,19 +56,19 @@ public class ReservationService {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         Reservation latestReservation = list.stream()
-                .filter(reservation -> ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getRes_status())
-                        || ReservationStatus.WAIT.name().equals(reservation.getRes_status()))
+                .filter(reservation -> ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getResStatus())
+                        || ReservationStatus.WAIT.name().equals(reservation.getResStatus()))
                 .max(Comparator.comparing(Reservation::getResTime))
                 .orElse(null);
 
         if (latestReservation != null) {
             Timestamp resTimestamp = Timestamp.valueOf(latestReservation.getResTime());
 
-            if (ReservationStatus.RESERVE_COMPLETED.name().equals(latestReservation.getRes_status())) {
+            if (ReservationStatus.RESERVE_COMPLETED.name().equals(latestReservation.getResStatus())) {
                 model.addAttribute("statusMessage", "Reservation Completed");
                 if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
                 }
-            } else if (ReservationStatus.WAIT.name().equals(latestReservation.getRes_status())) {
+            } else if (ReservationStatus.WAIT.name().equals(latestReservation.getResStatus())) {
                 model.addAttribute("statusMessage", "Waiting for Confirmation");
                 if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
                 }
@@ -85,10 +85,10 @@ public class ReservationService {
 
         for (Reservation reservation : list) {
             if (CollectionUtils.containsAny(
-                    Collections.singletonList(reservation.getRes_status()),
+                    Collections.singletonList(reservation.getResStatus()),
                     Arrays.asList(ReservationStatus.RESERVE_COMPLETED.name(),
                             ReservationStatus.WAIT.name()))) {
-                filteredStatusMessages.add(reservation.getRes_status());
+                filteredStatusMessages.add(reservation.getResStatus());
             }
         }
 
@@ -104,7 +104,7 @@ public class ReservationService {
 
                 if (matchingReservation.isPresent()) {
                     Reservation reservation = matchingReservation.get();
-                    reservation.setRes_status(String.valueOf(ReservationStatus.REVIEW));
+                    reservation.setResStatus(String.valueOf(ReservationStatus.REVIEW));
                     reservationRepository.save(reservation);
                 }
             }

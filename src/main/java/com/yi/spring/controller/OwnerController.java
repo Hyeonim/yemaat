@@ -11,7 +11,6 @@ import com.yi.spring.service.EventService;
 import com.yi.spring.service.MenuService;
 import com.yi.spring.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -25,8 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/owner/*")
@@ -49,14 +46,14 @@ public class OwnerController {
         for (Reservation reservation : list) {
             Timestamp resTimestamp = Timestamp.valueOf(reservation.getResTime());
 
-            if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getRes_status())) {
+            if (ReservationStatus.RESERVE_COMPLETED.name().equals(reservation.getResStatus())) {
                 if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
-                    reservation.setRes_status(ReservationStatus.EXPIRED.name());
+                    reservation.setResStatus(ReservationStatus.EXPIRED.name());
                     reservationRepository.save(reservation);
                 }
-            } else if (ReservationStatus.WAIT.name().equals(reservation.getRes_status())) {
+            } else if (ReservationStatus.WAIT.name().equals(reservation.getResStatus())) {
                 if (currentDateTime.isAfter(resTimestamp.toLocalDateTime())) {
-                    reservation.setRes_status(ReservationStatus.REST_CANCEL.name());
+                    reservation.setResStatus(ReservationStatus.REST_CANCEL.name());
                     reservationRepository.save(reservation);
                 }
             }
@@ -114,12 +111,12 @@ public class OwnerController {
             int complete = 0;
             int cancel = 0;
             for(Reservation reserv : reservations) {
-                if(reserv.getRes_status().equals(String.valueOf(ReservationStatus.RESERVE_COMPLETED)) ||
-                        reserv.getRes_status().equals(String.valueOf(ReservationStatus.EXPIRED))) {
+                if(reserv.getResStatus().equals(String.valueOf(ReservationStatus.RESERVE_COMPLETED)) ||
+                        reserv.getResStatus().equals(String.valueOf(ReservationStatus.EXPIRED))) {
                     complete++;
-                } else if (reserv.getRes_status().equals(String.valueOf(ReservationStatus.USER_CANCEL)) ||
-                        reserv.getRes_status().equals(String.valueOf(ReservationStatus.REST_CANCEL)) ||
-                        reserv.getRes_status().equals(String.valueOf(ReservationStatus.NO_SHOW))) {
+                } else if (reserv.getResStatus().equals(String.valueOf(ReservationStatus.USER_CANCEL)) ||
+                        reserv.getResStatus().equals(String.valueOf(ReservationStatus.REST_CANCEL)) ||
+                        reserv.getResStatus().equals(String.valueOf(ReservationStatus.NO_SHOW))) {
                     cancel++;
                 }
             }
@@ -357,7 +354,7 @@ public class OwnerController {
     public String resExpired(@PathVariable("resNo") int resNo, Principal principal) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
-        reservation.setRes_status(String.valueOf(ReservationStatus.EXPIRED));
+        reservation.setResStatus(String.valueOf(ReservationStatus.EXPIRED));
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
     }
@@ -366,7 +363,7 @@ public class OwnerController {
     public String resNoShow(@PathVariable("resNo") int resNo, Principal principal) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
-        reservation.setRes_status(String.valueOf(ReservationStatus.NO_SHOW));
+        reservation.setResStatus(String.valueOf(ReservationStatus.NO_SHOW));
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
     }
@@ -375,7 +372,7 @@ public class OwnerController {
     public String resCompleted(@PathVariable("resNo") int resNo, Principal principal) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
-        reservation.setRes_status(String.valueOf(ReservationStatus.RESERVE_COMPLETED));
+        reservation.setResStatus(String.valueOf(ReservationStatus.RESERVE_COMPLETED));
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
     }
@@ -384,7 +381,7 @@ public class OwnerController {
     public String resCancel(@PathVariable("resNo") int resNo, @PathVariable("reason") String reason, Principal principal) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
-        reservation.setRes_status(String.valueOf(ReservationStatus.REST_CANCEL));
+        reservation.setResStatus(String.valueOf(ReservationStatus.REST_CANCEL));
         reservation.setRes_rejection_reason(reason);
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
