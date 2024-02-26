@@ -594,4 +594,14 @@ public class OwnerController {
         model.addAttribute("pageName", "식당 리뷰 관리");
         return "owner/reviewList";
     }
+
+    @PostMapping("review/report/{revNo}")
+    public String review_report (@PathVariable("revNo") int revNo, @RequestParam String revStatus) {
+        Review review = reviewRepository.findById(revNo).get();
+        review.setRevStatus(revStatus);
+
+        reviewRepository.save(review);
+
+        return "redirect:/owner/reviewList";
+    }
 }

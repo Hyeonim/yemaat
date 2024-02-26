@@ -118,3 +118,27 @@ td.comment {
     width: 100%;
     height: 100%;
 }
+
+.review-container {
+    display: flex;
+    width:100%;
+    margin: 0 auto;
+}
+
+.review-container .img_box {
+    width:40%;
+}
+.review-container .preview {
+    width:90%;
+}
+.review-container .formDiv {
+    width:60%;
+}
+
+.review-container .formDiv label + select {
+    width: 50%;
+}
+
+.review-container .formDiv label + select + input {
+    width: 20%;
+}

@@ -115,6 +115,7 @@ public class UserController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = LocalDateTime.now().format(formatter);
         review.setRevWriteTime(LocalDateTime.parse(formattedDateTime, formatter));
+        review.setRevStatus(String.valueOf(ReviewStatus.NORMAL));
 
         reviewRepository.save(review);
         reservationRepository.updateReservationStatusToReviewWithJoin();

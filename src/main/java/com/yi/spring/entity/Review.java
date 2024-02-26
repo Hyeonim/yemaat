@@ -49,6 +49,8 @@ public class Review {
     @Column(name = "rev_like", length = 100)
     private String revLike;
 
+    @Column(name="rev_status")
+    private String revStatus;
 
     public double getRevScore(){
 

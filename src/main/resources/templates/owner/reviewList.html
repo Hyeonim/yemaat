@@ -5,23 +5,44 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <div class="blockDiv">
-        <table>
-            <tr>
-                <th>평점</th>
-                <th>내용</th>
-                <th>작성자</th>
-                <th>작성일</th>
-            </tr>
-            <th:block th:each="review : ${reviewList}" th:object="${review}">
-                <tr>
-                    <td>[[*{getRevScore()}]]</td>
-                    <td>[[*{getUserNo().getUserId()}]]</td>
-                    <td>[[*{getRevContent()}]]</td>
-                    <td>[[*{#temporals.format(getRevWriteTime(), 'yyyy-MM-dd')}]]</td>
-                </tr>
-            </th:block>
-        </table>
-    </div>
+    <th:block th:each="review : ${reviewList}" th:object="${review}">
+        <div class="blockDiv">
+            <div class="review-container">
+                <div class="img_box">
+                    <img class="preview" src="/img/no_image.png" alt="Review Image" th:attr="data-base64=${review.getBase64Image()}"></p>
+                </div>
+                <div class="formDiv">
+                    <p><label>작성자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
+                    <p><label>작성일</label><input type="text" th:value="*{getRevWriteTime()}" readonly></p>
+                    <p><label>평점</label><input type="text" th:value="*{getRevScore()}" readonly></p>
+                    <p><label>내용</label><textarea readonly rows="3">[[*{getRevContent()}]]</textarea></p>
+                    <form id="reportReviewForm" th:action="@{/owner/review/report/{revNo}(revNo=*{getId()})}" method="post">
+                        <p><label>신고 이유</label>
+                            <select name="revStatus" th:value="*{getRevStatus()}">
+                                <option>전체</option>
+                                <option th:selected="*{getRevStatus() == 'INSULT'}" value="INSULT">욕설 및 비방</option>
+                                <option th:selected="*{getRevStatus() == 'FALSE_EXAGGERATION'}" value="FALSE_EXAGGERATION">허위 &#183; 과장</option>
+                                <option th:selected="*{getRevStatus() == 'WRONG_IMAGE'}" value="WRONG_IMAGE">잘못된 사진</option>
+                                <option th:selected="*{getRevStatus() == 'ADVERTISEMENT'}" value="ADVERTISEMENT">광고</option>
+                                <option th:selected="*{getRevStatus() == 'OTHER'}" value="OTHER">기타</option>
+                            </select>
+                            <input type="submit" value="신고">
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <script>
+        window.onload = function() {
+            document.querySelectorAll(".preview").forEach(function(img) {
+                let base64Image = img.getAttribute('data-base64');
+                if(base64Image !== null) {
+                    img.src = 'data:image/jpeg;base64,' + base64Image
+                }
+            });
+        };
+
+    </script>
 </th:block>
 </html>
