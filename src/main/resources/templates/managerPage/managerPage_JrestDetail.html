@@ -13,10 +13,16 @@
                 display: flex;
                 justify-content: center;
             }
+
+            ion-icon:hover {
+                cursor: pointer;
+            }
+
         </style>
+        <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
         <h2>가게 상세 정보</h2>
-        <hr>
+
 
         <div class="formDiv" style="width: 1000px">
             <form id="restUpd" action="/manager/managerPage_JrestUpdate" method="post" enctype="multipart/form-data"

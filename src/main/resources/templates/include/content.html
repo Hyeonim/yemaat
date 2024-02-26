@@ -5,33 +5,56 @@
     <script></script>
     <link rel="stylesheet" href="../../static/css/main.css">
 </head>
+
+<style>
+
+    .list li a:hover {
+        text-decoration: red;
+    }
+
+    .list li {
+        white-space: nowrap; /* 요소가 한 줄에 표시되도록 설정 */
+    }
+
+    @media (max-width: 576px) {
+        h2 {
+            font-size: 18px; /* 적절한 크기로 조정 */
+        }
+    }
+</style>
+
+</style>
+
+
 <body>
 <div th:fragment="contentFragment">
     <div class="footer_height">
 
         <div id="center_box">
-
             <div id="topDiv">
-
                 <div class="container mt-5">
-                    <ul class="list">
-                        <li class="tab-button selected"  onclick="changeTab(0)">주요 공지 사항</li>
+                    <ul class="list" style="display: flex">
+                        <li class="tab-button selected" onclick="changeTab(0)">주요 공지 사항</li>
                         <li class="tab-button" onclick="changeTab(1)">최근 공지 목록!</li>
                         <li class="tab-button" onclick="changeTab(2)">모든 공지 보러 가기!</li>
                     </ul>
                     <div class="tab-content show">
                         <ul th:each="head:${head}">
-                            <li th:text="${head.subject}"></li>
+                            <a th:href="'/notice/notice_detail?id=' + ${head.Id}">
+                                <li th:text="${head.subject}"></li>
+                            </a>
                         </ul>
                     </div>
                     <div class="tab-content">
                         <ul th:each="NList:${NList}">
-                            <li th:text="${NList.subject}"></li>
+                            <a th:href="'/notice/notice_detail?id=' + ${NList.Id}">
+                                <li th:text="${NList.subject}"></li>
+                            </a>
                         </ul>
                     </div>
                     <div class="tab-content">
 
-                       <a href="/notice/noticeList"> <h2>전체 공지 보러 가기!</h2></a>
+                        <a href="/notice/noticeList"><h2>전체 공지 보러 가기!</h2></a>
                     </div>
 
                 </div>
@@ -63,9 +86,8 @@
                 <p id="restName" th:text="${randomData.restName}" style="display:none;"></p>
             </div>
 
-
         </div>
-        <hr>
+
 
         <div class="slideshow">
             <div class="background">

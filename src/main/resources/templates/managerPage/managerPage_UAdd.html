@@ -6,25 +6,29 @@
 </head>
 
 <div th:fragment="managerContent">
+
+    <style>
+
+        ion-icon:hover {
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+    </style>
     <div id="right" style="margin-right: 100px">
 
-        <style>
-            .container {
-                display: flex;
-                justify-content: center;
-            }
 
-            /**{*/
-            /*    border: solid 1px blue;*/
-            /*}*/
-        </style>
+
+
+        <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
         <h2>고객 추가</h2>
-        <hr>
-        <hr>
-        <hr>
-        <hr>
-        <hr>
+
+
 
         <div class="formDiv" style=" width: 1000px">
             <form id="form" action="/manager/managerPage_UAdd" method="post" enctype="multipart/form-data"

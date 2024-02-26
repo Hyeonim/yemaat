@@ -6,11 +6,27 @@
 </head>
 
 <div th:fragment="managerContent">
+
+    <style>
+
+
+        #right2 ion-icon{
+            float: right;
+            font-size: 40px;
+            /*margin: 20px 20px 0 0;*/
+        }
+
+        ion-icon:hover {
+            cursor: pointer;
+        }
+    </style>
     <div id="right2">
+        <ion-icon onclick="history.go(-1);" name="close-outline"></ion-icon>
 
         <h2>고객 상세 정보</h2>
 
         <div class="formDiv" style="width: 1050px">
+
             <form  id="UUpdForm" action="/manager/managerPage_UUpdate" method="post" enctype="multipart/form-data"
                    style="display: flex; align-items: center;">
 
