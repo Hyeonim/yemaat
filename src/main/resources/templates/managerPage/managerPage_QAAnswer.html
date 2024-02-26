@@ -34,10 +34,19 @@
                 border-radius: 10px;
             }
 
+            .an .fifth{
+                text-align: center;
+            }
+
             .an form {
                 max-width: 500px;
                 margin: 0 auto;
             }
+
+            .ps{
+                text-align: center;
+            }
+
 
             .an form p {
                 margin-bottom: 15px;
@@ -63,10 +72,15 @@
             .an h2 {
                 margin-left: 10px;
             }
+
+            ion-icon:hover {
+                cursor: pointer;
+            }
         </style>
+        <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
         <h2>문의 답변 </h2>
-        <hr>
+
         <div class="qu">
             <h2>문의</h2>
             <hr>
@@ -89,9 +103,10 @@
                     <label for="content">답변 내용 :</label><br>
                     <textarea name="content" id="content" cols="30" rows="10"></textarea>
                 </p>
-                <p>
+
+                <p class="ps">
                     <input class="fifth" type="submit" value="등록">
-                    <button style="margin-left: 50px" onclick="history.go(-1);" class="fifth2" id="backButton">이전</button>
+                </p>
             </form>
         </div>
     </div>

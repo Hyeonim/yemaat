@@ -6,10 +6,16 @@
 </head>
 
 <div th:fragment="managerContent">
+    <style>
+        ion-icon:hover {
+            cursor: pointer;
+        }
+    </style>
     <div id="right" style="margin-right: 100px;">
+        <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
         <h2>공지 사항 추가</h2>
-        <hr>
+
 
         <form action="/manager/managerPage_NoticeAdd" method="post">
             <div class="form-group">
@@ -26,7 +32,6 @@
             <button type="submit" class="fifth">등록</button>
 
 
-            <button style="margin-left: 50px" onclick="history.go(-1);" class="fifth" id="backButton">이전</button>
         </form>
     </div>
 </div>
