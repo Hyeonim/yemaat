@@ -116,7 +116,7 @@
         <ul id="resultList" style="list-style: none;">
 
             <li th:each="rest : ${list}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 50px;"
-                th:onclick="'javascript:redirectdetail(\'' + ${rest.restNo} + '\')'" >
+                th:onclick="'javascript:redirectdetail(event,\'' + ${rest.restNo} + '\')'" >
                 <div style="height: 250px">
                 <img th:attr="mysrc=${rest.base64Image}" style="width: 100px; height: 120px; margin-right: 10px; margin-bottom: 20px">
 
@@ -124,6 +124,7 @@
                     <h2 style="font-size: 28px" th:text="${rest.restName} "></h2>
                     <p th:text="${rest.restTel} "></p>
                     <p th:text="'평점 : ' + ${rest.restScore} "></p>
+                    <input type="button" value="위치보기" th:onclick="|javascript:mapToPoint(event, ${rest.restLatitude}, ${rest.restLongitude})|">
                 </div>
                </div>
             </li>
@@ -150,17 +151,22 @@
         }
     })
 
-    function redirectdetail(id) {
+    function redirectdetail(event, id) {
+        if ( event.target.tagName === "INPUT")
+            return;
         window.location.href = '/detail?restNo=' + id;
     }
 
 
     document.querySelectorAll('#restaurantList li').forEach(function(item) {
         item.addEventListener('mouseover', function() {
-            var restaurantName = this.querySelector('p:first-child').textContent;
+            let restaurantName = this.querySelector('p:first-child').textContent;
             alert(restaurantName);
         });
     });
+
+
+
 /*
     function redirectToManyReview() {
         // 검색어를 가져옴
@@ -275,7 +281,7 @@
 
     };
 
-    var markerClustering = new MarkerClustering({
+    let markerClustering = new MarkerClustering({
         minClusterSize: 2,
         maxZoom: 18,
         map: map,
@@ -299,8 +305,8 @@
     });
 
     function updateMarkers(map, markers) {
-        var mapBounds = map.getBounds();
-        var marker, position;
+        let mapBounds = map.getBounds();
+        let marker, position;
 
         for (var i = 0; i < markers.length; i++) {
             marker = markers[i]
@@ -321,6 +327,25 @@
     function hideMarker(map, marker) {
         if (!marker.getMap()) return;
         marker.setMap(null);
+    }
+
+    function mapToPoint(event, lat, lng) {
+        event.preventDefault()
+        map.morph(new naver.maps.LatLng(lat, lng), 18);
+
+        let pointMarker = `
+            <img src="/img/point_marker.gif" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px;" />
+            `;
+
+        let marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(lat, lng),
+            icon : {
+                content: pointMarker //size, anchor 미적용
+            },
+            map: map
+        });
+
+        marker.setMap(map)
     }
 
     function chooseFilter(event){

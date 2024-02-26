@@ -13,7 +13,7 @@
             <p><label></label><input type="text" id="roadAddress" placeholder="도로명주소" th:value="*{getRestAddr().split(', ')[0]}" readonly></p>
             <p><label></label><input type="text" id="detailAddress" placeholder="상세주소" th:value="*{getRestAddr().split(', ').length > 1} ? *{getRestAddr().split(', ')[1]} :''"></p>
             <input type="hidden" name="restAddr" id="restAddr">
-            <div id="map" style="width:70%;height:300px;margin:10px;"></div>
+            <label></label><div id="map" style="display:inline-block;width:70%;height:300px;"></div>
             <p><label>가게 번호 : </label><input type="text" name="restTel" th:value="*{getRestTel()}"></p>
             <p><label>가게 좌석수 : </label><input type="text" name="restSeat" th:value="*{getRestSeat()}"></p>
             <p><label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}"></p>
