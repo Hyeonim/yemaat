@@ -39,6 +39,8 @@
                     <td class="comment" th:text="*{getRes_comment()}"></td>
                     <td class="status" th:text="*{getResStatus()}"></td>
                     <td class="result">
+                        <input type="button" value="수락" th:onclick="|location.href='@{/owner/resCompleted/{resNo}(resNo=*{getRes_no()})}'|">
+                        <input type="button" value="거절" th:onclick="|cancel('*{getRes_no()}')|">
                         <input type="button" value="노쇼" th:onclick="|location.href='@{/owner/resNoShow/{resNo}(resNo=*{getRes_no()})}'|">
                     </td>
                 </tr>
@@ -91,8 +93,8 @@
                 <th class="status">예약 상태</th>
                 <th class="result">처리</th>
             </tr>
-            <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
-                <th:block th:if="*{getDateType()==1}">
+            <th:block th:each="i : ${#numbers.sequence(reserveList.size() - 1, 0, -1)}" th:object="${reserveList[i]}">
+                <th:block th:if="*{getDateType()==-1}">
                     <tr>
                         <td class="resNo" th:text="*{getRes_no()}"></td>
                         <td class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></td>
@@ -100,10 +102,9 @@
                         <td class="questCount" th:text="*{getRes_guest_count()}"></td>
                         <td class="tableType" th:text="*{getRes_table_type()}"></td>
                         <td class="comment" th:text="*{getRes_comment()}"></td>
-                        <td class="status" th:text="*{getRes_status()}"></td>
+                        <td class="status" th:text="*{getResStatus()}"></td>
                         <td class="result">
-                            <input type="button" value="수락" th:onclick="|location.href='@{/owner/resCompleted/{resNo}(resNo=*{getRes_no()})}'|">
-                            <input type="button" value="거절" th:onclick="|cancel('*{getRes_no()}')|">
+                            <input type="button" value="노쇼" th:onclick="|location.href='@{/owner/resNoShow/{resNo}(resNo=*{getRes_no()})}'|">
                         </td>
                     </tr>
                 </th:block>
