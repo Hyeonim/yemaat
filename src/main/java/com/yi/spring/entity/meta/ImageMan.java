@@ -1,5 +1,6 @@
-package com.yi.spring.entity;
+package com.yi.spring.entity.meta;
 
+import com.yi.spring.entity.ImgTb;
 import com.yi.spring.repository.ImgTableRepository;
 
 public class ImageMan {

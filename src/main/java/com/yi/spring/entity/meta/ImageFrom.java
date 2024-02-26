@@ -1,4 +1,4 @@
-package com.yi.spring.entity;
+package com.yi.spring.entity.meta;
 
 // 어느 테이블에서 이미지를 저장했는지를 나타냅니다
 public enum ImageFrom {

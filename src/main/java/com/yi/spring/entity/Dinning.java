@@ -1,11 +1,11 @@
 package com.yi.spring.entity;
 
+import com.yi.spring.entity.meta.DinningTimeMan;
+import com.yi.spring.entity.meta.ImageMan;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Base64;
 
 @Getter
 @Setter
@@ -107,4 +107,9 @@ public class Dinning {
             return DinningStatus.NORMAL; // 또는 다른 기본값 설정
         }
     }
+
+    public String getReserveCount(){
+        return "";
+    }
+
 }

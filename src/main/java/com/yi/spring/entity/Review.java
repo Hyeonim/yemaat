@@ -42,6 +42,7 @@ public class Review {
     @Column(name = "rev_write_time", length = 100)
     private LocalDateTime revWriteTime;
 
+    @ToString.Exclude
     @Lob
     @Column(name = "rev_img" ,length = 105000)
     private byte[] revImg;

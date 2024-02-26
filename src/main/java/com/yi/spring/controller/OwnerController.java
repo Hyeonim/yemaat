@@ -1,6 +1,7 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
+import com.yi.spring.entity.meta.ImageFrom;
 import com.yi.spring.repository.DeleteUserRepository;
 import com.yi.spring.repository.ImgTableRepository;
 import com.yi.spring.repository.ReservationRepository;

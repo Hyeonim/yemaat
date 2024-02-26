@@ -1,4 +1,4 @@
-package com.yi.spring.entity;
+package com.yi.spring.entity.meta;
 
 public class DinningTimeMan {
     String restStartTime;

@@ -42,6 +42,7 @@ public class User {
     @Column(name = "user_start_date", length = 100)
     private String userStartDate= String.valueOf(LocalDateTime.now());
 
+    @ToString.Exclude
     @Lob
     @Column(name = "user_img" ,length = 10000)
     private byte[] userImg;

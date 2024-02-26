@@ -43,11 +43,11 @@ public class JpaConfig {
     @Value("${spring.jpa.generate-ddl}")
     private  String ddl;
 
-    @Value("${spring.jpa.show-sql}")
-    private  String showSql;
+//    @Value("${spring.jpa.show-sql}")
+//    private  String showSql;
 
-    @Value("${spring.jpa.properties.hibernate.format_sql}")
-    private  String formatSql;
+//    @Value("${spring.jpa.properties.hibernate.format_sql}")
+//    private  String formatSql;
 
     @Value("${spring.jpa.properties.hibernate.enable_lazy_load_no_trans}")
     private  String lazyTrans;

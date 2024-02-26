@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
@@ -123,7 +123,15 @@
                 <div style="display: flex; flex-direction: column;">
                     <h2 style="font-size: 28px" th:text="${rest.restName} "></h2>
                     <p th:text="${rest.restTel} "></p>
+                <!--/*[+    <p th:text="'평점 : ' + ${rest.restScore2!=null?rest.restScore2:'평가중'} "></p> +]*/-->
                     <p th:text="'평점 : ' + ${rest.restScore} "></p>
+                    <!--/*[+                    <p th:if="${#fields.hasErrors('reserveCount')}">   +]*/-->
+                    <ul th:each="err: ${#fields.allErrors}">
+                        <li th:text="${err}"></li>
+                    </ul>
+                    <th:block th:if="${''!=rest.reserveCount && 0!=rest.reserveCount}">
+                        <p th:text="'예약수 : '+${rest.reserveCount}"></p>
+                    </th:block>
                     <input type="button" value="위치보기" th:onclick="|javascript:mapToPoint(event, ${rest.restLatitude}, ${rest.restLongitude})|">
                 </div>
                </div>

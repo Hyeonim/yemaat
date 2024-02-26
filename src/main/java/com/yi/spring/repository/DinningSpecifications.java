@@ -2,6 +2,10 @@ package com.yi.spring.repository;
 
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.Review;
+import com.yi.spring.entity.User;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -23,6 +27,15 @@ public class DinningSpecifications {
     public static Specification<Dinning> hasPhone(String phone) {
         return (root, query, builder) -> phone == null ? null : builder.equal(root.get("phone"), phone);
     }
+
+    public static Specification<Review> joinReviewById() {
+        return (root, query, criteriaBuilder) -> {
+            Object user = root.get("userNo");
+            Join<Review, Dinning> reviewJoin = root.join("restNo", JoinType.INNER);
+            return criteriaBuilder.ge(reviewJoin.get("restNo"), 0);
+        };
+    }
+
 }
 
 

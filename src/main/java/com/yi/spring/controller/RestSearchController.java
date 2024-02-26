@@ -1,9 +1,16 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.Dinning;
+import com.yi.spring.entity.meta.DinningReviewView;
+import com.yi.spring.entity.Review;
+import com.yi.spring.entity.meta.DinningWithReviewRepository;
+import com.yi.spring.repository.DinningSpecifications;
 import com.yi.spring.repository.DinningRepository;
+import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.service.DinningService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/")
@@ -23,6 +33,10 @@ public class RestSearchController {
 
     @Autowired
     private DinningRepository dinningRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private DinningWithReviewRepository dinningWithReviewRepository;
 
 
     public RestSearchController(DinningService dinningService){
@@ -94,7 +108,7 @@ public class RestSearchController {
         if ( null != filter1 )
         {
             switch (filter1) {
-                case "1": //-> System.out.println( 11 );
+                case "111": //-> System.out.println( 11 );
                 {
                     List<Object[]> listOrderByRestScore2 = dinningRepository.getRestScore2();
                     List<Dinning> listOrderByRestScore = new ArrayList<>();
@@ -108,7 +122,7 @@ public class RestSearchController {
                 }
                 bActionDefault = false;
                 break;
-                case "2": //-> System.out.println( 12 );
+                case "222": //-> System.out.println( 12 );
                 {
                     if(restName == null || restName.isEmpty()) {
                         restList = dinningRepository.findAllWithTotalReviewsOrderByTotalReviewsDesc();
@@ -119,17 +133,55 @@ public class RestSearchController {
                 }
                 bActionDefault = false;
                 break;
+                case "1": //-> System.out.println( 13 );
+                case "2": //-> System.out.println( 13 );
                 case "3": //-> System.out.println( 13 );
+                {
+
+                    //final String[] sortStrategy = { "a", "b", "c" };
+                    final Map<String, String> sortStrategy = Map.of(
+                            "1","restScore2"
+                            , "2","totalReviews"
+                            , "3","reserveCount");
+                    Matcher matcher = Pattern.compile(
+                            "([123])"
+                    ).matcher( filter1 );
+
+                    List<String> mySort = new ArrayList<>();
+                    while (matcher.find()) {
+                        mySort.add( sortStrategy.get( matcher.group() ));
+                    }
+
+
+//                    Specification<Review> spec = Specification
+//                            .where(DinningSpecifications.joinReviewById());
+//                    List<Object[]> aaa = new ArrayList<>();
+//                    List<Review> result =reviewRepository.findAll(spec);
+//                    System.out.println( result );
+
+                    List<DinningReviewView> dinningReviewList =
+                            dinningWithReviewRepository.findAll( Sort.by( Sort.Direction.DESC, mySort.toArray(new String[0]) ));
+                    System.out.println( dinningReviewList );
+
+
+//                    org.thymeleaf.spring6.expression.Fields
+
+
+
+                    model.addAttribute("list", dinningReviewList);
+                }
+                bActionDefault = false;
+                break;
                 default :// System.out.println("Unexpected value: " + filter1);
             }
         }
         if ( bActionDefault )
         {
             restList = dinningRepository.findByRestNameContaining(restName);
+            model.addAttribute("list", restList);
         }
 
 
-        model.addAttribute("list", restList);
         return "search";
     }
 }
