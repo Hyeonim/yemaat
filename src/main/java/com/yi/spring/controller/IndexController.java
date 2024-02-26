@@ -82,27 +82,17 @@ public class IndexController {
 
 
 
-        List<Review> reviewList = new ArrayList<>();
-        for ( int i = 0; i < 2; i++ )
-            reviewList.addAll( reviewRepository.getRandomList( 10 ) );
+//        List<Review> reviewList = new ArrayList<>();
+//        for ( int i = 0; i < 2; i++ )
+//            reviewList.addAll( reviewRepository.getRandomList( 10 ) );
+//
+//        List<Object[]> test = reviewRepository.getImgTest();
+//        List<Object[]> test2 = reviewRepository.getImgTest2();
+//        List<Tuple> test3 = reviewRepository.getImgTest3();
 
-        List<Object[]> test = reviewRepository.getImgTest();
-        List<Object[]> test2 = reviewRepository.getImgTest2();
-        List<Tuple> test3 = reviewRepository.getImgTest3();
-
-        final Map<String, String> testMap1 = Map.of(
-                "filter1","1"
-        );
-        final Map<String, String> testMap2 = Map.of(
-                "filter1","1"
-        );
-        final Map<String, String> testMap3 = Map.of(
-                "filter1","1"
-        );
-//        List<Dinning>
-        List<DinningReviewView> dinningReviewList1 = RestSearchController.searchMain( null, testMap1, 12 );
-        List<DinningReviewView> dinningReviewList2 = RestSearchController.searchMain( null, testMap2, 12 );
-        List<DinningReviewView> dinningReviewList3 = RestSearchController.searchMain( null, testMap3, 12 );
+        List<DinningReviewView> dinningReviewList1 = RestSearchController.searchMain( null, Map.of("filter1","3"), 12 );
+        List<DinningReviewView> dinningReviewList2 = RestSearchController.searchMain( null, Map.of("filter1","2"), 12 );
+        List<DinningReviewView> dinningReviewList3 = RestSearchController.searchMain( null, Map.of("filter1","1"), 12 );
 
 //        List<Review> reviewList1 = dinningReviewList1.
 
