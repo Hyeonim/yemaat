@@ -5,33 +5,48 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
+    <div class="review-item">
+        <ul>
+            <li>작성자</li>
+            <li>작성일</li>
+            <li>평점</li>
+            <li>내용</li>
+        </ul>
+    </div>
+
     <th:block th:each="review : ${reviewList}" th:object="${review}">
-        <div class="blockDiv">
-            <div class="review-container">
-                <div class="img_box">
-                    <img class="preview" src="/img/no_image.png" alt="Review Image" th:attr="data-base64=${review.getBase64Image()}"></p>
-                </div>
-                <div class="formDiv">
-                    <p><label>작성자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
-                    <p><label>작성일</label><input type="text" th:value="*{getRevWriteTime()}" readonly></p>
-                    <p><label>평점</label><input type="text" th:value="*{getRevScore()}" readonly></p>
-                    <p><label>내용</label><textarea readonly rows="3">[[*{getRevContent()}]]</textarea></p>
-                    <form id="reportReviewForm" th:action="@{/owner/review/report/{revNo}(revNo=*{getId()})}" method="post">
-                        <p><label>신고 이유</label>
-                            <select name="revStatus" th:value="*{getRevStatus()}">
-                                <option th:selected="*{getRevStatus() == 'NORMAL'}" value="NORMAL">전체</option>
-                                <option th:selected="*{getRevStatus() == 'INSULT'}" value="INSULT">욕설 및 비방</option>
-                                <option th:selected="*{getRevStatus() == 'FALSE_EXAGGERATION'}" value="FALSE_EXAGGERATION">허위 &#183; 과장</option>
-                                <option th:selected="*{getRevStatus() == 'WRONG_IMAGE'}" value="WRONG_IMAGE">잘못된 사진</option>
-                                <option th:selected="*{getRevStatus() == 'ADVERTISEMENT'}" value="ADVERTISEMENT">광고</option>
-                                <option th:selected="*{getRevStatus() == 'OTHER'}" value="OTHER">기타</option>
-                            </select>
-                            <input type="submit" value="신고">
-                        </p>
-                    </form>
+            <div class="review-item">
+                <ul class="review-preview">
+                    <li>[[*{getUserNo().getUserId()}]]</li>
+                    <li>[[*{getRevWriteTime()}]]</li>
+                    <li>[[*{getRevScore()}]]</li>
+                    <li>[[*{getRevContent()}]]</li>
+                </ul>
+                <div class="review-container">
+                    <div class="img_box">
+                        <img class="preview" src="/img/no_image.png" alt="Review Image" th:attr="data-base64=${review.getBase64Image()}"></p>
+                    </div>
+                    <div class="formDiv">
+                        <p><label>작성자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
+                        <p><label>작성일</label><input type="text" th:value="*{getRevWriteTime()}" readonly></p>
+                        <p><label>평점</label><input type="text" th:value="*{getRevScore()}" readonly></p>
+                        <p><label>내용</label><textarea readonly rows="3">[[*{getRevContent()}]]</textarea></p>
+                        <form id="reportReviewForm" th:action="@{/owner/review/report/{revNo}(revNo=*{getId()})}" method="post">
+                            <p><label>신고 이유</label>
+                                <select name="revStatus" th:value="*{getRevStatus()}">
+                                    <option th:selected="*{getRevStatus() == 'NORMAL'}" value="NORMAL">전체</option>
+                                    <option th:selected="*{getRevStatus() == 'INSULT'}" value="INSULT">욕설 및 비방</option>
+                                    <option th:selected="*{getRevStatus() == 'FALSE_EXAGGERATION'}" value="FALSE_EXAGGERATION">허위 &#183; 과장</option>
+                                    <option th:selected="*{getRevStatus() == 'WRONG_IMAGE'}" value="WRONG_IMAGE">잘못된 사진</option>
+                                    <option th:selected="*{getRevStatus() == 'ADVERTISEMENT'}" value="ADVERTISEMENT">광고</option>
+                                    <option th:selected="*{getRevStatus() == 'OTHER'}" value="OTHER">기타</option>
+                                </select>
+                                <input type="button" value="신고" onclick="reviewReportSubmit()">
+                            </p>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
     </th:block>
     <script>
         window.onload = function() {
@@ -42,6 +57,36 @@
                 }
             });
         };
+
+        function reviewReportSubmit() {
+            if (confirm("등록된 리뷰를 신고 처리하시겠습니까?")) {
+                let form = document.getElementById("reportReviewForm");
+                form.submit();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let reviewItems = document.querySelectorAll('.review-preview');
+
+            reviewItems.forEach(function (reviewItem) {
+                reviewItem.addEventListener('click', function () {
+                    let reviewContainer = this.nextElementSibling;
+
+                    document.querySelectorAll('.review-container').forEach(function(container) {
+                        if (container !== reviewContainer && container.style.display === 'flex')
+                            container.style.display = 'none'; // 다른 리스트를 닫음
+                    });
+
+                    if (reviewContainer) {
+                        if (reviewContainer.style.display === 'flex') {
+                            reviewContainer.style.display = 'none';
+                        } else {
+                            reviewContainer.style.display = 'flex';
+                        }
+                    }
+                });
+            });
+        });
 
     </script>
 </th:block>

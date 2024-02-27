@@ -861,6 +861,8 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     @PostMapping("managerPage_JrestAdd")
     public String JrestAdd(@RequestParam(required = false) MultipartFile file, Dinning dinning, Model model) {
 
+        System.out.println(dinning);
+
         if (file != null && !file.isEmpty()) {
             byte[] restImg = new byte[0];
             try {

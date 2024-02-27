@@ -7,15 +7,15 @@
 <th:block th:fragment="content">
     <th:block th:object="${dinning}">
         <div class="formDiv">
-            <p><label>가게 이름 : </label><input type="text" name="restName" th:value="*{getRestName()}" readonly></p>
-            <p><label>가게 주소 : </label><input type="text" name="restAddr" th:value="*{getRestAddr()}" readonly></p>
+            <p><label>가게 이름</label><input type="text" name="restName" th:value="*{getRestName()}" readonly></p>
+            <p><label>가게 주소</label><input type="text" name="restAddr" th:value="*{getRestAddr()}" readonly></p>
             <label></label><div id="map" style="display:inline-block; width:70%;height:300px;"></div>
-            <p><label>가게 번호 : </label><input type="text" name="restTel" th:value="*{getRestTel()}" readonly></p>
-            <p><label>가게 좌석수 : </label><input type="text" name="restSeat" th:value="*{getRestSeat()}" readonly></p>
-            <p><label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}" readonly></p>
-            <p><label>가게 휴뮤일 : </label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}" readonly></p>
-            <p><label>가게 주차장 : </label><input type="text" name="restParking" th:value="*{getRestParking()}" readonly></p>
-            <label>가게 메뉴 : </label><th:block th:replace="${menuPage}::menuContent"></th:block>
+            <p><label>가게 전화번호</label><input type="text" name="restTel" th:value="*{getRestTel()}" readonly></p>
+            <p><label>가게 좌석수</label><input type="text" name="restSeat" th:value="*{getRestSeat()}" readonly></p>
+            <p><label>가게 이용시간</label><input type="text" name="restTime" th:value="*{getRestTime()}" readonly></p>
+            <p><label>가게 휴뮤일</label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}" readonly></p>
+            <p><label>가게 주차장</label><input type="text" name="restParking" th:value="*{getRestParking()}" readonly></p>
+            <label>가게 메뉴</label><th:block th:replace="${menuPage}::menuContent"></th:block>
             <p><label>가게 업태 : </label>
                 <select name="restCategory" th:value="*{getRestCategory()}"
                         onFocus="this.initialSelect = this.selectedIndex;"
@@ -27,8 +27,10 @@
                     <option th:selected="*{getRestCategory()=='중식'}">중식</option>
                     <option th:selected="*{getRestCategory()=='디저트'}">디저트</option>
                 </select></p>
-            <p><label>가게 소개글 : </label><textarea name="restDesc" rows="5" readonly>[[*{getRestDescription()}]]</textarea></p>
-            <p><label>대표 이미지 : </label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
+            <input type="hidden" name="restLatitude" id="restLatitude" th:value="*{getRestLatitude()}">
+            <input type="hidden" name="restLongitude" id="restLongitude" th:value="*{getRestLongitude()}">
+            <p><label>가게 소개글</label><textarea name="restDesc" rows="5" readonly>[[*{getRestDescription()}]]</textarea></p>
+            <p><label>대표 이미지</label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
 
             <input type="button" value="수정" th:onclick="|location.href='@{/owner/updateRest}'|">
             <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/home}'|">
@@ -36,11 +38,15 @@
     </th:block>
     <script src="/js/imglazy.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=05b2e13415dce5035c88d89a20185383&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=05b2e13415dce5035c88d89a20185383&libraries=services"></script>
+
     <script>
+        let latitude = document.getElementById("restLatitude").value
+        let longitude = document.getElementById("restLongitude").value
+
         let mapContainer = document.getElementById("map"),
             mapOption = {
-                center : new daum.maps.LatLng(35.86868025887658, 128.5987419727357),
+                center : new daum.maps.LatLng(latitude, longitude),
                 draggable: false,
                 level : 5
             };
@@ -48,10 +54,10 @@
         let map = new daum.maps.Map(mapContainer, mapOption);
         let geocoder = new daum.maps.services.Geocoder();
         let marker = new daum.maps.Marker({
-            position: new daum.maps.LatLng(35.86868025887658, 128.5987419727357),
+            position: new daum.maps.LatLng(latitude, longitude),
             map: map
         });
-        let coords = new daum.maps.LatLng(35.86868025887658, 128.5987419727357);
+        let coords = new daum.maps.LatLng(latitude, longitude);
         map.relayout();
         map.setCenter(coords);
         marker.setPosition(coords)
