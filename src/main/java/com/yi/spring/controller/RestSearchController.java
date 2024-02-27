@@ -1,11 +1,11 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.OAuth2.OAuth2LoginUser;
+import com.yi.spring.OAuth2.OAuth2LoginUserRepository;
+import com.yi.spring.OAuth2.OAuth2MemberService;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.meta.DinningReviewView;
-import com.yi.spring.repository.DinningWithReviewRepository;
-import com.yi.spring.repository.DinningReviewSpecifications;
-import com.yi.spring.repository.DinningRepository;
-import com.yi.spring.repository.ReviewRepository;
+import com.yi.spring.repository.*;
 import com.yi.spring.service.DinningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +36,11 @@ public class RestSearchController {
     @Autowired
     private DinningWithReviewRepository dinningWithReviewRepository;
 
+//    @Autowired
+//    private OAuth2LoginUserRepository o2o2o2o2o2o;
+//
+//    @Autowired
+//    OAuth2MemberService testService;
 
     public RestSearchController(DinningService dinningService){
         this.dinningService = dinningService;
@@ -158,6 +163,18 @@ public class RestSearchController {
             restList = dinningRepository.findByRestNameContaining(restName);
             model.addAttribute("list", restList);
         }
+
+
+//        if ( true )
+//        {
+//            testService.saveAll();
+//        }
+//        else {
+//            OAuth2LoginUser test = new OAuth2LoginUser();
+//            test.setHashValue(123);
+//            OAuth2LoginUser result = o2o2o2o2o2o.save(test);
+//            System.out.println(result);
+//        }
 
 
         return "search";

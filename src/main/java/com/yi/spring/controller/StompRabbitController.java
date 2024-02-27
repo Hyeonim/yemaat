@@ -54,20 +54,5 @@ public class StompRabbitController {
 
 
 
-    @GetMapping("/procc")
-    public ResponseEntity<String> testSendMessage(HttpServletRequest request, @RequestParam("custno") String name ){
-
-        ChatDTO chat = new ChatDTO();
-        chat.setNickname( "anomy");
-        chat.setMessage( "야이야이야야");
-
-        ServletContext servletContext = request.getServletContext();
-        String chatRoomId = (String) servletContext.getAttribute( "user" + name );
-
-        template.convertAndSend(CHAT_EXCHANGE_NAME, "room." + chatRoomId, chat);
-
-        return new ResponseEntity<>("OK", HttpStatus.OK);
-    }
-
 
 }

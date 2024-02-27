@@ -1,5 +1,6 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.OAuth2.OAuth2MemberService;
 import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Reservation;
 import com.yi.spring.entity.ReservationStatus;
@@ -35,7 +36,8 @@ public class ReservationController {
     @Autowired
     ReservationRepository reservationRepository;
     @Autowired
-    private UserService userService;
+//    private UserService userService;
+    private OAuth2MemberService o2MemberService;
 
     /*
     @GetMapping("/setUserNo/{userNo}")
@@ -63,7 +65,8 @@ public class ReservationController {
 
         if ( null == principal )
             return "redirect:/login";
-        User loginUser = userService.findByUserId( principal.getName() ).get();
+//        User loginUser = userService.findByUserId( principal.getName() ).get();
+        User loginUser = o2MemberService.findUser( principal );
         Long iUserNo = Long.valueOf(loginUser.getUserNo());
         Long reservationNo = _findMyReserveNo( iRestNo, iUserNo );
         if ( null != reservationNo )
@@ -281,7 +284,8 @@ public class ReservationController {
                 .map(Long::valueOf).orElse(null);
         if ( null == principal )
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/login");
-        User loginUser = userService.findByUserId( principal.getName() ).get();
+//        User loginUser = userService.findByUserId( principal.getName() ).get();
+        User loginUser = o2MemberService.findUser( principal );
         Long iUserNo = Long.valueOf(loginUser.getUserNo());
 
         String fieldCount = (String) jsonData.get("count");

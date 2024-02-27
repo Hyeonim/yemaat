@@ -1,5 +1,6 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.OAuth2.OAuth2MemberService;
 import com.yi.spring.entity.*;
 import com.yi.spring.entity.meta.DinningReviewView;
 import com.yi.spring.repository.*;
@@ -50,6 +51,9 @@ public class IndexController {
     @Autowired
     DinningWithReviewRepository dinningWithReviewRepository;
 
+    @Autowired
+    OAuth2MemberService o2Service;
+
     @GetMapping("/")
     public String home() {
 
@@ -97,6 +101,8 @@ public class IndexController {
 
 
 
+        if ( true )
+            o2Service.saveAll();
 
 
 
