@@ -7,19 +7,20 @@
 <th:block th:fragment="content">
     <th:block th:object="${dinning}">
         <div class="formDiv">
-        <form id="updateRestForm" th:action="@{/owner/updateRest}" method="post" enctype="multipart/form-data">
-            <p><label>가게 이름 : </label><input type="text" name="restName" th:value="*{getRestName()}"></p>
+        <form id="updateRestForm" th:action="@{/owner/updateRest}" method="post" enctype="multipart/form-data" onsubmit="submitRestForm()">
+            <p><label>가게 이름</label><input type="text" name="restName" th:value="*{getRestName()}"></p>
             <p><label>가게 주소</label><button onclick="execDaumPostcode(event)">우편번호 찾기</button></p>
             <p><label></label><input type="text" id="roadAddress" placeholder="도로명주소" th:value="*{getRestAddr().split(', ')[0]}" readonly></p>
             <p><label></label><input type="text" id="detailAddress" placeholder="상세주소" th:value="*{getRestAddr().split(', ').length > 1} ? *{getRestAddr().split(', ')[1]} :''"></p>
             <input type="hidden" name="restAddr" id="restAddr">
             <label></label><div id="map" style="display:inline-block;width:70%;height:300px;"></div>
-            <p><label>가게 전화번호 : </label><input type="tel" name="restTel" th:value="*{getRestTel()}" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"></p>
-            <p><label>가게 좌석수 : </label><input type="text" name="restSeat" th:value="*{getRestSeat()}"></p>
-            <p><label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}" pattern="([0-9]{2}).*([0-9]{2}).*([0-9]{2}).*([0-9]{2})"></p>
-            <p><label>가게 휴뮤일 : </label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}"></p>
-            <p><label>가게 주차장 : </label><input type="text" name="restParking" th:value="*{getRestParking()}"></p>
-            <p><label>가게 업태 : </label>
+            <p><label>가게 전화번호</label><input type="text" name="restTel" th:value="*{getRestTel()}" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" title="전화번호는 2~3자리-3~4자리-4자리로 입력"></p>
+            <p><label>가게 좌석수</label><input type="text" name="restSeat" th:value="*{getRestSeat()}"></p>
+            <p><label>가게 이용시간</label><input type="text" name="restTime" th:value="*{getRestTime()}" pattern="([0-9]{2}):([0-9]{2})~([0-9]{2}):([0-9]{2})" title="이용시간은 00:00~00:00으로 입력"></p>
+            <p><label>가게 휴뮤일</label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}"></p>
+            <p><label>가게 주차장</label><input type="text" name="restParking" th:value="*{getRestParking()}"></p>
+
+            <p><label>가게 업태</label>
                 <select name="restCategory" th:value="*{getRestCategory()}" readonly>
                     <option th:selected="*{getRestCategory()=='전체'}">전체</option>
                     <option th:selected="*{getRestCategory()=='한식'}">한식</option>
@@ -30,12 +31,13 @@
                 </select></p>
             <input type="hidden" name="restLatitude" id="restLatitude" th:value="*{getRestLatitude()}">
             <input type="hidden" name="restLongitude" id="restLongitude" th:value="*{getRestLongitude()}">
-            <p><label>가게 소개글 : </label><textarea name="restDesc" rows="5">[[*{getRestDescription()}]]</textarea></p>
-            <p><label>대표 이미지 : </label><input type="file" name="file" id="file"></p>
+            <p><label>가게 소개글</label><textarea name="restDesc" rows="5">[[*{getRestDescription()}]]</textarea></p>
+            <p><label>대표 이미지</label><input type="file" name="file" id="file"></p>
             <p><label></label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
             <input type="hidden" th:value="${dinning.getRestNo()}" name="restNo" >
 
-            <input type="button" value="수정" onclick="submitRestForm()">
+<!--            <input type="button" value="수정" onclick="submitRestForm()">-->
+            <input type="submit" value="수정">
             <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewRest}'|">
         </form>
         </div>
@@ -99,7 +101,20 @@
                 let roadAddress = document.getElementById("roadAddress").value;
                 let detailAddress = document.getElementById("detailAddress").value;
                 document.getElementById("restAddr").value = roadAddress  + ", " + detailAddress;
-                form.submit();
+                // form.submit();
+                return true;
+            }
+            return false;
+        }
+
+        function parkingChecked(checked) {
+            let restParking = document.getElementsByName('restParking')[0]
+            if( checked.checked===true ){
+                restParking.readOnly=false;
+                restParking.style.display="inline-block";
+            } else {
+                restParking.readOnly=true;
+                restParking.style.display="none";
             }
         }
 
