@@ -14,9 +14,9 @@
             <p><label></label><input type="text" id="detailAddress" placeholder="상세주소" th:value="*{getRestAddr().split(', ').length > 1} ? *{getRestAddr().split(', ')[1]} :''"></p>
             <input type="hidden" name="restAddr" id="restAddr">
             <label></label><div id="map" style="display:inline-block;width:70%;height:300px;"></div>
-            <p><label>가게 번호 : </label><input type="text" name="restTel" th:value="*{getRestTel()}"></p>
+            <p><label>가게 전화번호 : </label><input type="tel" name="restTel" th:value="*{getRestTel()}" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"></p>
             <p><label>가게 좌석수 : </label><input type="text" name="restSeat" th:value="*{getRestSeat()}"></p>
-            <p><label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}"></p>
+            <p><label>가게 이용시간 : </label><input type="text" name="restTime" th:value="*{getRestTime()}" pattern="([0-9]{2}).*([0-9]{2}).*([0-9]{2}).*([0-9]{2})"></p>
             <p><label>가게 휴뮤일 : </label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}"></p>
             <p><label>가게 주차장 : </label><input type="text" name="restParking" th:value="*{getRestParking()}"></p>
             <p><label>가게 업태 : </label>
