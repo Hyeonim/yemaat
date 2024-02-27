@@ -89,26 +89,45 @@
         </div>
 
 
-        <div class="slideshow">
-            <h2># 예약 많은 순</h2>
-            <div class="background">
-                <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList1}, 1)}"></div>
+        <div class="slider slider1">
+            <div class="header">
+                <h2># 예약 많은 순</h2>
             </div>
+            <button class="btn prev"></button>
+            <div class="wrapper">
+                <div class="items">
+                    <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList1}, 1)}"></div>
+                </div>
+            </div>
+            <button class="btn next"></button>
         </div>
 
-        <div class="slideshow">
-            <h2># 리뷰 많은 순</h2>
-            <div class="background">
-                <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList2}, 1)}"></div>
+        <div class="slider slider2">
+            <div class="header">
+                <h2># 리뷰 많은 순</h2>
             </div>
+            <button class="btn prev"></button>
+            <div class="wrapper">
+                <div class="items">
+                    <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList2}, 1)}"></div>
+                </div>
+            </div>
+            <button class="btn next"></button>
         </div>
 
-        <div class="slideshow">
-            <h2># 평점 높은 순</h2>
-            <div class="background">
-                <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList3}, 1)}"></div>
+        <div class="slider slider3">
+            <div class="header">
+                <h2># 평점 높은 순</h2>
             </div>
+            <button class="btn prev"></button>
+            <div class="wrapper">
+                <div class="items">
+                    <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList3}, 1)}"></div>
+                </div>
+            </div>
+            <button class="btn next"></button>
         </div>
+
 
 
         <!--/*[+
@@ -127,6 +146,9 @@
 
         </div>
     </div>
+    <script src="/js/btn_slider.js" slider="slider1"></script>
+    <script src="/js/btn_slider.js" slider="slider2"></script>
+    <script src="/js/btn_slider.js" slider="slider3"></script>
     <script>
         function addWishList(compo, restNo) {
             let newDiv = compo.closest(".reviewT").cloneNode(true);

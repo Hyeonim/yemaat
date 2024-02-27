@@ -50,8 +50,8 @@ public class IndexController {
     @Autowired
     EventService eventService;
 
-//    @Autowired
-//    RestSearchController restSearchController;
+    @Autowired
+    DinningWithReviewRepository dinningWithReviewRepository;
 
     @GetMapping("/")
     public String home() {
@@ -90,9 +90,9 @@ public class IndexController {
 //        List<Object[]> test2 = reviewRepository.getImgTest2();
 //        List<Tuple> test3 = reviewRepository.getImgTest3();
 
-        List<DinningReviewView> dinningReviewList1 = RestSearchController.searchMain( null, Map.of("filter1","3"), 12 );
-        List<DinningReviewView> dinningReviewList2 = RestSearchController.searchMain( null, Map.of("filter1","2"), 12 );
-        List<DinningReviewView> dinningReviewList3 = RestSearchController.searchMain( null, Map.of("filter1","1"), 12 );
+        List<DinningReviewView> dinningReviewList1 = RestSearchController.searchMain( null, Map.of("filter1","3"), 12 , dinningWithReviewRepository);
+        List<DinningReviewView> dinningReviewList2 = RestSearchController.searchMain( null, Map.of("filter1","2"), 12 , dinningWithReviewRepository);
+        List<DinningReviewView> dinningReviewList3 = RestSearchController.searchMain( null, Map.of("filter1","1"), 12 , dinningWithReviewRepository);
 
 //        List<Review> reviewList1 = dinningReviewList1.
 
