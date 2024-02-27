@@ -34,12 +34,11 @@ public class RestSearchController {
     @Autowired
     private DinningRepository dinningRepository;
     @Autowired
-    private static DinningWithReviewRepository dinningWithReviewRepository;
+    private DinningWithReviewRepository dinningWithReviewRepository;
 
 
-    public RestSearchController(DinningService dinningService, DinningWithReviewRepository dinningWithReviewRepository ){
+    public RestSearchController(DinningService dinningService){
         this.dinningService = dinningService;
-        RestSearchController.dinningWithReviewRepository = dinningWithReviewRepository;
     }
 
 //    @GetMapping("search")
@@ -96,7 +95,8 @@ public class RestSearchController {
 //    }
 
 
-    public static List<DinningReviewView> searchMain( String restName, Map<String, String> params, int pageSize )
+    public static List<DinningReviewView> searchMain( String restName, Map<String, String> params, int pageSize
+            , DinningWithReviewRepository inRepository )
     {
         List<DinningReviewView> dinningReviewList = new ArrayList<>();
         String filter1 = params.get( "filter1" );
@@ -129,7 +129,7 @@ public class RestSearchController {
                     Pageable pageable = PageRequest.of( 0, pageSize, Sort.Direction.DESC, mySort.toArray(new String[0]) );
 
                     dinningReviewList =
-                            dinningWithReviewRepository.findAll( spec, pageable ).toList();
+                            inRepository.findAll( spec, pageable ).toList();
 //                    org.thymeleaf.spring6.expression.Fields
                 }
                 break;
@@ -146,7 +146,7 @@ public class RestSearchController {
         boolean bActionDefault = true;
 
         System.out.println( params );
-        List<DinningReviewView> dinningReviewList = searchMain( restName, params, 100000 );
+        List<DinningReviewView> dinningReviewList = searchMain( restName, params, 100000 , dinningWithReviewRepository);
         if ( null != dinningReviewList && !dinningReviewList.isEmpty() )
         {
             bActionDefault = false;
