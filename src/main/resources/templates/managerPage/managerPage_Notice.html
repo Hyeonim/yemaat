@@ -99,8 +99,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="list, listIndex : ${list}"
-                th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
+            <tr th:each="list, listIndex : ${list}">
+<!--                th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">-->
 
                 <td>
                     <form id="myForm2" action="/manager/managerPage_NoticeHead" method="POST">
@@ -111,10 +111,10 @@
                     </form>
                 </td>
 
-                <td th:text="${list.id}"></td>
-                <td th:text="${list.subject}"></td>
+                <td th:text="${list.id}"  th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
+                <td th:text="${list.subject}"  th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
                 <!--                    <td th:text="${list.writer}"></td>-->
-                <td th:text="${list.writeDate}"></td>
+                <td th:text="${list.writeDate}"  th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
             </tr>
             </tbody>
         </table>
@@ -157,6 +157,7 @@
             form.submit();
         }
 
+
         function submitForm2(checkbox) {
             let confirmation = confirm("상단에 고정하시겠습니까?");
             let form = checkbox.form;
@@ -170,10 +171,15 @@
             form.submit();
         }
 
+
+
         //디테일로 이동 버튼
         function redirectToNoticeDetail(id) {
             window.location.href = '/manager/managerPage_NoticeDetail?id=' + id;
         }
+
+
+
     </script>
 </div>
 </html>
