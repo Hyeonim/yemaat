@@ -166,7 +166,7 @@ header {
 }
 
 header nav:nth-of-type(1) {
-    background: wheat;
+    background: white;
     justify-content: flex-start;
 }
 

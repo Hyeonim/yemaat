@@ -26,8 +26,14 @@ public interface UserService {
     Page<User> findByUserNoPaged(int page);
     Page<User> findByJumNoPaged(int page);
 
+    public Page<User> findByUserNoBlack(int page);
 
     Page<User> findByUserAuthAndUserNameContainingPaged(String userAuth, String userName, int page);
 
     List<User> findByUserAuthAndUserBlockNot(String number, boolean b);
+    Page<User> findByUserAuthAndUserNameContainingPagedNoBlack(String userAuth, String userName, int page, Boolean a);
+
+
+
+
 }

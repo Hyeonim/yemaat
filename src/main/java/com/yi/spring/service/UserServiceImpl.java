@@ -65,6 +65,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findByUserNoBlack(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+       return userRepository.findByUserAuthAndUserBlock("1", false,pageable);
+
+    }
+
+
+    @Override
     public Page<User> findByJumNoPaged(int page){
         Pageable pageable = PageRequest.of(page, 10);
         return userRepository.findByUserAuth("2", pageable);
@@ -79,5 +87,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByUserAuthAndUserBlockNot(String number, boolean b) {
         return userRepository.findByUserAuthAndUserBlockNot(number, b);
+    }
+
+    @Override
+    public Page<User> findByUserAuthAndUserNameContainingPagedNoBlack(String userAuth, String userName, int page, Boolean a) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return userRepository.findByUserAuthAndUserNameContainingAndUserBlock(userAuth, userName,false, pageable);
     }
 }
