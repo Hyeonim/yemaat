@@ -1,5 +1,8 @@
 {
-    let myChatRoomId = document.currentScript.getAttribute('href');
+    fetch( "/api/getChatRoomId" )
+.then(resp => resp.text())
+.then(data => {
+    let myChatRoomId = data;
     // let myNickname = "손님";
 
     // const chats = document.querySelector('.chats');
@@ -26,7 +29,7 @@
         /* subscribe 설정에 따라 rabbit의 Exchange, Queue가 상당히 많이 바뀜 */
         stomp.subscribe(`/exchange/chat.exchange/room.${myChatRoomId}`, function (content) {
             const payload = JSON.parse(content.body);
-            console.log("11111111" + payload)
+            // console.log("11111111" + payload)
             // for ( k in payload )
             //     console.log( k, payload[k])
             // let className = payload.nickname == myNickname ? 'mine' : 'yours';
@@ -37,10 +40,10 @@
             //             </div>`
             //
             // chats.insertAdjacentHTML('beforeend', html);
-            let myEvent = new Event( "new_message_stomp_subscribe" );
+            let myEvent = new Event("new_message_stomp_subscribe");
             myEvent.data = payload;
 
-            document.dispatchEvent( myEvent );
+            document.dispatchEvent(myEvent);
 
             //밑의 인자는 Queue 생성 시 주는 옵션
             //auto-delete : Consumer가 없으면 스스로 삭제되는 Queue
@@ -69,4 +72,6 @@
     //         nickname: nickname
     //     }));
     // });
+
+});
 }

@@ -56,7 +56,7 @@ public class IndexController {
         return "redirect:/home";
     }
     @GetMapping("/home")
-    public String index(Model model, HttpSession httpSession, HttpServletRequest request, Principal principal ) {
+    public String index(Model model, HttpSession httpSession, HttpServletRequest request) {
         List<Event> eventList = eventService.getNewEvents(); // 상단 배너 새로운 이벤트
         model.addAttribute("eventList", eventList);
 
@@ -96,8 +96,6 @@ public class IndexController {
         model.addAttribute("dinningReviewList3", dinningReviewList3 );
 
 
-        if ( null != principal )
-            model.addAttribute( "chatRoomId", getCustomerChatRoom( request, principal.getName()));
 
 
 
@@ -166,16 +164,23 @@ public class IndexController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    public String getCustomerChatRoom( HttpServletRequest request, String userId )
+    @GetMapping("/api/getChatRoomId")
+    public ResponseEntity<String> getCustomerChatRoom( HttpServletRequest request, Principal principal )
     {
-        ServletContext servletContext = request.getServletContext();
-        String chatRoomId = (String) servletContext.getAttribute( "user" + userId );
-        if ( null == chatRoomId )
-        {
-            chatRoomId = UUID.randomUUID().toString().replace( "-", "" );
-            servletContext.setAttribute( "user" + userId, chatRoomId);
+        String userId = null;
+        if ( null != principal )
+            userId = principal.getName();
+
+        String chatRoomId = "";
+        if ( null != userId ) {
+            ServletContext servletContext = request.getServletContext();
+            chatRoomId = (String) servletContext.getAttribute("user" + userId);
+            if (null == chatRoomId) {
+                chatRoomId = UUID.randomUUID().toString().replace("-", "");
+                servletContext.setAttribute("user" + userId, chatRoomId);
+            }
         }
-        return chatRoomId;
+        return new ResponseEntity<>( chatRoomId, HttpStatus.OK );
     }
 
 
