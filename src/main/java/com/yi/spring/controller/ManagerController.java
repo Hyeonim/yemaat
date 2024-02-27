@@ -513,7 +513,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
     @GetMapping("/managerPage_NoticeAdd")
     public String managerPageManagerPageNoticeAdd(Model model) {
-        model.addAttribute("header", "고객 추가");
+        model.addAttribute("header", "공지사항 추가");
 
         model.addAttribute("page", "managerPage/managerPage_NoticeAdd");
 

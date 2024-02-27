@@ -68,8 +68,8 @@
                 </thead>
 
                 <tbody>
-                <tr th:each="list, listIndex : ${head}"
-                    th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
+                <tr th:each="list, listIndex : ${head}">
+<!--                    th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">-->
                     <td>
                         <form id="myForm1" action="/manager/managerPage_NoticeHead" method="POST">
                             <input type="hidden" id="myInput1" name="id" th:value="${list.id}">
@@ -79,9 +79,9 @@
                         </form>
                     </td>
 
-                    <td th:text="${list.id}"></td>
-                    <td th:text="${list.subject}"></td>
-                    <td th:text="${list.writeDate}"></td>
+                    <td th:text="${list.id}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
+                    <td th:text="${list.subject}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
+                    <td th:text="${list.writeDate}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
                 </tr>
                 </tbody>
             </table>
@@ -145,30 +145,53 @@
 
     <script>
         function submitForm1(checkbox) {
-            let confirmation = confirm("고정 해제 하시겠습니까?");
-            let form = checkbox.form;
-            let confirmInput = form.querySelector("input[name=head]");
-
-            if (confirmation) {
-                confirmInput.value = "false";
-            } else {
-                confirmInput.value = "true";
-            }
-            form.submit();
+            Swal.fire({
+                title: '고정 해제 하시겠습니까?',
+                text:'해제하시려면 확인을 눌러주세요',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire("Success!", "해제 되었습니다.", "success")
+                        .then(function (){
+                            let form = checkbox.form;
+                            let confirmInput = form.querySelector("input[name=head]");
+                            confirmInput.value = "false";
+                            form.submit();
+                        })
+                }else{
+                    Swal.fire("취소 되었습니다.")
+                }
+            });
         }
 
-
         function submitForm2(checkbox) {
-            let confirmation = confirm("상단에 고정하시겠습니까?");
-            let form = checkbox.form;
-            let confirmInput = form.querySelector("input[name=head]");
-
-            if (confirmation) {
-                confirmInput.value = "true";
-            } else {
-                confirmInput.value = "false";
-            }
-            form.submit();
+            Swal.fire({
+                title: '상단에 고정하시겠습니까?',
+                text: '추가하시려면 확인을 눌러주세요',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire("Success!", "고정 되었습니다.", "success")
+                        .then(function (){
+                            let form = checkbox.form;
+                            let confirmInput = form.querySelector("input[name=head]");
+                            confirmInput.value = "true";
+                            form.submit();
+                        })
+                }else{
+                    Swal.fire("취소 되었습니다.")
+                }
+            });
         }
 
 
