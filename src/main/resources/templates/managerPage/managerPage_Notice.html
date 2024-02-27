@@ -144,6 +144,18 @@
     </div>
 
     <script>
+
+        function searchDinning4() {
+            let searchInput4 = document.getElementById("searchInput4").value;
+            fetch("/manager/managerPage_Notice?searchInput4=" + encodeURIComponent(searchInput4))
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("noticeTable").innerHTML = doc.getElementById("noticeTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+
         function submitForm1(checkbox) {
             Swal.fire({
                 title: '고정 해제 하시겠습니까?',
@@ -194,15 +206,9 @@
             });
         }
 
-
-
-        //디테일로 이동 버튼
         function redirectToNoticeDetail(id) {
             window.location.href = '/manager/managerPage_NoticeDetail?id=' + id;
         }
-
-
-
     </script>
 </div>
 </html>

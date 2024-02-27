@@ -10,8 +10,8 @@
     <div id="right2">
         <div class="searchDiv">
 
-        <input type="text" id="searchInput5" placeholder="블랙리스트 이름으로 검색" onchange="searchDinning5()">
-        <button onclick="searchDinning5()">검색</button>
+        <input type="text" id="searchInput" placeholder="블랙리스트 이름으로 검색" onchange="searchDinning()">
+        <button onclick="searchDinning()">검색</button>
         </div>
         <table id="blackTable" style="text-align: center;">
             <thead>
@@ -79,6 +79,18 @@
                     }
                 });
         }
+
+        function searchDinning() {
+            let searchInput = document.getElementById("searchInput").value;
+            fetch("/manager/managerPage_UBlackList?searchInput=" + encodeURIComponent(searchInput))
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("blackTable").innerHTML = doc.getElementById("blackTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+
 
 
     </script>

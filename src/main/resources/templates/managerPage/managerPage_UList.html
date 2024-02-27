@@ -13,8 +13,8 @@
 
 
         <div class="searchDiv">
-            <input type="text" id="searchInput3" placeholder="고객 이름으로 검색" onchange="searchDinning3()">
-            <button onclick="searchDinning3()">검색</button>
+            <input type="text" id="searchInput" placeholder="고객 이름으로 검색" onchange="searchDinning()">
+            <button onclick="searchDinning()">검색</button>
         </div>
 
 
@@ -63,5 +63,23 @@
             </ul>
         </div>
     </div>
+    <script>
+        function redirectToUserUpdate(userNo) {
+            window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
+        }
+
+        function searchDinning() {
+            let searchInput = document.getElementById("searchInput").value;
+            fetch("/manager/managerPage_UList?searchInput=" + searchInput)
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("UuserTable").innerHTML = doc.getElementById("UuserTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+
+    </script>
+
 </div>
 </html>

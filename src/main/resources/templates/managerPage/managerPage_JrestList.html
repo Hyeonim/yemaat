@@ -57,6 +57,11 @@
     </div>
 
     <script>
+
+        function redirectToJumrestDetail(restNo) {
+            window.location.href = '/manager/managerPage_JrestDetail?restNo=' + restNo;
+        }
+
         function searchDinning() {
             let searchInput = document.getElementById("searchInput").value;
             fetch("/manager/managerPage_JrestList?searchInput=" + searchInput)
@@ -67,6 +72,9 @@
                     document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
                 });
         }
+
+
+
     </script>
 </div>
 </html>

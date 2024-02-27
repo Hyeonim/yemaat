@@ -75,4 +75,9 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(page, 10);
         return userRepository.findByUserAuthAndUserNameContaining(userAuth, userName, pageable);
     }
+
+    @Override
+    public List<User> findByUserAuthAndUserBlockNot(String number, boolean b) {
+        return userRepository.findByUserAuthAndUserBlockNot(number, b);
+    }
 }

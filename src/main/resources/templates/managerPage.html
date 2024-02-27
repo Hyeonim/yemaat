@@ -37,55 +37,21 @@
 <!--</div>-->
 
 
-
 <div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
 
 </div>
 <div>
     <div th:replace="~{/managerPage/managerPage_header::managerContentHeader}" style="z-index: 100">
-    </div>
 
+    </div>
 
     <div th:include="${page}::managerContent">
 
+    </div>
 
 </div>
-
-</div>
-
-
 
 <script>
-
-
-
-    // document.getElementById("fifthU").addEventListener("click", function(event) {
-    //     document.getElementById("NFormUpdate").submit(); // 폼 제출
-    // });
-    //
-    // document.getElementById("fifthD").addEventListener("click", function(event) {
-    //     document.getElementById("NFormDel").submit(); // 폼 제출
-    // });
-    //
-    //
-    // // 점
-    // document.getElementById("fifthJ").addEventListener("click", function(event) {
-    //     document.getElementById("updateForm").submit(); // 폼 제출
-    // });
-    //
-    // document.getElementById("fifthJ2").addEventListener("click", function(event) {
-    //     document.getElementById("JFormDel").submit(); // 폼 제출
-    // });
-
-
-
-
-
-
-
-
-
-
 
     if (dropdown) {
         var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -104,196 +70,7 @@
         }
     }
 
-
 </script>
 
-<script th:inline="javascript">
-    var userAddButton = document.getElementById('userAddButton');
-    //추가버튼
-    if (userAddButton)
-        userAddButton.addEventListener('click', function () {
-            window.location.href = '/manager/managerPage_UAdd';
-        });
-
-    //디테일로 이동 버튼
-    function redirectToUserUpdate(userNo) {
-        window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
-    }
-
-
-    var userDelButton = document.getElementById('UDel');
-
-
-
-    // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡqaㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-
-    function redirectToQA(id) {
-        window.location.href = '/manager/managerPage_QAAnswer?id=' + id;
-    }
-
-    // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-
-
-    var noticeAddBtn = document.getElementById('noticeAdd');
-    //추가버튼
-    if (noticeAddBtn) {
-        noticeAddBtn.addEventListener('click', function () {
-            window.location.href = '/manager/managerPage_NoticeAdd';
-        });
-    }
-
-    //------------------------------점주-------------------------------
-
-
-    var jumAddButton = document.getElementById('JumAddButton');
-
-    if (jumAddButton)
-        jumAddButton.addEventListener('click', function () {
-
-            window.location.href = 'managerPage_JAdd';
-        });
-
-    function redirectToJumDetail(restNo) {
-        window.location.href = '/manager/managerPage_JDetail?userNo=' + restNo;
-    }
-
-    function redirectToJumrestDetail(restNo) {
-        window.location.href = '/manager/managerPage_JrestDetail?restNo=' + restNo;
-    }
-
-
-
-    function searchDinning2() {
-        let searchInput2 = document.getElementById("searchInput2").value;
-        fetch("/manager/managerPage_JList?searchInput2=" + searchInput2)
-            .then(resp => resp.text())
-            .then(data => {
-                let doc = new DOMParser().parseFromString(data, 'text/html');
-                document.getElementById("userTable").innerHTML = doc.getElementById("userTable").innerHTML;
-                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-            });
-    }
-
-    function searchDinning3() {
-        let searchInput3 = document.getElementById("searchInput3").value;
-        fetch("/manager/managerPage_UList?searchInput3=" + searchInput3)
-            .then(resp => resp.text())
-            .then(data => {
-                let doc = new DOMParser().parseFromString(data, 'text/html');
-                document.getElementById("UuserTable").innerHTML = doc.getElementById("UuserTable").innerHTML;
-                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-            });
-    }
-
-    function searchDinning4() {
-        let searchInput4 = document.getElementById("searchInput4").value;
-        fetch("/manager/managerPage_Notice?searchInput4=" + encodeURIComponent(searchInput4))
-            .then(resp => resp.text())
-            .then(data => {
-                let doc = new DOMParser().parseFromString(data, 'text/html');
-                document.getElementById("noticeTable").innerHTML = doc.getElementById("noticeTable").innerHTML;
-                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-            });
-    }
-
-    function searchDinning5() {
-        let searchInput5 = document.getElementById("searchInput5").value;
-        fetch("/manager/managerPage_UBlackList?searchInput5=" + encodeURIComponent(searchInput5))
-            .then(resp => resp.text())
-            .then(data => {
-                let doc = new DOMParser().parseFromString(data, 'text/html');
-                document.getElementById("blackTable").innerHTML = doc.getElementById("blackTable").innerHTML;
-                document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-            });
-    }
-
-
-
-
-
-
-
-    function drawGraph() {
-        if ( ![[${drawGraph}]])
-            return;
-
-        // ----------------------------도넛, 막대그래프 를 위한 변수 선언------------------
-        var uListSize = [[${uList != null ? uList.size() : 0}]];
-        var dListSize = [[${dList != null ? dList.size() : 0}]];
-
-        let userDataList = [];
-        [# th:if="${userStat != null}"]
-        [# th:each = "entry : ${userStat.entrySet()}"]
-            userDataList.push( [[${entry.value}]] )
-        [/][/]
-        let restDataMap = {};
-        [# th:if="${restStat != null}"]
-        [# th:each = "entry : ${restStat.entrySet()}"]
-        restDataMap[ [[${entry.key}]] ]=[[${entry.value}]];
-        [/][/]
-        // 객체의 키와 값을 배열로 변환
-        var dataArray = Object.entries(restDataMap);
-        // 값이 큰 순으로 정렬
-        dataArray.sort((a, b) => b[1] - a[1]);
-        let restDataColNames = [];
-        let restDataList = [];
-        dataArray.forEach( elem=>{
-            restDataColNames.push( elem[0] );
-            restDataList.push( elem[1] );
-        })
-
-        var userData = {
-            labels: ['고객', '점주', '블랙리스트'],
-            datasets: [{
-                label: '회원 현황',
-                data: userDataList,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(54, 102, 235, 0.5)'
-                ],
-                borderWidth: 1
-            }]
-        };
-
-        var dinningData = {
-            labels: restDataColNames,
-            datasets: [{
-                label: '가게 업태',
-                data: restDataList,
-                backgroundColor: [
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(54, 102, 235, 0.5)',
-                    'rgba(51, 192, 192, 0.5)',
-                    'rgba(52, 191, 182, 0.5)'
-                ],
-                borderWidth: 1
-            }]
-        };
-
-        // -------------------------------도넛 그래프--------------------------------
-        let userCtx = document.getElementById('userChart').getContext('2d');
-        let dinningCtx = document.getElementById('dinningChart').getContext('2d');
-        // -------------------------------막대 그래프--------------------------------
-        let userCtx2 = document.getElementById('userBarChart').getContext('2d');
-        let dinningCtx2 = document.getElementById('dinningBarChart').getContext('2d');
-
-        [[userCtx, 'doughnut', userData], [dinningCtx, 'doughnut', dinningData]
-            , [userCtx2, 'bar', userData], [dinningCtx2, 'bar', dinningData]
-        ].forEach(elem => {
-            new Chart(elem[0], {
-                type: elem[1],
-                data: elem[2],
-                options: {}
-            });
-        });
-    }
-
-    drawGraph();
-
-</script>
 </body>
 </html>

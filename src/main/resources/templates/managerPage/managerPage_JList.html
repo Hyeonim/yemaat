@@ -9,8 +9,8 @@
     <div id="right2">
         <div class="searchDiv">
 
-        <input type="text" id="searchInput2" placeholder="점주 이름으로 검색" onchange="searchDinning2()">
-        <button onclick="searchDinning2()">검색</button>
+        <input type="text" id="searchInput" placeholder="점주 이름으로 검색" onchange="searchDinning()">
+        <button onclick="searchDinning()">검색</button>
         </div>
         <table id="userTable" style="text-align: center;">
             <thead>
@@ -58,5 +58,22 @@
             </ul>
         </div>
     </div>
+    <script>
+        function redirectToJumDetail(restNo) {
+            window.location.href = '/manager/managerPage_JDetail?userNo=' + restNo;
+        }
+
+        function searchDinning() {
+            let searchInput = document.getElementById("searchInput").value;
+            fetch("/manager/managerPage_JList?searchInput=" + searchInput)
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("userTable").innerHTML = doc.getElementById("userTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+
+    </script>
 </div>
 </html>
