@@ -138,6 +138,11 @@
         });
 
         $("#sendButton").click(function () {
+            if ( 0 === $('select')[1].selectedIndex )
+            {
+                $('select')[1].focus();
+                return;
+            }
 
             let checkboxes = $('input[type="checkbox"]');
 
@@ -161,8 +166,14 @@
                     console.log("전송 성공", response);
                 },
                 error: function (error) {
-                    // 전송 중 오류가 발생했을 때의 처리
+                    if ( error.status === 401)
+                    {
+                        alert( "로그인이 필요한 서비스입니다.");
+                        location.href = error.responseText;
+                        return;
+                    }
                     console.error("전송 실패", error);
+                    alert( error.responseText );
                 }
             });
         });

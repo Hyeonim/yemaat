@@ -6,10 +6,8 @@ import com.yi.spring.repository.DeleteUserRepository;
 import com.yi.spring.repository.ImgTableRepository;
 import com.yi.spring.repository.ReservationRepository;
 import com.yi.spring.repository.ReviewRepository;
-import com.yi.spring.service.DiningRestService;
-import com.yi.spring.service.EventService;
-import com.yi.spring.service.MenuService;
-import com.yi.spring.service.UserService;
+import com.yi.spring.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +35,7 @@ public class OwnerController {
     private final ImgTableRepository imageTableRepository;
     private final ReviewRepository reviewRepository;
     private final DeleteUserRepository deleteUserRepository;
+    private final SendMessage sendMessage;
 //    @Autowired
 //    private ModelMapper modelMapper;
 
@@ -369,21 +368,29 @@ public class OwnerController {
     }
 
     @GetMapping("resCompleted/{resNo}")
-    public String resCompleted(@PathVariable("resNo") int resNo, Principal principal) {
+    public String resCompleted(@PathVariable("resNo") int resNo, Principal principal, HttpServletRequest request ) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.RESERVE_COMPLETED));
         reservationRepository.save(reservation);
+
+        sendMessage.Send(request, reservation.getUserNo().getUserId()
+                , new ChatDTO( null, null, null, ReservationStatus.RESERVE_COMPLETED.getName(), null, ""+reservation.getRestNo().getRestNo(), null ));
+
         return "redirect:/owner/reservList";
     }
 
     @GetMapping("resCancel/{resNo}/{reason}")
-    public String resCancel(@PathVariable("resNo") int resNo, @PathVariable("reason") String reason, Principal principal) {
+    public String resCancel(@PathVariable("resNo") int resNo, @PathVariable("reason") String reason, Principal principal, HttpServletRequest request ) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.REST_CANCEL));
         reservation.setRes_rejection_reason(reason);
         reservationRepository.save(reservation);
+
+        sendMessage.Send(request, reservation.getUserNo().getUserId()
+                , new ChatDTO( null, null, null, reason, null, ""+reservation.getRestNo().getRestNo(), null ));
+
         return "redirect:/owner/reservList";
     }
 

@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<div class="chats" th:fragment="chatFragment">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script th:src="@{/js/cust_receiver.js}" th:href="${chatRoomId}"></script>
+
+    <!--    <div id="w3Modal-id01" class="al-modal">-->
+    <!--        <div class="al-modal-content">-->
+    <!--            <div class="al-container">-->
+    <!--                <div class="chats">-->
+    <!--                </div>-->
+    <!--                <span onclick="closeModal()" class="al-button al-display-topright"></span>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <script>
+        function openModal() {
+            document.getElementById('w3Modal-id01').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('w3Modal-id01').style.display='none';
+            document.querySelector( "#newMessage span" ).style.display='none';
+            myMessage = [];
+        }
+        // document.querySelector("#w3Modal-id01").click(function (event) {
+        //     if ($(event.target).closest('div#noticeWrap').length === 0)
+        //         closeModal();
+        // });
+
+        let myMessage = []
+        function handleNewMessage( event ){
+            myMessage.push( 1 );
+            let newMessageSpan = document.querySelector( ".alarm-button p" ); // header 에 있는 종 아래 숫자
+            let newCount = "";//새로운 메시지가 도착했습니다"
+            // if ( myMessage.length > 1 )
+            newCount += myMessage.length;
+            newMessageSpan.innerText = newCount;
+            newMessageSpan.style.display = "block";
+
+            appendMessage( event );
+        }
+        document.addEventListener( "new_message_stomp_subscribe", handleNewMessage );
+
+        function appendMessage( event ) {
+            let payload = event.data;
+            let className = payload.nickname === '' ? 'mine' : 'yours';
+            const chats = document.querySelector('.chats');
+            const html = `<div class="${className}">
+                            <div class="nickname">${payload.nickname}</div>
+                            <div class="message">${payload.message}</div>
+                        </div>`
+
+            chats.insertAdjacentHTML('beforeend', html);
+        }
+    </script>
+</div>
+</html>

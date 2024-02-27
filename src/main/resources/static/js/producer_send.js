@@ -56,7 +56,7 @@
             //auto-delete : Consumer가 없으면 스스로 삭제되는 Queue
             //durable : 서버와 연결이 끊겨도 메세지를 저장하고 있음
             //exclusive : 동일한 이름의 Queue 생길 수 있음
-        }, {'auto-delete': true, 'durable': false, 'exclusive': false});
+        }, {'auto-delete': false, 'durable': false, 'exclusive': false});
 
         //입장 메세지 전송
         // stomp.send(`/pub/chat.enter.${myChatRoomId}`, {}, JSON.stringify({

@@ -56,10 +56,19 @@ public class ReservationController {
 
 
     @GetMapping("/{restNo}")
-    public String reserve(Model model, HttpSession httpSession, @PathVariable String restNo){
+    public String reserve(Model model, HttpSession httpSession, @PathVariable String restNo, Principal principal){
         httpSession.setAttribute("restNo", restNo);
 
         Long iRestNo = Long.valueOf(restNo);
+
+        if ( null == principal )
+            return "redirect:/login";
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        Long iUserNo = Long.valueOf(loginUser.getUserNo());
+        Long reservationNo = _findMyReserveNo( iRestNo, iUserNo );
+        if ( null != reservationNo )
+            return "redirect:/user/user_posts";
+
 
         Dinning restaurant = dinningRepository.findById( iRestNo ).get();
 
@@ -270,9 +279,9 @@ public class ReservationController {
     public ResponseEntity<String> handleJsonData(Principal principal, @RequestBody Map<String, Object> jsonData, HttpSession session ) {
         Long iRestNo = Optional.ofNullable((String) session.getAttribute("restNo"))
                 .map(Long::valueOf).orElse(null);
+        if ( null == principal )
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/login");
         User loginUser = userService.findByUserId( principal.getName() ).get();
-
-
         Long iUserNo = Long.valueOf(loginUser.getUserNo());
 
         String fieldCount = (String) jsonData.get("count");
@@ -288,12 +297,7 @@ public class ReservationController {
                 count = matcher.group(1);
         }
 
-        Long reservationNo = null;
-        {
-            List<Reservation> list = reservationRepository.findByRestNo_RestNoAndUserNo_UserNoAndResStatus( iRestNo, iUserNo, ReservationStatus.WAIT.toString() );
-            if ( null != list && !list.isEmpty())
-                reservationNo = list.get(0).getRes_no();
-        }
+        Long reservationNo = _findMyReserveNo( iRestNo, iUserNo );
 
         Reservation reservation = new Reservation();
         reservation.setRes_no( reservationNo );
@@ -308,6 +312,16 @@ public class ReservationController {
         reservationRepository.save( reservation );
 
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    private Long _findMyReserveNo( Long restNo, Long userNo ) {
+        Long resultRevNo = null;
+        {
+            List<Reservation> list = reservationRepository.findByRestNo_RestNoAndUserNo_UserNoAndResStatus( restNo, userNo, ReservationStatus.WAIT.toString() );
+            if ( null != list && !list.isEmpty())
+                resultRevNo = list.get(0).getRes_no();
+        }
+        return resultRevNo;
     }
 
 

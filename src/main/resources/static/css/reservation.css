@@ -61,3 +61,19 @@ div#customer_information_input select{
     padding: 0 0 0 calc(24px + 24px);
     z-index : 1;
 }
+@keyframes animateSelect {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+/* 포커스를 받은 경우에 애니메이션 적용 */
+div#customer_information_input select:focus, div#customer_information_input select:focus-visible{
+    animation: animateSelect 0.3s forwards;
+    border-color : red;
+}

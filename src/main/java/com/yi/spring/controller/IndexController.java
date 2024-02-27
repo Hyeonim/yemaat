@@ -5,24 +5,21 @@ import com.yi.spring.entity.meta.DinningReviewView;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
-import jakarta.persistence.Tuple;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -59,7 +56,7 @@ public class IndexController {
         return "redirect:/home";
     }
     @GetMapping("/home")
-    public String index(Model model, HttpSession httpSession) {
+    public String index(Model model, HttpSession httpSession, HttpServletRequest request, Principal principal ) {
         List<Event> eventList = eventService.getNewEvents(); // 상단 배너 새로운 이벤트
         model.addAttribute("eventList", eventList);
 
@@ -94,12 +91,16 @@ public class IndexController {
         List<DinningReviewView> dinningReviewList2 = RestSearchController.searchMain( null, Map.of("filter1","2"), 12 , dinningWithReviewRepository);
         List<DinningReviewView> dinningReviewList3 = RestSearchController.searchMain( null, Map.of("filter1","1"), 12 , dinningWithReviewRepository);
 
-//        List<Review> reviewList1 = dinningReviewList1.
-
-
         model.addAttribute("dinningReviewList1", dinningReviewList1 );
         model.addAttribute("dinningReviewList2", dinningReviewList2 );
         model.addAttribute("dinningReviewList3", dinningReviewList3 );
+
+
+        if ( null != principal )
+            model.addAttribute( "chatRoomId", getCustomerChatRoom( request, principal.getName()));
+
+
+
 
         return "main";
     }
@@ -163,6 +164,25 @@ public class IndexController {
         if ( null != imgDb && null != imgDb.getBytes())
             result = Base64.getEncoder().encodeToString(imgDb.getBytes());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    public String getCustomerChatRoom( HttpServletRequest request, String userId )
+    {
+        ServletContext servletContext = request.getServletContext();
+        String chatRoomId = (String) servletContext.getAttribute( "user" + userId );
+        if ( null == chatRoomId )
+        {
+            chatRoomId = UUID.randomUUID().toString().replace( "-", "" );
+            servletContext.setAttribute( "user" + userId, chatRoomId);
+        }
+        return chatRoomId;
+    }
+
+
+
+    @GetMapping("chatTest")
+    public String chatTest(){
+        return "/chat/chatroomTest";
     }
 
 }

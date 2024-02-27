@@ -40,6 +40,22 @@
                 <button>
 
                 </button>
+                <button class="alarm-button" onclick="onAlarmClick()">
+                    <img src="/images/alarm1.png" alt="alarm1">
+                    <p style="display: none;">1</p>
+                </button>
+                <div>
+                    <div style="
+                         transform-origin: right top;
+                         right: 64px;
+                         top: 62px;
+                         background-color: #ffffffa0;
+                         max-height: 865px;
+                         "
+                         class="chats dropmenu" name="chat">
+                        <div th:include="~{/chat/chatroom::chatFragment}"></div>
+                    </div>
+                </div>
                 <button onclick="onMenuClick()" onblur="handleBlur()">
                     <img src="/images/logo_avatar_32dp.png" alt="avatar">
                 </button>
@@ -78,6 +94,9 @@
         </nav>
     </div>
     <script>
+        function onAlarmClick( btn ){
+            document.querySelector( "[name=chat]" ).classList.toggle( "visible" );
+        }
         function onMenuClick( btn ){
             document.querySelector( "[name=mymenu]" ).classList.toggle( "visible" );
         }
