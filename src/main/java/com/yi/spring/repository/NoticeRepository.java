@@ -35,9 +35,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
     Page<Notice> findByImportantNotice(Boolean head, Pageable pageable);
 
 
-
-
-
     @Query("SELECT n from Notice n order by n.writeDate desc limit 5")
     List<Notice> getList();
 
