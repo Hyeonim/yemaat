@@ -85,6 +85,20 @@
     display: none;
 }
 
+.items .reviewT img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
 .items .reviewT p:nth-of-type(1) {
     display: block;
     position: absolute;

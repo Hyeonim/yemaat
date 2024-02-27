@@ -47,12 +47,15 @@
 
 
     wrapper.onmousedown = (e) => {
+        console.log("마우스 누름")
         const rect = wrapper.getBoundingClientRect();
         startX = e.clientX - rect.left;
         const isActive = items.classList.contains('active');
         if (!isActive) items.classList.add('active');
         items.addEventListener('mousemove', onMouseMove);
+
         document.onmouseup = (e) => {
+            console.log("마우스 뗌")
             if (wrapper.classList.contains('active')) wrapper.classList.remove('active');
             items.removeEventListener('mousemove', onMouseMove);
             document.onmouseup = null;
@@ -71,8 +74,29 @@
 
         }
     }
+    function onMouseUp(e) {
+        console.log("마우스 뗌")
+        if (wrapper.classList.contains('active')) wrapper.classList.remove('active');
+        items.removeEventListener('mousemove', onMouseMove);
 
+        // document에서 이벤트 리스너 제거
+        document.removeEventListener('mouseup', onMouseUp);
+
+        if (moveX > -70 && moveX <= 70) {
+            //   만약 -70~70이면 초기위치로 이동
+            return items.style.left = positions[currentIdx] + 'px';
+        }
+        if (moveX > 0 && currentIdx > 0) {
+            currentIdx = currentIdx - 1;
+            items.style.left = positions[currentIdx] + 'px';
+        }
+        if (moveX < 0 && currentIdx < itemCount - 1) {
+            currentIdx = currentIdx + 1;
+            items.style.left = positions[currentIdx] + 'px';
+        }
+    }
     function onMouseMove(e) {
+        console.log("마우스 움직임")
         if (!wrapper.classList.contains('active')) wrapper.classList.add('active');
         const rect = wrapper.getBoundingClientRect();
         moveX = e.clientX - rect.left - startX;
