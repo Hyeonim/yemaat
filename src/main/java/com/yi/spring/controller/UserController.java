@@ -4,6 +4,7 @@ import com.yi.spring.entity.*;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.QAService;
 import com.yi.spring.service.ReservationService;
+import com.yi.spring.service.ReviewService;
 import com.yi.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,8 @@ public class UserController {
     DinningRepository dinningRepository;
     @Autowired
     ReservationService reservationService;
+    @Autowired
+    ReviewService reviewService;
 
 
     private User user = null;
@@ -80,22 +83,40 @@ public class UserController {
 
     // 유저가 작성한 포스트 목록 페이지로 이동
     @GetMapping("user_posts")
-    public String userPosts(Principal principal, Model model) {
+    public String userPosts(Principal principal, Model model,
+                            @RequestParam(value = "filterExpired", defaultValue = "") String filterExpired
+                            ,@RequestParam(value = "filterReview", defaultValue = "") String filterReview
+                            ,@RequestParam(value = "filterAll", defaultValue = "") String filterAll){
         User user = userRepository.findByUserId(principal.getName()).orElse(null);
-//        List<Review> reviews = reviewRepository.findByUserNo(user);
 
-        if (user != null) {
+        if (user != null || filterAll.equals("All")) {
             Long userNo = Long.valueOf(user.getUserNo());
+
             List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
             reservationService.processReservations(reservations);
             reservationService.checkReservationStatus(reservations, model);
-//            reservationRepository.updateReservationStatusToReviewWithJoin();
 
-            model.addAttribute("main_user", user);
             model.addAttribute("list", reservations);
-//            model.addAttribute("review", reviews);
+
+            if (filterExpired.equals("expired")){
+
+                List<Reservation> reservationsExpired = reservationRepository.ReservationStatusEXPIRED(userNo);
+                reservationService.checkReservationStatus(reservations, model);
+
+                model.addAttribute("list", reservationsExpired);
+            }
+
+            if (filterReview.equals("review")){
+                List<Reservation> reservationsReview = reservationRepository.ReservationStatusREVIEW(userNo);
+                reservationService.checkReservationStatus(reservations, model);
+
+                model.addAttribute("list", reservationsReview);
+            }
+
+
         }
 
+        model.addAttribute("main_user", user);
         return "userPage/user_posts";
     }
 
@@ -124,31 +145,32 @@ public class UserController {
 
     // 유저가 작성한 리뷰 목록 페이지로 이동
     @GetMapping("user_review")
-    public String userReviews(Principal principal, Model model) {
+    public String userReviews(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page ,Model model) {
         User user = userRepository.findByUserId(principal.getName()).orElse(null);
 
         if (user != null) {
             List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
             List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(Long.valueOf(user.getUserNo()));
-            List<Review> reviews = reviewRepository.findByUserNoOrderByRevWriteTimeDesc(user);
+//            List<Review> reviews = reviewRepository.findByUserNoOrderByRevWriteTimeDesc(user);
+            Page<Review> reviewsPage = reviewService.findByUserNoOrderByRevWriteTimeDesc(user, page);
+            List<Review> reviewsList = reviewsPage.getContent();
+
+
             long userNoCount = reviewRepository.countByUserNo(user);
 
-            // Check reservation status
             reservationService.checkReservationStatus(reservations, model);
 
-            // Add user information to the model
             model.addAttribute("main_user", user);
             model.addAttribute("userNoCount", userNoCount);
             model.addAttribute("restaurants", restaurantsForLatestReservation);
             model.addAttribute("list", reservations);
 
-            // Calculate time ago for each review
+
             List<String> timeAgoList = new ArrayList<>();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
             LocalDateTime currentTime = LocalDateTime.now();
 
-            for (Review review : reviews) {
-                // Check if revWriteTime is not empty or null before parsing
+            for (Review review : reviewsList) {
                 if (review.getRevWriteTime() != null) {
                     LocalDateTime reviewTime = review.getRevWriteTime();
                     long minutesAgo = ChronoUnit.MINUTES.between(reviewTime, currentTime);
@@ -171,7 +193,7 @@ public class UserController {
                                 if (weeksAgo < 5) {
                                     timeAgoList.add(weeksAgo + "주전");
                                 } else {
-                                    long monthsAgo = daysAgo / 30; // Assuming a month has 30 days
+                                    long monthsAgo = daysAgo / 30;
 
                                     if (monthsAgo < 12) {
                                         timeAgoList.add(monthsAgo + "개월전");
@@ -184,26 +206,24 @@ public class UserController {
                         }
                     }
                 } else {
-                    // Handle case where revWriteTime is empty or null
                     timeAgoList.add("작성 시간 없음");
                 }
             }
 
-            // Combine reviews and timeAgoList into a single attribute
             List<Map<String, Object>> combinedList = new ArrayList<>();
-            for (int i = 0; i < reviews.size(); i++) {
+            for (int i = 0; i < reviewsList.size(); i++) {
                 Map<String, Object> combinedItem = new HashMap<>();
-                combinedItem.put("rev", reviews.get(i));
+                combinedItem.put("rev", reviewsList.get(i));
                 combinedItem.put("timeAgo", timeAgoList.get(i));
                 combinedList.add(combinedItem);
 
-                System.out.println(reviews.get(i).getRevScore());
-//                System.out.println("Combined Item " + i + ": " + combinedItem);
-//                System.out.println("Combined List " + i + ": " + combinedList);
+                System.out.println(reviewsList.get(i).getRevScore());
             }
 
-            // Add the combined list to the model
+            // 리뷰 + 작성시간 데이터
             model.addAttribute("combinedList", combinedList);
+            // 페이징 용
+            model.addAttribute("reviewsPage", reviewsPage);
         }
 
         return "userPage/user_review";
@@ -217,6 +237,10 @@ public class UserController {
     public String userUpdateForm(Principal principal, Model model) {
         user = userRepository.findByUserId(principal.getName()).get();
         List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+
+        Long userNo = Long.valueOf(user.getUserNo());
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+        reservationService.checkReservationStatus(reservations, model);
 
         model.addAttribute("main_user", user);
         model.addAttribute("restaurants", restaurantsForLatestReservation);

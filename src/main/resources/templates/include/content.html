@@ -90,20 +90,23 @@
 
 
         <div class="slideshow">
+            <h2># 예약 많은 순</h2>
             <div class="background">
-                <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList1}, 1)}"></div>
+                <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList1}, 1)}"></div>
             </div>
         </div>
 
         <div class="slideshow">
+            <h2># 리뷰 많은 순</h2>
             <div class="background">
-                <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList2}, 1)}"></div>
+                <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList2}, 1)}"></div>
             </div>
         </div>
 
         <div class="slideshow">
+            <h2># 평점 높은 순</h2>
             <div class="background">
-                <div th:replace="~{/include/detail_review_template::detailReviewTemplate(${revList3}, 1)}"></div>
+                <div th:replace="~{/include/detail_rest_template::detailReviewTemplate(${dinningReviewList3}, 1)}"></div>
             </div>
         </div>
 
@@ -145,11 +148,8 @@
             var tabs = document.querySelectorAll('.tab-button');
             var contents = document.querySelectorAll('.tab-content');
 
-            tabs.forEach(tab => tab.classList.remove('selected'));
-            contents.forEach(content => content.classList.remove('show'));
-
-            tabs[tabIndex].classList.add('selected');
-            contents[tabIndex].classList.add('show');
+            tabs.forEach( (tab,i) => tab.classList.toggle(('selected'), (i===tabIndex)));
+            contents.forEach( (content,i) => content.classList.toggle(('show'), (i===tabIndex)));
         }
 
 

@@ -19,8 +19,14 @@ import java.util.List;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    List<Review> findByRestNo(Dinning dinning);
+
     List<Review> findByUserNoOrderByRevWriteTimeDesc(User userNo);
+    Page<Review> findAll(Pageable pageable);
+
+
+
+    List<Review> findByRestNo(Dinning dinning);
+
     long countByUserNo(User user);
 
     @Query("select r from Review r where r.revStatus = 'NORMAL' and r.restNo.restNo= :restNo")
@@ -62,6 +68,9 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 //            @Param("revScores") List<Integer> revScores,
 //            @Param("revWriteTime") String revWriteTime
 //    );
+
+//    List<Review> findByUserNo(User user);
+
 
 
 

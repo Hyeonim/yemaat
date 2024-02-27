@@ -52,34 +52,6 @@ th, td {
     border-bottom: 1px solid gray;
 }
 
-.resNo {
-    width : 8%;
-}
-.resTime {
-    width : 16%;
-}
-.userId {
-    width : 10%;
-}
-.questCount {
-    width : 8%;
-}
-.tableType {
-    width : 8%;
-}
-.comment {
-    width : 20%;
-}
-.status {
-    width : 20%;
-}
-.result {
-    width : 10%;
-}
-td.comment {
-    text-align: left;
-}
-
 .main-box {
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -141,4 +113,62 @@ td.comment {
 
 .review-container .formDiv label + select + input {
     width: 20%;
+}
+
+.top_content{
+    display: block;
+    margin-bottom: 60px;
+}
+.top_content h3 {
+    text-align: center;
+}
+
+.top_content .selector {
+    float: right;
+    padding : 10px;
+}
+.reserv-container {
+    display: inline;
+    width:100%;
+}
+
+.reserv-container .container1 {
+    display: inline-flex;
+    width : 100%;
+}
+
+.reserv-container .container1 p {
+    display: inline-block;
+}
+.reserv-container .container1 p label{
+    width:30%;
+}
+
+.reserv-container .container1 p label + input {
+    width:50%;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+.reserv-container .container2 {
+    display: inline-flex;
+    width : 100%;
+}
+
+.reserv-container .container2 p {
+    display: inline-block;
+}
+.reserv-container .container2 p label{
+    width:30%;
+    vertical-align: top;
+}
+
+.reserv-container .container2 p label + input {
+    width:70%;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+.reserv-container .container2 p label + textarea {
+    width:70%;
+    border-bottom: 1px solid gray;
 }

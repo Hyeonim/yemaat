@@ -1,6 +1,7 @@
 package com.yi.spring.controller;
 
 import com.yi.spring.entity.*;
+import com.yi.spring.entity.meta.DinningReviewView;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
@@ -48,6 +50,9 @@ public class IndexController {
     @Autowired
     EventService eventService;
 
+//    @Autowired
+//    RestSearchController restSearchController;
+
     @GetMapping("/")
     public String home() {
 
@@ -77,18 +82,24 @@ public class IndexController {
 
 
 
-        List<Review> reviewList = new ArrayList<>();
-        for ( int i = 0; i < 2; i++ )
-            reviewList.addAll( reviewRepository.getRandomList( 10 ) );
+//        List<Review> reviewList = new ArrayList<>();
+//        for ( int i = 0; i < 2; i++ )
+//            reviewList.addAll( reviewRepository.getRandomList( 10 ) );
+//
+//        List<Object[]> test = reviewRepository.getImgTest();
+//        List<Object[]> test2 = reviewRepository.getImgTest2();
+//        List<Tuple> test3 = reviewRepository.getImgTest3();
 
-        List<Object[]> test = reviewRepository.getImgTest();
-        List<Object[]> test2 = reviewRepository.getImgTest2();
-        List<Tuple> test3 = reviewRepository.getImgTest3();
+        List<DinningReviewView> dinningReviewList1 = RestSearchController.searchMain( null, Map.of("filter1","3"), 12 );
+        List<DinningReviewView> dinningReviewList2 = RestSearchController.searchMain( null, Map.of("filter1","2"), 12 );
+        List<DinningReviewView> dinningReviewList3 = RestSearchController.searchMain( null, Map.of("filter1","1"), 12 );
+
+//        List<Review> reviewList1 = dinningReviewList1.
 
 
-        model.addAttribute("revList1", reviewList.subList(0, 10) );
-        model.addAttribute("revList2", reviewList.subList(5, 15) );
-        model.addAttribute("revList3", reviewList.subList(10, 20) );
+        model.addAttribute("dinningReviewList1", dinningReviewList1 );
+        model.addAttribute("dinningReviewList2", dinningReviewList2 );
+        model.addAttribute("dinningReviewList3", dinningReviewList3 );
 
         return "main";
     }

@@ -8,7 +8,6 @@ import lombok.ToString;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 
@@ -41,7 +40,8 @@ public class Reservation {
     private Dinning restNo;
 
     private String res_guest_count;
-    private String res_status;
+    @Column(name = "res_status")
+    private String resStatus;
     private String res_comment;
     private String res_table_type;
     private String res_rejection_reason;
@@ -76,7 +76,7 @@ public class Reservation {
 
         public ReservationStatus getReservationStatusEnum() {
         try {
-            return ReservationStatus.valueOf(res_status);
+            return ReservationStatus.valueOf(resStatus);
         } catch (Exception e) {
             // 예외 처리: 디비에 저장된 값이 Enum에 존재하지 않을 경우
             return ReservationStatus.NONE; // 또는 다른 기본값 설정

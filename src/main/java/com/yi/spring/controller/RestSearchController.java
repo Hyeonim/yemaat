@@ -8,6 +8,8 @@ import com.yi.spring.repository.DinningRepository;
 import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.service.DinningService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -32,11 +34,12 @@ public class RestSearchController {
     @Autowired
     private DinningRepository dinningRepository;
     @Autowired
-    private DinningWithReviewRepository dinningWithReviewRepository;
+    private static DinningWithReviewRepository dinningWithReviewRepository;
 
 
-    public RestSearchController(DinningService dinningService){
+    public RestSearchController(DinningService dinningService, DinningWithReviewRepository dinningWithReviewRepository ){
         this.dinningService = dinningService;
+        RestSearchController.dinningWithReviewRepository = dinningWithReviewRepository;
     }
 
 //    @GetMapping("search")
@@ -93,44 +96,13 @@ public class RestSearchController {
 //    }
 
 
-    @GetMapping("/search")
-    public String findRestName(@RequestParam(name = "keyword", defaultValue="") String restName, Model model,
-                               @RequestParam Map<String, String> params) {
-        List<Dinning> restList = new ArrayList<>();
-        boolean bActionDefault = true;
-
-        System.out.println( params );
+    public static List<DinningReviewView> searchMain( String restName, Map<String, String> params, int pageSize )
+    {
+        List<DinningReviewView> dinningReviewList = new ArrayList<>();
         String filter1 = params.get( "filter1" );
         if ( null != filter1 )
         {
             switch (filter1) {
-                /*
-                case "111": //-> System.out.println( 11 );
-                {
-                    List<Object[]> listOrderByRestScore2 = dinningRepository.getRestScore2();
-                    List<Dinning> listOrderByRestScore = new ArrayList<>();
-                    for ( Object[] items : listOrderByRestScore2 )
-                    {
-                        Dinning elem = (Dinning)items[0];
-                        elem.setRestScore( (Double)items[1] );
-                        listOrderByRestScore.add( elem );
-                    }
-                    restList = listOrderByRestScore;
-                }
-                bActionDefault = false;
-                break;
-                case "222": //-> System.out.println( 12 );
-                {
-                    if(restName == null || restName.isEmpty()) {
-                        restList = dinningRepository.findAllWithTotalReviewsOrderByTotalReviewsDesc();
-                    }
-                    else {
-                        restList = dinningRepository.findAllWithTotalReviewsOrderByTotalReviewsDesc(restName);
-                    }
-                }
-                bActionDefault = false;
-                break;
-                */
                 case "1": //-> System.out.println( 13 );
                 case "2": //-> System.out.println( 13 );
                 case "3": //-> System.out.println( 13 );
@@ -149,22 +121,38 @@ public class RestSearchController {
                     }
 
                     Specification<DinningReviewView> spec = Specification
-                        .where(DinningReviewSpecifications.likeRestName( restName ))
-                        .and(DinningReviewSpecifications.eqCategory(null))
-                        .and(DinningReviewSpecifications.likeAddr(null))
-                    ;
+                            .where(DinningReviewSpecifications.likeRestName( restName ))
+                            .and(DinningReviewSpecifications.eqCategory(null))
+                            .and(DinningReviewSpecifications.likeAddr(null))
+                            ;
 
-                    List<DinningReviewView> dinningReviewList =
-                            dinningWithReviewRepository.findAll( spec, Sort.by( Sort.Direction.DESC, mySort.toArray(new String[0]) ));
-//                    System.out.println( dinningReviewList );
+                    Pageable pageable = PageRequest.of( 0, pageSize, Sort.Direction.DESC, mySort.toArray(new String[0]) );
+
+                    dinningReviewList =
+                            dinningWithReviewRepository.findAll( spec, pageable ).toList();
 //                    org.thymeleaf.spring6.expression.Fields
-                    model.addAttribute("list", dinningReviewList);
                 }
-                bActionDefault = false;
                 break;
                 default :// System.out.println("Unexpected value: " + filter1);
             }
         }
+        return dinningReviewList;
+    }
+
+    @GetMapping("/search")
+    public String findRestName(@RequestParam(name = "keyword", defaultValue="") String restName, Model model,
+                               @RequestParam Map<String, String> params) {
+        List<Dinning> restList = new ArrayList<>();
+        boolean bActionDefault = true;
+
+        System.out.println( params );
+        List<DinningReviewView> dinningReviewList = searchMain( restName, params, 100000 );
+        if ( null != dinningReviewList && !dinningReviewList.isEmpty() )
+        {
+            bActionDefault = false;
+            model.addAttribute("list", dinningReviewList);
+        }
+
         if ( bActionDefault )
         {
             restList = dinningRepository.findByRestNameContaining(restName);
@@ -175,3 +163,4 @@ public class RestSearchController {
         return "search";
     }
 }
+
