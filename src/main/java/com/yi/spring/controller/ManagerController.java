@@ -175,17 +175,6 @@ public class ManagerController {
     }
 
 
-//    @GetMapping("/managerPage_UList")
-//    public String managerListU(Model model,
-//                               @RequestParam(value = "page", defaultValue = "0") int page) {
-//
-//        Page<User> paging = this.userService.findByUserNoPaged(page);
-//
-//
-//        model.addAttribute("users", paging);
-//        model.addAttribute("page", "managerPage/managerPage_UList");
-//        return "managerPage";
-//    }
 
 //    @GetMapping("/managerPage_UList")
 //    public String managerListU(Model model,
@@ -198,7 +187,7 @@ public class ManagerController {
 //        } else {
 //            // 검색어가 없는 경우 전체 목록 조회
 //            // 블랙리스트가 아니면서 auth가 1인 회원들만 조회
-//            List<User> userList = userService.findByUserAuthAndUserBlockNot("1", true);
+//            List<User> userList = userService.findByUserAuthAndUserBlockNot("1", true,page);
 //            paging = new PageImpl<>(userList, PageRequest.of(page, 10), userList.size());
 //        }
 //
@@ -207,19 +196,20 @@ public class ManagerController {
 //        model.addAttribute("header", "고객 목록");
 //
 //        return "managerPage";
-//
 //    }
+
+
     @GetMapping("/managerPage_UList")
     public String managerListU(Model model,
                                @RequestParam(value = "page", defaultValue = "0") int page,
-                               @RequestParam(value = "searchInput3", required = false) String searchInput3) {
+                               @RequestParam(value = "searchInput", required = false) String searchInput) {
         Page<User> paging;
-        if (searchInput3 != null && !searchInput3.isEmpty()) {
+        if (searchInput != null && !searchInput.isEmpty()) {
             // 검색어가 존재하는 경우
-            paging = userService.findByUserAuthAndUserNameContainingPaged("1", searchInput3, page);
+            paging = userService.findByUserAuthAndUserNameContainingPaged("1", searchInput, page);
         } else {
             // 검색어가 없는 경우 전체 목록 조회
-            paging = userService.findByUserNoPaged(page);
+            paging = userService.findByUserNoBlack(page);
         }
 
         model.addAttribute("users", paging);

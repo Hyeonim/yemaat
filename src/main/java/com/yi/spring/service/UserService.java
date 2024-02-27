@@ -30,7 +30,7 @@ public interface UserService {
 
     Page<User> findByUserAuthAndUserNameContainingPaged(String userAuth, String userName, int page);
 
-    List<User> findByUserAuthAndUserBlockNot(String number, boolean b);
+    List<User> findByUserAuthAndUserBlockNot(String number, boolean b, int page);
     Page<User> findByUserAuthAndUserNameContainingPagedNoBlack(String userAuth, String userName, int page, Boolean a);
 
 
