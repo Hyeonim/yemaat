@@ -3,6 +3,7 @@ package com.yi.spring.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.relational.core.sql.In;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "QA")
 public class QA {
     @Id

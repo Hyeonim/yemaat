@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +21,10 @@ import java.util.Optional;
 public interface QARepository extends JpaRepository<QA, Integer> {
 
     List<QA> findByUserNo(User user);
+
+    @Query("select q from QA q join QaAnswer qa on q.id = qa.qaNo where q.userNo.userNo = :userNo")
+    List<QA> findQaAnswer(@Param("userNo") Long user);
+
 
     @Query("select r from QA r order by r.qaStatus asc ")
     List<QA> findAllByQaStatusOrderByAsc();

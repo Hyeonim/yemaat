@@ -24,7 +24,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Page<Review> findByUserNoOrderByRevWriteTimeDesc(User user, int page) {
         List<Review> userReviews = reviewRepository.findByUserNoOrderByRevWriteTimeDesc(user);
-        int pageSize = 5;
+        int pageSize = 10;
         int start = page * pageSize;
         int end = Math.min((page + 1) * pageSize, userReviews.size());
 

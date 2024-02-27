@@ -42,7 +42,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "WHERE r.userNo = :userNo")
     */
     @Query("SELECT r "+
-//            .restNo.restName, r.restNo.restCategory, r.resTime, r.res_guest_count, r.restNo.restAddr " +
             "FROM Reservation r " +
             "WHERE r.userNo.userNo = :userNo")
     List<Reservation> findReservationDetailsByUserNo(Long userNo);
@@ -92,5 +91,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @Transactional
     @Query(value = "UPDATE reservation r INNER JOIN review rv ON r.res_no = rv.res_no SET r.res_status = 'REVIEW' WHERE r.res_no = rv.res_no", nativeQuery = true)
     int updateReservationStatusToReviewWithJoin();
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE reservation r SET r.res_status = 'EXPIRED' WHERE r.res_no NOT IN (SELECT rv.res_no FROM review rv WHERE rv.res_no IS NOT NULL) AND r.res_status = 'REVIEW'", nativeQuery = true)
+    int updateReservationStatusToReviewWithJoin2();
+
+
 
 }

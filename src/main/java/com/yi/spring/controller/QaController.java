@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("QA/")
@@ -66,15 +68,14 @@ public class QaController {
     @GetMapping("user_qa")
     public String userQA(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page , Model model) {
         user = userRepository.findByUserId(principal.getName()).get();
-        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
-//        user = userRepository.findByUserId(principal.getName()).get();
-
-        Page<QA> paging = this.qaService.findByUserNoPaged(user, page);
-//        int userNoCount = qaService.countByUserNo(user);
-
         Long userNo = Long.valueOf(user.getUserNo());
+
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
         List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
         reservationService.checkReservationStatus(reservations, model);
+
+        Page<QA> paging = this.qaService.findByUserNoPaged(user, page);
+        List<QaAnswer> answer = qaAnswerRepository.findQaAnswer(userNo);
 
         model.addAttribute("main_user", user);
         model.addAttribute("restaurants", restaurantsForLatestReservation);
@@ -92,16 +93,25 @@ public class QaController {
     }
 
     @GetMapping("Qa_answer/{qaNo}")
-    public String QaAnswer(@PathVariable("qaNo") int qaNo, Model model) {
+    public String QaAnswer(Principal principal, @PathVariable("qaNo") int qaNo, Model model) {
+        user = userRepository.findByUserId(principal.getName()).get();
+        Long userNo = Long.valueOf(user.getUserNo());
 
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+        reservationService.checkReservationStatus(reservations, model);
 
         model.addAttribute("QA", qaRepository.findById(qaNo));
         Optional<QaAnswer> qaAnswerOptional = qaAnswerRepository.findByQaNo(qaNo);
         model.addAttribute("QaAnswer", qaAnswerOptional.orElse(null));
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
 
 
         System.out.println("문의 내용 --> " + qaRepository.findById(qaNo));
         System.out.println("답변 내용 --> " + qaAnswerRepository.findByQaNo(qaNo));
+
+
         return "userPage/user_QA_answer_form";
     }
 

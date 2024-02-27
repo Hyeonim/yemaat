@@ -34,7 +34,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     @Query("select r from Review r inner join r.userNo.reviews reviews where reviews.userNo = ?1")
     List<Review> findByUserNo_Reviews_UserNo(int userNo);
-
+    
 
     @Query("select im from ImgTb im where im.id = 3")
     List<Object[]> getImgTest();

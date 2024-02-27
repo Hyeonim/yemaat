@@ -88,6 +88,8 @@ public class UserController {
                             ,@RequestParam(value = "filterReview", defaultValue = "") String filterReview
                             ,@RequestParam(value = "filterAll", defaultValue = "") String filterAll){
         User user = userRepository.findByUserId(principal.getName()).orElse(null);
+        reservationRepository.updateReservationStatusToReviewWithJoin2();
+
 
         if (user != null || filterAll.equals("All")) {
             Long userNo = Long.valueOf(user.getUserNo());
@@ -99,7 +101,6 @@ public class UserController {
             model.addAttribute("list", reservations);
 
             if (filterExpired.equals("expired")){
-
                 List<Reservation> reservationsExpired = reservationRepository.ReservationStatusEXPIRED(userNo);
                 reservationService.checkReservationStatus(reservations, model);
 
@@ -228,8 +229,12 @@ public class UserController {
 
         return "userPage/user_review";
     }
-
-
+    @GetMapping("deleteReview/{revNo}")
+    public String reviewDelete(@PathVariable("revNo") int revNo) {
+        reviewRepository.deleteById(revNo);
+        reservationRepository.updateReservationStatusToReviewWithJoin2();
+        return "redirect:/user/user_review";
+    }
 
 
     // 유저 정보 페이지로 이동
@@ -313,5 +318,7 @@ public class UserController {
         userService.deleteByUserNo(userNo);
         return "redirect:/user/list_user";
     }
+
+
 
 }
