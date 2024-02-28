@@ -20,12 +20,9 @@ public class MyUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String insertedUserId) throws UsernameNotFoundException {
-        User exampleUser = new User();
-        exampleUser.setUserId( insertedUserId );
-        exampleUser.setUserStartDate(null);
-        Optional<User> findOne = userRepository.findOne( Example.of(exampleUser) );
+        User member = userRepository.findByUserId( insertedUserId ).orElseThrow(
+            () -> new UsernameNotFoundException("없는 회원입니다"));
 
-        User member = findOne.orElseThrow(() -> new UsernameNotFoundException("없는 회원입니다"));
         return org.springframework.security.core.userdetails.User.builder()
                 .username(member.getUserId())
                 .password(member.getUserPassword())

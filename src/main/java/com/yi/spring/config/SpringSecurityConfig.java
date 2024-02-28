@@ -20,6 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurityConfig {
     @Autowired
     OAuth2MemberService memberService;
+    @Autowired
+    CustomAccessDeniedHandler customAccessDeniedHandler;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
@@ -27,7 +29,8 @@ public class SpringSecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/status","/images/**","/css/**","/js/**").permitAll()
                         .requestMatchers( "/", "/home", "/homeSlide","/signUp","/join").permitAll()
-                        .requestMatchers("/user/**").hasAnyRole("USER", "OWNER", "ADMIN")
+                        .requestMatchers("/user/**").authenticated()
+//                        .requestMatchers("/user/**").hasAnyAuthority("USER", "OWNER", "ADMIN", "OAUTH2_USER", "oauth2_user", "SCOPE_openid", "kakao_account")
                         .requestMatchers("/QA/**").hasAnyRole("USER", "OWNER", "ADMIN")
                         .requestMatchers("/owner/**").hasAnyRole("OWNER", "ADMIN")
                         .requestMatchers("/manager/**").hasRole("ADMIN")
@@ -45,7 +48,11 @@ public class SpringSecurityConfig {
                           .userInfoEndpoint(config -> config.userService(memberService))
                         .redirectionEndpoint(Customizer.withDefaults())
                 )
-                .logout(Customizer.withDefaults());
+                .logout(Customizer.withDefaults())
+                .exceptionHandling().accessDeniedPage("/err/user/forbidden")
+                .accessDeniedHandler( customAccessDeniedHandler )
+        ;
+
         return http.build();
     }
 
