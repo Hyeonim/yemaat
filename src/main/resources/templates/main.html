@@ -5,10 +5,46 @@
     <link th:href="@{/css/slider.css}" rel="stylesheet">
     <link th:href="@{/css/main.css}" rel="stylesheet">
 </head>
+<style>
+    #mainH{
+
+        background: url("/img/mainbg.jpeg");
+        background-size: cover;
+        /*background-size: 80% 80%;*/
+        height: 900px;
+    }
+
+</style>
+
 <body>
-<header th:include="~{/include/header::headerFragment}">
-    head
-</header>
+
+
+<!--<header th:include="~{/include/header::headerFragment}">-->
+<!--    head-->
+<!--</header>-->
+
+<div id="mainH">
+
+    <div th:include="~{/include/header::headerFragment}">
+        head
+    </div>
+
+    <div class="infoBox">
+
+        <h2>공지사항</h2>
+        <h2>공지사항</h2>
+        <h2>공지사항</h2>
+    </div>
+
+<!--    <div id="center_box">-->
+
+
+
+<!--    </div>-->
+
+</div>
+
+
 <div id="content" th:include="~{/include/content::contentFragment}">
     head
 </div>

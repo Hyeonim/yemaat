@@ -178,9 +178,11 @@ header nav:nth-of-type(1) {
 }
 
 #searchBar {
+    float: right;
     height: 40px;
     /*margin-left: 30%;*/
     width: 500px;
+    margin: 4px;
     border-radius: 10px;
 }
 
@@ -287,9 +289,8 @@ footer {
 
 
 .c, .footer_height {
-    /*height: 100vw;*/
-    background-color: #f0f0f0;
-    top: 60px;
+
+    background-color: white;
     position: relative;
 }
 
@@ -319,8 +320,8 @@ footer {
     display: flex;
     /*grid-template-columns: 1fr 1fr 1fr;*/
     /*margin-top: 50px;*/
-    margin-left: 100px;
-    margin-right: 100px;
+    /*margin-left: 100px;*/
+    /*margin-right: 100px;*/
 }
 
 #topDiv {
@@ -365,6 +366,7 @@ footer {
     margin-top: 20px;
     overflow: hidden;
 }
+
 
 .event_slide_box {
     margin: 0;
@@ -654,6 +656,33 @@ ul.list::after {
 
     /* 다른 요소들의 반응형 스타일을 추가할 수 있음 */
 }
+
+
+.infoBox{
+
+}
+
+/* -----
+SVG Icons - svgicons.sparkk.fr
+----- */
+
+.searIcon {
+    width: 40px;
+    height: 3em;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/*.searIcon path,*/
+/*.searIcon polygon,*/
+/*.searIcon rect {*/
+/*    fill: #4691f6;*/
+/*}*/
+
+/*.searIcon circle {*/
+/*    stroke: #4691f6;*/
+/*    stroke-width: 1;*/
+/*}*/
 
 
 

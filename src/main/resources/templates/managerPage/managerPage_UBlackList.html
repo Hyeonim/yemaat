@@ -48,6 +48,10 @@
     <script>
 
         function confirmBlack(my) {
+            let form = document.getElementById("blackForm");
+            let confirmInput = my.parentNode.querySelector("input[name=confirm]");
+            confirmInput.value = true;
+
             swal({
                 title: "블랙리스트를 해제 하시겠습니까?",
                 text: "해제 하시려면 OK를 누르세요.",
@@ -56,12 +60,10 @@
                 dangerMode: false,
             })
                 .then((willUnblack) => {
+
                     if (willUnblack) {
                         swal("Success!", "해제되었습니다.", "success")
                             .then(() => {
-                                let form = document.getElementById("blackForm");
-                                let confirmInput = my.parentNode.querySelector("input[name=confirm]");
-                                confirmInput.value = true;
                                 form.submit();
                             });
                     } else {
@@ -70,6 +72,7 @@
                     }
                 });
         }
+
 
         function searchDinning() {
             let searchInput = document.getElementById("searchInput").value;
