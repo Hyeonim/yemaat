@@ -10,8 +10,9 @@
 
         background: url("/img/mainbg.jpeg");
         background-size: cover;
+        /*background-size: contain;*/
         /*background-size: 80% 80%;*/
-        height: 900px;
+        height: 950px;
     }
 
 </style>
@@ -29,16 +30,21 @@
         head
     </div>
 
+
+
     <div class="infoBox">
+<div class="infoBoxA">
+<a  href="/notice/noticeList">공지사항</a>
+    <a>추천식당</a>
+<a>이벤트</a>
+</div>
+    </div>
+
+    <div id="center_box">
+
 
 
     </div>
-
-<!--    <div id="center_box">-->
-
-
-
-<!--    </div>-->
 
 </div>
 
@@ -194,7 +200,7 @@
 
 <script>
     // "click!" 요소를 클릭했을 때 실행되는 함수
-    document.getElementById("clickText").addEventListener("click", function() {
+    document.getElementById("clickText")?.addEventListener("click", function() {
         // "click!" 요소 숨김 처리
         document.getElementById("clickText").style.display = "none";
         // "restName" 요소 표시
