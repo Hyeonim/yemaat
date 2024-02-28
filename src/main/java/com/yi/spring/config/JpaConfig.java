@@ -34,8 +34,8 @@ public class JpaConfig {
     @Value("${spring.jpa.database}")
     private  String database;
 
-    @Value("${spring.jpa.database-platform}")
-    private  String databasePlatForm;
+//    @Value("${spring.jpa.database-platform}")
+//    private  String databasePlatForm;
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private  String ddlAuto;
