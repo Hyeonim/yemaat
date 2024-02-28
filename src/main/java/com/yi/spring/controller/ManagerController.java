@@ -119,7 +119,7 @@ public class ManagerController {
         HashMap<String, Integer> userStat = new HashMap<>();
         for (User elem : uList) {
             String key;
-            if (elem.getUserAuth().equals("3"))
+            if (elem.getUserAuth().equals("ADMIN"))
                 continue;
             if (elem.isUserBlock())
                 key = "4";
@@ -206,7 +206,7 @@ public class ManagerController {
         Page<User> paging;
         if (searchInput != null && !searchInput.isEmpty()) {
             // 검색어가 존재하는 경우
-            paging = userService.findByUserAuthAndUserNameContainingPaged("1", searchInput, page);
+            paging = userService.findByUserAuthAndUserNameContainingPaged("USER", searchInput, page);
         } else {
             // 검색어가 없는 경우 전체 목록 조회
             paging = userService.findByUserNoBlack(page);
@@ -235,13 +235,13 @@ public class ManagerController {
         List<User> onlyUsers = new ArrayList<>();
 
         if (searchInput != null && !searchInput.isEmpty()) {
-            users = userRepository.findByUserNameContainingIgnoreCaseAndUserAuthAndUserBlock(searchInput, "1", true);
+            users = userRepository.findByUserNameContainingIgnoreCaseAndUserAuthAndUserBlock(searchInput, "USER", true);
         } else {
-            users = userRepository.findByUserAuthAndUserBlock("1", true);
+            users = userRepository.findByUserAuthAndUserBlock("USER", true);
         }
 
         for (User result : users) {
-            if (result.getUserAuth().equals("1") && result.isUserBlock()) {
+            if (result.getUserAuth().equals("USER") && result.isUserBlock()) {
                 onlyUsers.add(result);
             }
         }

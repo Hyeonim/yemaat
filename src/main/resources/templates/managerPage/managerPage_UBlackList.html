@@ -36,16 +36,7 @@
                     <form id="blackForm" action="managerPage_UBlack" method="get">
                         <input type="hidden" name="userNo" th:value="${user.userNo}"></input>
                         <input type="hidden" name="confirm" value="false"></input>
-                        <button type="button" onclick="confirmBlack(this)" style="background-color: black;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;">블랙버튼
+                        <button type="button" id="blackBtn" onclick="confirmBlack(this)">블랙버튼
                         </button>
                     </form>
                 </td>

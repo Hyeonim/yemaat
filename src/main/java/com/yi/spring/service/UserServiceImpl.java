@@ -13,7 +13,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     @Override
     public List<User> getAllUsers() {
@@ -61,13 +61,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> findByUserNoPaged(int page) {
         Pageable pageable = PageRequest.of(page, 10);
-        return userRepository.findByUserAuth("1", pageable);
+        return userRepository.findByUserAuth("USER", pageable);
     }
 
     @Override
     public Page<User> findByUserNoBlack(int page) {
         Pageable pageable = PageRequest.of(page, 10);
-       return userRepository.findByUserAuthAndUserBlock("1", false,pageable);
+       return userRepository.findByUserAuthAndUserBlock("USER", false,pageable);
 
     }
 
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> findByJumNoPaged(int page){
         Pageable pageable = PageRequest.of(page, 10);
-        return userRepository.findByUserAuth("2", pageable);
+        return userRepository.findByUserAuth("OWNER", pageable);
     }
 
     @Override

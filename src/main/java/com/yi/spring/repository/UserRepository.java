@@ -48,7 +48,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     //방금 추가
 //    @Query("SELECT u FROM User u JOIN FETCH u.dinningList d WHERE u.userAuth = '2'")
-    @Query("SELECT u FROM User u inner join u.diningRests diningRests WHERE u.userAuth = '2'")
+    @Query("SELECT u FROM User u inner join u.diningRests diningRests WHERE u.userAuth = 'OWNER'")
     List<User> getAllWithDinningList();
 
     Page<User> findByUserAuthAndUserNameContaining(String userAuth, String userName, Pageable pageable);

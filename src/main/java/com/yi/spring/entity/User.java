@@ -66,4 +66,16 @@ public class User {
         return "";
     }
 
+
+    public UserRole getUserRoleEnum() {
+        try {
+            return UserRole.valueOf(userAuth);
+        } catch (Exception e) {
+            // 예외 처리: 디비에 저장된 값이 Enum에 존재하지 않을 경우
+            return UserRole.USER; // 또는 다른 기본값 설정
+        }
+    }
+
+
+
 }
