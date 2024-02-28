@@ -131,7 +131,7 @@ public class IndexController {
     @PostMapping("join")
     public String userjoin(@RequestParam MultipartFile file, User user, @RequestParam String userType) {
 
-        user.setUserAuth( "2".equals(userType) ? "2" : "1" );
+        user.setUserAuth( "OWNER".equals(userType) ? "OWNER" : "USER" );
 
         if ( !file.isEmpty() ) {
             try {

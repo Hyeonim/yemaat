@@ -611,7 +611,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         Page<User> paging;
         if (searchInput != null && !searchInput.isEmpty()) {
             // 검색어가 존재하는 경우
-            paging = userService.findByUserAuthAndUserNameContainingPaged("2", searchInput, page);
+            paging = userService.findByUserAuthAndUserNameContainingPaged("OWNER", searchInput, page);
         } else {
             // 검색어가 없는 경우 전체 목록 조회
             paging = userService.findByJumNoPaged(page);

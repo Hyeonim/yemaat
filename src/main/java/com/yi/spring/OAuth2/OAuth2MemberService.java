@@ -106,7 +106,7 @@ public class OAuth2MemberService extends DefaultOAuth2UserService {
             if ( matcher.find() )
                 entry.getValue().accept( matcher.group(1));
             }
-            user.setUserAuth( "1" );
+            user.setUserAuth( "USER" );
             user.setUserPassword( Base64.getEncoder().encodeToString( attributes.substring(0, 20).getBytes() ));
             userRepository.save( user );
         }
