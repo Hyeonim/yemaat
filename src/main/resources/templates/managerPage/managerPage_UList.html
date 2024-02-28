@@ -41,11 +41,18 @@
                 <td>
                     <form action="UListBlack" method="post">
                         <input type="hidden" name="userNo" th:value="${user.userNo}">
-                        <select name="status">
-                            <option value="0">블랙리스트 해제</option>
-                            <option value="1">블랙리스트 설정</option>
-                        </select>
-                        <button type="submit">변경</button>
+<!--                        <select name="status">-->
+<!--                            <option value="0">블랙리스트 해제</option>-->
+<!--                            <option value="1">블랙리스트 설정</option>-->
+<!--                        </select>-->
+<!--                        <button type="submit">변경</button>-->
+                        <div class="custom-select">
+                            <select name="status">
+                                <option value="0">해제</option>
+                                <option value="1">설정</option>
+                            </select>
+                            <button type="submit">변경</button>
+                        </div>
                     </form>
 
                 </td>

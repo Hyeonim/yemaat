@@ -25,18 +25,13 @@
                 <td th:text="${qa.qaTitle}"></td>
                 <td th:text="${qa.userNo.userId}"></td>
                 <td th:text="${qa.qaWriteTime}"></td>
-                <td th:text="${qa.qaStatus}"></td>
+<!--                <td th:text="${qa.qaStatus}"></td>-->
                 <td>
-                    <button style="background-color: black;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;" th:attr="onclick='redirectToQA(\'' + ${qa.id} + '\')'">문의 답변
+                    <span th:if="${qa.qaStatus}">답변 완료</span>
+                    <span th:unless="${qa.qaStatus}">미답변</span>
+                </td>
+                <td>
+                    <button class="blackBtn" th:attr="onclick='redirectToQA(\'' + ${qa.id} + '\')'">문의 답변
                     </button>
                 </td>
             </tr>

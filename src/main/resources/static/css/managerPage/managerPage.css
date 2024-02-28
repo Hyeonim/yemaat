@@ -286,7 +286,7 @@ tr:hover {
     }
 }
 
-#blackBtn{
+.blackBtn{
     background-color: white;
     border: solid 1px black;
     color: black;
@@ -298,4 +298,46 @@ tr:hover {
     cursor: pointer;
     border-radius: 10px;
 
+}
+
+.custom-select {
+    display: flex;
+    position: relative;
+
+}
+
+.custom-select select {
+    text-align: center;
+    display: block;
+    width: 50px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    margin-left: 5px;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.custom-select button {
+    display: inline-block;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 16px;
+    /*line-height: 40px;*/
+    color: black;
+    background-color: white;
+    margin-left: 10px;
+    border: solid 1px black;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.custom-select button:hover {
+    background-color: #0056b3;
 }
