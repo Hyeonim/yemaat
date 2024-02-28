@@ -20,7 +20,7 @@
                 <th>점주 아이디</th>
                 <th>점주 이메일</th>
                 <th>점주 전화번호</th>
-                <th>시작일</th>
+                <th>가입일</th>
             </tr>
             </thead>
             <tbody>
@@ -31,7 +31,9 @@
                 <td th:text="${users.userId}"></td>
                 <td th:text="${users.userEmail}"></td>
                 <td th:text="${users.userTel}"></td>
-                <td th:text="${users.userStartDate}"></td>
+<!--                <td th:text="${users.userStartDate}"></td>-->
+                <td th:text="${#strings.substring(users.userStartDate, 0, 10)}"></td>
+
             </tr>
             </tbody>
         </table>

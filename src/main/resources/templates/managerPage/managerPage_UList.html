@@ -26,7 +26,7 @@
                 <th>고객 아이디</th>
                 <th>고객 이메일</th>
                 <th>고객 전화번호</th>
-                <th>시작일</th>
+                <th>가입일</th>
                 <th>블랙리스트 </th>
             </tr>
             </thead>
@@ -37,7 +37,10 @@
                 <td th:text="${user.userId}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">ID</td>
                 <td th:text="${user.userEmail}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
                 <td th:text="${user.userTel}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
-                <td th:text="${user.userStartDate}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
+<!--                <td th:text="${user.userStartDate}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>-->
+                <td th:text="${#strings.substring(user.userStartDate, 0, 10)}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
+
+
                 <td>
                     <form action="UListBlack" method="post">
                         <input type="hidden" name="userNo" th:value="${user.userNo}">

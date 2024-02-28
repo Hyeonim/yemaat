@@ -81,7 +81,8 @@
 
                     <td th:text="${list.id}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
                     <td th:text="${list.subject}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
-                    <td th:text="${list.writeDate}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
+                    <td th:text="${#strings.substring(list.writeDate, 0, 10)}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
+
                 </tr>
                 </tbody>
             </table>
@@ -114,7 +115,8 @@
                 <td th:text="${list.id}"  th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
                 <td th:text="${list.subject}"  th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
                 <!--                    <td th:text="${list.writer}"></td>-->
-                <td th:text="${list.writeDate}"  th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
+                <td th:text="${#strings.substring(list.writeDate, 0, 10)}" th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"></td>
+
             </tr>
             </tbody>
         </table>

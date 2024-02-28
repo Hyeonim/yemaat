@@ -24,7 +24,9 @@
                 <td th:text="${qa.id}"></td>
                 <td th:text="${qa.qaTitle}"></td>
                 <td th:text="${qa.userNo.userId}"></td>
-                <td th:text="${qa.qaWriteTime}"></td>
+                <td th:text="${#strings.substring(qa.qaWriteTime, 0, 10)}"></td>
+
+<!--                <td th:text="${qa.qaWriteTime}"></td>-->
 <!--                <td th:text="${qa.qaStatus}"></td>-->
                 <td>
                     <span th:if="${qa.qaStatus}">답변 완료</span>
