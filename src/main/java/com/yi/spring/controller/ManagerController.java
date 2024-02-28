@@ -219,6 +219,32 @@ public class ManagerController {
         return "managerPage";
     }
 
+    @PostMapping("/UListBlack")
+    public String ulackupdateStatus(@RequestParam("userNo") int userNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
+        // 가게 번호와 상태를 받아와서 DB에 저장함
+        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            boolean isBlocked = status.equals("1"); // "1"은 블랙리스트 설정을 나타내는 값
+            user.setUserBlock(isBlocked);
+            userRepository.save(user);
+            redirectAttributes.addFlashAttribute("message", "블랙리스트 상태가 성공적으로 변경되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "유저를 찾을 수 없습니다.");
+        }
+        return "redirect:/manager/managerPage_UList";
+    }
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/managerPage_UAdd")
     public String managerPageManagerPageUAdd(Model model) {
         model.addAttribute("header", "고객 추가");
@@ -410,6 +436,8 @@ public class ManagerController {
 
         return "redirect:/manager/managerPage_QA";
     }
+
+
 
 
     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

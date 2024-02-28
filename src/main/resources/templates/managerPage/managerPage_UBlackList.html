@@ -9,9 +9,8 @@
 <div th:fragment="managerContent">
     <div id="right2">
         <div class="searchDiv">
-
-        <input type="text" id="searchInput" placeholder="블랙리스트 이름으로 검색" onchange="searchDinning()">
-        <button onclick="searchDinning()">검색</button>
+            <input type="text" id="searchInput" placeholder="블랙리스트 이름으로 검색" onchange="searchDinning()">
+            <button onclick="searchDinning()">검색</button>
         </div>
         <table id="blackTable" style="text-align: center;">
             <thead>
@@ -21,7 +20,7 @@
                 <th>이름</th>
                 <th>이메일</th>
                 <th>전화번호</th>
-                <th></th>
+                <th>상태 변경</th>
             </tr>
             </thead>
             <tbody>
@@ -31,13 +30,11 @@
                 <td th:text="${user.userName}">Name</td>
                 <td th:text="${user.userEmail}">Name</td>
                 <td th:text="${user.userTel}">Name</td>
-                <!--                <td th:text="${user.userStartDate}">Name</td>-->
                 <td>
-                    <form id="blackForm" action="managerPage_UBlack" method="get">
+                    <form th:id="'blackForm_' + ${user.userNo}" action="managerPage_UBlack" method="get">
                         <input type="hidden" name="userNo" th:value="${user.userNo}"></input>
                         <input type="hidden" name="confirm" value="false"></input>
-                        <button type="button" id="blackBtn" onclick="confirmBlack(this)">블랙버튼
-                        </button>
+                        <button id="blackBtn" type="button" onclick="confirmBlack(this)">블랙버튼</button>
                     </form>
                 </td>
             </tr>
@@ -46,31 +43,41 @@
     </div>
 
     <script>
-
-        function confirmBlack(my) {
-            let form = document.getElementById("blackForm");
-            let confirmInput = my.parentNode.querySelector("input[name=confirm]");
-            confirmInput.value = true;
-
+        function confirmBlack(button) {
             swal({
                 title: "블랙리스트를 해제 하시겠습니까?",
                 text: "해제 하시려면 OK를 누르세요.",
                 icon: "info",
-                buttons: true,
-                dangerMode: false,
-            })
-                .then((willUnblack) => {
-
-                    if (willUnblack) {
-                        swal("Success!", "해제되었습니다.", "success")
-                            .then(() => {
-                                form.submit();
-                            });
-                    } else {
-                        // swal("Cancelled", "취소되었습니다.", "info");
-                        swal("블랙리스트 해제가 취소 되었습니다.")
+                buttons: {
+                    confirm : {
+                        text: "등록",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel : {
+                        text : "취소",
+                        value : null,
+                        visible : true,
+                        className: "cancel-button",
+                        closeModal : true,
                     }
-                });
+                },
+                dangerMode: false,
+            }).then((willUnblack) => {
+                if (willUnblack) {
+                    swal("Success!", "해제되었습니다.", "success")
+                        .then(() => {
+                            let form = button.closest('form');
+                            let confirmInput = form.querySelector("input[name=confirm]");
+                            confirmInput.value = true;
+                            form.submit();
+                        });
+                } else {
+                    swal("블랙리스트 해제가 취소 되었습니다.");
+                }
+            });
         }
 
 

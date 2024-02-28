@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>폐점 신청 가게 목록</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <div th:fragment="managerContent">
     <div id="right2">
         <div class="searchDiv">
-
-        <input type="text" id="searchInput7" placeholder="가게 이름으로 검색" onchange="searchDinning7()">
-        <button onclick="searchDinning7()">검색</button>
+            <input type="text" id="searchInput7" placeholder="가게 이름으로 검색" onchange="searchDinning7()">
+            <button onclick="searchDinning7()">검색</button>
         </div>
         <table id="dinningCloseTable2" style="text-align: center;">
             <thead>
@@ -29,7 +29,7 @@
                 <td th:text="${dinning.restAddr}"></td>
                 <td th:text="${dinning.restTel}"></td>
                 <td>
-                    <form action="waitUpd" method="post">
+                    <form onsubmit="return confirmClose()" action="waitUpd" method="post">
                         <input type="hidden" name="restNo" th:value="${dinning.restNo}">
                         <select name="status">
                             <option value="WAIT">대기</option>
@@ -38,9 +38,7 @@
                         </select>
                         <button type="submit">변경</button>
                     </form>
-
                 </td>
-
             </tr>
             </tbody>
         </table>
@@ -49,7 +47,6 @@
     <script>
         function searchDinning7() {
             let searchInput7 = document.getElementById("searchInput7").value;
-            console.log(searchInput7)
             fetch("/manager/managerPage_JrestWaitList?searchInput7=" + searchInput7)
                 .then(resp => resp.text())
                 .then(data => {
@@ -58,6 +55,45 @@
                     document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
                 });
         }
+
+        function confirmClose() {
+            swal({
+                title: "가게 상태를 변경 하시겠습니까?",
+                text: "변경 하시려면 확인을 눌러주세요.",
+                icon: "warning",
+                buttons: {
+                    confirm: {
+                        text: "변경",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: false // 창이 닫히지 않도록 설정
+                    },
+                    cancel: {
+                        text: "취소",
+                        value: null,
+                        visible: true,
+                        className: "cancel-button",
+                        closeModal: true,
+                    }
+                },
+                dangerMode: false,
+            })
+                .then((willClose) => {
+                    if (willClose) {
+                        swal("Success!", "변경 되었습니다!", "success")
+                            .then(function () {
+                                // 확인 버튼을 클릭한 경우 폼 제출
+                                document.querySelector("form").submit();
+                            });
+                    } else {
+                        swal("취소되었습니다.")
+                    }
+                });
+            // 폼 제출을 여기서 직접 호출하지 않고, 확인 버튼을 클릭한 경우에만 폼 제출
+            return false;
+        }
+
     </script>
 </div>
 </html>

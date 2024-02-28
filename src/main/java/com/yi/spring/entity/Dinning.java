@@ -79,7 +79,7 @@ public class Dinning {
     private String restStartDate;
 
     @Column(name = "rest_status", length = 100)
-    private String restStatus;
+    private String restStatus  = "NORMAL";
 
 
     @Transient

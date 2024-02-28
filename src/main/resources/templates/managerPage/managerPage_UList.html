@@ -27,16 +27,28 @@
                 <th>고객 이메일</th>
                 <th>고객 전화번호</th>
                 <th>시작일</th>
+                <th>블랙리스트 </th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="user : ${users}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">
-                <td th:text="${user.userNo}">Name</td>
-                <td th:text="${user.userName}">Name</td>
-                <td th:text="${user.userId}">ID</td>
-                <td th:text="${user.userEmail}">Name</td>
-                <td th:text="${user.userTel}">Name</td>
-                <td th:text="${user.userStartDate}">Name</td>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.userNo}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
+                <td th:text="${user.userName}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
+                <td th:text="${user.userId}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">ID</td>
+                <td th:text="${user.userEmail}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
+                <td th:text="${user.userTel}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
+                <td th:text="${user.userStartDate}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
+                <td>
+                    <form action="UListBlack" method="post">
+                        <input type="hidden" name="userNo" th:value="${user.userNo}">
+                        <select name="status">
+                            <option value="0">블랙리스트 해제</option>
+                            <option value="1">블랙리스트 설정</option>
+                        </select>
+                        <button type="submit">변경</button>
+                    </form>
+
+                </td>
             </tr>
             </tbody>
         </table>
@@ -83,3 +95,4 @@
 
 </div>
 </html>
+

@@ -71,7 +71,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
     @Override
     public Page<User> findByJumNoPaged(int page){
         Pageable pageable = PageRequest.of(page, 10);
@@ -87,7 +86,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByUserAuthAndUserBlockNot(String number, boolean b,  int page) {
         Pageable pageable = PageRequest.of(page, 10);
-
         return userRepository.findByUserAuthAndUserBlockNot(number, b);
     }
 
