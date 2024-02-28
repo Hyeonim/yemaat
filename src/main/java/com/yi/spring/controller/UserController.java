@@ -1,5 +1,6 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.OAuth2.OAuth2MemberService;
 import com.yi.spring.entity.*;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.QAService;
@@ -13,13 +14,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -47,6 +46,8 @@ public class UserController {
     ReservationService reservationService;
     @Autowired
     ReviewService reviewService;
+    @Autowired
+    private OAuth2MemberService o2MemberService;
 
 
     private User user = null;
@@ -71,7 +72,9 @@ public class UserController {
     // 유저 컨텐츠 페이지로 이동
     @GetMapping("userPage")
     public String userPageForm1(Principal principal, Model model) {
-        user = userRepository.findByUserId(principal.getName()).get();
+//        user = userRepository.findByUserId(principal.getName()).get();
+        user = o2MemberService.findUser( principal );
+
         List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
 
         model.addAttribute("user", user);
@@ -87,7 +90,8 @@ public class UserController {
                             @RequestParam(value = "filterExpired", defaultValue = "") String filterExpired
                             ,@RequestParam(value = "filterReview", defaultValue = "") String filterReview
                             ,@RequestParam(value = "filterAll", defaultValue = "") String filterAll){
-        User user = userRepository.findByUserId(principal.getName()).orElse(null);
+//        User user = userRepository.findByUserId(principal.getName()).orElse(null);
+        user = o2MemberService.findUser( principal );
         reservationRepository.updateReservationStatusToReviewWithJoin2();
 
 
@@ -123,7 +127,8 @@ public class UserController {
 
     @PostMapping("submitReview")
     public String reviewAdd(Principal principal,Review review,@RequestParam MultipartFile file){
-        user = userRepository.findByUserId(principal.getName()).get();
+//        user = userRepository.findByUserId(principal.getName()).get();
+        user = o2MemberService.findUser( principal );
 
         byte[] revImg;
         try {
@@ -147,7 +152,9 @@ public class UserController {
     // 유저가 작성한 리뷰 목록 페이지로 이동
     @GetMapping("user_review")
     public String userReviews(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page ,Model model) {
-        User user = userRepository.findByUserId(principal.getName()).orElse(null);
+//        User user = userRepository.findByUserId(principal.getName()).orElse(null);
+        user = o2MemberService.findUser( principal );
+
 
         if (user != null) {
             List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
@@ -235,12 +242,51 @@ public class UserController {
         reservationRepository.updateReservationStatusToReviewWithJoin2();
         return "redirect:/user/user_review";
     }
+    @GetMapping("updateReviewForm/{revNo}")
+    public String reviewUpdateForm(Principal principal,@PathVariable("revNo") int revNo, Model model){
+        user = o2MemberService.findUser( principal );
+        Long userNo = Long.valueOf(user.getUserNo());
+
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+        reservationService.checkReservationStatus(reservations, model);
+
+        model.addAttribute("review", reviewRepository.findById(revNo));
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
+
+        return "userPage/user_reviewUpdate";
+    }
+    @PostMapping("updateReview/{revNo}")
+    public String reviewUpdate(Principal principal,Review review,@RequestParam MultipartFile file,@PathVariable("revNo") int revNo){
+        user = o2MemberService.findUser( principal );
+
+        System.out.println("file ->" + file);
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                byte[] revImg = file.getBytes();
+                review.setRevImg(revImg);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+            }
+        }
+        review.setRevScore((int) (review.getRevScore() * 10));
+        review.setRevStatus(String.valueOf(ReviewStatus.NORMAL));
+
+        review.setId(revNo);
+        reviewRepository.save(review);
+//        reservationRepository.updateReservationStatusToReviewWithJoin();
+        return "redirect:/user/user_review";
+    }
 
 
     // 유저 정보 페이지로 이동
     @GetMapping("user_info")
     public String userUpdateForm(Principal principal, Model model) {
-        user = userRepository.findByUserId(principal.getName()).get();
+//        user = userRepository.findByUserId(principal.getName()).get();
+        user = o2MemberService.findUser( principal );
+
         List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
 
         Long userNo = Long.valueOf(user.getUserNo());
@@ -255,26 +301,23 @@ public class UserController {
 
     // 유저 정보 업데이트를 처리하는 POST 요청 처리
     @ResponseBody
-    @PostMapping("user_update/{userNo}")
-    public String userUpdate(@PathVariable("userNo") int userNo, @RequestParam MultipartFile file, User users
-    ) throws IOException {
+    @PostMapping("user_update")
+    public String userUpdate(Principal principal, @RequestParam MultipartFile file) throws IOException {
+        user = o2MemberService.findUser(principal);
 
-        userRepository.save(users);
-
-        Optional<User> userOptional = userRepository.findByUserNo(userNo);
-        userOptional.ifPresent(user -> {
-            byte[] userImg = new byte[0];
+        if (user != null) {
             try {
-                userImg = file.getBytes();
+                byte[] userImg = file.getBytes();
+                user.setUserImg(userImg);
+                userRepository.save(user);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            user.setUserImg(userImg);
-            userRepository.save(user);
-        });
-        int user_no = userNo;
-        return "redirect:/user/userPage/" + user_no;
+        }
+
+        return "redirect:/user/userPage/" + user;
     }
+
 
     // 유저 목록 페이지로 이동(관리용)
     @GetMapping("list_user")

@@ -40,12 +40,7 @@ a {
     text-decoration: none;
     outline: none;
 }
-a:hover,
-a:focus {
-    color: rgb(90, 116, 204);  /* 호버 된 아이콘 색상 */
-    text-decoration: none;
-    /*color: inherit;*/
-}
+
 .hidden {
     position: absolute;
     width: 0;

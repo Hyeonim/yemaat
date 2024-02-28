@@ -102,7 +102,7 @@
         }
 
         #deleteReview:hover {
-            font-size: 103%;
+            font-size: 101%;
             transition: font-size 0.3s;
 
         }
@@ -115,7 +115,7 @@
         }
 
         #updateReview:hover {
-            font-size: 103%;
+            font-size: 101%;
             transition: font-size 0.3s;
 
         }
@@ -146,13 +146,17 @@
                             </th:block>
                         </div>
 
-<!--                        <div th:text="${rev.restNo}"></div>-->
+                        <!--                        <div th:text="${rev.restNo}"></div>-->
 
                         <!--                    <div th:text="${reviews.getRestNo().restName}"></div>-->
                         <div style="margin-left: 10px">
                             <div style="display: flex">
-                                <li th:text="${combinedLists.rev.getRestNo().restName} + ' >'"
-                                    style="font-size: 12px;padding-bottom: 1px; padding-left: 1px; padding-top: 1px;"></li>
+                                <a th:href="'/detail?restNo=' + ${combinedLists.rev.getRestNo().restNo}">
+                                    <li th:text="${combinedLists.rev.getRestNo().restName} + ' >'"
+                                        style="font-size: 12px; padding-bottom: 1px; padding-left: 1px; padding-top: 1px;">
+                                    </li>
+                                </a>
+
                             </div>
                             <li class="revContentBox" th:text="${combinedLists.rev.revContent}"
                                 style="margin: 10px 0; width: 833.03px; height: 40px"></li>
@@ -170,7 +174,7 @@
                                     <div class="ratefillYellow"
                                          th:style="'width: ' + ${combinedLists.rev.revScore * 16} + 'px'"></div>
                                     <input type="radio" name="revScore" id="rating1" value="10" class="rate_radio"
-                                           title="1점">
+                                           title="1점" >
                                     <label for="rating1"></label>
                                     <input type="radio" name="revScore" id="rating2" value="20" class="rate_radio"
                                            title="2점">
@@ -203,7 +207,7 @@
                 </div>
 
                 <div style="display: flex">
-                    <div id="updateReview" onclick="confirmUpdate('수정')">수정</div>
+                    <div id="updateReview" th:onclick="confirmUpdate('수정', /*[[${combinedLists.rev.id}]]*/)">수정</div>
                     <div id="deleteReview" th:onclick="confirmDelete('삭제', /*[[${combinedLists.rev.id}]]*/)">삭제</div>
                 </div>
 
@@ -246,7 +250,6 @@
                 alert('삭제가 취소되었습니다.'); // 예시로 alert를 사용하였습니다.
             }
         }
-
         function deleteReview(revNo) {
             // Ajax 요청을 사용하여 서버 측 코드 호출
             var xhr = new XMLHttpRequest();
@@ -266,6 +269,22 @@
             };
             xhr.send();
         }
+
+        function confirmUpdate(message, revNo) {
+            var result = confirm('리뷰를 수정 하시겠습니까?');
+
+            if (result) {
+                // 사용자가 확인을 눌렀을 때의 동작을 여기에 추가
+                console.log(revNo);
+                // revNo를 사용하여 페이지 이동
+                window.location.href = '/user/updateReviewForm/' + revNo;
+
+            } else {
+                // 사용자가 취소를 눌렀을 때의 동작을 여기에 추가
+                alert('취소되었습니다.');
+            }
+        }
+
 
     </script>
 
@@ -321,6 +340,12 @@
             });
         });
 
+
+        function redirectdetail(event, id) {
+            if (event.target.tagName === "INPUT")
+                return;
+            window.location.href = '/detail?restNo=' + id;
+        }
 
     </script>
 

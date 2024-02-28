@@ -1,5 +1,6 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.OAuth2.OAuth2MemberService;
 import com.yi.spring.entity.*;
 import com.yi.spring.repository.QARepository;
 import com.yi.spring.repository.QaAnswerRepository;
@@ -44,6 +45,8 @@ public class QaController {
     ReservationRepository reservationRepository;
     @Autowired
     ReservationService reservationService;
+    @Autowired
+    private OAuth2MemberService o2MemberService;
 
     private User user = null;
 
@@ -67,7 +70,8 @@ public class QaController {
     // 유저가 작성한 Q&A 목록 페이지로 이동
     @GetMapping("user_qa")
     public String userQA(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page , Model model) {
-        user = userRepository.findByUserId(principal.getName()).get();
+//        user = userRepository.findByUserId(principal.getName()).get();
+        user = o2MemberService.findUser( principal );
         Long userNo = Long.valueOf(user.getUserNo());
 
         List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
@@ -85,16 +89,41 @@ public class QaController {
         return "userPage/user_QA";
     }
 
+    @GetMapping("user_qa_selete")
+    public String userQASelete(Principal principal, Model model) {
+        user = o2MemberService.findUser( principal );
+        Long userNo = Long.valueOf(user.getUserNo());
+
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+        reservationService.checkReservationStatus(reservations, model);
+
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
+        model.addAttribute("Num", user.getUserNo());
+
+        return "userPage/user_QA_selete";
+    }
+
     // 유저가 Q&A를 추가하는 페이지로 이동
-    @GetMapping("user_qa_form/{userNo}")
-    public String userQAUpdateForm(@PathVariable("userNo") int userNo, Model model){
-        model.addAttribute("QA_userNo",userService.findByUserNo(userNo));
+    @GetMapping("user_qa_form")
+    public String userQAUpdateForm(Principal principal, Model model){
+        user = o2MemberService.findUser( principal );
+        Long userNo = Long.valueOf(user.getUserNo());
+
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+        reservationService.checkReservationStatus(reservations, model);
+
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
+        model.addAttribute("QA_userNo",userService.findByUserNo(user.getUserNo()));
         return "userPage/user_QA_form";
     }
 
     @GetMapping("Qa_answer/{qaNo}")
     public String QaAnswer(Principal principal, @PathVariable("qaNo") int qaNo, Model model) {
-        user = userRepository.findByUserId(principal.getName()).get();
+        user = o2MemberService.findUser( principal );
         Long userNo = Long.valueOf(user.getUserNo());
 
         List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));

@@ -297,6 +297,12 @@
             height: 400px;
             transition: margin-top 0.8s ease; /* 부드러운 이동을 위한 트랜지션 추가 */
         }
+
+        .RestNoHover:hover {
+            font-size: 105%;
+            color: #282828;
+        }
+
     </style>
 
     <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
@@ -351,7 +357,9 @@
                     <div class="right">
                         <p class="gray-text p-right"
                            th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'">
-                            <b style="font-size: 20px;" th:text="${res.restNo.restName}"></b><br>
+                            <a th:href="'/detail?restNo=' + ${res.restNo.restNo}">
+                                <b style="font-size: 20px;" th:text="${res.restNo.restName}" class="RestNoHover"></b>
+                            </a><br>
                             <b th:text="${res.restNo.restCategory}"></b><br>
                             <b th:text="'예약 시간 : ' + @{${#strings.replace(res.resTime, 'T', ' ')}}"></b><br>
                         <hr>
@@ -377,6 +385,7 @@
                         </button>
                     </div>
                 </div>
+
                 <div class="mid">
                     <div style="padding: 33px">
                         <div style="display: flex; justify-content: flex-start; flex-direction: column; margin-right: 1px; height: 412px">
@@ -398,7 +407,7 @@
                                         <div class="ratefillGray"></div>
                                         <div class="ratefillYellow"></div>
                                         <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+1}" value="10" class="rate_radio"
-                                               title="1점">
+                                               title="1점" checked>
                                         <label class="rate_label" th:for="'rating'+${resStat.index*5+1}"></label>
                                         <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+2}" value="20" class="rate_radio"
                                                title="2점">
@@ -410,7 +419,7 @@
                                                title="4점">
                                         <label class="rate_label" th:for="'rating'+${resStat.index*5+4}"></label>
                                         <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+5}" value="50" class="rate_radio"
-                                               title="5점">
+                                               title="5점" >
                                         <label class="rate_label" th:for="'rating'+${resStat.index*5+5}"></label>
 <!--                                        <input type="text" id="selectedRevScore" name="selectedRevScore" value="">-->
                                     </div>
@@ -621,6 +630,25 @@
             })
         });
 
+        window.addEventListener('resize', function() {
+            var remoteElement = document.getElementById('remote');
+            var pageWidth = window.innerWidth;
+
+            if (pageWidth <= 1600) {
+                remoteElement.style.display = 'none';
+            } else {
+                remoteElement.style.display = 'block';
+            }
+        });
+
+        window.addEventListener('load', function() {
+            var remoteElement = document.getElementById('remote');
+            var pageWidth = window.innerWidth;
+
+            if (pageWidth <= 1600) {
+                remoteElement.style.display = 'none';
+            }
+        });
 
     </script>
     <script src="/js/imglazy.js"></script>

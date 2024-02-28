@@ -25,9 +25,9 @@
             text-align: center;
         }
 
-        a:hover {
-            color: #0056b3;
-        }
+        /*a:hover {*/
+        /*    color: #0056b3;*/
+        /*}*/
 
         .pagination {
             margin-top: 20px;
@@ -47,7 +47,7 @@
             color: #0056b3;
         }
 
-        tr:hover {
+        #trBody:hover {
             background-color: #f5f5f5; /* 호버 시 배경색 변경 */
             cursor: pointer; /* 호버 시 마우스 커서 변경 */
         }
@@ -68,7 +68,7 @@
         </thead>
 
         <tbody th:each="QAs, iterStat : ${QA}">
-        <tr th:onclick="|location.href='/QA/Qa_answer/${QAs.id}'|">
+        <tr id="trBody" th:onclick="|location.href='/QA/Qa_answer/${QAs.id}'|">
             <td th:text="${iterStat.count + (QA.getNumber() * QA.getSize())}"></td>
             <td th:text="${QAs.qaTitle}"></td>
             <td th:text="${QAs.qaContent}"></td>

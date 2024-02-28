@@ -1,27 +1,58 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{userPage/Layout_userPage}">
+      layout:decorate="~{userPage/Layout_userPage2}">
 
 <th:block th:fragment="content">
 
-<div class="formDiv">
-    <h1>문의 하기</h1>
-<form th:action="@{/QA/user_qa_add}" method="post" enctype="multipart/form-data">
-    <label>ID:</label>
-    <input type="text" th:value="${QA_userNo.get().getUserId()}" readonly/><br>
-    <label>이름:</label>
-    <input type="text" th:value="${QA_userNo.get().getUserName()}" readonly/><br>
-    <label hidden="hidden">유저번호</label>
-    <input type="text" th:value="${QA_userNo.get().getUserNo()}" name="userNo" hidden="hidden"/><br>
-    <label>제목:</label>
-    <input type="text" name="qa_title"/><br>
-    <label>내용:</label>
-    <input type="text" name="qa_content"/><br>
-    <button type="submit">확인</button>
-</form>
-</div>
+    <style>
+        .mypage_sidebar_nav {
+            color: gray;
+        }
 
+        #QASelect {
+            font-weight: bold;
+            color: black;
+            border-bottom: 2px solid black;
+        }
+
+        hr {
+            display: block;
+            unicode-bidi: isolate;
+            margin-block-start: 0.5em;
+            margin-block-end: 0.5em;
+            margin-inline-start: 398px;
+            margin-inline-end: 390px;
+            overflow: hidden;
+            border-style: inset;
+            border-width: 1px;
+        }
+    </style>
+
+    <div style="display: flex; justify-content: space-between; padding: 5px 400px;">
+        <div style="width: 300px; font-size: 150%">문의 하기</div>
+        <div style="width: 60px; margin-top: 15px"><a th:href="@{/QA/user_qa_selete}">뒤로 가기</a></div>
+    </div>
+    <hr>
+
+    <div class="formDiv" style="display: flex; justify-content: center; padding-top: 76px ">
+
+        <div>
+            <form th:action="@{/QA/user_qa_add}" method="post" enctype="multipart/form-data">
+                <label>ID:</label>
+                <input type="text" th:value="${QA_userNo.get().getUserId()}" readonly/><br>
+                <label>이름:</label>
+                <input type="text" th:value="${QA_userNo.get().getUserName()}" readonly/><br>
+                <label hidden="hidden">유저번호</label>
+                <input type="text" th:value="${QA_userNo.get().getUserNo()}" name="userNo" hidden="hidden"/><br>
+                <label>제목:</label>
+                <input type="text" name="qa_title"/><br>
+                <label>내용:</label>
+                <input type="text" name="qa_content"/><br>
+                <button type="submit">확인</button>
+            </form>
+        </div>
+    </div>
 </th:block>
 </html>
 

@@ -24,7 +24,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     Page<Review> findAll(Pageable pageable);
 
 
-
     List<Review> findByRestNo(Dinning dinning);
 
     long countByUserNo(User user);
