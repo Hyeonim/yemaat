@@ -46,7 +46,7 @@ public class User {
 
     @ToString.Exclude
     @Lob
-    @Column(name = "user_img" ,length = 10000)
+    @Column(name = "user_img", columnDefinition = "longblob")
     private byte[] userImg;
 
     @Column(name = "user_block")
