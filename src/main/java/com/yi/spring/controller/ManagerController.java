@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/manager")
@@ -237,6 +238,9 @@ public class ManagerController {
         } else {
             redirectAttributes.addFlashAttribute("error", "유저를 찾을 수 없습니다.");
         }
+
+
+
         return "redirect:/manager/managerPage_UList";
     }
 
@@ -427,8 +431,11 @@ public class ManagerController {
 
         Optional<QA> guestQA = qaRepository.findById(id);
 
+        // content 변수에 저장된 문자열에서 첫 번째부터 세 번째 문자를 제외한 부분
+        String modifiedContent = content.substring(3, content.length() - 4);
+
         qaAnswer.setAnswerTitle(title);
-        qaAnswer.setAnswerContent(content);
+        qaAnswer.setAnswerContent(modifiedContent);
         qaAnswer.setQaNo(id);
 
         qaAnswerRepository.save(qaAnswer);
@@ -714,8 +721,10 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         // 사용자가 소유한 가게들 가져오기
         List<Dinning> dinningList = new ArrayList<>();
 
-        if ("2".equals(user.getUserAuth())) {
-            dinningList.addAll(user.getDiningRests());
+        if ("OWNER".equals(user.getUserAuth())) {
+            dinningList = user.getDiningRests().stream()
+                    .sorted(Comparator.comparingInt(Dinning::getRestNo))
+                    .collect(Collectors.toList());
         }
 
         model.addAttribute("user", user);
@@ -979,6 +988,10 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
 
+
+
+
+
     @PostMapping("/HoldUpd")
     public String updateStatusHold(@RequestParam("restNo") int restNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
         // 가게 번호와 상태를 받아와서 DB에 저장함
@@ -995,3 +1008,9 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
 }
+
+
+
+
+
+
