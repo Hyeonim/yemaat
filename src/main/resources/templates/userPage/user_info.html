@@ -24,7 +24,12 @@
                 <label>ID:</label>
                 <input type="text" th:value="${user.get().getUserId()}" readonly name="userId"/><br>
                 <label>Password:</label>
-                <input type="password" th:value="${user.get().getUserPassword()}" readonly name="userPassword"/><br>
+                <th:block    th:if="${user.get().getProvider()==null||user.get().getProvider()==''}">
+                <input type="password" th:value="${user.get().getUserPassword()}" readonly name="userPassword"/>
+                </th:block>
+                <th:block th:unless="${user.get().getProvider()==null||user.get().getProvider()==''}">
+                    [[${user.get().getProvider()}]] 에서 로그인되었습니다.
+                </th:block><br>
                 <label>이메일:</label>
                 <input type="email" th:value="${user.get().getUserEmail()}" name="userEmail"/><br>
                 <label>전화번호:</label>
