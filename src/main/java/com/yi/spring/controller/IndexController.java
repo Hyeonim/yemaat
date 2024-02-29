@@ -61,15 +61,7 @@ public class IndexController {
     }
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession, HttpServletRequest request, Principal principal) {
-        User loginUser = o2Service.findUser( principal );
-        if(loginUser == null)
-            model.addAttribute("user", "null");
-        else
-        {
-            model.addAttribute("user", loginUser.getUserAuth());
-            model.addAttribute("user_name", loginUser.getUserName());
-            model.addAttribute("user_img", loginUser.getBase64Image());
-        }
+
 
 
         List<Event> eventList = eventService.getNewEvents(); // 상단 배너 새로운 이벤트
@@ -181,6 +173,21 @@ public class IndexController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/api/loadMyMenu")
+    public String loadMyMenu( Model model, Principal principal){
+        User loginUser = o2Service.findUser( principal );
+        if(loginUser == null)
+            model.addAttribute("user", "null");
+        else
+        {
+            model.addAttribute("user", loginUser.getUserAuth());
+            model.addAttribute("user_name", loginUser.getUserName());
+            model.addAttribute("user_img", loginUser.getBase64Image());
+        }
+        return "/include/header_dropmenu";
+    }
+
+
     @GetMapping("/api/getChatRoomId")
     public ResponseEntity<String> getCustomerChatRoom( HttpServletRequest request, Principal principal )
     {
@@ -199,6 +206,7 @@ public class IndexController {
         }
         return new ResponseEntity<>( chatRoomId, HttpStatus.OK );
     }
+
 
 
 

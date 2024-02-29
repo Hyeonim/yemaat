@@ -152,7 +152,7 @@
         </dependency>
 
 
-<!--//구글 이메일 -->
+        <!--//구글 이메일 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>

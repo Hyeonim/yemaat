@@ -49,11 +49,14 @@
                     <form onsubmit="confirmFormSubmission(event)" method="post" action="/manager/UListBlack">
                         <input type="hidden" name="userName" th:value="${user.userName}">
                         <input type="hidden" name="userNo" th:value="${user.userNo}">
+<!--                        <div class="custom-select">-->
+<!--                            <select name="status">-->
+<!--                                <option value="1">설정</option>-->
+<!--                            </select>-->
+<!--                            <button type="submit">변경</button>-->
+<!--                        </div>-->
                         <div class="custom-select">
-                            <select name="status">
-                                <option value="0">해제</option>
-                                <option value="1">설정</option>
-                            </select>
+                            <input type="hidden" name="status" value="1">
                             <button type="submit">변경</button>
                         </div>
                     </form>
@@ -101,20 +104,7 @@
                 });
         }
 
-        function redirectToUserUpdate(userNo) {
-            window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
-        }
 
-        function searchDinning() {
-            let searchInput = document.getElementById("searchInput").value;
-            fetch("/manager/managerPage_UList?searchInput=" + searchInput)
-                .then(resp => resp.text())
-                .then(data => {
-                    let doc = new DOMParser().parseFromString(data, 'text/html');
-                    document.getElementById("UuserTable").innerHTML = doc.getElementById("UuserTable").innerHTML;
-                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-                });
-        }
 
         function confirmFormSubmission(event) {
             event.preventDefault(); // 폼 제출 방지
@@ -125,12 +115,12 @@
 
             console.log(UName);
             swal({
-                title: "변경 확인",
-                text: "블랙리스트 상태를 변경하시겠습니까?",
+                title: "블랙리스트에 추가 하시겠습니까?",
+                text: "추가하시려면 추가를 눌러주세요.",
                 icon: "info",
                 buttons: {
                     confirm: {
-                        text: "확인",
+                        text: "추가",
                         value: true,
                         visible: true,
                         className: "confirm-button",
