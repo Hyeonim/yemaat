@@ -40,8 +40,6 @@
                         <p><label>Email </label><input type="text" th:value="${user.userEmail}" name="userEmail"></p>
                         <p><label>전화번호 </label><input type="tel" th:value="${user.userTel}" name="userTel"></p>
                         <input type="hidden" th:value="OWNER" name="userAuth">
-<!--                        <p>블랙리스트 여부 : <input type="text" th:value="${user.userBlock}"><br>-->
-<!--                            블랙리스트는 true 와 false로 나뉜다.</p>-->
                     </div>
                 </form>
 
@@ -73,7 +71,6 @@
                     <td th:text="${dinning.restTel}"></td>
                     <td th:text="${dinning.restSeat}"></td>
                     <td th:text="${dinning.restTime}"></td>
-<!--                    <td th:text="${dinning.restImg}"></td>-->
                 </tr>
                 </tbody>
             </table>

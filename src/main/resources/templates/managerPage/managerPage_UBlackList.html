@@ -43,14 +43,28 @@
     </div>
 
     <script>
+
+
+        function searchDinning() {
+            let searchInput = document.getElementById("searchInput").value;
+            fetch("/manager/managerPage_UBlackList?searchInput=" + encodeURIComponent(searchInput))
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("blackTable").innerHTML = doc.getElementById("blackTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+
+
         function confirmBlack(button) {
             swal({
                 title: "블랙리스트를 해제 하시겠습니까?",
-                text: "해제 하시려면 OK를 누르세요.",
+                text: "해제 하시려면 해제 버튼을 누르세요.",
                 icon: "info",
                 buttons: {
                     confirm : {
-                        text: "등록",
+                        text: "해제",
                         value: true,
                         visible: true,
                         className: "confirm-button",
@@ -79,20 +93,6 @@
                 }
             });
         }
-
-
-        function searchDinning() {
-            let searchInput = document.getElementById("searchInput").value;
-            fetch("/manager/managerPage_UBlackList?searchInput=" + encodeURIComponent(searchInput))
-                .then(resp => resp.text())
-                .then(data => {
-                    let doc = new DOMParser().parseFromString(data, 'text/html');
-                    document.getElementById("blackTable").innerHTML = doc.getElementById("blackTable").innerHTML;
-                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-                });
-        }
-
-
 
     </script>
 </div>
