@@ -13,9 +13,8 @@
                 cursor: pointer;
             }
 
-            #content{
-                height: 400px;
-                resize: none;
+            .ck-editor__editable {
+                min-height : 500px
             }
         </style>
         <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
@@ -66,13 +65,65 @@
 
     </div>
 
+
+
+
+
     <script th:inline="javascript">
+
+        document.querySelector(".fifth").addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 동작 방지
+
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content");
+
+
+            if (title === '' || content === null) {
+                swal("모든 항목을 입력하세요 :)");
+            }
+else{
+
+            swal({
+                title: "답변 등록",
+                text: "답변을 등록하시겠습니까?",
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        text: "확인",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel: {
+                        text: "취소",
+                        value: null,
+                        visible: true,
+                        className: "cancel-button",
+                        closeModal: true,
+                    }
+                },
+                dangerMode: false
+            }).then((willAdd) => {
+                if (willAdd) {
+                    swal("Success!", "제목 : "  + [[${qa.get().qaTitle}]] + " 에 대한 답변이 등록 되었습니다.", "success")
+                        .then(function () {
+                            document.getElementById("answerForm").submit();
+                        });
+                } else {
+                    swal("등록이 취소 되었습니다.")
+                }
+            });
+            }
+        });
+
 
         ClassicEditor
             .create(document.querySelector('#content'))
             .catch(error => {
                 console.error(error);
             });
+
     </script>
 </div>
 </html>
