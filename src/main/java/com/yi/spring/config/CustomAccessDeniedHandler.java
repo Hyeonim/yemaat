@@ -39,7 +39,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             out.println( objectMapper.writeValueAsString(exceptionDto));
 
             out.println("<script>");
-            out.println("setTimeout(function() { window.location.href = '/home'; }, 5000);");
+            out.println("setTimeout(function() { window.location.href = '/home'; }, 2500);");
             out.println("</script></body></html>");
             out.flush();
         }

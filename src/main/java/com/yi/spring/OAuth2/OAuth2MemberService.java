@@ -161,7 +161,7 @@ public class OAuth2MemberService extends DefaultOAuth2UserService {
 //                default -> "";
 //            };
         }
-        else
+        else if ( null != principal )
         {
             userId = principal.getName();
         }
