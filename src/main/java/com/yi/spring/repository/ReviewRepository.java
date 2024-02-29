@@ -23,6 +23,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByUserNoOrderByRevWriteTimeDesc(User userNo);
     Page<Review> findAll(Pageable pageable);
 
+    Page<Review> findByUserNoAndRevContentContaining(User user,String revContent, Pageable pageable);
+
 
     List<Review> findByRestNo(Dinning dinning);
 

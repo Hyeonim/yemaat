@@ -6,7 +6,15 @@
 <th:block th:fragment="content">
 
     <style>
+        .mypage_sidebar_nav {
+            color: gray;
+        }
 
+        #QASelect {
+            font-weight: bold;
+            color: black;
+            border-bottom: 2px solid black;
+        }
     </style>
 
     <div style="display: flex;justify-content: center">
@@ -20,7 +28,11 @@
                 <label>내용:</label>
                 <input type="text" size="50px" th:value="${QA.get().getQaContent()}" readonly/><br>
 
-
+                <label>답변 제목:</label>
+                <div style="width: 461px; height: 30px; border: 1px solid gray">
+                    <span th:if="${QaAnswer != null}" th:text="${QaAnswer.getAnswerTitle()}"></span>
+                    <span th:unless="${QaAnswer != null}">답변이 등록되지 않았습니다.</span>
+                </div>
                 <label>답변 내용:</label>
                 <div style="width: 461px; height: 190px; border: 1px solid gray">
                     <span th:if="${QaAnswer != null}" th:text="${QaAnswer.getAnswerContent()}"></span>

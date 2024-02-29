@@ -16,10 +16,9 @@
 <!--    <h1>My 정보</h1>-->
     <div style="display: flex; justify-content: center;">
         <div class="formDiv">
-            <form th:action="@{/user/user_update/{userNo}(userNo=${user.get().getUserNo()})}" method="post"
-                  enctype="multipart/form-data">
-                <label>유저 번호:</label>
-                <input type="text" th:value="${user.get().getUserNo()}" readonly name="userNo"/><br>
+            <form th:action="@{/user/user_update}" method="post" enctype="multipart/form-data">
+<!--                <label>유저 번호:</label>-->
+                <input type="text" th:value="${user.get().getUserNo()}" readonly name="userNo" hidden="hidden"/><br>
                 <label>이름:</label>
                 <input type="text" th:value="${user.get().getUserName()}" name="userName"/><br>
                 <label>ID:</label>

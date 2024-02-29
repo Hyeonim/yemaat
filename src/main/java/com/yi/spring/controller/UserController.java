@@ -86,23 +86,39 @@ public class UserController {
 
     // 유저가 작성한 포스트 목록 페이지로 이동
     @GetMapping("user_posts")
-    public String userPosts(Principal principal, Model model,
-                            @RequestParam(value = "filterExpired", defaultValue = "") String filterExpired
+    public String userPosts(Principal principal, Model model
+                            ,@RequestParam(value = "searchInput", required = false) String searchInput
+                            ,@RequestParam(value = "filterExpired", defaultValue = "") String filterExpired
                             ,@RequestParam(value = "filterReview", defaultValue = "") String filterReview
+                            ,@RequestParam(value = "filterWait", defaultValue = "") String filterWait
+                            ,@RequestParam(value = "filterResCompleted", defaultValue = "") String filterResCompleted
                             ,@RequestParam(value = "filterAll", defaultValue = "") String filterAll){
 //        User user = userRepository.findByUserId(principal.getName()).orElse(null);
         user = o2MemberService.findUser( principal );
         reservationRepository.updateReservationStatusToReviewWithJoin2();
+        Long userNo = Long.valueOf(user.getUserNo());
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
 
+        System.out.println("searchInput => " + searchInput);
 
         if (user != null || filterAll.equals("All")) {
-            Long userNo = Long.valueOf(user.getUserNo());
 
-            List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
-            reservationService.processReservations(reservations);
-            reservationService.checkReservationStatus(reservations, model);
+            if (searchInput != null && !searchInput.isEmpty()) {
+                List<Reservation> reservationsList = reservationRepository.findReservationDetailsByUserNoAndRestName(userNo, searchInput);
+                model.addAttribute("list", reservationsList);
+                reservationService.processReservations(reservations);
+                reservationService.checkReservationStatus(reservations, model);
+            } else {
+//                List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+                model.addAttribute("list", reservations);
+                reservationService.processReservations(reservations);
+                reservationService.checkReservationStatus(reservations, model);
+            }
 
-            model.addAttribute("list", reservations);
+//            reservationService.processReservations(reservations);
+//            reservationService.checkReservationStatus(reservations, model);
+//            System.out.println("res => " + reservations);
+
 
             if (filterExpired.equals("expired")){
                 List<Reservation> reservationsExpired = reservationRepository.ReservationStatusEXPIRED(userNo);
@@ -118,7 +134,19 @@ public class UserController {
                 model.addAttribute("list", reservationsReview);
             }
 
+            if (filterWait.equals("wait")){
+                List<Reservation> reservationsWait = reservationRepository.ReservationStatusWAIT(userNo);
+                reservationService.checkReservationStatus(reservations, model);
 
+                model.addAttribute("list", reservationsWait);
+            }
+
+            if (filterResCompleted.equals("res_completed")){
+                List<Reservation> reservationsResCompleted = reservationRepository.ReservationStatusRESERVE_COMPLETED(userNo);
+                reservationService.checkReservationStatus(reservations, model);
+
+                model.addAttribute("list", reservationsResCompleted);
+            }
         }
 
         model.addAttribute("main_user", user);
@@ -151,25 +179,39 @@ public class UserController {
 
     // 유저가 작성한 리뷰 목록 페이지로 이동
     @GetMapping("user_review")
-    public String userReviews(Principal principal, @RequestParam(value = "page", defaultValue = "0") int page ,Model model) {
-//        User user = userRepository.findByUserId(principal.getName()).orElse(null);
+    public String userReviews(Principal principal,
+                              @RequestParam(value = "page", defaultValue = "0") int page,
+                              @RequestParam(value = "searchInput", required = false) String searchInput ,Model model) {
         user = o2MemberService.findUser( principal );
-
+//        System.out.println("search => " + searchInput);
 
         if (user != null) {
             List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
             List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(Long.valueOf(user.getUserNo()));
-//            List<Review> reviews = reviewRepository.findByUserNoOrderByRevWriteTimeDesc(user);
-            Page<Review> reviewsPage = reviewService.findByUserNoOrderByRevWriteTimeDesc(user, page);
-            List<Review> reviewsList = reviewsPage.getContent();
+            Page<Review> reviewsPage;
+            List<Review> reviewsList;
 
+            if (searchInput != null && !searchInput.isEmpty()) {
+                reviewsPage = reviewService.findByRevContentContainingPaged(user, searchInput, page);
+                reviewsList = reviewsPage.getContent();
+                model.addAttribute("userNoCount", reviewsList.size());
+//                System.out.println("reviewsPage있다 => " + reviewsPage.getContent());
 
-            long userNoCount = reviewRepository.countByUserNo(user);
+                if (reviewsList.isEmpty()) {
+                    System.out.println("검색 결과가 없습니다.");
+                    model.addAttribute("noResultsMessage", "검색 결과가 없습니다.");
+                }
+            } else {
+                reviewsPage = reviewService.findByUserNoOrderByRevWriteTimeDesc(user, page);
+                reviewsList = reviewsPage.getContent();
+                long userNoCount = reviewRepository.countByUserNo(user);
+                model.addAttribute("userNoCount", userNoCount);
+//                System.out.println("reviewsPage없다 => " + reviewsPage.getContent());
+            }
 
             reservationService.checkReservationStatus(reservations, model);
 
             model.addAttribute("main_user", user);
-            model.addAttribute("userNoCount", userNoCount);
             model.addAttribute("restaurants", restaurantsForLatestReservation);
             model.addAttribute("list", reservations);
 
@@ -224,14 +266,15 @@ public class UserController {
                 combinedItem.put("rev", reviewsList.get(i));
                 combinedItem.put("timeAgo", timeAgoList.get(i));
                 combinedList.add(combinedItem);
-
-                System.out.println(reviewsList.get(i).getRevScore());
             }
 
             // 리뷰 + 작성시간 데이터
             model.addAttribute("combinedList", combinedList);
             // 페이징 용
             model.addAttribute("reviewsPage", reviewsPage);
+
+
+
         }
 
         return "userPage/user_review";
@@ -262,6 +305,7 @@ public class UserController {
         user = o2MemberService.findUser( principal );
 
         System.out.println("file ->" + file);
+        Review existReview = reviewRepository.findById( revNo ).orElse( null );
 
         if (file != null && !file.isEmpty()) {
             try {
@@ -270,6 +314,9 @@ public class UserController {
             } catch (IOException e) {
                 throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
             }
+        } else
+        {
+            review.setRevImg( existReview.getRevImg());
         }
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setRevStatus(String.valueOf(ReviewStatus.NORMAL));
@@ -298,24 +345,38 @@ public class UserController {
         model.addAttribute("user", userService.findByUserNo(user.getUserNo()));
         return "userPage/user_info";
     }
-
     // 유저 정보 업데이트를 처리하는 POST 요청 처리
-    @ResponseBody
     @PostMapping("user_update")
-    public String userUpdate(Principal principal, @RequestParam MultipartFile file) throws IOException {
+    public String userUpdate(Principal principal, @RequestParam MultipartFile file,
+                             @RequestParam String userName,
+                             @RequestParam String userId,
+                             @RequestParam String userEmail,
+                             @RequestParam String userPassword,
+                             @RequestParam String userTel
+    ) throws IOException {
         user = o2MemberService.findUser(principal);
+        User existUser = userService.findByUserNo(user.getUserNo()).orElse(null);
 
-        if (user != null) {
+        if (file != null && !file.isEmpty()) {
             try {
-                byte[] userImg = file.getBytes();
-                user.setUserImg(userImg);
-                userRepository.save(user);
+                byte[] revImg = file.getBytes();
+                user.setUserImg(revImg);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
             }
+        } else
+        {
+            user.setUserImg( existUser.getUserImg());
         }
 
-        return "redirect:/user/userPage/" + user;
+        user.setUserName(userName);
+        user.setUserId(userId);
+        user.setUserEmail(userEmail);
+        user.setUserPassword(userPassword);
+        user.setUserTel(userTel);
+
+        userRepository.save(user);
+        return "redirect:/user/user_info";
     }
 
 

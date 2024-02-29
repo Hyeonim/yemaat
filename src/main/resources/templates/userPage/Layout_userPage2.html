@@ -25,6 +25,11 @@
         margin: 0;
         padding: 0;
         /*background-color: #f2f2f2;*/
+        white-space: nowrap;
+        /*background-image: url("/img/");*/
+        /*background-size: cover; !* 이미지를 박스에 가득 차게 설정 *!*/
+        /*background-position: center; !* 이미지를 가운데 정렬 *!*/
+        /*filter: blur(1px);*/
     }
 
     .userBox {
@@ -147,13 +152,12 @@
         margin-bottom: 10px;
     }
 
-
     #headerBox {
-        background-image: url("/img/ck_tica034m19090391_l-580x387.jpg");
-        background-size: cover; /* 이미지를 박스에 가득 차게 설정 */
-        background-position: center; /* 이미지를 가운데 정렬 */
-        filter: blur(2px); /* blur 값은 필요에 따라 조절하세요. */
+        background-size: cover;
+        background-position: center;
+        filter: blur(1.5px); /* blur 값은 필요에 따라 조절하세요. */
     }
+
 
     .header {
         width: 100%;
@@ -225,10 +229,24 @@
             header.classList.remove("drop");
         }
     };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var images = ["/img/nb.jpg", "/img/ck_tica034m19090391_l-580x387.jpg","/img/mainbg.jpeg"];
+        var randomIndex = Math.floor(Math.random() * images.length);
+        var headerBox = document.getElementById('headerBox');
+        headerBox.style.backgroundImage = 'url("' + images[randomIndex] + '")';
+
+        if (images[randomIndex] === "/img/nb.jpg") {
+            headerBox.style.filter = 'blur(0)';
+        }
+        if (images[randomIndex] === "/img/mainbg.jpeg") {
+            headerBox.style.filter = 'blur(0)';
+        }
+    });
 </script>
 
 <div id="headerBox" style="display: flex; justify-content: center;
-    align-items: center; width: auto; height: 370px;">
+    align-items: center; width: auto; height: 435px;">
     <h6 style="margin-top: -80px">
         <span style="font-size: 48px; color: rgb(174, 102, 199);"></span>
     </h6>

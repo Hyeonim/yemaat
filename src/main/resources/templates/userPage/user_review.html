@@ -125,15 +125,37 @@
             transition: font-size 0.2s;
         }
 
+        .search-icon {
+            width: 1rem;
+            height: 1rem;
+            position: relative;
+            display: inline-flex;
+            box-sizing: border-box;
+            margin: -0.25rem 0 0 -0.25rem;
+            /*color: var(--search-color);*/
+            border: 0.125rem solid currentColor;
+            border-radius: 50%;
+        }
+
+        i {
+            font-style: italic;
+        }
     </style>
 
     <div style="display: flex; justify-content: center;">
         <div class="reviewForm" style="">
-            <h3 th:text="'전체글(' + ${userNoCount} + ')'"></h3>
+            <div style="display: flex; justify-content: space-between; align-items: center">
+                <h3 th:text="'전체글(' + ${userNoCount} + ')'"></h3>
+                <div style="display: flex">
+                    <input type="text" id="searchInput" placeholder="search">
+                    <button class="btn btn-primary btn-circle" onclick="searchReview()">
+                        <i class="search-icon"></i>
+                    </button>
+                </div>
+            </div>
 
             <ul class="reviewMainBox" th:each="combinedLists : ${combinedList}"
-                style="display: flex; justify-content: space-between">
-
+                style="display: flex; justify-content: space-between" id="ReviewTable">
                 <div>
                     <div class="reviewItem" style="display:flex; ">
                         <div>
@@ -142,7 +164,9 @@
                                      th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}" alt="리뷰이미지">
                             </th:block>
                             <th:block th:unless="${not #strings.isEmpty(combinedLists.rev.base64Image)}">
-                                <div style="width: 60px; height: 60px;"></div>
+                                <div style="width: 60px; height: 60px; overflow: hidden;">
+                                    <img src="/img/no_image.png" alt="" style="width: 100%; height: 92%; object-fit: cover;">
+                                </div>
                             </th:block>
                         </div>
 
@@ -340,12 +364,33 @@
             });
         });
 
+        function searchReview() {
+            let searchInput = document.getElementById("searchInput").value;
+            let encodedSearchInput = encodeURIComponent(searchInput);
 
-        function redirectdetail(event, id) {
-            if (event.target.tagName === "INPUT")
-                return;
-            window.location.href = '/detail?restNo=' + id;
+            // URL 변경
+            window.history.pushState({ searchInput }, "Search Results", "/user/user_review?searchInput=" + encodedSearchInput);
+
+            // Ajax 요청 등의 로직 추가
+            fetch("/user/user_review?searchInput=" + encodedSearchInput)
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("ReviewTable").innerHTML = doc.getElementById("ReviewTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+
+                    window.location.reload();
+
+                });
         }
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var noResultsMessage = /*[[ ${noResultsMessage} ]]*/;
+        //
+        //     if (noResultsMessage) {
+        //         alert(noResultsMessage);
+        //     }
+        // });
 
     </script>
 

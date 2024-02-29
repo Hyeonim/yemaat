@@ -17,7 +17,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     List<Reservation> findByRestNo_RestNoAndUserNo_UserNoAndResStatus(Long restNo, Long userNo, String resStatus);
 
-
     @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo ORDER BY r.resTime DESC")
     List<Reservation> findLatestReservationByUserNo(@Param("userNo") Long userNo, Pageable pageable);
 
@@ -25,6 +24,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Reservation> ReservationStatusEXPIRED(@Param("userNo") Long userNo);
     @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus = 'REVIEW' ORDER BY r.resTime DESC")
     List<Reservation> ReservationStatusREVIEW(@Param("userNo") Long userNo);
+    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus = 'WAIT' ORDER BY r.resTime DESC")
+    List<Reservation> ReservationStatusWAIT(@Param("userNo") Long userNo);
+    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus = 'RESERVE_COMPLETED' ORDER BY r.resTime DESC")
+    List<Reservation> ReservationStatusRESERVE_COMPLETED(@Param("userNo") Long userNo);
+
+
+//    @Query("select r from Reservation r join Dinning dr on r.restNo = CAST(dr.restNo AS Long) " +
+//            "where r.userNo.userNo = :userNo and r.resStatus = :resStatus order by r.resTime DESC")
+//    List<Reservation> ReservationStatus(@Param("userNo") Long userNo, @Param("resStatus") String resStatus);
+
 //    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus like 'REST_CANCEL' ORDER BY r.resTime DESC")
 //    List<Reservation> ReservationStatusRESTCANCEL(@Param("userNo") Long userNo);
 
@@ -45,6 +54,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "FROM Reservation r " +
             "WHERE r.userNo.userNo = :userNo")
     List<Reservation> findReservationDetailsByUserNo(Long userNo);
+
+    @Query("SELECT r " +
+            "FROM Reservation r " +
+            "WHERE r.userNo.userNo = :userNo and r.restNo.restName like %:restName% " +
+            "ORDER BY r.resTime DESC")
+    List<Reservation> findReservationDetailsByUserNoAndRestName(Long userNo, String restName);
+
 
     @Query(value = "select * from reservation r where DATE(r.res_time) = CURDATE() and r.rest_no = :restNo order by r.res_time asc", nativeQuery = true)
     List<Reservation> getTodayReservation(Long restNo);

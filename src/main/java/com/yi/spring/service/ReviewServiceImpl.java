@@ -31,4 +31,10 @@ public class ReviewServiceImpl implements ReviewService {
         return new PageImpl<>(userReviews.subList(start, end), PageRequest.of(page, pageSize), userReviews.size());
     }
 
+    @Override
+    public Page<Review> findByRevContentContainingPaged(User user, String revContent, int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return reviewRepository.findByUserNoAndRevContentContaining(user, revContent, pageable);
+    }
+
 }
