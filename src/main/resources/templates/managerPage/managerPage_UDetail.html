@@ -40,10 +40,10 @@
                     <p><label>비밀번호 </label><input id="userPassword" name="userPassword" type="password" th:value="${user.get().userPassword}"></p>
                     <p><label>전화번호 </label><input id="userTel" name="userTel" type="tel" th:value="${user.get().userTel}"></p>
                     <input id="userAuth" name="userAuth" type="hidden" readonly th:value="${user.get().userAuth}">
-                    <p><label>블랙리스트 여부 </label><select id="userBlock" name="userBlock" >
-                        <option value="0" th:selected="${user.get().userBlock == 0}">No</option>
-                        <option value="1" th:selected="${user.get().userBlock == 1}">Yes</option>
-                    </select></p>
+<!--                    <p><label>블랙리스트 여부 </label><select id="userBlock" name="userBlock" >-->
+<!--                        <option value="0" th:selected="${user.get().userBlock == 0}">No</option>-->
+<!--                        <option value="1" th:selected="${user.get().userBlock == 1}">Yes</option>-->
+<!--                    </select></p>-->
                 </div>
             </form>
 

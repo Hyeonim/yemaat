@@ -223,7 +223,9 @@ public class ManagerController {
     }
 
     @PostMapping("/UListBlack")
-    public String ulackupdateStatus(@RequestParam("userNo") int userNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
+    public String ulackupdateStatus(@RequestParam("userNo") int userNo,
+                                    @RequestParam("userName") String userName,
+                                    @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
         // 가게 번호와 상태를 받아와서 DB에 저장함
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
         if (userOptional.isPresent()) {

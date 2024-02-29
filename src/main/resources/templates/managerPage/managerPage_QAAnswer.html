@@ -9,9 +9,6 @@
     <div id="right2">
 
         <style>
-
-
-
             ion-icon:hover {
                 cursor: pointer;
             }
@@ -21,13 +18,26 @@
 <div>
         <div class="qu">
 
-            <h2>문의 내용</h2>
+            <h2 th:text="${qa.get().userNo.userName} + '님의 문의 사항'"></h2>
+            <p>
+                <label class="label">번호 :</label>
+                <input th:value="${qa.get().id}" readonly></input>
+            </p>
+            <p>
+                <label class="label">제목 :</label>
+                <input th:value="${qa.get().qaTitle}" readonly></input>
+            </p>
 
-            <p><span class="label">번호 :</span> <span th:text="${qa.get().id}" readonly></span></p>
-            <p><span class="label">제목 :</span> <span th:text="${qa.get().qaTitle}"></span></p>
-            <p><span class="label">유저이름 :</span> <span th:text="${qa.get().userNo.userName}"></span></p>
-            <p><span class="label">내용 :</span> <span th:text="${qa.get().qaContent}"></span></p>
+            <p>
+            <label class="label">문의 내용 :</label>
+            <input th:value="${qa.get().qaContent}" readonly></input>
+        </p>
+
+
+
         </div>
+
+
 
         <div class="an">
             <h2>답변</h2>
@@ -42,7 +52,6 @@
                     <label for="content">답변 내용 :</label><br>
                     <textarea name="content" id="content" cols="30" rows="10"></textarea>
                 </p>
-
                 <p class="ps">
                     <input class="fifth" type="submit" value="등록">
                 </p>
