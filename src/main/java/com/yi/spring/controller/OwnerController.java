@@ -36,8 +36,8 @@ public class OwnerController {
     private final ReviewRepository reviewRepository;
     private final DeleteUserRepository deleteUserRepository;
     private final SendMessage sendMessage;
-//    @Autowired
-//    private ModelMapper modelMapper;
+
+
 
     private List<Reservation> status(List<Reservation> list) {
         LocalDateTime currentDateTime = LocalDateTime.now();
