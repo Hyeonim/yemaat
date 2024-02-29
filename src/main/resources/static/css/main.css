@@ -188,7 +188,7 @@ header nav:nth-of-type(1) {
     float: right;
     height: 40px;
     /*margin-left: 30%;*/
-    width: 500px;
+    width: 250px;
     margin: 4px;
     border-radius: 10px;
 }
@@ -221,7 +221,7 @@ header nav:nth-of-type(1) {
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
     transform-origin-left: top left;
     transform-origin-right: top right;
-    padding: 10px 10px 0px 0px;
+    padding: 10px;
     border-radius: 10px;
     z-index: 5;
 }
@@ -234,10 +234,33 @@ header nav:nth-of-type(1) {
 
 #navbarNav .dropmenu ul, #navbarNav .dropmenu li {
     list-style-type: none;
+    text-align: center;
 }
 
 #navbarNav .dropmenu li:hover {
     background-color: #ffd9885c;
+}
+
+#navbarNav #mymenu {
+    width: 300px;
+    height : 500px;
+    text-align: center;
+}
+
+#navbarNav #mymenu > img {
+    width: 64px;
+    height : 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#navbarNav #mymenu > p {
+    text-align: center;
+}
+
+#navbarNav #mymenu > ul {
+    padding-inline-start: 0;
+    text-align: left;
 }
 
 /*footer*/

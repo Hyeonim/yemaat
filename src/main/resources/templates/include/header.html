@@ -71,7 +71,7 @@
 
                 <button onclick="onMenuClick()" onblur="handleBlur()">
 <!--                <button onclick="onMenuClick()">-->
-                    <img id="avatar" src="/images/logo_avatar_32dp.png" alt="avatar" style="width:32px; height:32px; border-radius: 50%;">
+                    <img id="avatar" src="/images/logo_avatar_32dp.png" alt="avatar" style="width:32px; height:32px; border-radius: 50%; object-fit: cover;">
                 </button>
                 <div>
                     <div style="
@@ -81,7 +81,7 @@
                          background-color: #ffffffa0;
                          max-height: 865px;
                          "
-                    class="dropmenu" name="mymenu">
+                    class="dropmenu" name="mymenu" id="mymenu">
 
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                     if ( data ) {
                         let doc = new DOMParser().parseFromString(data, 'text/html');
                         document.querySelector( "[name=mymenu]" ).innerHTML = doc.querySelector("div").innerHTML;
-                        eval( doc.querySelector('script').textContent );
+                        eval( doc.querySelector('script')?.textContent );
                     }
                 });
         })();

@@ -37,7 +37,8 @@ public class OwnerController {
     private final DeleteUserRepository deleteUserRepository;
     private final SendMessage sendMessage;
 
-
+    private User loginUser;
+    private Dinning dinning;
 
     private List<Reservation> status(List<Reservation> list) {
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -94,10 +95,10 @@ public class OwnerController {
 
     @GetMapping("home")
     public String home(Principal principal, Model model) {
-        User loginUser = userService.findByUserId( principal.getName() ).get();
+        loginUser = userService.findByUserId( principal.getName() ).get();
         model.addAttribute("user", loginUser);
 
-        Dinning dinning = diningRestService.getByUserNo(loginUser);
+        dinning = diningRestService.getByUserNo(loginUser);
         model.addAttribute("dinning", dinning);
 
         model.addAttribute("pageName", "DASH BOARD");
