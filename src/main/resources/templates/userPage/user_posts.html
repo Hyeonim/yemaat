@@ -526,8 +526,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        gv = [];
-        gvl = [];
 
 
         // document.addEventListener('DOMContentLoaded', function () {
@@ -538,10 +536,7 @@
 
 
             labels.forEach(function (label) {
-                gvl.push(label)
                 label.addEventListener('click', function (event) {
-                    gv.push(this);
-                    gv.push($(this));
                     let ratingValue = $(this).val();
                     let container = $(this).closest('.containers')
                     let selectedRevScore = container.find('#selectedRevScore');
@@ -597,7 +592,6 @@
     </script>
 
     <script>
-        gv = [];
         document.addEventListener('DOMContentLoaded', function () {
             var reviewBtns = document.querySelectorAll('.reviewBtn');
             var reviewBtns2 = document.querySelectorAll('.reviewBtn2');

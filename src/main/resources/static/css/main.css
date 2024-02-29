@@ -184,14 +184,14 @@ header nav:nth-of-type(1) {
     width: 100%;
 }
 
+/*
 #searchBar {
     float: right;
-    height: 40px;
     /*margin-left: 30%;*/
+/*
     width: 250px;
-    margin: 4px;
-    border-radius: 10px;
 }
+*/
 
 #navbarNav {
     width: 400px;
@@ -262,6 +262,83 @@ header nav:nth-of-type(1) {
     padding-inline-start: 0;
     text-align: left;
 }
+
+#navbarNav .searchBox {
+    position: relative;
+    height: 100%;
+}
+#navbarNav .searchBox.kBXqGy {
+    /*background-color: rgb(255 255 255 / 50%);*/
+}
+/*.searchBox .searIcon {}*/
+.searIcon {
+    width: 27px;
+    height: 3em;
+    cursor: pointer;
+    margin-right: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.searchBox #searchBar {
+    float: left;
+    height: 40px;
+    /* margin-left: 30%; */
+    width: 250px;
+    border-color: transparent;
+    background-color: transparent;
+    margin: 4px 20px 4px 4px;
+}
+.searchBox #searchBar:focus-visible {
+    /*outline: #3f51b5;*/
+}
+.searchBox #searchBar:-internal-autofill-selected {
+    background-color: transparent !important;
+}
+.searchBox #searchBar:focus {
+    outline: none; /* 선택 효과 제거 */
+}
+.searchBox #searchBar::-webkit-search-cancel-button,
+.searchBox #searchBar::-webkit-clear-button
+{
+    display: none;
+}
+/*.searchBox #searchBar::-ms-clear{*/
+/*    display: none;*/
+/*}*/
+#navbarNav .searchBox div:nth-of-type(1){
+    border-radius: 20px;
+    background-color: rgb(255 255 255 / 20%);
+    height: 45px;
+    padding-left: 8px;
+}
+#navbarNav .searchBox div:nth-of-type(1).kBXqGy{
+    border-radius: 20px 20px 0 0;
+    background-color: rgb(255 255 255 / 50%);
+}
+#navbarNav .searchBox div:nth-of-type(2){
+    position: absolute;
+    border-radius: 20px;
+    background-color: rgb(255 255 255 / 20%);
+    width: calc( 100% - 8px );
+    padding-left: 8px;
+}
+
+#navbarNav .searchBox div:nth-of-type(2).kBXqGy{
+    border-radius: 0 0 20px 20px;
+    background-color: rgb(255 255 255 / 50%);
+}
+.searchBox ul {
+    margin-block-start: 0;
+    margin-inline-start: 0px;
+    padding-inline-start: 0px;
+    padding-left: 8px
+}
+.searchBox ul, .searchBox li {
+    list-style-type: none;
+}
+
+
 
 /*footer*/
 footer {
@@ -667,7 +744,7 @@ ul.list::after {
 
 
      /* 화면 너비가 768px 이하일 때의 스타일 */
-@media (max-width: 1615px) {
+@media (max-width: 1000px) {
     #center_box {
         display: flex;
         justify-content: center;
@@ -725,12 +802,6 @@ ul.list::after {
 SVG Icons - svgicons.sparkk.fr
 ----- */
 
-.searIcon {
-    width: 40px;
-    height: 3em;
-    cursor: pointer;
-    margin-right: 10px;
-}
 
 .footer_height .header{
     background-color: #f2f2f2;

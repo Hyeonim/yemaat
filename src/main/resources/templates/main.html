@@ -128,11 +128,11 @@
 
         slideIndex = Math.min(slides.length, (slideIndex + 1) % slides.length);
 
-        //     for (let i = 0; i < slides.length; i++)
-        //         slides[i].style.display = i === slideIndex ? "block" : "none";
+            for (let i = 0; i < slides.length; i++)
+                slides[i].style.display = i === slideIndex ? "block" : "none";
         //
-        //     // setTimeout(showSlides, 2000); // 2초마다 이미지가 체인지됩니다
-        //     // setTimeout(slideSlide, 2000)
+            setTimeout(showSlides, 2000); // 2초마다 이미지가 체인지됩니다
+            setTimeout(slideSlide, 2000)
         }
 
     function slideSlide() {
