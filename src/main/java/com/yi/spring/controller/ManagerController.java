@@ -831,7 +831,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestHold");
-        model.addAttribute("header", "폐점 신청 목록");
+        model.addAttribute("header", "개업 신청 목록");
 
         return "managerPage";
 
@@ -854,6 +854,23 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         return "managerPage";
     }
+
+    @GetMapping("/managerPage_JrestHoldDetail")
+    public String JumRestHoldDetail(Model model, @RequestParam Long restNo) {
+
+        Optional<Dinning> dinningList = dinningRepository.findById(restNo);
+//        Optional<ImgTb> img = imgTableRepository.findById((long) dinningList.get().getRestNo());
+
+        Optional<ImgTb> img = imgTableRepository.findById(Long.valueOf(dinningList.get().getRestImg()));
+
+        model.addAttribute("dinning", dinningList);
+        model.addAttribute("img", img);
+        model.addAttribute("page", "managerPage/managerPage_JrestHoldDetail");
+
+        return "managerPage";
+    }
+
+
 
 
     @PostMapping("/managerPage_JrestUpdate")
