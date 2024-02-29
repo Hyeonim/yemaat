@@ -119,6 +119,7 @@ public class OAuth2MemberService extends DefaultOAuth2UserService {
                     entry.getValue().accept( matcher.group(1));
             }
             user.setUserAuth( "USER" );
+            user.setProvider( member.getOauthType() );
             user.setUserPassword( Base64.getEncoder().encodeToString( attributes.substring(0, 20).getBytes() ));
             userRepository.save( user );
         }
@@ -144,6 +145,7 @@ public class OAuth2MemberService extends DefaultOAuth2UserService {
 
     public User findUser(Principal principal){
         String userId = "";
+        String oProvider = null;
         if (principal instanceof OAuth2AuthenticationToken token)
         {
             String attrs = token.getPrincipal().getAttributes().toString();
@@ -154,6 +156,7 @@ public class OAuth2MemberService extends DefaultOAuth2UserService {
             if ( matcher.find() )
                 userId = matcher.group(1);
 
+            oProvider = token.getAuthorizedClientRegistrationId();
 //            userId = switch ( token.getAuthorizedClientRegistrationId() ) {
 //                case "kakao" -> (String) ((Map)token.getPrincipal().getAttribute( "kakao_account" )).get( "email" );
 //                case "naver" -> (String) ((Map)token.getPrincipal().getAttribute( "response" )).get( "email" );
@@ -166,7 +169,7 @@ public class OAuth2MemberService extends DefaultOAuth2UserService {
             userId = principal.getName();
         }
 
-        return userRepository.findByUserId( userId ).orElse( null );
+        return userRepository.findByUserIdAndProvider( userId, oProvider ).orElse( null );
     }
 
 

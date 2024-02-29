@@ -52,6 +52,9 @@ public class User {
     @Column(name = "user_block")
     private boolean userBlock = false;
 
+    @Column(name = "o_auth_provider")
+    private String provider;
+
 
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude
