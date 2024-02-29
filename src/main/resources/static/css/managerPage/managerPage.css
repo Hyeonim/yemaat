@@ -178,21 +178,6 @@ tr:hover {
     margin-bottom: 10px;
 }
 
-.qu {
-    width: 900px;
-    border: solid 2px gray;
-    border-radius: 10px;
-
-    margin: auto;
-}
-
-.qu h2 {
-    margin-left: 10px;
-}
-
-.qu p {
-    margin-left: 10px;
-}
 
 .an {
     width: 900px;
@@ -253,6 +238,42 @@ tr:hover {
 .ps {
     text-align: center;
 }
+
+
+.qu {
+    width: 900px;
+    margin: 20px auto auto auto;
+    border: solid 2px gray;
+    border-radius: 10px;
+}
+
+
+
+.qu p {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.qu label {
+    font-weight: bold;
+    display: block;
+}
+
+.qu input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+
+}
+
+.qu textarea {
+    resize: vertical;
+}
+
+.qu h2 {
+    margin-left: 10px;
+}
+
 
 .searchDiv {
     float: right;

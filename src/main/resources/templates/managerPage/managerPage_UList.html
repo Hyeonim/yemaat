@@ -156,6 +156,7 @@
                 </td>
                 <td>
                     <form onsubmit="confirmFormSubmission(event)" method="post" action="/manager/UListBlack">
+                        <input type="hidden" name="userName" th:value="${user.userName}">
                         <input type="hidden" name="userNo" th:value="${user.userNo}">
                         <div class="custom-select">
                             <select name="status">
@@ -226,6 +227,12 @@
 
         function confirmFormSubmission(event) {
             event.preventDefault(); // 폼 제출 방지
+
+            let form = event.target.closest('form');
+            let target = form.querySelector("input[name=userName]");
+            let UName = target.value;
+
+            console.log(UName);
             swal({
                 title: "변경 확인",
                 text: "블랙리스트 상태를 변경하시겠습니까?",
@@ -250,8 +257,10 @@
             })
                 .then((willChange) => {
                     if (willChange) {
-                        swal("Success", [[${userName}]] + " 님이 블랙리스트에 추가 되었습니다.", "success")
+
+                        swal("Success", UName+ " 님이 블랙리스트에 추가 되었습니다.", "success")
                             .then(function () {
+
                                 event.target.submit(); // 확인을 선택한 경우 폼 제출
                             })
                     } else {
