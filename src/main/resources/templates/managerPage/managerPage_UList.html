@@ -1,3 +1,112 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>고객 목록</title>-->
+<!--    <link rel="stylesheet" href="../../static/css/managerPage/managerPage.css">-->
+<!--</head>-->
+
+<!--<div th:fragment="managerContent">-->
+
+
+<!--    <div id="right2">-->
+
+
+<!--        <div class="searchDiv">-->
+<!--            <input type="text" id="searchInput" placeholder="고객 이름으로 검색" onchange="searchDinning()">-->
+<!--            <button onclick="searchDinning()">검색</button>-->
+<!--        </div>-->
+
+
+<!--        <table id="UuserTable" style="text-align: center;">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>고객 번호</th>-->
+<!--                <th>고객 이름</th>-->
+<!--                <th>고객 아이디</th>-->
+<!--                <th>고객 이메일</th>-->
+<!--                <th>고객 전화번호</th>-->
+<!--                <th>가입일</th>-->
+<!--                <th>블랙리스트</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="user : ${users}">-->
+<!--                <td th:text="${user.userNo}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>-->
+<!--                <td th:text="${user.userName}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>-->
+<!--                <td th:text="${user.userId}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">ID</td>-->
+<!--                <td th:text="${user.userEmail}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>-->
+<!--                <td th:text="${user.userTel}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>-->
+<!--&lt;!&ndash;                <td th:text="${user.userStartDate}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>&ndash;&gt;-->
+<!--                <td th:text="${#strings.substring(user.userStartDate, 0, 10)}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>-->
+
+
+<!--                <td>-->
+<!--                    <form action="UListBlack" method="post">-->
+<!--                        <input type="hidden" name="userNo" th:value="${user.userNo}">-->
+<!--&lt;!&ndash;                        <select name="status">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <option value="0">블랙리스트 해제</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <option value="1">블랙리스트 설정</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </select>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button type="submit">변경</button>&ndash;&gt;-->
+<!--                        <div class="custom-select">-->
+<!--                            <select name="status">-->
+<!--                                <option value="0">해제</option>-->
+<!--                                <option value="1">설정</option>-->
+<!--                            </select>-->
+<!--                            <button type="submit">변경</button>-->
+<!--                        </div>-->
+<!--                    </form>-->
+
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+
+<!--        <div th:if="${!users.isEmpty()}">-->
+<!--            <ul class="pagination justify-content-center">-->
+<!--                <li class="page-item" th:classappend="${!users.hasPrevious} ? 'disabled'">-->
+<!--                    <a class="page-link"-->
+<!--                       th:href="@{|?page=${users.number-1 < 0 ? 0 : users.number-1}|}">-->
+<!--                        <span>이전</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li th:each="page: ${#numbers.sequence(0, users.totalPages-1)}"-->
+<!--                    th:if="${page >= users.number-5 and page <= users.number+5}"-->
+<!--                    th:classappend="${page == users.number} ? 'active'"-->
+<!--                    class="page-item">-->
+<!--                    <a th:text="${page + 1}" class="page-link" th:href="@{|?page=${page}|}"></a>-->
+<!--                </li>-->
+<!--                <li class="page-item" th:classappend="${!users.hasNext} ? 'disabled'">-->
+<!--                    <a class="page-link" th:href="@{|?page=${users.number+1}|}">-->
+<!--                        <span>다음</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <script>-->
+<!--        function redirectToUserUpdate(userNo) {-->
+<!--            window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;-->
+<!--        }-->
+
+<!--        function searchDinning() {-->
+<!--            let searchInput = document.getElementById("searchInput").value;-->
+<!--            fetch("/manager/managerPage_UList?searchInput=" + searchInput)-->
+<!--                .then(resp => resp.text())-->
+<!--                .then(data => {-->
+<!--                    let doc = new DOMParser().parseFromString(data, 'text/html');-->
+<!--                    document.getElementById("UuserTable").innerHTML = doc.getElementById("UuserTable").innerHTML;-->
+<!--                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;-->
+<!--                });-->
+<!--        }-->
+
+<!--    </script>-->
+
+<!--</div>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
@@ -7,16 +116,11 @@
 </head>
 
 <div th:fragment="managerContent">
-
-
     <div id="right2">
-
-
         <div class="searchDiv">
             <input type="text" id="searchInput" placeholder="고객 이름으로 검색" onchange="searchDinning()">
             <button onclick="searchDinning()">검색</button>
         </div>
-
 
         <table id="UuserTable" style="text-align: center;">
             <thead>
@@ -27,28 +131,32 @@
                 <th>고객 이메일</th>
                 <th>고객 전화번호</th>
                 <th>가입일</th>
-                <th>블랙리스트 </th>
+                <th>블랙리스트</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user : ${users}">
-                <td th:text="${user.userNo}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
-                <td th:text="${user.userName}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
-                <td th:text="${user.userId}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">ID</td>
-                <td th:text="${user.userEmail}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
-                <td th:text="${user.userTel}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
-<!--                <td th:text="${user.userStartDate}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>-->
-                <td th:text="${#strings.substring(user.userStartDate, 0, 10)}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name</td>
-
-
+                <td th:text="${user.userNo}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">
+                    Name
+                </td>
+                <td th:text="${user.userName}"
+                    th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name
+                </td>
+                <td th:text="${user.userId}" th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">
+                    ID
+                </td>
+                <td th:text="${user.userEmail}"
+                    th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name
+                </td>
+                <td th:text="${user.userTel}"
+                    th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name
+                </td>
+                <td th:text="${#strings.substring(user.userStartDate, 0, 10)}"
+                    th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name
+                </td>
                 <td>
-                    <form action="UListBlack" method="post">
+                    <form onsubmit="confirmFormSubmission(event)" method="post" action="/manager/UListBlack">
                         <input type="hidden" name="userNo" th:value="${user.userNo}">
-<!--                        <select name="status">-->
-<!--                            <option value="0">블랙리스트 해제</option>-->
-<!--                            <option value="1">블랙리스트 설정</option>-->
-<!--                        </select>-->
-<!--                        <button type="submit">변경</button>-->
                         <div class="custom-select">
                             <select name="status">
                                 <option value="0">해제</option>
@@ -57,7 +165,6 @@
                             <button type="submit">변경</button>
                         </div>
                     </form>
-
                 </td>
             </tr>
             </tbody>
@@ -85,7 +192,8 @@
             </ul>
         </div>
     </div>
-    <script>
+
+    <script th:inline="javascript">
         function redirectToUserUpdate(userNo) {
             window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
         }
@@ -101,8 +209,57 @@
                 });
         }
 
-    </script>
+        function redirectToUserUpdate(userNo) {
+            window.location.href = '/manager/managerPage_UDetail?userNo=' + userNo;
+        }
 
+        function searchDinning() {
+            let searchInput = document.getElementById("searchInput").value;
+            fetch("/manager/managerPage_UList?searchInput=" + searchInput)
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.getElementById("UuserTable").innerHTML = doc.getElementById("UuserTable").innerHTML;
+                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+                });
+        }
+
+        function confirmFormSubmission(event) {
+            event.preventDefault(); // 폼 제출 방지
+            swal({
+                title: "변경 확인",
+                text: "블랙리스트 상태를 변경하시겠습니까?",
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        text: "확인",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: true
+                    },
+                    cancel: {
+                        text: "취소",
+                        value: null,
+                        visible: true,
+                        className: "cancel-button",
+                        closeModal: true,
+                    }
+                },
+                dangerMode: false
+            })
+                .then((willChange) => {
+                    if (willChange) {
+                        swal("Success", [[${userName}]] + " 님이 블랙리스트에 추가 되었습니다.", "success")
+                            .then(function () {
+                                event.target.submit(); // 확인을 선택한 경우 폼 제출
+                            })
+                    } else {
+                        swal("취소 되었습니다.")
+                    }
+                });
+        }
+    </script>
 </div>
 </html>
 

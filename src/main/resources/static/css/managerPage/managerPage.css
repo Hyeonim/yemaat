@@ -239,6 +239,21 @@ tr:hover {
     margin-left: 10px;
 }
 
+/* an2 */
+.an2 {
+    width: 900px;
+    margin: 20px auto 20px auto;
+    border: solid 2px gray;
+    border-radius: 10px;
+}
+
+
+/*여기까지*/
+
+.ps {
+    text-align: center;
+}
+
 .searchDiv {
     float: right;
     margin-bottom: 20px;
@@ -340,3 +355,7 @@ tr:hover {
 .custom-select button:hover {
     background-color: #0056b3;
 }
+
+
+
+/* 문의, 답변 관련 */

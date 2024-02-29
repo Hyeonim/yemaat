@@ -10,23 +10,81 @@
 
         <style>
 
+            .an {
+                margin: auto;
+            }
 
+            .an2 form p {
+                margin-bottom: 15px;
+            }
+
+            .an2 label {
+                font-weight: bold;
+                display: block;
+                float: left;
+            }
+
+            .an2 input[type="text"],
+            .an2 textarea {
+                width: 100%;
+                border-radius: 5px;
+                border: none;
+            }
+
+            .an2 textarea {
+                resize: vertical;
+            }
+
+            .an2 h2 {
+                float: left;
+                margin-left: 10px;
+                margin-top: 10px;
+            }
 
             ion-icon:hover {
                 cursor: pointer;
             }
+
+            .an2D {
+                border: solid 1px white;
+
+                width: 500px;
+                margin: 0 auto;
+            }
         </style>
         <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
-<div>
-        <div class="qu">
+        <div class="an2">
 
             <h2>문의 내용</h2>
+            <br>
+            <hr>
+            <div class="an2D">
+<!--                <p>-->
+<!--                    <label>번호 :-->
+<!--                        <input type="text" th:value="${qa.get().id}" readonly></input></label>-->
+<!--                </p>-->
+<!--                <p>-->
+<!--                    <label>제목 :-->
+<!--                        <input type="text" th:value="${qa.get().qaTitle}" readonly></input></label>-->
+<!--                </p>-->
+<!--                <p>-->
+<!--                    <label>작성자 :-->
+<!--                        <input type="text" th:value="${qa.get().userNo.userName}" readonly></input></label>-->
+<!--                </p>-->
+<!--                <p>-->
+<!--                    <label>내용 : </label>-->
+<!--                    <textarea cols="30" rows="10" th:value="${qa.get().qaContent}" readonly></textarea>-->
+<!--                </p>-->
 
-            <p><span class="label">번호 :</span> <span th:text="${qa.get().id}" readonly></span></p>
-            <p><span class="label">제목 :</span> <span th:text="${qa.get().qaTitle}"></span></p>
-            <p><span class="label">유저이름 :</span> <span th:text="${qa.get().userNo.userName}"></span></p>
-            <p><span class="label">내용 :</span> <span th:text="${qa.get().qaContent}"></span></p>
+                <div>
+                <p th:text="'번호 : ' + ${qa.get().id}"></p>
+                <p th:text="'제목 : ' + ${qa.get().qaTitle}"></p>
+                <p th:text="'작성자 : ' + ${qa.get().userNo.userName}"></p>
+                <p th:text="'내용 : ' + ${qa.get().qaContent}"></p>
+                </div>
+
+            </div>
         </div>
 
         <div class="an">
@@ -50,53 +108,53 @@
         </div>
     </div>
 
-    </div>
+</div>
 
-    <script th:inline="javascript">
-        document.querySelector(".fifth").addEventListener("click", function (event) {
-            event.preventDefault(); // 기본 동작 방지
+<script th:inline="javascript">
+    document.querySelector(".fifth").addEventListener("click", function (event) {
+        event.preventDefault(); // 기본 동작 방지
 
-            const title = document.getElementById("title").value;
-            const content = document.getElementById("content").value;
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
 
-            if (title === '' || content === '') {
-                swal("모든 항목을 입력하세요 :)");
-                return;
-            }
+        if (title === '' || content === '') {
+            swal("모든 항목을 입력하세요 :)");
+            return;
+        }
 
-            swal({
-                title: "답변 등록",
-                text: "답변을 등록하시겠습니까?",
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        text: "확인",
-                        value: true,
-                        visible: true,
-                        className: "confirm-button",
-                        closeModal: true
-                    },
-                    cancel: {
-                        text: "취소",
-                        value: null,
-                        visible: true,
-                        className: "cancel-button",
-                        closeModal: true,
-                    }
+        swal({
+            title: "답변 등록",
+            text: "답변을 등록하시겠습니까?",
+            icon: "info",
+            buttons: {
+                confirm: {
+                    text: "확인",
+                    value: true,
+                    visible: true,
+                    className: "confirm-button",
+                    closeModal: true
                 },
-                dangerMode: false
-            }).then((willAdd) => {
-                if (willAdd) {
-                    swal("Success!", "${qa.get().qaTitle} 에 대한 답변이 등록 되었습니다.", "success")
-                        .then(function () {
-                            document.getElementById("answerForm").submit();
-                        });
-                } else {
-                    swal("등록이 취소 되었습니다.")
+                cancel: {
+                    text: "취소",
+                    value: null,
+                    visible: true,
+                    className: "cancel-button",
+                    closeModal: true,
                 }
-            });
+            },
+            dangerMode: false
+        }).then((willAdd) => {
+            if (willAdd) {
+                swal("Success!", "${qa.get().qaTitle} 에 대한 답변이 등록 되었습니다.", "success")
+                    .then(function () {
+                        document.getElementById("answerForm").submit();
+                    });
+            } else {
+                swal("등록이 취소 되었습니다.")
+            }
         });
+    });
 
-    </script>
+</script>
 </div>
 </html>
