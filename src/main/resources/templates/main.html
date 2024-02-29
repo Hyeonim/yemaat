@@ -6,7 +6,7 @@
     <link th:href="@{/css/main.css}" rel="stylesheet">
 </head>
 <style>
-    #mainH{
+    #mainH {
 
         background: url("/img/mainbg.jpeg");
         background-size: cover;
@@ -31,13 +31,13 @@
     </div>
 
 
-
     <div class="infoBox">
-<div class="infoBoxA">
-<a  href="/notice/noticeList">공지사항</a>
-    <a>추천식당</a>
-<a>이벤트</a>
-</div>
+        <div class="infoBoxA">
+<!--            <a href="/notice/noticeList">공지사항</a>-->
+            <a>공지사항</a>
+            <a>이벤트</a>
+            <a>추천식당</a>
+        </div>
     </div>
 
     <div id="center_box">
@@ -105,26 +105,29 @@
 <div id="content" th:include="~{/include/content::contentFragment}">
     head
 </div>
+
 <footer th:include="~{/include/footer::footerFragment}">
     footer
 </footer>
 
 
+<button id="scroll-top" onclick="scrollTopFunction()">Top</button>
 
 <script>
 
     let slideIndex = 0;
     showSlides();
+
     function showSlides() {
         let slides = document.getElementsByClassName("mySlides");
 
-        slideIndex = Math.min( slides.length, ( slideIndex + 1 ) % slides.length );
+        slideIndex = Math.min(slides.length, (slideIndex + 1) % slides.length);
 
-        for ( let i = 0; i < slides.length; i++)
+        for (let i = 0; i < slides.length; i++)
             slides[i].style.display = i === slideIndex ? "block" : "none";
 
         setTimeout(showSlides, 2000); // 2초마다 이미지가 체인지됩니다
-        setTimeout( slideSlide, 2000 )
+        setTimeout(slideSlide, 2000)
     }
 
     function slideSlide() {
@@ -132,7 +135,7 @@
         const listElements = document.querySelectorAll('.slideshow .background');
 
         let target = null
-        listElements.forEach(function(element) {
+        listElements.forEach(function (element) {
             // 요소의 위치와 화면의 높이를 비교하여 화면에 보이는 요소인지 확인
             const elementTop = element.getBoundingClientRect().top;
             const elementBottom = element.getBoundingClientRect().bottom;
@@ -140,9 +143,8 @@
             const elementHeight = element.getBoundingClientRect().height + 20;
 
             // Element의 height가 화면을 가리면서 조건을 만족하지 않도록 함
-            if (elementTop < screenHeight && elementBottom - elementHeight > 0 && null === target ) {
-                if ( element.classList.contains( "over") )
-                {
+            if (elementTop < screenHeight && elementBottom - elementHeight > 0 && null === target) {
+                if (element.classList.contains("over")) {
                     // target = undefined;
                     return;
                 }
@@ -150,29 +152,28 @@
                 target = element;
             }
         });
-        if ( !target )
+        if (!target)
             return;
 
-        moveToSlide( target, 1 );
+        moveToSlide(target, 1);
     }
-    document.addEventListener('mouseover', function(event) {
-        let slide = event.target.closest( ".slideshow .background");
-        if ( slide )
-        {
-            let mouseLeaveHandler = function(event) {
+
+    document.addEventListener('mouseover', function (event) {
+        let slide = event.target.closest(".slideshow .background");
+        if (slide) {
+            let mouseLeaveHandler = function (event) {
                 slide.classList.remove("over")
-                this.removeEventListener('mouseleave', mouseLeaveHandler );
+                this.removeEventListener('mouseleave', mouseLeaveHandler);
             }
 
-            slide.classList.add( "over" );
-            slide.addEventListener( 'mouseleave', mouseLeaveHandler );
+            slide.classList.add("over");
+            slide.addEventListener('mouseleave', mouseLeaveHandler);
         }
 
-        let review = event.target.closest( ".reviewT");
-        if ( review )
-        {
-            let tip = review.querySelector( ".overtip" );
-            if ( tip ) {
+        let review = event.target.closest(".reviewT");
+        if (review) {
+            let tip = review.querySelector(".overtip");
+            if (tip) {
                 let mouseLeaveHandler = function (event) {
                     tip.style.opacity = "0";
                     review.removeEventListener('mouseleave', mouseLeaveHandler);
@@ -195,8 +196,8 @@
 
         const SLIDE_SIZE = 4;
         const selectedDivs = Array.from(slider.children).slice(0, SLIDE_SIZE);
-        if ( 1 === slideIndex )
-        selectedDivs.forEach(div => slider.appendChild(div));
+        if (1 === slideIndex)
+            selectedDivs.forEach(div => slider.appendChild(div));
 
         slider.style.transition = "";
         slider.style.transform = "";
@@ -216,7 +217,8 @@
         //     slider.removeEventListener("transitionend", this);
         // });
     }
-    function slideslideForward( parentDiv ){
+
+    function slideslideForward(parentDiv) {
         // parentDiv.style.transition = "";
         // parentDiv.style.transform = "";
         // 앞에서 0~5개의 div를 선택합니다.
@@ -224,7 +226,7 @@
         // selectedDivs.forEach(div => parentDiv.appendChild(div));
     }
 
-    document.addEventListener('scroll', function() {
+    document.addEventListener('scroll', function () {
         // 페이지의 스크롤 상태가 변경될 때 실행되는 코드
         // 여기에 원하는 동작을 추가할 수 있습니다.
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -238,14 +240,14 @@
             let dataTemplate = '<div class="slideshow"><div class="background">$content$</div></div>';
             fetch("/homeSlide")
                 .then(resp => resp.text())
-                .then(data =>{
-                    let doc = new DOMParser().parseFromString(data, 'text/html');
-                    const newDiv = document.createElement("div");
-                    newDiv.innerHTML = dataTemplate.replace( "$content$", doc.querySelector('body').innerHTML );
-                    const targetDiv = document.querySelector( "div.footer_height" );
-                    targetDiv.appendChild(newDiv);
-                }
-            );
+                .then(data => {
+                        let doc = new DOMParser().parseFromString(data, 'text/html');
+                        const newDiv = document.createElement("div");
+                        newDiv.innerHTML = dataTemplate.replace("$content$", doc.querySelector('body').innerHTML);
+                        const targetDiv = document.querySelector("div.footer_height");
+                        targetDiv.appendChild(newDiv);
+                    }
+                );
         }
     });
 
@@ -253,12 +255,33 @@
 
 <script>
     // "click!" 요소를 클릭했을 때 실행되는 함수
-    document.getElementById("clickText")?.addEventListener("click", function() {
+    document.getElementById("clickText")?.addEventListener("click", function () {
         // "click!" 요소 숨김 처리
         document.getElementById("clickText").style.display = "none";
         // "restName" 요소 표시
         document.getElementById("restName").style.display = "block";
     });
+
+    //리모컨
+    window.onscroll = function () {
+        scrollFunction()
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("scroll-top").style.display = "block";
+        } else {
+            document.getElementById("scroll-top").style.display = "none";
+        }
+    }
+
+    // 클릭하면 맨 위로 스크롤하는 함수
+    function scrollTopFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+
+
 </script>
 
 
