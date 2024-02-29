@@ -60,7 +60,18 @@ public class IndexController {
         return "redirect:/home";
     }
     @GetMapping("/home")
-    public String index(Model model, HttpSession httpSession, HttpServletRequest request) {
+    public String index(Model model, HttpSession httpSession, HttpServletRequest request, Principal principal) {
+        User loginUser = o2Service.findUser( principal );
+        if(loginUser == null)
+            model.addAttribute("user", "null");
+        else
+        {
+            model.addAttribute("user", loginUser.getUserAuth());
+            model.addAttribute("user_name", loginUser.getUserName());
+            model.addAttribute("user_img", loginUser.getBase64Image());
+        }
+
+
         List<Event> eventList = eventService.getNewEvents(); // 상단 배너 새로운 이벤트
         model.addAttribute("eventList", eventList);
 
