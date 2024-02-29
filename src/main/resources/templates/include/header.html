@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
 <title th:fragment="titleFragment">맛집 예약, 예맛!</title>
 
@@ -69,9 +69,9 @@
                     </div>
                 </div>
 
-
                 <button onclick="onMenuClick()" onblur="handleBlur()">
-                    <img src="/images/logo_avatar_32dp.png" alt="avatar">
+<!--                <button onclick="onMenuClick()">-->
+                    <img id="avatar" src="/images/logo_avatar_32dp.png" alt="avatar" style="width:32px; height:32px; border-radius: 50%;">
                 </button>
                 <div>
                     <div style="
@@ -82,37 +82,19 @@
                          max-height: 865px;
                          "
                     class="dropmenu" name="mymenu">
-                        <ul>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/login">로그인</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/signUp">회원가입</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/owner/home">가게관리</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/user/userPage">마이페이지</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/manager/content">관리자페이지</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">로그아웃</a>
-                            </li>
-                        </ul>
+
                     </div>
                 </div>
             </div>
         </nav>
     </div>
     <script>
-        function onAlarmClick( btn ){
-            document.querySelector( "[name=chat]" ).classList.toggle( "visible" );
+        function onAlarmClick(btn) {
+            document.querySelector("[name=chat]").classList.toggle("visible");
         }
-        function onMenuClick( btn ){
-            document.querySelector( "[name=mymenu]" ).classList.toggle( "visible" );
+
+        function onMenuClick(btn) {
+            document.querySelector("[name=mymenu]" ).classList.toggle( "visible" );
         }
         async function handleBlur() {
             await sleep(200)
@@ -139,6 +121,17 @@
             }
         }
 
+        (function () {
+            fetch("/api/loadMyMenu")
+                .then(resp =>resp.text())
+                .then(data =>{
+                    if ( data ) {
+                        let doc = new DOMParser().parseFromString(data, 'text/html');
+                        document.querySelector( "[name=mymenu]" ).innerHTML = doc.querySelector("div").innerHTML;
+                        eval( doc.querySelector('script').textContent );
+                    }
+                });
+        })();
     </script>
 </div>
 </html>

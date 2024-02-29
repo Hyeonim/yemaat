@@ -29,13 +29,12 @@
                 <td th:text="${dinning.restAddr}"></td>
                 <td th:text="${dinning.restTel}"></td>
                 <td>
-                    <form onsubmit="return confirmClose()" action="waitUpd" method="post">
+                    <form onsubmit="return confirmClose()" action="HoldUpd" method="post">
                         <input type="hidden" name="restNo" th:value="${dinning.restNo}">
                         <div class="custom-select">
                         <select name="status">
-                            <option value="WAIT">대기</option>
-                            <option value="CLOSED">폐점</option>
-                            <option value="NORMAL">정상</option>
+                            <option value="NORMAL">승인</option>
+                            <option value="REJECT">거절</option>
                         </select>
                         <button type="submit">변경</button>
                         </div>
@@ -49,7 +48,7 @@
     <script>
         function searchDinning7() {
             let searchInput7 = document.getElementById("searchInput7").value;
-            fetch("/manager/managerPage_JrestWaitList?searchInput7=" + searchInput7)
+            fetch("/manager/managerPage_JrestHold?searchInput7=" + searchInput7)
                 .then(resp => resp.text())
                 .then(data => {
                     let doc = new DOMParser().parseFromString(data, 'text/html');

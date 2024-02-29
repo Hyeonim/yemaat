@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultrang.net.nz/thymeleaf/layout">
 <html lang="en">
@@ -6,6 +7,9 @@
     <title>개인 회원가입</title>
     <link rel="stylesheet" href="/css/formdiv.css">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         ul, li {
             list-style-type: none;
         }
@@ -89,6 +93,9 @@
             width: 30px;
         }
 
+        .dWUEBt input[type='checkbox']:focus {
+            box-shadow: 0 0 10px 1px rgb(255, 110, 0, 0.8);
+        }
         .dWUEBt input[type='checkbox']:checked {
             background: rgb(255, 110, 0);
             border: rgb(255, 110, 0);
@@ -205,7 +212,7 @@
     </style>
 </head>
 <body>
-<div><h1><span th:replace="~{/include/logo::logoContent(30, 'no')}"></span>로고</h1></div>
+<div><h1><th:block th:include="~{/include/logo::logoContent(30, 'join')}"></th:block></h1></div>
 
 <div>
     <!--<h2>개인 신규 회원가입하기</h2>-->
@@ -455,6 +462,20 @@
                 bClickable &= elem.checked;
             document.querySelector("button").disabled = !bClickable;
         });
+
+        let bFocusIn = false;
+        let count = { checked:0, total:0 };
+        document.querySelectorAll("div#step2 input[type=checkbox]:not([name^=all])").forEach( elem=>{
+            if ( !bFocusIn && !elem.checked ) {
+                elem.focus();
+                bFocusIn = true;
+            }
+            if ( elem.checked )
+                count.checked ++;
+            count.total ++;
+        });
+        if ( count.checked === count.total )
+            document.querySelector("button").focus();
     }
 
     function nextStep(comp) {
@@ -470,10 +491,7 @@
             });
 
             Array.from(document.querySelector(".ejGvhi").children).forEach((elem, index) => {
-                if (index < nextStepId)
-                    elem.classList.add("certification")
-                else
-                    elem.classList.remove("certification")
+                elem.classList.toggle( "certification", (index < nextStepId) );
             });
         }
     }

@@ -826,6 +826,29 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
     }
 
+    @GetMapping("/managerPage_JrestHold")
+    public String restHold(Model model,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "searchInput7", required = false) String searchInput7) {
+        Page<Dinning> dinningList;
+
+        if (searchInput7 != null && !searchInput7.isEmpty()) {
+            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput7, "HOLD");
+        } else {
+            dinningList = dinningService.findByStatusPaged(page, "HOLD");
+        }
+
+        model.addAttribute("dinningList", dinningList);
+        model.addAttribute("page", "managerPage/managerPage_JrestHold");
+        model.addAttribute("header", "폐점 신청 목록");
+
+        return "managerPage";
+
+    }
+
+
+
+
     @GetMapping("/managerPage_JrestDetail")
     public String JumRestDetail(Model model, @RequestParam Long restNo) {
 
@@ -967,6 +990,22 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
 
 
+
+
+    @PostMapping("/HoldUpd")
+    public String updateStatusHold(@RequestParam("restNo") int restNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
+        // 가게 번호와 상태를 받아와서 DB에 저장함
+        Optional<Dinning> optionalDinning = dinningRepository.findByRestNo(restNo);
+        if (optionalDinning.isPresent()) {
+            Dinning dinning = optionalDinning.get();
+            dinning.setRestStatus(status);
+            dinningRepository.save(dinning);
+            redirectAttributes.addFlashAttribute("message", "가게 상태가 성공적으로 변경되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "가게를 찾을 수 없습니다.");
+        }
+        return "redirect:/manager/managerPage_JrestHold";
+    }
 
 }
 

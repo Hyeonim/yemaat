@@ -8,7 +8,7 @@
     #logo, #__content{
         /*border: solid 1px blue;*/
         text-align: center;
-        margin: 20% auto 0;
+        margin: 10% auto 0;
     }
     * {
         /*margin: 0;*/
@@ -133,11 +133,18 @@
       }
 div.sns {
     text-align: center;
-    margin-top: 124px;
+    margin-top: 82px;
 }
 ul.sns li {
     display: inline;
     margin-right: 10px;
+}
+ul.sns li img {
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 0px;
+}
+ul.sns li img:hover {
+    color: -webkit-activelink;
 }
 
 </style>
@@ -145,7 +152,7 @@ ul.sns li {
 <body>
 
 <div id="logo">
-<h1><span th:replace="~{/include/logo::logoContent(30, 'no')}"></span>로고</h1>
+<h1><span th:replace="~{/include/logo::logoContent(30, 'login')}"></span></h1>
 
 </div>
 
@@ -187,13 +194,13 @@ ul.sns li {
     <a href="/signUp">회원가입</a>
 </div>
 <div class="sns">
-사용하시는 SNS계정으로 서비스에 가입하세요.
+사용하시는 SNS계정으로 서비스를 이용하실 수 있습니다.
     <ul class="sns">
-        <li><a href="/oauth2/authorization/naver">N</a></li>
-        <li><a href="/oauth2/authorization/kakao">K</a></li>
-        <li><a href="/oauth2/authorization/google">G</a></li>
-        <li>F</li>
-        <li>X</li>
+        <li><a href="/oauth2/authorization/kakao"><img src="/img/icon-kakao-logo-32.png"></a></li>
+        <li><a href="/oauth2/authorization/google"><img src="/img/icon-google-logo-32.png"></a></li>
+        <li><a href="/oauth2/authorization/naver"><img src="/img/icon-naver-logo-32.png"></a></li>
+<!--        <li>F</li>-->
+<!--        <li>X</li>-->
     </ul>
 </div>
 <!--/*[+
