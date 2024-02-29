@@ -31,7 +31,14 @@
             <input type="hidden" name="restLongitude" id="restLongitude" th:value="*{getRestLongitude()}">
             <p><label>가게 소개글</label><textarea name="restDesc" rows="5" readonly>[[*{getRestDescription()}]]</textarea></p>
             <p><label>대표 이미지</label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
-
+            <p><label>검수 결과</label>
+                <input type="text" th:if="*{getRestStatus()=='HOLD'}" value="검수중"
+                       style="border: 1px solid #FFD23F; background-color: #FFD23F; text-align: center" readonly>
+                <input type="text" th:if="*{getRestStatus()=='REJECT'}" value="검수 거절"
+                       style="border: 1px solid #EE4266; background-color: #EE4266; text-align: center" readonly>
+                <input type="text" th:if="*{getRestStatus()=='NORMAL'}" value="검수 완료"
+                       style="border: 1px solid #337357; background-color: #337357; text-align: center" readonly>
+            </p>
             <input type="button" value="수정" th:onclick="|location.href='@{/owner/updateRest}'|">
             <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/home}'|">
         </div>
@@ -44,12 +51,21 @@
         let latitude = document.getElementById("restLatitude").value
         let longitude = document.getElementById("restLongitude").value
 
-        let mapContainer = document.getElementById("map"),
+        let mapContainer = document.getElementById("map");
+        let mapOption;
+        if(latitude !==null && longitude !=null) {
             mapOption = {
                 center : new daum.maps.LatLng(latitude, longitude),
                 draggable: false,
                 level : 5
             };
+        } else {
+            mapOption = {
+                center : new daum.maps.LatLng(35.86868025887658, 128.5987419727357),
+                draggable: false,
+                level : 5
+            };
+        }
 
         let map = new daum.maps.Map(mapContainer, mapOption);
         let geocoder = new daum.maps.services.Geocoder();

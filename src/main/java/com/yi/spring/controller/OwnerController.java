@@ -154,7 +154,7 @@ public class OwnerController {
             dinning.setRestImg( dinning.getRestImgMan().setRestImg(imageTableRepository, ImageFrom.REST, restImg) );
         }
         dinning.setUserNo(loginUser);
-        dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
+        dinning.setRestStatus(String.valueOf(DinningStatus.HOLD));
         diningRestService.createRestaurant(dinning);
         return "redirect:/owner/home";
     }
@@ -286,7 +286,8 @@ public class OwnerController {
             dinning.setRestImg( existRest.getRestImg() );
         }
         dinning.setUserNo(loginUser);
-        dinning.setRestStatus(String.valueOf(DinningStatus.NORMAL));
+        if(existRest.getRestStatus().equals(String.valueOf(DinningStatus.REJECT))) dinning.setRestStatus(String.valueOf(DinningStatus.HOLD));
+        else dinning.setRestStatus(existRest.getRestStatus());
         Dinning updateRestaurant = diningRestService.updateRestaurant(dinning);
         return "redirect:/owner/viewRest";
     }

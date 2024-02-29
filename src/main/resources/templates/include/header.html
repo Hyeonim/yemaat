@@ -69,9 +69,9 @@
                     </div>
                 </div>
 
-
                 <button onclick="onMenuClick()" onblur="handleBlur()">
-                    <img id="avatar" src="/images/logo_avatar_32dp.png" alt="avatar" style="width:32px; height:32px;">
+<!--                <button onclick="onMenuClick()">-->
+                    <img id="avatar" src="/images/logo_avatar_32dp.png" alt="avatar" style="width:32px; height:32px; border-radius: 50%;">
                 </button>
                 <div>
                     <div style="
@@ -135,11 +135,6 @@
     </div>
     <script th:inline="javascript">
         (function () {
-<!--/*[+            if ([[${user}]] !== 'null') {
-                if ([[${user.getUserImg()}]] != null) {
-                    document.getElementById("avatar").src = 'data:image/jpeg;base64,' + [[${user.getBase64Image()}]
-                }
-            } +]*/-->
             if ( [[${user_img}]] )
                 document.getElementById("avatar").src = 'data:image/jpeg;base64,' + [[${user_img}]]
 
