@@ -23,11 +23,12 @@
             </tr>
             </thead>
             <tbody>
+
             <tr th:each="dinning : ${dinningList}">
-                <td th:text="${dinning.restNo}"></td>
-                <td th:text="${dinning.restName}"></td>
-                <td th:text="${dinning.restAddr}"></td>
-                <td th:text="${dinning.restTel}"></td>
+                <td th:text="${dinning.restNo}"th:onclick="'javascript:viewJumrestDetail(\'' + ${dinning.restNo} + '\')'"> </td>
+                <td th:text="${dinning.restName}" th:onclick="'javascript:viewJumrestDetail(\'' + ${dinning.restNo} + '\')'"></td>
+                <td th:text="${dinning.restAddr}" th:onclick="'javascript:viewJumrestDetail(\'' + ${dinning.restNo} + '\')'"></td>
+                <td th:text="${dinning.restTel}" th:onclick="'javascript:viewJumrestDetail(\'' + ${dinning.restNo} + '\')'"></td>
                 <td>
                     <form onsubmit="return confirmClose()" action="HoldUpd" method="post">
                         <input type="hidden" name="restNo" th:value="${dinning.restNo}">
@@ -41,11 +42,50 @@
                     </form>
                 </td>
             </tr>
+
             </tbody>
         </table>
     </div>
 
+
+
+    <div id="holdDetail">
+        <ion-icon id="closeModalIcon" name="close-outline"></ion-icon>
+
+        <div></div>
+    </div>
+
     <script>
+
+        // closeModalIcon을 클릭하면 모달을 닫습니다.
+        document.getElementById("closeModalIcon").addEventListener("click", function() {
+            // 모달을 감추도록 display 속성을 "none"으로 변경합니다.
+            document.getElementById("holdDetail").style.display = "none";
+        });
+
+
+        gv=[];
+        function viewJumrestDetail(restNo) {
+
+            fetch( '/manager/managerPage_JrestHoldDetail?restNo=' + restNo )
+                .then( resp => resp.text())
+                .then(data=> {
+                    gv.push(data)
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.querySelector("#holdDetail div").innerHTML = doc.querySelector('.modalD').innerHTML;
+                    document.getElementById("holdDetail").style.display = "block";
+
+                })
+        }
+
+
+
+
+        function redirectToJumrestDetail(restNo) {
+            window.location.href = '/manager/managerPage_JrestHoldDetail?restNo=' + restNo;
+        }
+
+
         function searchDinning7() {
             let searchInput7 = document.getElementById("searchInput7").value;
             fetch("/manager/managerPage_JrestHold?searchInput7=" + searchInput7)
@@ -96,5 +136,6 @@
         }
 
     </script>
+
 </div>
 </html>

@@ -377,6 +377,21 @@ tr:hover {
     background-color: #e9ecef;
 }
 
+#holdDetail{
+    width: 1000px;
+    position: absolute;
+    left: 30%;
+    top: 20%;
+    background: white;
+    display: none;
 
+
+}
+
+#closeModalIcon{
+    float: right;
+    font-size: 34px;
+    cursor: pointer;
+}
 
 /* 문의, 답변 관련 */

@@ -12,8 +12,8 @@
             </ul>
         </th:block>
         <th:block th:unless="${user=='null'}" th:switch="${user}">
-            <h3 class="nav-item">안녕하세요</h3>
-            <h3 class="nav-item">[[${user_name}]]님</h3>
+            <img id="userimg" src="/images/logo_avatar_32dp.png" alt="avatar">
+            <p class="nav-item">안녕하세요, [[${user_name}]]님.</p>
             <ul>
                 <th:block th:case="USER">
                     <li class="nav-item">
@@ -47,9 +47,10 @@
             </ul>
         </th:block>
     </div>
-    <th:block th:if="${user_img}!=null">
+    <th:block th:if="${user_img!=null&&user_img!=''}">
         <script th:inline="javascript">
             document.getElementById("avatar").src = 'data:image/jpeg;base64,' + [[${user_img}]];
+            document.getElementById("userimg").src = 'data:image/jpeg;base64,' + [[${user_img}]];
         </script>
     </th:block>
 </th:block>
