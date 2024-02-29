@@ -1,5 +1,6 @@
 package com.yi.spring.controller;
 
+import com.yi.spring.config.RawPasswordEncoder;
 import com.yi.spring.entity.*;
 import com.yi.spring.entity.meta.ImageFrom;
 import com.yi.spring.repository.*;
@@ -124,7 +125,7 @@ public class ManagerController {
             if (elem.getUserAuth().equals("ADMIN"))
                 continue;
             if (elem.isUserBlock())
-                key = "4";
+                key =  "4";
             else
                 key = elem.getUserAuth();
 
@@ -249,6 +250,8 @@ public class ManagerController {
 
     @GetMapping("/managerPage_UAdd")
     public String managerPageManagerPageUAdd(Model model) {
+
+
         model.addAttribute("header", "고객 추가");
 
         model.addAttribute("page", "managerPage/managerPage_UAdd");
@@ -285,8 +288,7 @@ public class ManagerController {
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user,Model model) {
 
-        System.out.println("11111111111111111111111:"+file);
-        System.out.println(user);
+
 
         if (file.isEmpty()) {
             userRepository.save(user);

@@ -302,8 +302,7 @@ tr:hover {
 
 .custom-select {
     display: flex;
-    position: relative;
-
+    justify-content: center;
 }
 
 .custom-select select {

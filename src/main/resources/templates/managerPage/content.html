@@ -75,6 +75,7 @@
             [# th:if="${userStat != null}"]
             [# th:each = "entry : ${userStat.entrySet()}"]
             userDataList.push( [[${entry.value}]] )
+
                 [/][/]
             let restDataMap = {};
             [# th:if="${restStat != null}"]

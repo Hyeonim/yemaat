@@ -38,15 +38,15 @@
 <!--</div>-->
 
 
-<div th:include="~{/managerPage/managerPage_sidebar::managerSide}">
+<div th:insert="~{/managerPage/managerPage_sidebar::managerSide}">
 
 </div>
 <div>
-    <div th:replace="~{/managerPage/managerPage_header::managerContentHeader}" style="z-index: 100">
+    <div th:insert="~{/managerPage/managerPage_header::managerContentHeader}" style="z-index: 100">
 
     </div>
 
-    <div th:include="${page}::managerContent">
+    <div th:insert="~{${page}::managerContent}">
 
     </div>
 
