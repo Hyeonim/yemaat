@@ -3,12 +3,26 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{userPage/Layout_userPage2}">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha512-dlQ1m6eFYTV3tiZ3l3r0I5zJPCv+MIiT5sYX5FvO6PXq54tLFtqUOVXHbB3A5TcC2vX6SVUy2Ld7h0I3Hhu0fQ=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+
 
 <th:block th:fragment="content">
     <!--    <link th:href="@{/css/userPage/starRank.css}" rel="stylesheet">-->
 
 
     <style>
+
+        li {
+            list-style: none;
+        }
+
+        #remoteList label {
+            list-style: none;
+            cursor: pointer;
+        }
 
         #posts_main {
             display: flex;
@@ -24,7 +38,7 @@
             /*padding-bottom: 435px;*/
             background: #fff;
             border: 1.6px solid #dddddd;
-            border-radius: 4px;
+            border-radius: 14px;
             box-sizing: border-box;
             margin-bottom: 65px;
             /*margin-top: 60px;*/
@@ -152,7 +166,7 @@
         }
 
         .reviewAddBtn {
-            margin-left: -10px;
+            margin-left: -43px;
             width: 50%;
             height: 36px;
             border: none;
@@ -162,7 +176,7 @@
             background-color: rgb(94 166 249);
             text-align: center;
             cursor: pointer;
-            margin-top: 18px;
+            margin-top: 9px;
             font-weight: bold;
             border-bottom-left-radius: 5px;
             border-bottom-right-radius: 5px;
@@ -224,10 +238,6 @@
             display: block;
         }
 
-    </style>
-
-    <style>
-        /* 레이아웃 외곽 너비 400px 제한*/
         .wrap1 {
             max-width: 480px;
             margin: 0 auto; /* 화면 가운데로 */
@@ -267,8 +277,8 @@
             background-color: #ff8;
             height: 60px;
             position: absolute;
-            width: 60px; /* 초기에는 0으로 설정 */
-            transition: width 0.3s; /* 너비가 변경될 때 애니메이션을 추가합니다. */
+            width: 60px;
+            transition: width 0.3s;
             z-index: 9;
         }
 
@@ -278,24 +288,6 @@
             height: 60px;
             width: 295px;
             z-index: 1;
-        }
-
-        /*!* 홀수번째 요소 선택 *!*/
-        /*.posts_main .containers:nth-child(odd) {*/
-        /*    transform: translateX(24%); !* X축으로 50% 이동 *!*/
-        /*}*/
-
-        /*!* 짝수번째 요소 선택 *!*/
-        /*.posts_main .containers:nth-child(even) {*/
-        /*    transform: translateX(-24%); !* X축으로 50% 이동 *!*/
-
-        /*}*/
-
-        #remote {
-            border: 1px solid gray;
-            width: 320px;
-            height: 400px;
-            transition: margin-top 0.8s ease; /* 부드러운 이동을 위한 트랜지션 추가 */
         }
 
         .RestNoHover:hover {
@@ -319,27 +311,127 @@
             font-style: italic;
         }
 
+        #remote {
+            border: 1px solid rgba(128, 128, 128, 0.35);
+            border-radius: 14px;
+            width: 320px;
+            height: 500px;
+            transition: margin-top 0.8s ease;
+            /*background-color: rgba(255, 255, 255, 0.4);*/
+        }
+
+        .remoteLabel {
+            padding-left: 10px;
+            font-weight: normal;
+        }
+
+        /*.remoteLabel:hover {*/
+        /*    font-size: 105%;*/
+        /*}*/
+
+        .boldLabel {
+            font-weight: bold;
+        }
+
+        #imgLabel {
+            border: 1px solid grey;
+            width: 700px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.79)
+        }
+        #imgLabel:hover{
+            background-color: rgba(190, 190, 190, 0.53);
+            cursor: pointer;
+        }
+    </style>
+
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700);
+
+        .btnLightBlue {
+            background: #5DC8CD;
+            transition: all 0.2s ;
+        }
+        .btnLightBlue.btnPush {
+            box-shadow: 0px 5px 0px 0px #1E8185;
+        }
+        .btnPush:hover {
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .btnLightBlue.btnPush:hover {
+            box-shadow: 0px 0px 0px 0px #1E8185;
+        }
     </style>
 
     <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
         <div>
-            <div id="remote" style="margin-left: 24%">
-                <div style="display: flex; flex-direction: column">
-                    <button onclick="filterExpired()">이용완료된 예약 보기</button>
-                    <button onclick="filterReview()">리뷰작성된 예약 보기</button>
-                    <button onclick="filterWait()">예약대기중인 예약 보기</button>
-                    <button onclick="filterResCompleted()">예약완료된 예약 보기</button>
-                    <button onclick="filterAll()">전체 예약 보기</button>
-                </div>
-                <div style="margin-top: 5%">
-                    <input type="text" id="searchInput" placeholder="가게 이름 입력">
+            <div id="remote" style="margin-left: 24%; background-color: #FFFFFF">
+                <div style="padding: 5%">
+                    <div style="display:flex; align-items: center">
+                        <img src="/img/search22.png" alt="" style="width: 25px; height: 25px">
+                        <h4>검색</h4>
+                    </div>
+                    <input size="27px" type="text" id="searchInput" placeholder="가게 이름 입력">
                     <button class="btn btn-primary btn-circle" onclick="searchPost()">
                         <i class="search-icon"></i>
                     </button>
                 </div>
+                <hr>
+                <ul style="display: flex; flex-direction: column" id="remoteList">
+                    <div style="display:flex; align-items: center">
+                        <img src="/img/order.png" alt="" style="width: 15px; height: 15px">
+                        <h4 style="margin-left: 4px">정렬</h4>
+                    </div>
+                    <li onclick="filterExpired()" style="padding: 10px 0">
+                        <div>
+                            <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
+                            <label class="remoteLabel" id="remoteLabel1">이용완료된 예약 보기</label>
+                        </div>
+                    </li>
+                    <li onclick="filterReview()" style="padding: 10px 0">
+                        <div>
+                            <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
+                            <label class="remoteLabel" id="remoteLabel2">리뷰작성된 예약 보기</label>
+                        </div>
+                    </li>
+                    <li onclick="filterWait()" style="padding: 10px 0">
+                        <div>
+                            <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
+                            <label class="remoteLabel" id="remoteLabel3">예약대기중인 예약 보기</label>
+                        </div>
+                    </li>
+                    <li onclick="filterResCompleted()" style="padding: 10px 0">
+                        <div>
+                            <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
+                            <label class="remoteLabel" id="remoteLabel4">예약완료된 예약 보기</label>
+                        </div>
+                    </li>
+                    <li onclick="filterAll()" style="padding: 10px 0">
+                        <div>
+                            <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
+                            <label class="remoteLabel" id="remoteLabel5">전체 예약 보기</label>
+                        </div>
+                    </li>
+                    <li style="display: flex; justify-content: center">
+                        <img src="/img/upside.png" alt="" style="width: 50px; height: 50px; margin-top: 31px; margin-left: -30px; cursor: pointer;" onclick="scrollToTop()">
+                    </li>
+                </ul>
             </div>
-            <script th:inline="javascript">
+            <script>
+                function scrollToTop() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            </script>
 
+            <script th:inline="javascript">
                 let expired = /*[[ @{/user/user_posts(filterExpired='expired')} ]]*/ '';
                 let review = /*[[ @{/user/user_posts(filterReview='review')} ]]*/ '';
                 let wait = /*[[ @{/user/user_posts(filterWait='wait')} ]]*/ '';
@@ -350,10 +442,8 @@
                     let searchInput = document.getElementById("searchInput").value;
                     let encodedSearchInput = encodeURIComponent(searchInput);
 
-                    // URL 변경
-                    window.history.pushState({ searchInput }, "Search Results", "/user/user_posts?searchInput=" + encodedSearchInput);
+                    window.history.pushState({searchInput}, "Search Results", "/user/user_posts?searchInput=" + encodedSearchInput);
 
-                    // Ajax 요청 등의 로직 추가
                     fetch("/user/user_posts?searchInput=" + encodedSearchInput)
                         .then(resp => resp.text())
                         .then(data => {
@@ -364,39 +454,71 @@
                         });
                 }
 
+                document.addEventListener("DOMContentLoaded", function () {
+                    var selectedLabelId = localStorage.getItem('selectedLabelId');
+                    if (selectedLabelId) {
+                        setActive(selectedLabelId);
+                    }
+                });
+
+                function setActive(labelId) {
+                    var allLabels = document.querySelectorAll('.remoteLabel');
+                    allLabels.forEach(function (label) {
+                        label.classList.remove('boldLabel');
+                    });
+
+                    var selectedLabel = document.getElementById(labelId);
+                    if (selectedLabel) {
+                        selectedLabel.classList.add('boldLabel');
+                        localStorage.setItem('selectedLabelId', labelId);
+                    }
+                }
+
                 function filterExpired() {
                     window.location.href = expired;
+                    setActive('remoteLabel1');
+
                 }
+
                 function filterReview() {
                     window.location.href = review;
+                    setActive('remoteLabel2');
+
                 }
+
                 function filterWait() {
                     window.location.href = wait;
+                    setActive('remoteLabel3');
+
                 }
+
                 function filterResCompleted() {
                     window.location.href = res_completed;
+                    setActive('remoteLabel4');
+
                 }
+
                 function filterAll() {
                     window.location.href = All;
+                    setActive('remoteLabel5');
+
                 }
+
+                const remote = document.getElementById('remote');
+                const triggerScroll = 200;
+
+                window.addEventListener('scroll', () => {
+                    const scrollY = window.scrollY;
+
+                    if (scrollY > triggerScroll) {
+                        remote.style.marginTop = `${scrollY - triggerScroll}px`;
+                    } else {
+                        remote.style.marginTop = '0';
+                    }
+                });
 
             </script>
         </div>
-        <script>
-            // JavaScript 코드
-            const remote = document.getElementById('remote');
-            const triggerScroll = 200; // 스크롤 위치 트리거 값 설정 (조절 가능)
-
-            window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-
-                if (scrollY > triggerScroll) {
-                    remote.style.marginTop = `${scrollY - triggerScroll}px`;
-                } else {
-                    remote.style.marginTop = '0';
-                }
-            });
-        </script>
 
         <div style="display: flex; justify-content: center; margin-bottom: 10px;" id="searchPosts">
             <div id="posts_main" class="posts_main" style="margin-right: 20%">
@@ -429,7 +551,7 @@
                                     th:class="${res.getReservationStatusEnum.getName() == '대기' ? 'yellowBtn' : (res.getReservationStatusEnum.getName() == '예약완료' ? 'greenBtn' : 'grayBtn')}"
                                     th:text="${res.getReservationStatusEnum.getName()}">
                             </button>
-                            <button id="reviewBtn" class="reviewBtn"
+                            <button id="reviewBtn" class="reviewBtn "
                                     th:if="${res.getReservationStatusEnum.getName() eq '이용완료' and revStatus ne 'OK'}">
                                 리뷰작성
                             </button>
@@ -444,68 +566,84 @@
                     </div>
 
                     <div class="mid">
-                        <div style="padding: 33px">
+                        <div style="padding: 23px">
                             <div style="display: flex; justify-content: flex-start; flex-direction: column; margin-right: 1px; height: 412px">
                                 <input type="hidden" name="rate" id="rate" value="0"/>
-                                <p class="title_star">별점과 이용경험을 남겨주세요.</p>
+                                <div style="display: flex; flex-direction: column; align-items: center ">
+                                    <form id="addRevForm" action="/user/submitReview" method="post"
+                                          enctype="multipart/form-data">
 
-                                <form id="addRevForm" action="/user/submitReview" method="post"
-                                      enctype="multipart/form-data">
-                                    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                                        <div style="display: flex; flex-direction: column; align-items: center ;margin-bottom: 10px">
+                                            <h4>별점과 이용경험을 남겨주세요!</h4>
+                                            <p class="title_star" th:text="${res.getRestNo().restName}"
+                                               style="font-size: 17px;"></p>
+                                            <div class="rating">
+                                                <div class="ratefillGray"></div>
+                                                <div class="ratefillYellow"></div>
+                                                <input type="radio" name="revScore"
+                                                       th:id="'rating'+${resStat.index*5+1}"
+                                                       value="10" class="rate_radio"
+                                                       title="1점" checked>
+                                                <label class="rate_label"
+                                                       th:for="'rating'+${resStat.index*5+1}"></label>
+                                                <input type="radio" name="revScore"
+                                                       th:id="'rating'+${resStat.index*5+2}"
+                                                       value="20" class="rate_radio"
+                                                       title="2점">
+                                                <label class="rate_label"
+                                                       th:for="'rating'+${resStat.index*5+2}"></label>
+                                                <input type="radio" name="revScore"
+                                                       th:id="'rating'+${resStat.index*5+3}"
+                                                       value="30" class="rate_radio"
+                                                       title="3점">
+                                                <label class="rate_label"
+                                                       th:for="'rating'+${resStat.index*5+3}"></label>
+                                                <input type="radio" name="revScore"
+                                                       th:id="'rating'+${resStat.index*5+4}"
+                                                       value="40" class="rate_radio"
+                                                       title="4점">
+                                                <label class="rate_label"
+                                                       th:for="'rating'+${resStat.index*5+4}"></label>
+                                                <input type="radio" name="revScore"
+                                                       th:id="'rating'+${resStat.index*5+5}"
+                                                       value="50" class="rate_radio"
+                                                       title="5점">
+                                                <label class="rate_label"
+                                                       th:for="'rating'+${resStat.index*5+5}"></label>
+                                            </div>
+                                        </div>
+
+                                        <div style="display: flex; flex-direction: column;">
+                                            <input type="file" id="file" name="file" style="display: none">
+
+
+                                            <label id="imgLabel" for="file">
+                                                <img src="/img/camera.png"
+                                                     style="width: 16px; height: 16px; margin-right: 5px">사진 첨부하기
+                                            </label>
+
+
+                                            <div style="margin: 20px 0">
+                                                <img style="width: 170px; height: 155px; background-size: cover; border-radius: 10px"
+                                                     id="preview" alt="">
+                                            </div>
+                                        </div>
+                                        <hr>
                                         <div>
-                                            <label for="file">이미지:</label><br>
-                                            <img style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;"
-                                                 id="preview" src="#" alt="">
-                                            <br>
-                                            <input type="file" id="file" name="file">
+                                            <input th:if="${not #strings.isEmpty(res.res_no)}" th:value="${res.res_no}"
+                                                   name="resNo" th:hidden="true"/>
+                                            <input th:value="${res.getRestNo().restNo}" name="restNo" th:hidden="true"/>
                                         </div>
-
-                                        <div class="rating">
-                                            <div class="ratefillGray"></div>
-                                            <div class="ratefillYellow"></div>
-                                            <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+1}"
-                                                   value="10" class="rate_radio"
-                                                   title="1점" checked>
-                                            <label class="rate_label" th:for="'rating'+${resStat.index*5+1}"></label>
-                                            <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+2}"
-                                                   value="20" class="rate_radio"
-                                                   title="2점">
-                                            <label class="rate_label" th:for="'rating'+${resStat.index*5+2}"></label>
-                                            <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+3}"
-                                                   value="30" class="rate_radio"
-                                                   title="3점">
-                                            <label class="rate_label" th:for="'rating'+${resStat.index*5+3}"></label>
-                                            <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+4}"
-                                                   value="40" class="rate_radio"
-                                                   title="4점">
-                                            <label class="rate_label" th:for="'rating'+${resStat.index*5+4}"></label>
-                                            <input type="radio" name="revScore" th:id="'rating'+${resStat.index*5+5}"
-                                                   value="50" class="rate_radio"
-                                                   title="5점">
-                                            <label class="rate_label" th:for="'rating'+${resStat.index*5+5}"></label>
-                                            <!--                                        <input type="text" id="selectedRevScore" name="selectedRevScore" value="">-->
+                                        <div style="margin-top: 30px">
+                                            <textarea id="reviewContent" name="revContent" rows="5" cols="82"
+                                                      style="resize: none;" placeholder="식당의 위생상태, 맛, 서비스 등 이용하신 경험에 대한 솔직한 리뷰를 남겨주세요. (선택)"></textarea>
                                         </div>
-                                        <br>
-                                    </div>
-                                    <hr>
-
-                                    <div style="margin-top: 53px">
-                                        <label>식당 이름:</label>
-                                        <div th:text="${res.getRestNo().restName}"></div>
-                                        <input th:if="${not #strings.isEmpty(res.res_no)}" th:value="${res.res_no}"
-                                               name="resNo" th:hidden="true"/>
-                                        <input th:value="${res.getRestNo().restNo}" name="restNo" th:hidden="true"/>
-                                    </div>
-                                    <hr>
-                                    <div style="margin-top: 30px">
-                                    <textarea id="reviewContent" name="revContent" rows="5" cols="82"
-                                              style="resize: none;"></textarea>
-                                    </div>
-                                    <button id="revAdd" class="reviewAddBtn" type="submit"
-                                            style="margin-top: 21px; position: relative; left: -37px; width: 114%;">리뷰
-                                        제출
-                                    </button>
-                                </form>
+                                        <button id="revAdd" class="reviewAddBtn" type="submit"
+                                                style="display: flex; justify-content: center; align-items: center; width: 112.5%;">
+                                            완료
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -529,7 +667,6 @@
 
 
         // document.addEventListener('DOMContentLoaded', function () {
-        // 리뷰 작성 버튼을 누르면 동작
         function reviewRateInput(reviewWriteBtn) {
             var labels = reviewWriteBtn.closest('.containers').querySelectorAll('[class="rate_radio"]');
             // var inputs = document.querySelectorAll('.containers [class="rate_label"]');
@@ -557,7 +694,7 @@
             //     input.addEventListener('click', function () {
             //         console.log("11111")
             //         let radioId = $(this).attr('for');
-            //         // $(this).find('#' + radioId).prop('checked', true).trigger('click');  // 라디오 버튼 클릭 이벤트 트리거
+            //         // $(this).find('#' + radioId).prop('checked', true).trigger('click');
             //     });
             // });
 
@@ -638,8 +775,6 @@
                     } else {
                         console.log('리뷰 작성이 취소되었습니다.');
                     }
-
-
                     reviewRateInput(btn);
                 });
             });
