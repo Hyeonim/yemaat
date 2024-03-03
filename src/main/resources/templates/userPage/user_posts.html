@@ -504,18 +504,27 @@
 
                 }
 
-                const remote = document.getElementById('remote');
-                const triggerScroll = 200;
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    const remote = document.getElementById('remote');
+                    const triggerScroll = 200;
+                    const postsMain = document.getElementById('posts_main');
 
-                window.addEventListener('scroll', () => {
-                    const scrollY = window.scrollY;
+                    if (postsMain) {
+                        window.addEventListener('scroll', () => {
+                            const scrollY = window.scrollY;
+                            const maxMarginTop = postsMain.clientHeight - remote.clientHeight - 65;
 
-                    if (scrollY > triggerScroll) {
-                        remote.style.marginTop = `${scrollY - triggerScroll}px`;
+                            if (scrollY > triggerScroll) {
+                                remote.style.marginTop = `${Math.min(scrollY - triggerScroll, maxMarginTop)}px`;
+                            } else {
+                                remote.style.marginTop = '0';
+                            }
+                        });
                     } else {
-                        remote.style.marginTop = '0';
+                        console.error('Element with id posts_main not found.');
                     }
                 });
+
 
             </script>
         </div>
@@ -573,7 +582,7 @@
                                     <form id="addRevForm" action="/user/submitReview" method="post"
                                           enctype="multipart/form-data">
 
-                                        <div style="display: flex; flex-direction: column; align-items: center ;margin-bottom: 10px">
+                                        <div style="display: flex; flex-direction: column; align-items: center ;margin-bottom: 10px" class="file-container">
                                             <h4>별점과 이용경험을 남겨주세요!</h4>
                                             <p class="title_star" th:text="${res.getRestNo().restName}"
                                                style="font-size: 17px;"></p>
@@ -613,21 +622,20 @@
                                             </div>
                                         </div>
 
-                                        <div style="display: flex; flex-direction: column;">
-                                            <input type="file" id="file" name="file" style="display: none">
-
+                                        <div style="display: flex; flex-direction: column;" class="reviewImgBox">
+                                            <input type="file" id="file" class="fileInput" name="file" style="display: none">
 
                                             <label id="imgLabel" for="file">
                                                 <img src="/img/camera.png"
                                                      style="width: 16px; height: 16px; margin-right: 5px">사진 첨부하기
                                             </label>
 
-
                                             <div style="margin: 20px 0">
                                                 <img style="width: 170px; height: 155px; background-size: cover; border-radius: 10px"
-                                                     id="preview" alt="">
+                                                     class="preview" alt="">
                                             </div>
                                         </div>
+
                                         <hr>
                                         <div>
                                             <input th:if="${not #strings.isEmpty(res.res_no)}" th:value="${res.res_no}"
@@ -648,6 +656,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="container1" th:if="${list == null or #lists.isEmpty(list)}">
                     <div class="left">
                     </div>
@@ -662,15 +671,14 @@
         </div>
     </div>
 
+<!--    <div id="stopRemote" style="width: 1000px; margin-top: 100px"> 111 </div>-->
+
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
 
-
-        // document.addEventListener('DOMContentLoaded', function () {
         function reviewRateInput(reviewWriteBtn) {
             var labels = reviewWriteBtn.closest('.containers').querySelectorAll('[class="rate_radio"]');
-            // var inputs = document.querySelectorAll('.containers [class="rate_label"]');
-
 
             labels.forEach(function (label) {
                 label.addEventListener('click', function (event) {
@@ -678,46 +686,45 @@
                     let container = $(this).closest('.containers')
                     let selectedRevScore = container.find('#selectedRevScore');
                     let fillWidth = ratingValue * 5.9;
-                    // let addRevForm = this.querySelectorAll('#addRevForm');
-
-                    // if (addRevForm) {
 
                     selectedRevScore.val(fillWidth);
-
-                    // }
-
 
                     container.find('.ratefillYellow').css('width', fillWidth + 'px');
                 })
             });
-            // inputs.forEach(function (input) {
-            //     input.addEventListener('click', function () {
-            //         console.log("11111")
-            //         let radioId = $(this).attr('for');
-            //         // $(this).find('#' + radioId).prop('checked', true).trigger('click');
-            //     });
-            // });
-
         };
     </script>
 
 
     <script>
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
+        // JavaScript 코드
+        var fileInputs = document.querySelectorAll('.fileInput');
+
+        fileInputs.forEach(function (input, index) {
+            var label = input.parentElement.querySelector('label');
+            var preview = input.parentElement.querySelector('.preview');
+
+            var currentId = 'file' + (index + 1);
+            input.id = currentId;
+            label.setAttribute('for', currentId);
+
+            input.addEventListener('change', function (event) {
+                var currentInput = event.target;
+                var currentPreview = currentInput.parentElement.querySelector('.preview');
+
                 var reader = new FileReader();
+                reader.onload = function () {
+                    currentPreview.src = reader.result;
+                };
 
-                reader.onload = function (e) {
-                    input.parentNode.querySelector("#preview").setAttribute('src', e.target.result);
+                if (currentInput.files && currentInput.files[0]) {
+                    reader.readAsDataURL(currentInput.files[0]);
                 }
+            });
+        });
 
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
 
-        document.querySelectorAll('#file').forEach(e => e.addEventListener('change', function () {
-            previewImage(e);
-        }));
+
         document.getElementById("revAdd").addEventListener("click", function (event) {
             event.preventDefault();
             var confirmation = confirm("리뷰를 작성하시겠습니까?");
@@ -770,6 +777,7 @@
                             setTimeout(function () {
                                 container2.classList.toggle('expanded');
                                 console.log('리뷰 작성 버튼이 눌렸습니다.');
+                                container2.scrollIntoView({ behavior: "smooth" });
                             }, delay);
                         }
                     } else {
@@ -785,7 +793,14 @@
                         let container1 = this.closest('.container1');
                         var container2 = this.closest('.containers');
 
+
                         if (container1) {
+
+                            window.scrollTo({
+                                top: window.scrollY - 690,
+                                behavior: 'smooth'
+                            });
+
                             container1.style.paddingBottom = '15px';
 
                             let container1ById = document.getElementById('container1');
@@ -806,6 +821,8 @@
                             if (reviewBtn2) {
                                 reviewBtn2.style.display = 'none';
                             }
+
+
                         }
 
                         if (container2) {
@@ -814,6 +831,7 @@
                             setTimeout(function () {
                                 container2.classList.remove('expanded');
                             }, delay);
+
                         }
                     } else {
                     }
