@@ -39,7 +39,7 @@
                     <p><label>이메일 </label><input id="userEmail" name="userEmail" type="email" th:value="${user.get().userEmail}"></p>
                     <p><label>비밀번호 </label><input id="userPassword" name="userPassword" type="password" th:value="${user.get().userPassword}"></p>
                     <p><label>전화번호 </label><input id="userTel" name="userTel" type="tel" th:value="${user.get().userTel}"></p>
-                    <p><label>가입 종류 </label><input type="text" th:value="${user.get().provider != null ? user.get().provider : 'yeamot'}" readonly></p>
+                    <p><label>가입 종류 </label><input type="text" th:value="${user.get().provider != null ? user.get().provider : '예맛'}" readonly></p>
 
 
                     <input id="userAuth" name="userAuth" type="hidden" readonly th:value="${user.get().userAuth}">
