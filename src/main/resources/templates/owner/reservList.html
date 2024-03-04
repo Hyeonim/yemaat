@@ -13,133 +13,198 @@
                 <option value="future">예약 대기 목록</option>
                 <option value="past">지난 예약 목록</option>
             </select>
-            <input type="button" value="변경" onclick="showList(document.getElementById('reservPeriod').value)">
         </div>
     </div>
     <div id="today" class="blockDiv">
-        <table>
-            <tr>
-                <th class="resNo">예약 번호</th>
-                <th class="resTime">예약 시간</th>
-                <th class="userId">예약자</th>
-                <th class="questCount">예약 인원</th>
-                <th class="tableType">룸 타입</th>
-                <th class="comment">비고</th>
-                <th class="status">예약 상태</th>
-                <th class="result">처리</th>
-            </tr>
-            <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
-                <th:block th:if="*{getDateType()==0}">
-                <tr>
-                    <td class="resNo" th:text="*{getRes_no()}"></td>
-                    <td class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></td>
-                    <td class="userId" th:text="*{getUserNo().getUserId()}"></td>
-                    <td class="questCount" th:text="*{getRes_guest_count()}"></td>
-                    <td class="tableType" th:text="*{getRes_table_type() +' '+ getDateType()}"></td>
-                    <td class="comment" th:text="*{getRes_comment()}"></td>
-                    <td class="status" th:text="*{getResStatus()}"></td>
-                    <td class="result">
-                        <input type="button" value="수락" th:onclick="|location.href='@{/owner/resCompleted/{resNo}(resNo=*{getRes_no()})}'|">
-                        <input type="button" value="거절" th:onclick="|cancel('*{getRes_no()}')|">
-                        <input type="button" value="노쇼" th:onclick="|location.href='@{/owner/resNoShow/{resNo}(resNo=*{getRes_no()})}'|">
-                    </td>
-                </tr>
-                </th:block>
+        <div class="table-item">
+            <ul>
+                <li>예약 번호</li>
+                <li>예약 시간</li>
+                <li>예약 인원</li>
+                <li>룸 타임</li>
+                <li class="comment">비고</li>
+                <li>예약 상태</li>
+            </ul>
+        </div>
+        <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
+            <th:block th:if="*{getDateType()==0}">
+                <div class="table-item">
+                    <ul class="table-preview">
+                        <li th:text="*{getRes_no()}"></li>
+                        <li th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></li>
+                        <li th:text="*{getRes_guest_count()}"></li>
+                        <li th:text="*{getRes_table_type() +' '+ getDateType()}"></li>
+                        <li class="comment" th:text="*{getRes_comment()}"></li>
+                        <li th:text="*{getResStatus()}"></li>
+                    </ul>
+                    <div class="table-container">
+                        <div class="formDiv">
+                            <p><label>예약자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
+                            <p><label>예약 등록 시간</label><input type="text" th:value="*{getRes_time_new()}" readonly></p>
+                            <p><label>비고</label><textarea readonly rows="3">[[*{getRes_comment()}]]</textarea></p>
+                        </div>
+                        <div class="formDiv reserv-process">
+                            <p><label>예약 처리</label><input type="button" value="수락" th:onclick="|complete(*{getRes_no()})|"></p>
+                            <p><label></label>
+                                <input type="text" placeholder="거절 사유를 입력해주세요" id="reason" th:value="*{getRes_rejection_reason() != null ? getRes_rejection_reason() : null}">
+                                <input type="button" value="거절" th:onclick="|cancel(*{getRes_no()})|">
+                            </p>
+                            <p><label>예약 처리</label><input type="button" value="예약 시간에 오지 않음" th:onclick="|noshow(*{getRes_no()})|"></p>
+                        </div>
+                    </div>
+                </div>
             </th:block>
-        </table>
+        </th:block>
     </div>
 
     <div id="future" class="blockDiv" style="display: none;">
-        <table>
-            <tr>
-                <th class="resNo">예약 번호</th>
-                <th class="resTime">예약 시간</th>
-                <th class="userId">예약자</th>
-                <th class="questCount">예약 인원</th>
-                <th class="tableType">룸 타입</th>
-                <th class="comment">비고</th>
-                <th class="status">예약 상태</th>
-                <th class="result">처리</th>
-            </tr>
-            <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
-                <th:block th:if="*{getDateType()==1}">
-                <tr>
-                    <td class="resNo" th:text="*{getRes_no()}"></td>
-                    <td class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></td>
-                    <td class="userId" th:text="*{getUserNo().getUserId()}"></td>
-                    <td class="questCount" th:text="*{getRes_guest_count()}"></td>
-                    <td class="tableType" th:text="*{getRes_table_type()}"></td>
-                    <td class="comment" th:text="*{getRes_comment()}"></td>
-                    <td class="status" th:text="*{getResStatus()}"></td>
-                    <td class="result">
-                        <input type="button" value="수락" th:onclick="|location.href='@{/owner/resCompleted/{resNo}(resNo=*{getRes_no()})}'|">
-                        <input type="button" value="거절" th:onclick="|cancel('*{getRes_no()}')|">
-                    </td>
-                </tr>
-                </th:block>
+        <div class="table-item">
+            <ul>
+                <li>예약 번호</li>
+                <li>예약 시간</li>
+                <li>예약 인원</li>
+                <li>룸 타임</li>
+                <li class="comment">비고</li>
+                <li>예약 상태</li>
+            </ul>
+        </div>
+        <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
+            <th:block th:if="*{getDateType()==1}">
+                <div class="table-item">
+                    <ul class="table-preview">
+                        <li th:text="*{getRes_no()}"></li>
+                        <li th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></li>
+                        <li th:text="*{getRes_guest_count()}"></li>
+                        <li th:text="*{getRes_table_type()}"></li>
+                        <li class="comment" th:text="*{getRes_comment()}"></li>
+                        <li th:text="*{getResStatus()}"></li>
+                    </ul>
+                    <div class="table-container">
+                        <div class="formDiv">
+                            <p><label>예약자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
+                            <p><label>예약 등록 시간</label><input type="text" th:value="*{getRes_time_new()}" readonly></p>
+                            <p><label>비고</label><textarea readonly rows="3">[[*{getRes_comment()}]]</textarea></p>
+                        </div>
+                        <div class="formDiv reserv-process">
+                            <p><label>예약 처리</label><input type="button" value="수락" th:onclick="|complete(*{getRes_no()})|"></p>
+                            <p><label></label>
+                                <input type="text" placeholder="거절 사유를 입력해주세요" id="reason" th:value="*{getRes_rejection_reason() != null ? getRes_rejection_reason() : null}">
+                                <input type="button" value="거절" th:onclick="|cancel(*{getRes_no()})|">
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </th:block>
-        </table>
+        </th:block>
     </div>
 
     <div id="past" class="blockDiv" style="display:none;">
-        <table>
-            <tr>
-                <th class="resNo">예약 번호</th>
-                <th class="resTime">예약 시간</th>
-                <th class="userId">예약자</th>
-                <th class="questCount">예약 인원</th>
-                <th class="tableType">룸 타입</th>
-                <th class="comment">비고</th>
-                <th class="status">예약 상태</th>
-                <th class="result">처리</th>
-            </tr>
-            <th:block th:each="i : ${#numbers.sequence(reserveList.size() - 1, 0, -1)}" th:object="${reserveList[i]}">
-                <th:block th:if="*{getDateType()==-1}">
-                    <tr>
-                        <td class="resNo" th:text="*{getRes_no()}"></td>
-                        <td class="resTime" th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></td>
-                        <td class="userId" th:text="*{getUserNo().getUserId()}"></td>
-                        <td class="questCount" th:text="*{getRes_guest_count()}"></td>
-                        <td class="tableType" th:text="*{getRes_table_type()}"></td>
-                        <td class="comment" th:text="*{getRes_comment()}"></td>
-                        <td class="status" th:text="*{getResStatus()}"></td>
-                        <td class="result">
-                            <input type="button" value="노쇼" th:onclick="|location.href='@{/owner/resNoShow/{resNo}(resNo=*{getRes_no()})}'|">
-                        </td>
-                    </tr>
-                </th:block>
+        <div class="table-item">
+            <ul>
+                <li>예약 번호</li>
+                <li>예약 시간</li>
+                <li>예약 인원</li>
+                <li>룸 타임</li>
+                <li class="comment">비고</li>
+                <li>예약 상태</li>
+            </ul>
+        </div>
+        <th:block th:each="i : ${#numbers.sequence(reserveList.size() - 1, 0, -1)}" th:object="${reserveList[i]}">
+            <th:block th:if="*{getDateType()==-1}">
+                <div class="table-item">
+                    <ul class="table-preview">
+                        <li th:text="*{getRes_no()}"></li>
+                        <li th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></li>
+                        <li th:text="*{getRes_guest_count()}"></li>
+                        <li th:text="*{getRes_table_type()}"></li>
+                        <li class="comment" th:text="*{getRes_comment()}"></li>
+                        <li th:text="*{getResStatus()}"></li>
+                    </ul>
+                    <div class="table-container">
+                        <div class="formDiv">
+                            <p><label>예약자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
+                            <p><label>예약 등록 시간</label><input type="text" th:value="*{getRes_time_new()}" readonly></p>
+                            <p><label>비고</label><textarea readonly rows="3">[[*{getRes_comment()}]]</textarea></p>
+                        </div>
+                        <div class="formDiv reserv-process">
+                            <p><label>예약 처리</label>
+                                <input type="button" value="예약 시간에 오지 않음" th:onclick="|noshow(*{getRes_no()})|">
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </th:block>
-        </table>
+        </th:block>
     </div>
     <script>
-        function showList(value) {
-            switch (value) {
-                case "today" :
-                    document.getElementById("headline").textContent = "오늘 예약 목록";
+        $(document).ready(function(){
+            $('#reservPeriod').change(function(){
+                let selectedOption = $(this).val();
+                // 선택된 옵션에 따라 원하는 동작 수행
+                switch(selectedOption) {
+                    case 'today':
+                        document.getElementById("headline").textContent = "오늘 예약 목록";
 
-                    document.getElementById("today").style.display = "block";
-                    document.getElementById("future").style.display = "none";
-                    document.getElementById("past").style.display = "none";
-                    break;
-                case "future" :
-                    document.getElementById("headline").textContent = "예약 대기 목록";
+                        document.getElementById("today").style.display = "block";
+                        document.getElementById("future").style.display = "none";
+                        document.getElementById("past").style.display = "none";
+                        break;
+                    case 'future':
+                        document.getElementById("headline").textContent = "예약 대기 목록";
 
-                    document.getElementById("today").style.display = "none";
-                    document.getElementById("future").style.display = "block";
-                    document.getElementById("past").style.display = "none";
-                    break;
-                case "past" :
-                    document.getElementById("headline").textContent = "지난 예약 목록";
+                        document.getElementById("today").style.display = "none";
+                        document.getElementById("future").style.display = "block";
+                        document.getElementById("past").style.display = "none";
+                        break;
+                    case 'past':
+                        document.getElementById("headline").textContent = "지난 예약 목록";
 
-                    document.getElementById("today").style.display = "none";
-                    document.getElementById("future").style.display = "none";
-                    document.getElementById("past").style.display = "block";
-                    break;
+                        document.getElementById("today").style.display = "none";
+                        document.getElementById("future").style.display = "none";
+                        document.getElementById("past").style.display = "block";
+                        break;
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let tableItems = document.querySelectorAll('.table-preview');
+
+            tableItems.forEach(function (tableItem) {
+                tableItem.addEventListener('click', function () {
+                    let tableContainer = this.nextElementSibling;
+
+                    document.querySelectorAll('.table-container').forEach(function(container) {
+                        if (container !== tableContainer && container.style.display === 'flex')
+                            container.style.display = 'none'; // 다른 리스트를 닫음
+                    });
+
+                    if (tableContainer) {
+                        if (tableContainer.style.display === 'flex') {
+                            tableContainer.style.display = 'none';
+                        } else {
+                            tableContainer.style.display = 'flex';
+                        }
+                    }
+                });
+            });
+        });
+
+        function complete(resNo) {
+            if(confirm("예약을 수락하시겠습니까?")) {
+                location.href='/owner/resCompleted/'+resNo;
             }
         }
 
+        function noshow(resNo) {
+            if(confirm("예약시간에 오지 않은 손님에 대해 노쇼 처리하시겠습니까?")) {
+                location.href='/owner/resNoShow/'+resNo;
+            }
+
+        }
+
         function cancel(resNo) {
-            let reason = prompt("예약 거절 사유를 입력하시오")
+            let reason = document.getElementById("reason").value;
             if(reason) {
                 location.href = "/owner/resCancel/"+resNo+"/"+reason;
             } else {
