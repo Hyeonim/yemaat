@@ -5,8 +5,16 @@
       layout:decorate="~{owner/myPage_layout}">
 <th:block th:fragment="content">
 
-    <div style="display: inline; justify-content: space-between">
-        <div class="main-box" style="width:30%;">
+    <div style="
+        display: grid;
+        justify-content: space-between;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: 50% 50%;
+    ">
+        <div class="main-box" style="
+            width : 95%;
+            grid-column: 1/2;
+            grid-row: 1/2;">
             <div class="box-header">
                 <h2>금일([[${today}]]) 예약 건 수</h2>
             </div>
@@ -15,7 +23,10 @@
             </div>
         </div>
 
-        <div class="main-box" style="width:30%;">
+        <div class="main-box" style="
+            width: 95%;
+            grid-column: 1/2;
+            grid-row: 2/3;">
             <div class="box-header">
                 <h2>금일([[${today}]]) 취소 건 수</h2>
             </div>
@@ -23,21 +34,22 @@
                 <ion-icon name="checkmark-circle-outline"></ion-icon><span>[[${cancel}]] 건</span>
             </div>
         </div>
-    </div>
-    <div class="main-box">
-        <div class="box-header">
-            <h2>기간별 예약 현황</h2>
-        </div>
-        <div class="box-content">
-            <div class="chart-content"
-                 style="
+        <div class="main-box" style="
+            grid-column: 2/3;
+            grid-row: 1/3;">
+            <div class="box-header">
+                <h2>기간별 예약 현황</h2>
+            </div>
+            <div class="box-content">
+                <div class="chart-content"
+                     style="
                  display: flex;
                  justify-content: flex-start;
                  align-items: center;
-                 padding: 20px 0;
-                 width: 60%;
+                 width: 100%;
                  ">
-                <canvas id="periodBarChart" class="chart" width="258" height="129" style="display: block; box-sizing: border-box; height: 129px; width: 258px;"></canvas>
+                    <canvas id="periodBarChart" class="chart" width="258" height="129" style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -149,10 +161,14 @@
             let week1DataList = [];
             let month1DataList = [];
             let month3DataList = [];
+            let week1Dataset = [];
+            let month1Dataset = [];
+            let month3Dataset = [];
             [# th:if="${week1List != null}"]
                 [# th:each="entry : ${week1List.entrySet()}"]
                     week1label.push([[${entry.key}]]);
                     week1DataList.push([[${entry.value}]]);
+                    week1Dataset.push({x : [[${entry.key}]], y : [[${entry.value}]]});
                 [/]
             [/]
 
@@ -160,6 +176,7 @@
                 [# th:each="entry : ${month1List.entrySet()}"]
                 month1label.push([[${entry.key}]]);
                 month1DataList.push([[${entry.value}]]);
+            month1Dataset.push({x : [[${entry.key}]], y : [[${entry.value}]]});
                 [/]
             [/]
 
@@ -167,63 +184,63 @@
                 [# th:each="entry : ${month3List.entrySet()}"]
                 month3label.push([[${entry.key}]]);
                 month3DataList.push([[${entry.value}]]);
+            month3Dataset.push({x : [[${entry.key}]], y : [[${entry.value}]]});
                 [/]
             [/]
+                ;
 
             let periodData = {
-                labels : week1label, //month1label, month3label,
+                labels : month3label,
                 datasets : [{
                     label : '주간 예약 현황',
-                    data : week1DataList,
+                    data : week1Dataset,
                     backgroundColor : [
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(54, 102, 235, 0.5)',
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(52, 191, 182, 0.5)',
-                        'rgba(255, 159, 64, 0.5)',
-                        'rgba(75, 192, 192, 0.5)'
+                        'rgba(255, 206, 86, 0.5)'
                     ],
                     borderWidth:1
-                }]
-                };
-                // {
-                //     label : '1달간 예약 현황',
-                //     data : month1DataList,
-                //     backgroundColor : [
-                //         'rgba(255, 206, 86, 0.5)',
-                //         'rgba(54, 162, 235, 0.5)',
-                //         'rgba(54, 102, 235, 0.5)',
-                //         'rgba(255, 99, 132, 0.5)',
-                //         'rgba(52, 191, 182, 0.5)',
-                //         'rgba(255, 159, 64, 0.5)',
-                //         'rgba(75, 192, 192, 0.5)'
-                //     ],
-                //     borderWidth:1
-                // },
-                // {
-                //     label : '3달간 예약 현황',
-                //     data : month3DataList,
-                //     backgroundColor : [
-                //         'rgba(255, 206, 86, 0.5)',
-                //         'rgba(54, 162, 235, 0.5)',
-                //         'rgba(54, 102, 235, 0.5)',
-                //         'rgba(255, 99, 132, 0.5)',
-                //         'rgba(52, 191, 182, 0.5)',
-                //         'rgba(255, 159, 64, 0.5)',
-                //         'rgba(75, 192, 192, 0.5)'
-                //     ],
-                //     borderWidth:1
-                // }
-            //     ]
-            // };
+                },
+                {
+                    label : '1달간 예약 현황',
+                    data : month1Dataset,
+                    backgroundColor : [
+                        'rgba(54, 162, 235, 0.5)'
+                    ],
+                    borderWidth:1
+                },
+                {
+                    label : '3달간 예약 현황',
+                    data : month3Dataset,
+                    backgroundColor : [
+                        'rgba(54, 102, 235, 0.5)'
+                    ],
+                    fill : false,
+                    borderWidth:1
+                }
+                ]
+            };
 
             let reserveCtx3 = document.getElementById('periodBarChart').getContext('2d');
-            [reserveCtx3, 'bar', periodData].forEach(elem => {
+            [ [reserveCtx3, 'bar', periodData]].forEach(elem => {
                 new Chart(elem[0], {
                     type : elem[1],
                     data : elem[2],
-                    options : {}
+                    options : {
+                        grouped : false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                },
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'value'
+                                }
+                            }
+                        }
+                    }
                 });
             });
         }
