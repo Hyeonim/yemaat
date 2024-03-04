@@ -15,6 +15,7 @@
                 <th>이벤트 작성일</th>
             </tr>
             <th:block th:each="event : ${eventList}" th:object="${event}">
+
                 <tr>
                     <td id="status"></td>
                     <td><a th:href="@{/owner/viewEvent/{eventNo}(eventNo=*{getEventNo()})}">[[*{getEventTitle()}]]</a></td>
@@ -30,9 +31,11 @@
         let endTime = new Date(document.getElementById("eventEndTime").textContent);
 
         let today = new Date();
-        if(startTime <= today && today <= endTime) {
+        if(today < startTime) {
+            document.getElementById("status").textContent = "예정"
+        } else if(startTime <= today && today <= endTime) {
             document.getElementById("status").textContent = "진행중";
-        } else {
+        } else
             document.getElementById("status").textContent = "마감";
         }
     </script>

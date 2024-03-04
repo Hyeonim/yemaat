@@ -356,6 +356,7 @@ public class OwnerController {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.EXPIRED));
+        reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
     }
@@ -365,6 +366,7 @@ public class OwnerController {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.NO_SHOW));
+        reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
     }
@@ -374,6 +376,7 @@ public class OwnerController {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.RESERVE_COMPLETED));
+        reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
 
         sendMessage.Send(request, reservation.getUserNo().getUserId()

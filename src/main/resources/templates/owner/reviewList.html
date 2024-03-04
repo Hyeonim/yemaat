@@ -5,7 +5,7 @@
       layout:decorate="~{owner/myPage_layout}">
 
 <th:block th:fragment="content">
-    <div class="review-item">
+    <div class="table-item">
         <ul>
             <li>작성자</li>
             <li>작성일</li>
@@ -15,14 +15,14 @@
     </div>
 
     <th:block th:each="review : ${reviewList}" th:object="${review}">
-            <div class="review-item">
-                <ul class="review-preview">
+            <div class="table-item">
+                <ul class="table-preview">
                     <li>[[*{getUserNo().getUserId()}]]</li>
                     <li>[[*{getRevWriteTime()}]]</li>
                     <li>[[*{getRevScore()}]]</li>
                     <li>[[*{getRevContent()}]]</li>
                 </ul>
-                <div class="review-container">
+                <div class="table-container">
                     <div class="img_box">
                         <img class="preview" src="/img/no_image.png" alt="Review Image" th:attr="data-base64=${review.getBase64Image()}"></p>
                     </div>
@@ -66,22 +66,22 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            let reviewItems = document.querySelectorAll('.review-preview');
+            let tableItems = document.querySelectorAll('.table-preview');
 
-            reviewItems.forEach(function (reviewItem) {
-                reviewItem.addEventListener('click', function () {
-                    let reviewContainer = this.nextElementSibling;
+            tableItems.forEach(function (tableItem) {
+                tableItem.addEventListener('click', function () {
+                    let tableContainer = this.nextElementSibling;
 
-                    document.querySelectorAll('.review-container').forEach(function(container) {
-                        if (container !== reviewContainer && container.style.display === 'flex')
+                    document.querySelectorAll('.table-container').forEach(function(container) {
+                        if (container !== tableContainer && container.style.display === 'flex')
                             container.style.display = 'none'; // 다른 리스트를 닫음
                     });
 
-                    if (reviewContainer) {
-                        if (reviewContainer.style.display === 'flex') {
-                            reviewContainer.style.display = 'none';
+                    if (tableContainer) {
+                        if (tableContainer.style.display === 'flex') {
+                            tableContainer.style.display = 'none';
                         } else {
-                            reviewContainer.style.display = 'flex';
+                            tableContainer.style.display = 'flex';
                         }
                     }
                 });
