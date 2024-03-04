@@ -12,8 +12,10 @@
             </ul>
         </th:block>
         <th:block th:unless="${user=='null'}" th:switch="${user}">
-            <img id="userimg" src="/images/logo_avatar_32dp.png" alt="avatar">
-            <p class="nav-item">안녕하세요, [[${user_name}]]님.</p>
+            <div class="myinfo">
+                <img id="userimg" src="/images/logo_avatar_32dp.png" alt="avatar">
+                <p class="nav-item">안녕하세요, [[${user_name}]]님.</p>
+            </div>
             <ul>
                 <th:block th:case="USER">
                     <li class="nav-item">

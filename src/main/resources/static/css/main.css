@@ -241,28 +241,43 @@ header nav:nth-of-type(1) {
     background-color: #ffd9885c;
 }
 
-#navbarNav #mymenu {
+#navbarNav #mychat {
     width: 300px;
-    height : 500px;
     text-align: center;
 }
 
-#navbarNav #mymenu > img {
+#navbarNav #mymenu {
+    width: 300px;
+    text-align: center;
+}
+#navbarNav #mymenu .myinfo {
+    margin : 10px 0;
+    padding : 10px 0;
+    background-color: rgba(128, 128, 0, 0.35);
+    border-radius: 2rem;
+}
+#navbarNav #mymenu .myinfo img {
     width: 64px;
     height : 64px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-#navbarNav #mymenu > p {
+#navbarNav #mymenu .myinfo p {
     text-align: center;
 }
 
 #navbarNav #mymenu > ul {
     padding-inline-start: 0;
-    text-align: left;
 }
-
+#navbarNav #mymenu > ul li {
+    background-color: #ffd9885c;
+    border-radius: 2rem;
+    margin: 10px 0;
+    &:hover {
+        box-shadow : 0 0 0 3px rgba(255, 217, 136, 0.65);
+    }
+}
 #navbarNav .searchBox {
     position: relative;
     height: 100%;
