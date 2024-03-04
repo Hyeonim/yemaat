@@ -6,9 +6,18 @@
 </head>
 
 <div th:fragment="managerContent">
+    <script>
+        <!-- CKEditor CDN 추가 -->
+        <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
+    </script>
+
     <style>
         ion-icon:hover {
             cursor: pointer;
+        }
+
+        .ck-editor__editable {
+            min-height : 500px
         }
     </style>
     <div id="right2">
@@ -16,26 +25,28 @@
 
         <form id="noticeForm" action="/manager/managerPage_NoticeAdd" method="post">
             <div class="form-group">
-                <label for="subject">제목:</label>
-                <input type="text" name="subject" class="form-control" id="subject" style="width: 400px">
-            </div>
+                <label for="subject"><h3>제목:</h3></label>
+                <input type="text" name="subject" class="form-control" id="subject" style="width: 80%">
+            </div><br>
             <input type="hidden" name="writer" value="admin">
             <div class="form-group">
-                <label for="content">내용:</label>
+                <label for="content"><h3>내용:</h3></label>
                 <textarea style="width: 700px; height: 600px" name="content" class="form-control"
                           id="content"></textarea>
             </div>
             <input type="hidden" name="writerdate" value="">
-            <button type="button" class="fifth" id="submitBtn">등록</button>
+            <div style="text-align: center;">
+            <button style="margin-top: 50px" type="button" class="fifth" id="submitBtn">등록</button>
+            </div>
         </form>
     </div>
 
     <script>
         document.getElementById("submitBtn").addEventListener('click', function (){
             const subject = document.getElementById('subject').value;
-            const content = document.getElementById('content').value;
+            const content = document.getElementById('content');
 
-            if (subject === '' || content === '') {
+            if (subject === '' || content === null) {
                 swal("모든 항목을 입력하세요 :)");
                 return;
             }
@@ -73,6 +84,15 @@
                 }
             });
         });
+
+        // ClassicEditor
+        //     .create(document.querySelector('#content'))
+        //     .catch(error => {
+        //         console.error(error);
+        //     });
+
+
+
     </script>
 </div>
 </html>

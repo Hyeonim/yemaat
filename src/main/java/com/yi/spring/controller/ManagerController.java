@@ -551,11 +551,13 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
                                    @RequestParam String content,
                                    Model model) {
 
+        String modifiedContent = content.substring(3, content.length() - 4);
+
         Notice notice = new Notice();
 
         notice.setSubject(subject);
         notice.setWriter(writer);
-        notice.setContent(content);
+        notice.setContent(modifiedContent);
         notice.setWriteDate(Instant.now());
 
         noticeRepository.save(notice);
@@ -563,6 +565,35 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         return "redirect:/manager/managerPage_Notice";
     }
+
+//    @PostMapping("managerPage_QARequest")
+//    public String ManagerQARequest(@RequestParam int id,
+//                                   @RequestParam String title,
+//                                   @RequestParam String content,
+//                                   QaAnswer qaAnswer,
+//                                   Model model) {
+//
+//        Optional<QA> guestQA = qaRepository.findById(id);
+//
+//        // content 변수에 저장된 문자열에서 첫 번째부터 세 번째 문자를 제외한 부분
+//        String modifiedContent = content.substring(3, content.length() - 4);
+//
+//        qaAnswer.setAnswerTitle(title);
+//        qaAnswer.setAnswerContent(modifiedContent);
+//        qaAnswer.setQaNo(id);
+//
+//        qaAnswerRepository.save(qaAnswer);
+//
+//        guestQA.ifPresent(qa -> {
+//            if (qaAnswer.getQaNo() == guestQA.get().getId()) {
+//                qa.setQaStatus(true);
+//                qaRepository.save(qa);
+//            }
+//        });
+//
+//        return "redirect:/manager/managerPage_QA";
+//    }
+
 
     @GetMapping("/managerPage_NoticeAdd")
     public String managerPageManagerPageNoticeAdd(Model model) {
@@ -1021,7 +1052,6 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         }
         return "redirect:/manager/managerPage_JrestHold";
     }
-
 }
 
 

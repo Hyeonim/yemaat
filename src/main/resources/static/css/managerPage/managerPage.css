@@ -178,25 +178,67 @@ tr:hover {
     margin-bottom: 10px;
 }
 
+.ps {
+    text-align: center;
+}
+
+.ps {
+    text-align: center;
+}
+
+
+
+
+
+
+/* qu */
+
+.qu {
+    width: 900px;
+    margin: 20px auto auto auto;
+    border: solid 2px gray;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+}
+
+.qu form{
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.qu label {
+    font-weight: bold;
+    display: block;
+}
+
+.qu input[type="text"],
+.qu textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /*background-color: #f2f2f2;*/
+}
+
+.qu textarea {
+    resize: vertical;
+}
+
+
+
+/* an */
 
 .an {
     width: 900px;
     margin: 20px auto auto auto;
     border: solid 2px gray;
     border-radius: 10px;
-}
-
-.an .fifth {
-    text-align: center;
+    background-color: #f2f2f2;
 }
 
 .an form {
     max-width: 500px;
     margin: 0 auto;
-}
-
-.ps {
-    text-align: center;
 }
 
 .an form p {
@@ -214,65 +256,18 @@ tr:hover {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    /*background-color: #f2f2f2;*/
 }
 
 .an textarea {
     resize: vertical;
 }
 
-.an h2 {
-    margin-left: 10px;
-}
-
-/* an2 */
-.an2 {
-    width: 900px;
-    margin: 20px auto 20px auto;
-    border: solid 2px gray;
-    border-radius: 10px;
-}
+/*.an h2 {*/
+/*    margin-left: 10px;*/
+/*}*/
 
 
-/*여기까지*/
-
-.ps {
-    text-align: center;
-}
-
-
-.qu {
-    width: 900px;
-    margin: 20px auto auto auto;
-    border: solid 2px gray;
-    border-radius: 10px;
-}
-
-
-
-.qu p {
-    margin-left: 20px;
-    margin-bottom: 15px;
-}
-
-.qu label {
-    font-weight: bold;
-    display: block;
-}
-
-.qu input {
-    width: 100%;
-    padding: 8px;
-    border: none;
-
-}
-
-.qu textarea {
-    resize: vertical;
-}
-
-.qu h2 {
-    margin-left: 10px;
-}
 
 
 .searchDiv {
