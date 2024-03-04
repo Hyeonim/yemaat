@@ -79,10 +79,6 @@ public class DinningReviewView {
     private String restDescription;
 
     @Size(max = 100)
-    @Column(name = "user_id", length = 100)
-    private String userId;
-
-    @Size(max = 100)
     @Column(name = "rest_start_date", length = 100)
     private String restStartDate;
 
