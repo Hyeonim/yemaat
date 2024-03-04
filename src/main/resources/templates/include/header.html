@@ -41,7 +41,6 @@
             <div id="navbarNav">
 
                 <form th:action="@{/search}" method="get" >
-<!--                    <div class="searchBox" onfocus="handleFocusIn(true)" onblur="handleFocusIn(false)" >-->
                     <div class="searchBox" >
                         <div>
                             <input id="searchBar" type="search" placeholder="음식 또는 식당명 입력" aria-label="Search"
@@ -117,16 +116,16 @@
         </nav>
     </div>
 
-    <!-- 날씨 관련 -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         function onAlarmClick(btn) {
-            document.querySelector("[name=chat]").classList.toggle("visible");
+            // document.querySelector("[name=chat]").classList.toggle("visible");
+            document.dispatchEvent( new Event("chatAlarmButtonClick") );
         }
 
         function onMenuClick(btn) {
             document.querySelector("[name=mymenu]").classList.toggle("visible");
+            document.querySelector("[name=mymenu]").style.opacity = 1;
         }
         async function handleBlur() {
             await sleep(200)
@@ -189,11 +188,11 @@
         })();
 
         // 날씨 관련
-        const button = document.querySelector('.button');
-
-        document.addEventListener('click', () => {
-            navigator.geolocation.getCurrentPosition(success);
-        });
+        // const button = document.querySelector('.button');
+        //
+        // document.addEventListener('click', () => {
+        //     navigator.geolocation.getCurrentPosition(success);
+        // });
 
         const API_KEY = '30daaa26c215673ed477b33a05426ac5';
 
@@ -208,6 +207,9 @@
 
             getWeather(latitude, longitude);
         };
+        const noPosition = (position) => {
+            getWeather(35.86868025887658, 128.5987419727357);
+        }
 
         const getWeather = (lat, lon) => {
             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`)
@@ -230,7 +232,7 @@
             // });
             // 위 catch 코드 주석을 풀면 계속 경고창이 나옴,,
         }
-        navigator.geolocation.getCurrentPosition(success);
+        navigator.geolocation.getCurrentPosition(success, noPosition);
 
 
     </script>

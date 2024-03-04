@@ -192,7 +192,7 @@ public class IndexController {
     public ResponseEntity<String> getCustomerChatRoom( HttpServletRequest request, Principal principal )
     {
         User loginUser = o2Service.findUser( principal );
-        String userId = null!=loginUser ? loginUser.getUserId() : "";
+        String userId = null!=loginUser ? loginUser.getUserId() : null;
 
         String chatRoomId = "";
         if ( null != userId ) {

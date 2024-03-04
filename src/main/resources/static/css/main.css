@@ -230,8 +230,9 @@ header nav:nth-of-type(1) {
 
 #navbarNav .dropmenu.visible {
     display: inline-block;
+    transition: all 0.4s ease-out 0s;
     transform: scale(1);
-    opacity: 1;
+    /*opacity: 1;*/
 }
 
 #navbarNav .dropmenu ul, #navbarNav .dropmenu li {

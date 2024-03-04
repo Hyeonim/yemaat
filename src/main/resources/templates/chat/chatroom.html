@@ -92,6 +92,23 @@
         let m_restIndex = 0;
 
 
+
+        async function handleAlarmButtonClick( event ) {
+            let chatContainer = document.querySelector("[name=chat]");
+            chatContainer.classList.toggle("visible");
+
+            if ( chatContainer.classList.contains( "visible") )
+            {
+                await sleep( 100 );
+                chatContainer.style.opacity = 1;
+            }
+            else
+                chatContainer.style.opacity = 0;
+
+            document.querySelector( ".alarm-button" ).classList.remove( "new");
+        }
+        document.addEventListener( "chatAlarmButtonClick", handleAlarmButtonClick );
+
         function handleNewMessage( event ){
             myMessage.push( event.data );
             // let newMessageSpan = document.querySelector( ".alarm-button p" ); // header 에 있는 종 아래 숫자
@@ -107,9 +124,10 @@
         document.addEventListener( "new_message_stomp_subscribe", handleNewMessage );
 
         function handleConnected( event ) {
-            document.querySelector( ".alarm-button" ).classList.remove( "noCon");
+            document.querySelector( ".alarm-button" ).classList.toggle( "noCon", event.type === "lost_connection_stomp_server" );
         }
         document.addEventListener( "connected_stomp_server", handleConnected );
+        document.addEventListener( "lost_connection_stomp_server", handleConnected );
 
         function appendMessage( event ) {
             let payload = event.data;

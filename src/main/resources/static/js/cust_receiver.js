@@ -17,17 +17,24 @@
 
     function onError(e) {
         console.log("STOMP ERROR", e);
+        if ( e.includes( "Lost connection") )
+            document.dispatchEvent( new Event("lost_connection_stomp_server") );
     }
 
     function onDebug(m) {
-        console.log("STOMP DEBUG", m);
-        if ( m.includes( "connected to server") )
+        // console.log("STOMP DEBUG", m);
+        if ( m.match( /destination:\/exchange\/chat.exchange\/room.{20,}/) )
             document.dispatchEvent( new Event("connected_stomp_server") );
     }
 
     stomp.debug = onDebug;
 
     stomp.connect('guest', 'guest', function (frame) {
+
+        // let myEvent = new Event("connected_stomp_server");
+        // myEvent.data = frame;
+        // document.dispatchEvent(myEvent);
+
         /* subscribe 설정에 따라 rabbit의 Exchange, Queue가 상당히 많이 바뀜 */
         stomp.subscribe(`/exchange/chat.exchange/room.${myChatRoomId}`, function (content) {
             const payload = JSON.parse(content.body);
@@ -44,7 +51,6 @@
             // chats.insertAdjacentHTML('beforeend', html);
             let myEvent = new Event("new_message_stomp_subscribe");
             myEvent.data = payload;
-
             document.dispatchEvent(myEvent);
 
             //밑의 인자는 Queue 생성 시 주는 옵션
