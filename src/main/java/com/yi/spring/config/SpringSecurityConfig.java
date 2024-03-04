@@ -49,7 +49,8 @@ public class SpringSecurityConfig {
                           .userInfoEndpoint(config -> config.userService(memberService))
                         .redirectionEndpoint(Customizer.withDefaults())
                 )
-                .logout(Customizer.withDefaults())
+                .logout((logout)->logout
+                    .logoutSuccessUrl("/"))
                 .exceptionHandling().accessDeniedPage("/err/user/forbidden")
                 .accessDeniedHandler( customAccessDeniedHandler )
         ;

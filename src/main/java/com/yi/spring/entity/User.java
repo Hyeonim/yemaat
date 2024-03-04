@@ -80,7 +80,4 @@ public class User {
             return UserRole.USER; // 또는 다른 기본값 설정
         }
     }
-
-
-
 }

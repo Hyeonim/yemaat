@@ -9,6 +9,7 @@ import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -93,6 +95,47 @@ public class OwnerController {
         return reserveStat;
     }
 
+    private TreeMap<String, Integer> getStringIntegerTreeMapByPeriod(List<Object[]> mapParam, String period) {
+
+
+        TreeMap<String, Integer> inputMap = new TreeMap<>();
+        for ( Object[] item : mapParam )
+        {
+            inputMap.put(item[0].toString(), Math.toIntExact((Long) item[1]));
+        }
+
+
+        LocalDate today = LocalDate.now();
+        TreeMap<String, Integer> reserveMap = new TreeMap<>();
+        switch(period) {
+            case "1 week" :
+                LocalDate oneWeekAgo = today.minusWeeks(1);
+                while (!oneWeekAgo.isAfter(today)) {
+                    Integer value = inputMap.get(oneWeekAgo.toString());
+                    reserveMap.put(oneWeekAgo.toString(), Objects.requireNonNullElse(value, 0));
+                    oneWeekAgo = oneWeekAgo.plusDays(1);
+                }
+                break;
+            case "1 month" :
+                LocalDate oneMonthAgo = today.minusMonths(1);
+                while (!oneMonthAgo.isAfter(today)) {
+                    Integer value = inputMap.get(oneMonthAgo.toString());
+                    reserveMap.put(oneMonthAgo.toString(), Objects.requireNonNullElse(value, 0));
+                    oneMonthAgo = oneMonthAgo.plusDays(1);
+                }
+                break;
+            case "3 month" :
+                LocalDate threeMonthAgo = today.minusMonths(3);
+                while (!threeMonthAgo.isAfter(today)) {
+                    Integer value = inputMap.get(threeMonthAgo.toString());
+                    reserveMap.put(threeMonthAgo.toString(), Objects.requireNonNullElse(value, 0));
+                    threeMonthAgo = threeMonthAgo.plusDays(1);
+                }
+                break;
+        }
+        return reserveMap;
+    }
+
     @GetMapping("home")
     public String home(Principal principal, Model model) {
         loginUser = userService.findByUserId( principal.getName() ).get();
@@ -110,8 +153,8 @@ public class OwnerController {
             List<Reservation> reservations = reservationRepository.getTodayReservation((long) dinning.getRestNo());
             int complete = 0;
             int cancel = 0;
-            for(Reservation reserv : reservations) {
-                if(reserv.getResStatus().equals(String.valueOf(ReservationStatus.RESERVE_COMPLETED)) ||
+            for (Reservation reserv : reservations) {
+                if (reserv.getResStatus().equals(String.valueOf(ReservationStatus.RESERVE_COMPLETED)) ||
                         reserv.getResStatus().equals(String.valueOf(ReservationStatus.EXPIRED))) {
                     complete++;
                 } else if (reserv.getResStatus().equals(String.valueOf(ReservationStatus.USER_CANCEL)) ||
@@ -124,12 +167,23 @@ public class OwnerController {
             model.addAttribute("cancel", cancel);
 
             // List<Reservation> rList = reservationRepository.findAll();
-            List<Reservation> rList = reservationRepository.findByRestNo_RestNo((long) dinning.getRestNo());
-            TreeMap<String, Integer> reserveStat = getStringIntegerTreeMap(rList);
+            List<Reservation> timeList = reservationRepository.findByRestNo_RestNo((long) dinning.getRestNo());
+            TreeMap<String, Integer> reserveStat = getStringIntegerTreeMap(timeList);
 
             model.addAttribute("reserveStat", reserveStat);
+
+            TreeMap<String, Integer> week1List = getStringIntegerTreeMapByPeriod(reservationRepository.getReservationCountsByInterval("1 week",(long) dinning.getRestNo()), "1 week");
+            TreeMap<String, Integer> month1List = getStringIntegerTreeMapByPeriod(reservationRepository.getReservationCountsByInterval("1 month", (long) dinning.getRestNo()), "1 month");
+            TreeMap<String, Integer> month3List = getStringIntegerTreeMapByPeriod(reservationRepository.getReservationCountsByInterval("3 month", (long) dinning.getRestNo()), "3 month");
+
+            model.addAttribute("week1List", week1List);
+            model.addAttribute("month1List", month1List);
+            model.addAttribute("month3List", month3List);
+
             model.addAttribute("drawGraph", true);
         }
+
+
 
         return "owner/home";
     }
@@ -356,6 +410,7 @@ public class OwnerController {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.EXPIRED));
+        reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
     }
@@ -365,6 +420,7 @@ public class OwnerController {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.NO_SHOW));
+        reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
         return "redirect:/owner/reservList";
     }
@@ -374,6 +430,7 @@ public class OwnerController {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.RESERVE_COMPLETED));
+        reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
 
         sendMessage.Send(request, reservation.getUserNo().getUserId()

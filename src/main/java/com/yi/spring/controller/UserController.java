@@ -351,7 +351,7 @@ public class UserController {
                              @RequestParam String userName,
                              @RequestParam String userId,
                              @RequestParam String userEmail,
-                             @RequestParam String userPassword,
+                             @RequestParam(required = false) String userPassword,
                              @RequestParam String userTel
     ) throws IOException {
         user = o2MemberService.findUser(principal);
@@ -369,10 +369,14 @@ public class UserController {
             user.setUserImg( existUser.getUserImg());
         }
 
+        if ( null!= userPassword && !userPassword.isEmpty())
+            user.setUserPassword(userPassword);
+        else
+            user.setUserPassword(existUser != null ? existUser.getUserPassword() : null);
+
         user.setUserName(userName);
         user.setUserId(userId);
         user.setUserEmail(userEmail);
-        user.setUserPassword(userPassword);
         user.setUserTel(userTel);
 
         userRepository.save(user);
