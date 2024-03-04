@@ -26,7 +26,7 @@ public class QA {
     @JoinColumn(name = "user_no")
     private User userNo;
 
-    @Column(name = "qa_content", length = 100)
+    @Column(name = "qa_content", columnDefinition = "text")
     private String qaContent;
 
     @Column(name = "qa_write_time")

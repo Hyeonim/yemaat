@@ -181,6 +181,7 @@ public class UserController {
     @GetMapping("user_review")
     public String userReviews(Principal principal,
                               @RequestParam(value = "page", defaultValue = "0") int page,
+                              @RequestParam(value = "selectedOption", required = false) String selectedOption,
                               @RequestParam(value = "searchInput", required = false) String searchInput ,Model model) {
         user = o2MemberService.findUser( principal );
 //        System.out.println("search => " + searchInput);
@@ -192,11 +193,13 @@ public class UserController {
             List<Review> reviewsList;
 
             if (searchInput != null && !searchInput.isEmpty()) {
-                reviewsPage = reviewService.findByRevContentContainingPaged(user, searchInput, page);
+                if (Objects.equals(selectedOption, "content")){
+                    reviewsPage = reviewService.findByRevContentContainingPaged(user, searchInput, page);
+                } else {
+                    reviewsPage = reviewService.findByRestNameContainingPaged(user, searchInput, page);
+                }
                 reviewsList = reviewsPage.getContent();
                 model.addAttribute("userNoCount", reviewsList.size());
-//                System.out.println("reviewsPage있다 => " + reviewsPage.getContent());
-
                 if (reviewsList.isEmpty()) {
                     System.out.println("검색 결과가 없습니다.");
                     model.addAttribute("noResultsMessage", "검색 결과가 없습니다.");
@@ -206,7 +209,6 @@ public class UserController {
                 reviewsList = reviewsPage.getContent();
                 long userNoCount = reviewRepository.countByUserNo(user);
                 model.addAttribute("userNoCount", userNoCount);
-//                System.out.println("reviewsPage없다 => " + reviewsPage.getContent());
             }
 
             reservationService.checkReservationStatus(reservations, model);

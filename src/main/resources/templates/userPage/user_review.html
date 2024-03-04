@@ -128,110 +128,130 @@
     </style>
 
     <div style="display: flex; justify-content: center; margin-top: -132px">
-    <div style="display: flex; justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding: 2% " >
-        <div class="reviewForm" style="">
-            <div style="display: flex; justify-content: space-between; align-items: center">
-                <h3 th:text="'전체글(' + ${userNoCount} + ')'"></h3>
-                <div style="display: flex; align-items: center">
-                    <input type="text" id="searchInput" placeholder="search" style="height: 95%">
-                    <div class="btn" onclick="searchReview()">
-                        <img src="/img/search22.png" style="width: 31px; height: 31px" class="searchReview">
+        <div style="display: flex; justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding: 2% ">
+            <div class="reviewForm" style="">
+                <div style="display: flex; justify-content: space-between; align-items: center">
+                    <h3 th:text="'전체글(' + ${userNoCount} + ')'"></h3>
+                    <div style="display: flex; align-items: center">
+                        <div>
+                            <select id="revSearchSelect">
+                                <option selected value="content">내용</option>
+                                <option value="resName">가게 이름</option>
+                            </select>
+                            <input type="text" id="searchInput" placeholder="search" style="height: 95%">
+                            <div class="btn" onclick="searchReview()">
+                                <img src="/img/search22.png" style="width: 31px; height: 31px" class="searchReview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="reviewMainBox" th:each="combinedLists : ${combinedList}"
+                    style="display: flex; justify-content: space-between" id="ReviewTable">
+                    <div>
+                        <div class="reviewItem" style="display:flex; ">
+                            <div>
+                                <th:block th:if="${not #strings.isEmpty(combinedLists.rev.base64Image)}">
+                                    <img style="max-width: 60px; max-height: 60px;"
+                                         th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}"
+                                         alt="리뷰이미지">
+                                </th:block>
+                                <th:block th:unless="${not #strings.isEmpty(combinedLists.rev.base64Image)}">
+                                    <div style="width: 60px; height: 60px; overflow: hidden;">
+                                        <img src="/img/no_image.png" alt=""
+                                             style="width: 100%; height: 92%; object-fit: cover;">
+                                    </div>
+                                </th:block>
+                            </div>
+
+                            <!--                        <div th:text="${rev.restNo}"></div>-->
+
+                            <!--                    <div th:text="${reviews.getRestNo().restName}"></div>-->
+                            <div style="margin-left: 10px">
+                                <div style="display: flex">
+                                    <a th:href="'/detail?restNo=' + ${combinedLists.rev.getRestNo().restNo}">
+                                        <li th:text="${combinedLists.rev.getRestNo().restName} + ' >'"
+                                            style="font-size: 12px; padding-bottom: 1px; padding-left: 1px; padding-top: 1px;">
+                                        </li>
+                                    </a>
+
+                                </div>
+                                <li class="revContentBox" th:text="${combinedLists.rev.revContent}"
+                                    style="margin: 10px 0; width: 833.03px; height: 40px"></li>
+
+                                <div style="display: flex">
+                                    <!--                            <li th:text="${combinedLists.rev.getUserNo().userId}" style="font-size: 12px; margin-right: 5px">(여기에-->
+                                    <!--                                닉네임)-->
+                                    <!--                            </li>-->
+                                    <li th:text="${combinedLists.timeAgo}" style="font-size: 12px; margin-right: 5px">
+                                        (여기에
+                                        시간)
+                                    </li>
+
+                                    <li style="font-size: 12px" class="rating">
+                                        <div class="ratefillGray"></div>
+                                        <div class="ratefillYellow"
+                                             th:style="'width: ' + ${combinedLists.rev.revScore * 16} + 'px'"></div>
+                                        <input type="radio" name="revScore" id="rating1" value="10" class="rate_radio"
+                                               title="1점">
+                                        <label for="rating1"></label>
+                                        <input type="radio" name="revScore" id="rating2" value="20" class="rate_radio"
+                                               title="2점">
+                                        <label for="rating2"></label>
+                                        <input type="radio" name="revScore" id="rating3" value="30" class="rate_radio"
+                                               title="3점">
+                                        <label for="rating3"></label>
+                                        <input type="radio" name="revScore" id="rating4" value="40" class="rate_radio"
+                                               title="4점">
+                                        <label for="rating4"></label>
+                                        <input type="radio" name="revScore" id="rating5" value="50" class="rate_radio"
+                                               title="5점">
+                                        <label for="rating5"></label>
+                                        <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">
+                                    </li>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="hiddenContent"
+                             style="width: 50%; display: none; align-items: center; flex-direction: column; margin-top: 45px;margin-left: 64px;">
+                            <div>
+                                <div style="display: flex; justify-content: center; flex-direction: column; margin-right: 1px">
+                                    <img style="max-width: 330px; max-height: 330px;"
+                                         th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}"
+                                         alt="리뷰이미지">
+                                    <div style="margin-top: 30px" th:text="${combinedLists.rev.revContent}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex">
+                        <div id="updateReview" th:onclick="confirmUpdate('수정', /*[[${combinedLists.rev.id}]]*/)">수정
+                        </div>
+                        <div id="deleteReview" th:onclick="confirmDelete('삭제', /*[[${combinedLists.rev.id}]]*/)">삭제
+                        </div>
+                    </div>
+
+                </ul>
+
+                <div th:if="${combinedList == null or #lists.isEmpty(combinedList)}">
+                    <div style="display: flex; flex-direction: column; align-items: center ;justify-content: center; padding: 140px">
+                        <h1>이런!</h1>
+                        <h4>리뷰가 하나도 없어요!</h4>
+                        <span>예약을 이용 후 작성 할 수 있어요..</span>
                     </div>
                 </div>
             </div>
-
-            <ul class="reviewMainBox" th:each="combinedLists : ${combinedList}"
-                style="display: flex; justify-content: space-between" id="ReviewTable">
-                <div>
-                    <div class="reviewItem" style="display:flex; ">
-                        <div>
-                            <th:block th:if="${not #strings.isEmpty(combinedLists.rev.base64Image)}">
-                                <img style="max-width: 60px; max-height: 60px;"
-                                     th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}" alt="리뷰이미지">
-                            </th:block>
-                            <th:block th:unless="${not #strings.isEmpty(combinedLists.rev.base64Image)}">
-                                <div style="width: 60px; height: 60px; overflow: hidden;">
-                                    <img src="/img/no_image.png" alt="" style="width: 100%; height: 92%; object-fit: cover;">
-                                </div>
-                            </th:block>
-                        </div>
-
-                        <!--                        <div th:text="${rev.restNo}"></div>-->
-
-                        <!--                    <div th:text="${reviews.getRestNo().restName}"></div>-->
-                        <div style="margin-left: 10px">
-                            <div style="display: flex">
-                                <a th:href="'/detail?restNo=' + ${combinedLists.rev.getRestNo().restNo}">
-                                    <li th:text="${combinedLists.rev.getRestNo().restName} + ' >'"
-                                        style="font-size: 12px; padding-bottom: 1px; padding-left: 1px; padding-top: 1px;">
-                                    </li>
-                                </a>
-
-                            </div>
-                            <li class="revContentBox" th:text="${combinedLists.rev.revContent}"
-                                style="margin: 10px 0; width: 833.03px; height: 40px"></li>
-
-                            <div style="display: flex">
-                                <!--                            <li th:text="${combinedLists.rev.getUserNo().userId}" style="font-size: 12px; margin-right: 5px">(여기에-->
-                                <!--                                닉네임)-->
-                                <!--                            </li>-->
-                                <li th:text="${combinedLists.timeAgo}" style="font-size: 12px; margin-right: 5px">(여기에
-                                    시간)
-                                </li>
-
-                                <li style="font-size: 12px" class="rating">
-                                    <div class="ratefillGray"></div>
-                                    <div class="ratefillYellow"
-                                         th:style="'width: ' + ${combinedLists.rev.revScore * 16} + 'px'"></div>
-                                    <input type="radio" name="revScore" id="rating1" value="10" class="rate_radio"
-                                           title="1점" >
-                                    <label for="rating1"></label>
-                                    <input type="radio" name="revScore" id="rating2" value="20" class="rate_radio"
-                                           title="2점">
-                                    <label for="rating2"></label>
-                                    <input type="radio" name="revScore" id="rating3" value="30" class="rate_radio"
-                                           title="3점">
-                                    <label for="rating3"></label>
-                                    <input type="radio" name="revScore" id="rating4" value="40" class="rate_radio"
-                                           title="4점">
-                                    <label for="rating4"></label>
-                                    <input type="radio" name="revScore" id="rating5" value="50" class="rate_radio"
-                                           title="5점">
-                                    <label for="rating5"></label>
-                                    <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">
-                                </li>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="hiddenContent"
-                         style="width: 50%; display: none; align-items: center; flex-direction: column; margin-top: 45px;margin-left: 64px;">
-                        <div>
-                            <div style="display: flex; justify-content: center; flex-direction: column; margin-right: 1px">
-                                <img style="max-width: 330px; max-height: 330px;"
-                                     th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}" alt="리뷰이미지">
-                                <div style="margin-top: 30px" th:text="${combinedLists.rev.revContent}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex">
-                    <div id="updateReview" th:onclick="confirmUpdate('수정', /*[[${combinedLists.rev.id}]]*/)">수정</div>
-                    <div id="deleteReview" th:onclick="confirmDelete('삭제', /*[[${combinedLists.rev.id}]]*/)">삭제</div>
-                </div>
-
-            </ul>
         </div>
     </div>
-    </div>
 
-    <div th:if="${!reviewsPage.isEmpty()}" style="padding: 4% 0">
+    <div th:if="${!reviewsPage.isEmpty()}" style="padding: 3% 0">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!reviewsPage.hasPrevious} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{|?page=${reviewsPage.number-1 < 0 ? 0 : reviewsPage.number-1}|}">
-                    <span>이전</span>
+                    <span> < </span>
                 </a>
             </li>
             <li th:each="page: ${#numbers.sequence(0, reviewsPage.totalPages-1)}"
@@ -242,7 +262,7 @@
             </li>
             <li class="page-item" th:classappend="${!reviewsPage.hasNext} ? 'disabled'">
                 <a class="page-link" th:href="@{|?page=${reviewsPage.number+1}|}">
-                    <span>다음</span>
+                    <span> > </span>
                 </a>
             </li>
         </ul>
@@ -253,27 +273,22 @@
             var result = confirm('삭제 하시겠습니까?');
 
             if (result) {
-                // 사용자가 확인을 눌렀을 때의 동작을 여기에 추가
                 console.log(revNo);
                 deleteReview(revNo);
             } else {
-                // 사용자가 취소를 눌렀을 때의 동작을 여기에 추가
-                alert('삭제가 취소되었습니다.'); // 예시로 alert를 사용하였습니다.
+                alert('삭제가 취소되었습니다.');
             }
         }
+
         function deleteReview(revNo) {
-            // Ajax 요청을 사용하여 서버 측 코드 호출
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/user/deleteReview/' + revNo, true);
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-                        // 서버 응답이 성공적으로 도착했을 때의 동작
                         alert('삭제가 완료되었습니다.');
-                        // 페이지 새로고침
                         location.reload();
                     } else {
-                        // 서버 응답이 실패했을 때의 동작
                         alert('삭제 도중 오류가 발생했습니다.');
                     }
                 }
@@ -285,17 +300,13 @@
             var result = confirm('리뷰를 수정 하시겠습니까?');
 
             if (result) {
-                // 사용자가 확인을 눌렀을 때의 동작을 여기에 추가
                 console.log(revNo);
-                // revNo를 사용하여 페이지 이동
                 window.location.href = '/user/updateReviewForm/' + revNo;
 
             } else {
-                // 사용자가 취소를 눌렀을 때의 동작을 여기에 추가
                 alert('취소되었습니다.');
             }
         }
-
 
     </script>
 
@@ -308,7 +319,6 @@
                     var reviewMainBox = this.closest('.reviewMainBox');
                     if (reviewMainBox) {
                         if (reviewMainBox.classList.contains('selected')) {
-                            // 현재 선택된 요소를 닫는 로직
                             reviewMainBox.style.paddingBottom = '';
                             reviewMainBox.classList.remove('selected');
 
@@ -317,7 +327,6 @@
                                 $(hiddenContent).fadeOut(200);
                             }
                         } else {
-                            // 다른 요소를 닫는 로직
                             reviews.forEach(function (otherReview) {
                                 var otherReviewMainBox = otherReview.closest('.reviewMainBox');
                                 if (otherReviewMainBox && otherReviewMainBox.classList.contains('selected')) {
@@ -331,7 +340,6 @@
                                 }
                             });
 
-                            // 현재 선택된 요소를 열고 스크롤로 이동하는 로직
                             reviewMainBox.style.paddingBottom = '100px';
                             reviewMainBox.classList.add('selected');
 
@@ -353,13 +361,14 @@
 
         function searchReview() {
             let searchInput = document.getElementById("searchInput").value;
+            let selectedOption = document.getElementById("revSearchSelect").value;
             let encodedSearchInput = encodeURIComponent(searchInput);
 
-            // URL 변경
-            window.history.pushState({ searchInput }, "Search Results", "/user/user_review?searchInput=" + encodedSearchInput);
+            let url = `/user/user_review?searchInput=${encodedSearchInput}&selectedOption=${selectedOption}`;
 
-            // Ajax 요청 등의 로직 추가
-            fetch("/user/user_review?searchInput=" + encodedSearchInput)
+            window.history.pushState({searchInput, selectedOption}, "Search Results", url);
+
+            fetch(url)
                 .then(resp => resp.text())
                 .then(data => {
                     let doc = new DOMParser().parseFromString(data, 'text/html');
@@ -367,9 +376,9 @@
                     document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
 
                     window.location.reload();
-
                 });
         }
+
 
         // document.addEventListener('DOMContentLoaded', function() {
         //     var noResultsMessage = /*[[ ${noResultsMessage} ]]*/;

@@ -24,6 +24,10 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     Page<Review> findAll(Pageable pageable);
 
     Page<Review> findByUserNoAndRevContentContaining(User user,String revContent, Pageable pageable);
+//    Page<Review> findByUserNoAndRevContentAndRestNoRestNameContaining(User user, String search, Pageable pageable);
+    Page<Review> findByUserNoAndRestNoRestNameContaining(User user,String restName, Pageable pageable);
+
+//    Page<Review> findByUserNoAndRestNameContaining(User user,String restName, Pageable pageable);
 
 
     List<Review> findByRestNo(Dinning dinning);

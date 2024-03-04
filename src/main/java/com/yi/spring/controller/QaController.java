@@ -159,7 +159,13 @@ public class QaController {
         qaRepository.save(qa);
 
         int user_no = userNo.getUserNo();
-        return "redirect:/user/userPage/" + user_no;
+        return "redirect:/QA/user_qa";
+    }
+
+    @GetMapping("deleteQA/{qaNo}")
+    public String QADelete(@PathVariable("qaNo") int qaNo) {
+        qaRepository.deleteById(qaNo);
+        return "redirect:/QA/user_qa";
     }
 
 }

@@ -21,38 +21,112 @@
             unicode-bidi: isolate;
             margin-block-start: 0.5em;
             margin-block-end: 0.5em;
-            margin-inline-start: 398px;
-            margin-inline-end: 390px;
             overflow: hidden;
             border-style: inset;
             border-width: 1px;
+            margin-top: -35px;
+        }
+
+        .QATable td {
+            padding: 15px;
+            border-width: 1px 1px 1px 0;
+            border-style: solid;
+            border-color: #ddd;
+            color: #454545;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .grey {
+            background-color: #eee;
+        }
+        .center {
+            text-align: center !important;
+        }
+
+        #charCount {
+            color: #999;
+            font-size: 12px;
+        }
+        .exceeded {
+            color: red;
         }
     </style>
+    <div style="display: flex; justify-content: center; margin-top: -132px">
+        <div style="display: flex; flex-direction: column; justify-content: space-around ;background-color: #FFFFFF; width: 1231px; height: 570px; border-radius: 0px; padding: 2% ">
+            <div style="display: flex; justify-content: center">
+                <h4> <i class="fa-solid fa-q"></i> 문의 하기</h4>
+            </div>
+            <hr>
 
-    <div style="display: flex; justify-content: space-between; padding: 5px 400px;">
-        <div style="width: 300px; font-size: 150%">문의 하기</div>
-        <div style="width: 60px; margin-top: 15px"><a th:href="@{/QA/user_qa_selete}">뒤로 가기</a></div>
-    </div>
-    <hr>
-
-    <div class="formDiv" style="display: flex; justify-content: center; padding-top: 76px ">
-
-        <div>
             <form th:action="@{/QA/user_qa_add}" method="post" enctype="multipart/form-data">
-                <label>ID:</label>
-                <input type="text" th:value="${QA_userNo.get().getUserId()}" readonly/><br>
-                <label>이름:</label>
-                <input type="text" th:value="${QA_userNo.get().getUserName()}" readonly/><br>
-                <label hidden="hidden">유저번호</label>
-                <input type="text" th:value="${QA_userNo.get().getUserNo()}" name="userNo" hidden="hidden"/><br>
-                <label>제목:</label>
-                <input type="text" name="qa_title"/><br>
-                <label>내용:</label>
-                <input type="text" name="qa_content"/><br>
-                <button type="submit">확인</button>
+                <input th:value="${main_user.getUserNo()}" name="userNo" th:hidden="true"/>
+                <div class="QATable" style="display: flex; justify-content: center">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="center grey">
+                                <i class="fa-regular fa-id-card"></i> ID
+                            </td>
+                            <td>
+                                <div th:text="${QA_userNo.get().getUserId()}" name="user_id"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center grey">
+                                <i class="fa-solid fa-user"></i>  이름
+                            </td>
+                            <td>
+                                <div th:text="${QA_userNo.get().getUserName()}" name="user_name"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center grey">
+                                <i class="fa-regular fa-circle-question"></i>  문의 제목
+                            </td>
+                            <td>
+                                <input type="text" size="48" name="qa_title">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center grey">
+                                <i class="fa-solid fa-circle-question"></i>  문의 내용
+                            </td>
+                            <td>
+                                <textarea id="qa_content" cols="50" rows="5" style="resize: none" name="qa_content" placeholder="200자 내외로 작성해주세요." oninput="limitTextarea(this, 200)"></textarea>
+                                <div id="charCount">Characters remaining: <span id="remainingChars">200</span></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button style="border: 1px solid grey"><i class="fa-solid fa-plus"></i>  문의 등록</button>
+
+                </div>
             </form>
         </div>
     </div>
+
+    <script>
+        function limitTextarea(element, maxLength) {
+            let text = element.value;
+            let currentChars = text.length;
+            let remainingChars = maxLength - currentChars;
+
+            document.getElementById('remainingChars').innerText = Math.max(0, remainingChars);
+
+            if (remainingChars < 0) {
+                document.getElementById('charCount').classList.add('exceeded');
+            } else {
+                document.getElementById('charCount').classList.remove('exceeded');
+            }
+
+            if (currentChars > maxLength) {
+                element.value = text.slice(0, maxLength);
+            }
+        }
+
+    </script>
+
 </th:block>
 </html>
 

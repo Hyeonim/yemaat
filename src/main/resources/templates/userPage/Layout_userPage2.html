@@ -155,7 +155,7 @@
     #headerBox {
         background-size: cover;
         background-position: center;
-        filter: blur(1.5px); /* blur 값은 필요에 따라 조절하세요. */
+        filter: blur(1.5px);
     }
 
 
@@ -231,7 +231,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', function () {
-        var images = ["/img/nb.jpg", "/img/ck_tica034m19090391_l-580x387.jpg","/img/mainbg.jpeg"];
+        var images = ["/img/nb.jpg", "/img/ck_tica034m19090391_l-580x387.jpg", "/img/mainbg.jpeg"];
         var randomIndex = Math.floor(Math.random() * images.length);
         var headerBox = document.getElementById('headerBox');
         headerBox.style.backgroundImage = 'url("' + images[randomIndex] + '")';
@@ -252,74 +252,72 @@
     </h6>
 </div>
 
-<div id="noticeBox" style="width: 1230px; height: 219.047px;
-    position: relative;
-    margin: 0 auto; /* 가로 중앙 정렬을 위한 margin 속성 추가 */
-    bottom: 166px;
-    z-index: 98;
-    margin-bottom: -90px;
-    box-shadow: 0px 3px 18px #f1e7f4; background-color: #fff">
+<div id="noticeBox" style="width: 1230px; height: 219.047px; position: relative; margin: 0 auto; bottom: 166px; z-index: 98; margin-bottom: -90px; box-shadow: 0px 3px 18px #f1e7f4; background-color: #fff">
 
     <div class="userBox" style="display: flex">
         <div style="text-align: center; padding: 10px; width: 60%; border-right: 1px solid lightgray; ">
-            <div style="display: flex; font-size: 18px; font-weight: bold"
-                 th:text="${main_user.getUserName()} + '님 반가워요'"></div>
-            <div style="text-align: center; font-size: 18px; margin-top: 1rem;">최근 예약 한 식당</div>
+            <div style="display: flex">
+                <div style="font-size: 18px; font-weight: bold"
+                     th:text="${main_user.getUserName()} + '님 반가워요'"></div>
+                <div th:text="${main_user.getProvider()}"></div>
+            </div>
 
-            <div style="display: flex; justify-content: center">
-                <div th:switch="${statusMessage}">
-                    <div th:case="'Reservation Completed'" class="resBox1"
-                         th:text="${latestReservation != null ? latestReservation.getRestNo().restName : ''}"></div>
-                    <div th:case="'Waiting for Confirmation'" class="resBox2"
-                         th:text="${latestReservation != null ? latestReservation.getRestNo().restName : ''}"></div>
-                    <div th:case="'Reservation Canceled by User' or 'Reservation Rejected by Restaurant' or 'No Show - User did not arrive' or 'Reservation Expired'"
-                         class="resBox3">없음
+                <div style="text-align: center; font-size: 18px; margin-top: 1rem;">최근 예약 한 식당</div>
+
+                <div style="display: flex; justify-content: center">
+                    <div th:switch="${statusMessage}">
+                        <div th:case="'Reservation Completed'" class="resBox1"
+                             th:text="${latestReservation != null ? latestReservation.getRestNo().restName : ''}"></div>
+                        <div th:case="'Waiting for Confirmation'" class="resBox2"
+                             th:text="${latestReservation != null ? latestReservation.getRestNo().restName : ''}"></div>
+                        <div th:case="'Reservation Canceled by User' or 'Reservation Rejected by Restaurant' or 'No Show - User did not arrive' or 'Reservation Expired'"
+                             class="resBox3">없음
+                        </div>
+                        <div th:case="*" class="resBox3">없음</div>
                     </div>
-                    <div th:case="*" class="resBox3">없음</div>
+
+
+                    <div class="custom-tooltip">
+                        <img style="width: 17px; height: 17px" src="/img/info2.jpeg">
+                        <div class="tooltip-text">초록색은 예약이 완료된 가게, 노란색은 예약을 수락대기중인 가게입니다.</div>
+                    </div>
+
+
                 </div>
+            </div>
 
-
-                <div class="custom-tooltip">
-                    <img style="width: 17px; height: 17px" src="/img/info2.jpeg">
-                    <div class="tooltip-text">초록색은 예약이 완료된 가게, 노란색은 예약을 수락대기중인 가게입니다. </div>
+            <div style="width: 40%;">
+                <div class="pointBox">
+                    <div>MY포인트</div>
+                    <a href="#"><img src="/img/setup.png"></a>
                 </div>
-
-
+                <div class="point">
+                    <div th:text="${main_user.getPoint() + 'P'}"></div>
+                </div>
             </div>
         </div>
 
-        <div style="width: 40%;">
-            <div class="pointBox">
-                <div>MY포인트</div>
-                <a href="#"><img src="/img/setup.png"></a>
+        <nav style="display: flex">
+            <div id="mySideBar">
+                <div class="mypage_sidebar_nav" id="postsSelect"><a
+                        th:href="@{/user/user_posts}">My 예약</a></div>
+                <div class="mypage_sidebar_nav" id="reviewSelect"><a
+                        th:href="@{/user/user_review}">My 리뷰</a></div>
+                <!--            <div class="mypage_sidebar_nav" id="QASelect"><a-->
+                <!--                    th:href="@{/QA/user_qa}">My 문의</a></div>-->
+                <div class="mypage_sidebar_nav" id="QASelect"><a
+                        th:href="@{/QA/user_qa_selete}">My 문의</a></div>
+                <div class="mypage_sidebar_nav" id="infoSelect"><a
+                        th:href="@{/user/user_info}">My 정보</a></div>
             </div>
-            <div class="point">
-                <div>0P</div>
-            </div>
-        </div>
+        </nav>
     </div>
 
-    <nav style="display: flex">
-        <div id="mySideBar">
-            <div class="mypage_sidebar_nav" id="postsSelect"><a
-                    th:href="@{/user/user_posts}">My 예약</a></div>
-            <div class="mypage_sidebar_nav" id="reviewSelect"><a
-                    th:href="@{/user/user_review}">My 리뷰</a></div>
-<!--            <div class="mypage_sidebar_nav" id="QASelect"><a-->
-<!--                    th:href="@{/QA/user_qa}">My 문의</a></div>-->
-            <div class="mypage_sidebar_nav" id="QASelect"><a
-                    th:href="@{/QA/user_qa_selete}">My 문의</a></div>
-            <div class="mypage_sidebar_nav" id="infoSelect"><a
-                    th:href="@{/user/user_info}">My 정보</a></div>
-        </div>
-    </nav>
-</div>
+    <div class="content-container" th:include="~{::content}"></div>
 
-<div class="content-container" th:include="~{::content}"></div>
-
-<footer th:include="~{/include/footer2::footerFragment}" style="margin-top: 50px">
-    footer
-</footer>
+    <footer th:include="~{/include/footer2::footerFragment}" style="margin-top: 50px">
+        footer
+    </footer>
 
 </body>
 </html>

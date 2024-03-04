@@ -7,10 +7,12 @@
       integrity="sha512-dlQ1m6eFYTV3tiZ3l3r0I5zJPCv+MIiT5sYX5FvO6PXq54tLFtqUOVXHbB3A5TcC2vX6SVUy2Ld7h0I3Hhu0fQ=="
       crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <th:block th:fragment="content">
     <!--    <link th:href="@{/css/userPage/starRank.css}" rel="stylesheet">-->
+
+
 
 
     <style>
@@ -529,8 +531,12 @@
             </script>
         </div>
 
+<!--        <div th:text="${main_user.getPoint()}"></div>-->
+
+<!--        <div th:text="${#lists.size(list)}"></div>-->
+
         <div style="display: flex; justify-content: center; margin-bottom: 10px;" id="searchPosts">
-            <div id="posts_main" class="posts_main" style="margin-right: 20%">
+            <div id="posts_main" class="posts_main" th:style="'margin-right: 20%;' + (${#lists.size(list) <= 1 ? 'height: 891px;' : 'height: auto;'})">
                 <div id="wrap" class="containers" th:each="res : ${list}">
 
                     <div id="container1" class="container1" style="display: flex">
@@ -543,13 +549,13 @@
                             <p class="gray-text p-right"
                                th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'">
                                 <a th:href="'/detail?restNo=' + ${res.restNo.restNo}">
-                                    <b style="font-size: 20px;" th:text="${res.restNo.restName}"
-                                       class="RestNoHover"></b>
+                                    <b style="font-size: 20px;" th:text="'  '+${res.restNo.restName}" class="RestNoHover"></b>
                                 </a><br>
-                                <b th:text="${res.restNo.restCategory}"></b><br>
-                                <b th:text="'예약 시간 : ' + @{${#strings.replace(res.resTime, 'T', ' ')}}"></b><br>
+                                <i class="fa-solid fa-utensils" style="color: #74C0FC;"></i><b th:text="${'  '+res.restNo.restCategory}"></b><br>
+                                <i class="fa-regular fa-clock"></i><b th:text="'  예약 시간 : ' + @{${#strings.replace(res.resTime, 'T', ' ')}}"></b><br>
                             <hr>
-                            <div><b th:text="'예약 인원 : ' + ${res.res_guest_count}"
+                            <div>
+                                <i class="fa-solid fa-user" style="color: #74C0FC;"></i><b th:text="'  예약 인원 : ' + ${res.res_guest_count}"
                                     th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b>
                             </div>
                             <br>
@@ -644,10 +650,10 @@
                                         </div>
                                         <div style="margin-top: 30px">
                                             <textarea id="reviewContent" name="revContent" rows="5" cols="82"
-                                                      style="resize: none;" placeholder="식당의 위생상태, 맛, 서비스 등 이용하신 경험에 대한 솔직한 리뷰를 남겨주세요. (선택)"></textarea>
+                                                      style="resize: none;" placeholder="식당의 위생상태, 맛, 서비스 등 이용하신 경험에 대한 솔직한 리뷰를 남겨주세요. (선택)">
+                                            </textarea>
                                         </div>
-                                        <button id="revAdd" class="reviewAddBtn" type="submit"
-                                                style="display: flex; justify-content: center; align-items: center; width: 112.5%;">
+                                        <button id="revAdd" class="reviewAddBtn" type="submit" style="display: flex; justify-content: center; align-items: center; width: 112.5%;">
                                             완료
                                         </button>
                                     </form>

@@ -16,7 +16,7 @@
         table {
             margin: 0 auto;
             border-collapse: collapse;
-            width: 63.4%;
+            width: 99.4%;
         }
 
         th, td {
@@ -56,42 +56,47 @@
 
     <!--    <a th:href="@{/QA/user_qa_form/{userNo}(userNo=${Num})}">문의추가</a>-->
 
-    <table>
-        <thead>
-        <tr style="height: 50px; border-bottom: 1px solid #ddd">
-            <th>번호</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>문의 날짜</th>
-            <th>문의 처리 상태</th>
-        </tr>
-        </thead>
+    <div style="display: flex; justify-content: center; margin-top: -132px">
+        <div style="display: flex; justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding: 2% ">
+            <table>
+                <thead>
+                <tr style="height: 50px; border-bottom: 1px solid #ddd">
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>문의 날짜</th>
+                    <th>문의 처리 상태</th>
+                </tr>
+                </thead>
 
-        <tbody th:each="QAs, iterStat : ${QA}">
-        <tr id="trBody" th:onclick="|location.href='/QA/Qa_answer/${QAs.id}'|">
-            <td th:text="${iterStat.count + (QA.getNumber() * QA.getSize())}"></td>
-            <td th:text="${QAs.qaTitle}"></td>
-            <td th:text="${QAs.qaContent}"></td>
-            <td th:text="${QAs.qaWriteTime}"></td>
-            <td>
-                <div th:if="${QAs.qaStatus}">
-                        <div>처리완료</div>
-                </div>
-                <div th:unless="${QAs.qaStatus}">
-                    <span>처리중</span>
-                </div>
-            </td>
-        </tr>
-        </tbody>
+                <tbody th:each="QAs, iterStat : ${QA}">
+                <tr id="trBody" th:onclick="|location.href='/QA/Qa_answer/${QAs.id}'|">
+                    <td th:text="${iterStat.count + (QA.getNumber() * QA.getSize())}"></td>
+                    <td th:text="${QAs.qaTitle}"></td>
+                    <td th:if="${#strings.length(QAs.qaContent) > 10}" th:text="${#strings.substring(QAs.qaContent, 0, 10)}"></td>
+                    <td th:unless="${#strings.length(QAs.qaContent) > 10}" th:text="${QAs.qaContent}"></td>
+                    <td th:text="${QAs.qaWriteTime}"></td>
+                    <td>
+                        <div th:if="${QAs.qaStatus}">
+                            <div>처리완료</div>
+                        </div>
+                        <div th:unless="${QAs.qaStatus}">
+                            <span>처리중</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
 
-    </table>
+            </table>
+        </div>
+    </div>
 
     <div th:if="${!QA.isEmpty()}" style="margin-bottom: 3%">
         <ul class="pagination justify-content-center" style="margin-top: 3%">
             <li class="page-item" th:classappend="${!QA.hasPrevious} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{|?page=${QA.number-1 < 0 ? 0 : QA.number-1}|}">
-                    <span>이전</span>
+                    <span> < </span>
                 </a>
             </li>
             <li th:each="page: ${#numbers.sequence(0, QA.totalPages-1)}"
@@ -102,7 +107,7 @@
             </li>
             <li class="page-item" th:classappend="${!QA.hasNext} ? 'disabled'">
                 <a class="page-link" th:href="@{|?page=${QA.number+1}|}">
-                    <span>다음</span>
+                    <span> > </span>
                 </a>
             </li>
         </ul>

@@ -11,5 +11,10 @@ public interface ReviewService {
     Page<Review> findByUserNoOrderByRevWriteTimeDesc(User user, int page);
 
     Page<Review> findByRevContentContainingPaged(User user,String revContent, int page);
+    Page<Review> findByRestNameContainingPaged(User user,String restName, int page);
+
+//    Page<Review> findByRevContentOrRestNameContainingPaged(User user, String search, int page);
+
+
 
 }

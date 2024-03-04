@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -63,6 +64,15 @@ public class User {
     @OneToMany(mappedBy = "userNo")
     @ToString.Exclude
     private Set<Review> reviews = new LinkedHashSet<>();
+
+
+    @Column(name = "memo")
+    private String memo;
+
+    @Column(name = "point", columnDefinition = "int default 0")
+    private int point;
+
+
 
     public String getBase64Image() {
         if (userImg != null && userImg.length > 0) {
