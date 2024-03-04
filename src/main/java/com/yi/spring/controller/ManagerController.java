@@ -327,8 +327,7 @@ public class ManagerController {
             @RequestParam String userEmail,
             @RequestParam String userPassword,
             @RequestParam String userTel,
-            @RequestParam String userAuth,
-    @RequestParam boolean userBlock) throws IOException {
+            @RequestParam String userAuth) throws IOException {
 
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
         userOptional.ifPresent(user -> {
@@ -348,7 +347,6 @@ public class ManagerController {
             user.setUserPassword(userPassword);
             user.setUserTel(userTel);
             user.setUserAuth(userAuth);
-            user.setUserBlock(userBlock);
             userRepository.save(user);
         });
 

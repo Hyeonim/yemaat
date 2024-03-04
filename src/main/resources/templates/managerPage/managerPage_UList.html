@@ -20,6 +20,7 @@
                 <th>고객 이름</th>
                 <th>고객 아이디</th>
                 <th>고객 이메일</th>
+                <th>가입 종류</th>
                 <th>고객 전화번호</th>
                 <th>가입일</th>
                 <th>블랙리스트</th>
@@ -39,6 +40,10 @@
                 <td th:text="${user.userEmail}"
                     th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name
                 </td>
+                <td th:text="${user.provider != null ? user.provider : 'yeamot'}"
+                    th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name
+                </td>
+
                 <td th:text="${user.userTel}"
                     th:onclick="'javascript:redirectToUserUpdate(\'' + ${user.userNo} + '\')'">Name
                 </td>
