@@ -26,6 +26,23 @@
     </div>
     <div class="main-box">
         <div class="box-header">
+            <h2>기간별 예약 현황</h2>
+        </div>
+        <div class="box-content">
+            <div class="chart-content"
+                 style="
+                 display: flex;
+                 justify-content: flex-start;
+                 align-items: center;
+                 padding: 20px 0;
+                 width: 60%;
+                 ">
+                <canvas id="periodBarChart" class="chart" width="258" height="129" style="display: block; box-sizing: border-box; height: 129px; width: 258px;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="main-box">
+        <div class="box-header">
             <h2>시간별 예약 현황</h2>
         </div>
         <div class="box-content">
@@ -51,84 +68,167 @@
             </div>
         </div>
     </div>
-    <li>주간 방문자 통계</li>
-    <li>방문자 유형 통계</li>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script th:inline="javascript">
-    function drawGraph() {
-        if ( ![[${drawGraph}]])
-            return;
-        let barLabel = [];
-        let doughnutLabel = [];
-        let barDataList = [];
-        let doughnutDataList = [];
+    <script th:inline="javascript">
+        function drawGraph() {
+            if ( ![[${drawGraph}]])
+                return;
+            let barLabel = [];
+            let doughnutLabel = [];
+            let barDataList = [];
+            let doughnutDataList = [];
 
-        [# th:if="${reserveStat != null}"]
-        [# th:each = "entry : ${reserveStat.entrySet()}"]
-        if([[${entry.value}]]) {
-            barLabel.push([[${entry.key}]])
-            doughnutLabel.push([[${entry.key}]])
-            barDataList.push([[${entry.value}]])
-            doughnutDataList.push([[${entry.value}]])
-        } else {
-            barLabel.push([[${entry.key}]])
-            barDataList.push([[${entry.value}]])
+            [# th:if="${reserveStat != null}"]
+            [# th:each = "entry : ${reserveStat.entrySet()}"]
+            if([[${entry.value}]]) {
+                barLabel.push([[${entry.key}]])
+                doughnutLabel.push([[${entry.key}]])
+                barDataList.push([[${entry.value}]])
+                doughnutDataList.push([[${entry.value}]])
+            } else {
+                barLabel.push([[${entry.key}]])
+                barDataList.push([[${entry.value}]])
 
-        }
-        [/][/]
+            }
+            [/][/]
 
-        let barData = {
-            labels: barLabel,
-            datasets: [{
-                label: '시간별 예약 통계',
-                data: barDataList,
-                backgroundColor: [
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(54, 102, 235, 0.5)',
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(52, 191, 182, 0.5)',
-                    'rgba(255, 159, 64, 0.5)',
-                    'rgba(75, 192, 192, 0.5)'
-                ],
-                borderWidth: 1
-            }]
-        };
+            let barData = {
+                labels: barLabel,
+                datasets: [{
+                    label: '시간별 예약 통계',
+                    data: barDataList,
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(54, 102, 235, 0.5)',
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(52, 191, 182, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(75, 192, 192, 0.5)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
 
-        let doughnutData = {
-            labels: doughnutLabel,
-            datasets: [{
-                label: '시간별 예약 통계',
-                data: doughnutDataList,
-                backgroundColor: [
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(54, 102, 235, 0.5)',
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(52, 191, 182, 0.5)',
-                    'rgba(255, 159, 64, 0.5)',
-                    'rgba(75, 192, 192, 0.5)'
-                ],
-                borderWidth: 1
-            }]
-        };
+            let doughnutData = {
+                labels: doughnutLabel,
+                datasets: [{
+                    label: '시간별 예약 통계',
+                    data: doughnutDataList,
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(54, 102, 235, 0.5)',
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(52, 191, 182, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(75, 192, 192, 0.5)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
 
-        // -------------------------------도넛 그래프--------------------------------
-        let reserveCtx = document.getElementById('reserveChart').getContext('2d');
-        // -------------------------------막대 그래프--------------------------------
-        let reserveCtx2 = document.getElementById('reserveBarChart').getContext('2d');
+            // -------------------------------도넛 그래프--------------------------------
+            let reserveCtx = document.getElementById('reserveChart').getContext('2d');
+            // -------------------------------막대 그래프--------------------------------
+            let reserveCtx2 = document.getElementById('reserveBarChart').getContext('2d');
 
-        [[reserveCtx, 'doughnut', doughnutData], [reserveCtx2, 'bar', barData]
-        ].forEach(elem => {
-            new Chart(elem[0], {
-                type: elem[1],
-                data: elem[2],
-                options: {}
+            [[reserveCtx, 'doughnut', doughnutData], [reserveCtx2, 'bar', barData]
+            ].forEach(elem => {
+                new Chart(elem[0], {
+                    type: elem[1],
+                    data: elem[2],
+                    options: {}
+                });
             });
-        });
-    }drawGraph();
 
-</script>
+            let week1label = [];
+            let month1label = [];
+            let month3label = [];
+            let week1DataList = [];
+            let month1DataList = [];
+            let month3DataList = [];
+            [# th:if="${week1List != null}"]
+                [# th:each="entry : ${week1List.entrySet()}"]
+                    week1label.push([[${entry.key}]]);
+                    week1DataList.push([[${entry.value}]]);
+                [/]
+            [/]
+
+            [# th:if="${month1List != null}"]
+                [# th:each="entry : ${month1List.entrySet()}"]
+                month1label.push([[${entry.key}]]);
+                month1DataList.push([[${entry.value}]]);
+                [/]
+            [/]
+
+            [# th:if="${month3List != null}"]
+                [# th:each="entry : ${month3List.entrySet()}"]
+                month3label.push([[${entry.key}]]);
+                month3DataList.push([[${entry.value}]]);
+                [/]
+            [/]
+
+            let periodData = {
+                labels : week1label, //month1label, month3label,
+                datasets : [{
+                    label : '주간 예약 현황',
+                    data : week1DataList,
+                    backgroundColor : [
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(54, 102, 235, 0.5)',
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(52, 191, 182, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(75, 192, 192, 0.5)'
+                    ],
+                    borderWidth:1
+                }]
+                };
+                // {
+                //     label : '1달간 예약 현황',
+                //     data : month1DataList,
+                //     backgroundColor : [
+                //         'rgba(255, 206, 86, 0.5)',
+                //         'rgba(54, 162, 235, 0.5)',
+                //         'rgba(54, 102, 235, 0.5)',
+                //         'rgba(255, 99, 132, 0.5)',
+                //         'rgba(52, 191, 182, 0.5)',
+                //         'rgba(255, 159, 64, 0.5)',
+                //         'rgba(75, 192, 192, 0.5)'
+                //     ],
+                //     borderWidth:1
+                // },
+                // {
+                //     label : '3달간 예약 현황',
+                //     data : month3DataList,
+                //     backgroundColor : [
+                //         'rgba(255, 206, 86, 0.5)',
+                //         'rgba(54, 162, 235, 0.5)',
+                //         'rgba(54, 102, 235, 0.5)',
+                //         'rgba(255, 99, 132, 0.5)',
+                //         'rgba(52, 191, 182, 0.5)',
+                //         'rgba(255, 159, 64, 0.5)',
+                //         'rgba(75, 192, 192, 0.5)'
+                //     ],
+                //     borderWidth:1
+                // }
+            //     ]
+            // };
+
+            let reserveCtx3 = document.getElementById('periodBarChart').getContext('2d');
+            [reserveCtx3, 'bar', periodData].forEach(elem => {
+                new Chart(elem[0], {
+                    type : elem[1],
+                    data : elem[2],
+                    options : {}
+                });
+            });
+        }
+
+        drawGraph();
+    </script>
 </th:block>
 </html>

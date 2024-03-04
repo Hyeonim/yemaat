@@ -9,7 +9,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
@@ -114,5 +116,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     int updateReservationStatusToReviewWithJoin2();
 
 
-
+    @Query(value= "SELECT DATE(r.res_time_new) as day, count(*) " +
+            "FROM reservation r " +
+            "WHERE " +
+            "CASE " +
+                "WHEN :interval='1 week' THEN DATE_SUB(CURDATE(), INTERVAL 1 WEEK) <= r.res_time_new " +
+                "WHEN :interval='1 month' THEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= r.res_time_new " +
+                "WHEN :interval='3 month' THEN DATE_SUB(CURDATE(), INTERVAL 3 MONTH) <= r.res_time_new " +
+            "END " +
+            "  and r.rest_no=:restNo " +
+            "group by DATE(r.res_time_new) " +
+            "ORDER BY day DESC;", nativeQuery = true)
+    List<Object[]> getReservationCountsByInterval(String interval, Long restNo);
 }
