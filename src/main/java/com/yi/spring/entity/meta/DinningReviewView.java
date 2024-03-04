@@ -3,20 +3,26 @@ package com.yi.spring.entity.meta;
 import com.yi.spring.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
 
 import java.math.BigDecimal;
 
 /**
  * Mapping for DB view
  */
+@Immutable
+@Entity
+//@Table(name = "dinning_review_view")
+@Subselect( "SELECT d.*, (SELECT COUNT(*) FROM review r  WHERE r.rest_no = d.rest_no  ) AS total_reviews " +
+        ", (SELECT avg(r.rev_score) FROM review r WHERE r.rest_no  = d.rest_no) AS rest_score2 " +
+        ", (SELECT COUNT(*) FROM reservation res WHERE res.rest_no  = d.rest_no) AS reserve_count " +
+        " FROM dining_rest d")
 @Getter
 @Setter
-@Entity
-@Immutable
-@Table(name = "dinning_review_view")
+@NoArgsConstructor
+@AllArgsConstructor
 public class DinningReviewView {
     @Id
     @Column(name = "rest_no")
