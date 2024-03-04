@@ -434,7 +434,9 @@ public class OwnerController {
         reservationRepository.save(reservation);
 
         sendMessage.Send(request, reservation.getUserNo().getUserId()
-                , new ChatDTO( null, null, null, ReservationStatus.RESERVE_COMPLETED.getName(), null, ""+reservation.getRestNo().getRestNo(), null ));
+                , new ChatDTO((long) reservation.getRestNo().getRestNo(), null, null
+                        , ReservationStatus.RESERVE_COMPLETED.getName(), reservation.getRestNo().getRestImg()
+                        , reservation.getRestNo().getRestName(), null ));
 
         return "redirect:/owner/reservList";
     }
@@ -448,7 +450,9 @@ public class OwnerController {
         reservationRepository.save(reservation);
 
         sendMessage.Send(request, reservation.getUserNo().getUserId()
-                , new ChatDTO( null, null, null, reason, null, ""+reservation.getRestNo().getRestNo(), null ));
+                , new ChatDTO( (long) reservation.getRestNo().getRestNo(), null, null
+                        , reason, reservation.getRestNo().getRestImg()
+                        , reservation.getRestNo().getRestName(), null ));
 
         return "redirect:/owner/reservList";
     }

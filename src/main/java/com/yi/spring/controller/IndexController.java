@@ -191,9 +191,8 @@ public class IndexController {
     @GetMapping("/api/getChatRoomId")
     public ResponseEntity<String> getCustomerChatRoom( HttpServletRequest request, Principal principal )
     {
-        String userId = null;
-        if ( null != principal )
-            userId = principal.getName();
+        User loginUser = o2Service.findUser( principal );
+        String userId = null!=loginUser ? loginUser.getUserId() : "";
 
         String chatRoomId = "";
         if ( null != userId ) {

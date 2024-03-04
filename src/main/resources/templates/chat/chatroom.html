@@ -6,6 +6,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script th:src="@{/js/cust_receiver.js}" ></script>
 
+    <style>
+        .chats .content{
+            width:390px;
+            height:690px;
+        }
+        .chats .content .header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .chats .content .footer {
+            position: absolute;
+            bottom: 0px;
+        }
+        .chats .content .list {
+            background-color: #fff;
+            padding: 4px 4px;
+            border-radius: 20px;
+        }
+        .chats .content .list>div>div{
+            display: inline-block;
+        }
+        .chats .content .list>div div{
+            font-size: 0.8rem;
+        }
+        .chats .content .list .restNo{
+            display: none;
+        }
+        /*.chats .content .list>div>div*/
+        .chats .content .list .restname{
+            display: block;
+            font-weight: 600;
+            position: relative;
+            top: -8px;
+        }
+        .chats .content .list .item{
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 20px;
+        }
+        .chats .content .list .item:hover{
+            background-color: #0000000D;
+        }
+        .chats .content .list img{
+            width:42px;
+            height:42px;
+            display: inline;
+            vertical-align: bottom;
+        }
+    </style>
+
+    <div class="content">
+        <div class="header">예약 상태를 확인하는 창</div>
+        <div class="list"></div>
+        <div class="footer">홈 / 대화 / 설정</div>
+
+    </div>
+
     <!--    <div id="w3Modal-id01" class="al-modal">-->
     <!--        <div class="al-modal-content">-->
     <!--            <div class="al-container">-->
@@ -30,30 +89,49 @@
         // });
 
         let myMessage = []
+        let m_restIndex = 0;
+
+
         function handleNewMessage( event ){
-            myMessage.push( 1 );
-            let newMessageSpan = document.querySelector( ".alarm-button p" ); // header 에 있는 종 아래 숫자
-            let newCount = "";//새로운 메시지가 도착했습니다"
+            myMessage.push( event.data );
+            // let newMessageSpan = document.querySelector( ".alarm-button p" ); // header 에 있는 종 아래 숫자
+            // let newCount = "";//새로운 메시지가 도착했습니다"
             // if ( myMessage.length > 1 )
-            newCount += myMessage.length;
-            newMessageSpan.innerText = newCount;
-            newMessageSpan.style.display = "block";
+            // newCount += myMessage.length;
+            // newMessageSpan.innerText = newCount;
+            // newMessageSpan.style.display = "block";
+            document.querySelector( ".alarm-button" ).classList.add( "new");
 
             appendMessage( event );
         }
         document.addEventListener( "new_message_stomp_subscribe", handleNewMessage );
 
+        function handleConnected( event ) {
+            document.querySelector( ".alarm-button" ).classList.remove( "noCon");
+        }
+        document.addEventListener( "connected_stomp_server", handleConnected );
+
         function appendMessage( event ) {
             let payload = event.data;
-            let className = payload.nickname === '' ? 'mine' : 'yours';
-            const chats = document.querySelector('.chats');
+            let className = 'item ' + ( payload.nickname === '' ? 'mine' : 'yours' );
+            const chats = document.querySelector('.chats .content .list');
             const html = `<div class="${className}">
-                            <div class="nickname">${payload.nickname}</div>
-                            <div class="message">${payload.message}</div>
+                            <img mysrc="${payload.region}">
+                            <div>
+                                <div class="restNo">${payload.id}</div>
+                                <div class="restname">${payload.nickname}</div>
+                                <div class="message">${payload.message}</div>
+                            </div>
                         </div>`
 
             chats.insertAdjacentHTML('beforeend', html);
+
+            let images = chats.getElementsByTagName('img');
+            io2.observe( images[images.length - 1] );
+
         }
     </script>
+
+    <script src="/js/imglazy2.js"></script>
 </div>
 </html>

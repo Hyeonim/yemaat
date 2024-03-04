@@ -78,8 +78,8 @@
                 </div>
 
 
-                <button class="alarm-button" onclick="onAlarmClick()" onblur="handleAlarmBlur()">
-                    <img src="/images/alarm1.png" alt="alarm1">
+                <button class="alarm-button noCon" onclick="onAlarmClick()">
+                    <img src="/images/ch-logo-white-32.png" alt="alarm1">
                     <p style="display: none;">1</p>
                 </button>
 
@@ -89,10 +89,10 @@
                          transform-origin: right top;
                          right: 64px;
                          top: 62px;
-                         background-color: #ffffffa0;
+                         background-color: #f7f7f7;
                          max-height: 865px;
                          "
-                         class="chats dropmenu" name="chat" id="mychat">
+                         class="chats dropmenu" name="chat">
                         <div th:include="~{/chat/chatroom::chatFragment}"></div>
                     </div>
                 </div>
@@ -127,10 +127,6 @@
 
         function onMenuClick(btn) {
             document.querySelector("[name=mymenu]").classList.toggle("visible");
-        }
-        async function handleAlarmBlur() {
-            await sleep(200)
-            document.querySelector( "[name=chat]" ).classList.remove( "visible" );
         }
         async function handleBlur() {
             await sleep(200)

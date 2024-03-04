@@ -47,7 +47,6 @@
 
 
     wrapper.onmousedown = (e) => {
-        console.log("마우스 누름")
         const rect = wrapper.getBoundingClientRect();
         startX = e.clientX - rect.left;
         const isActive = items.classList.contains('active');
@@ -75,7 +74,6 @@
         }
     }
     function onMouseUp(e) {
-        console.log("마우스 뗌")
         if (wrapper.classList.contains('active')) wrapper.classList.remove('active');
         items.removeEventListener('mousemove', onMouseMove);
 
@@ -96,7 +94,6 @@
         }
     }
     function onMouseMove(e) {
-        console.log("마우스 움직임")
         if (!wrapper.classList.contains('active')) wrapper.classList.add('active');
         const rect = wrapper.getBoundingClientRect();
         moveX = e.clientX - rect.left - startX;
