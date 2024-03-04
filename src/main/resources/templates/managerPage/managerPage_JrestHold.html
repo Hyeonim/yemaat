@@ -69,7 +69,6 @@
             fetch( '/manager/managerPage_JrestHoldDetail?restNo=' + restNo )
                 .then( resp => resp.text())
                 .then(data=> {
-                    gv.push(data)
                     let doc = new DOMParser().parseFromString(data, 'text/html');
                     document.querySelector("#holdDetail div").innerHTML = doc.querySelector('.modalD').innerHTML;
                     document.getElementById("holdDetail").style.display = "block";
