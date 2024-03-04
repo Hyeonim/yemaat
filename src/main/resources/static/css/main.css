@@ -193,6 +193,8 @@ header nav:nth-of-type(1) {
 }
 */
 
+
+
 #navbarNav {
     width: 400px;
     display: flex;
@@ -301,7 +303,7 @@ header nav:nth-of-type(1) {
     /* margin-left: 30%; */
     width: 250px;
     border-color: transparent;
-    background-color: transparent;
+    background-color: #dfe5db00;
     margin: 4px 20px 4px 4px;
 }
 .searchBox #searchBar:focus-visible {

@@ -40,10 +40,9 @@
 
             <div id="navbarNav">
 
-
-                <form th:action="@{/search}" method="get">
-                    <!--                    <div class="searchBox" onfocus="handleFocusIn(true)" onblur="handleFocusIn(false)" >-->
-                    <div class="searchBox">
+                <form th:action="@{/search}" method="get" >
+<!--                    <div class="searchBox" onfocus="handleFocusIn(true)" onblur="handleFocusIn(false)" >-->
+                    <div class="searchBox" >
                         <div>
                             <input id="searchBar" type="search" placeholder="음식 또는 식당명 입력" aria-label="Search"
                                    name="keyword" oninput=sendSearchQuery() th:value="${param.keyword}"

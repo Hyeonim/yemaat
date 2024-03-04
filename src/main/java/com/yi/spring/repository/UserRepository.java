@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 
     List<User> findAll();
+
+
 
     Optional<User> findByUserNo(Integer userNo);
     Optional<User> findByUserIdAndProvider(String userId, String provider);
@@ -51,6 +54,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 //    @Query("SELECT u FROM User u JOIN FETCH u.dinningList d WHERE u.userAuth = '2'")
     @Query("SELECT u FROM User u inner join u.diningRests diningRests WHERE u.userAuth = 'OWNER'")
     List<User> getAllWithDinningList();
+
+    @Query("SELECT u FROM User u WHERE u.userEmail = :email")
+    Optional<User> findByEmail(@Param("email") String email);
+
+    @Query("SELECT u FROM User u WHERE u.userEmail = :email and u.userId = :id")
+    Optional<User> findByEmailAndUserId(@Param("email") String email, @Param("id") String id);
 
     Page<User> findByUserAuthAndUserNameContaining(String userAuth, String userName, Pageable pageable);
 
