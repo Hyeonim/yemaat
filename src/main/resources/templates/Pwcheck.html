@@ -77,8 +77,8 @@
                 success: function(response) {
                     alert("비밀번호가 성공적으로 변경되었습니다.");
                     window.close();
-                    window.location.href = "/login";
-                    window.location.href = "/login";
+                    window.opener.postMessage("popup", "*");
+
                 },
                 error: function(xhr, status, error) {
                     var errorMessage = xhr.status + ': ' + xhr.statusText;
