@@ -947,7 +947,7 @@ SVG Icons - svgicons.sparkk.fr
 
 /* 리뷰 디테일 템플릿 */
 
-.reviewT {
+#review .reviewT {
     border: 2px solid #ccc;
     padding: 20px;
     margin-bottom: 20px;
@@ -956,30 +956,30 @@ SVG Icons - svgicons.sparkk.fr
     /*text-align: center;*/
 }
 
-.username {
+#review .username {
     font-weight: bold;
     font-size: 16px;
     color: #333;
 }
 
-.star {
+#review .star {
     /*color: #ffd700; !* 금색 *!*/
     font-size: 18px;
     margin-top: 5px;
 }
 
-.comment {
+#review .comment {
     border: none;
     outline: none;
     background-color: #f9f9f9;
     /*font-weight: bold;*/
 }
 
-.comment:focus{
+#review .comment:focus{
     outline: none;
 }
 
-.time {
+#review .time {
     font-style: italic;
     color: #777;
 }
