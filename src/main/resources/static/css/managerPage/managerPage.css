@@ -37,7 +37,7 @@ body {
 
 /* 사이드바 관련 */
 .w3-sidebar {
-    width: 250px; /* 사이드바 너비 */
+    width: 200px; /* 사이드바 너비 */
     background-color: #333;
     color: #FFF;
     height: 100vh; /* viewport 높이의 100% */
@@ -379,8 +379,10 @@ tr:hover {
     top: 20%;
     background: white;
     display: none;
-
-
+    /*border: 1px solid #888;*/
+    border-color: #e0e0e0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 
 #closeModalIcon{
@@ -388,5 +390,3 @@ tr:hover {
     font-size: 34px;
     cursor: pointer;
 }
-
-/* 문의, 답변 관련 */

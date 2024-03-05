@@ -10,9 +10,9 @@
 
 
         <div class="modalD">
-<div class="formDiv" style="display: flex; width: 900px">
+            <div class="formDiv" style="display: flex; width: 900px; margin-top: 35px; margin-bottom: 35px">
 
-                <div style="flex: 1; margin-left: 30px; margin-top: 100px">
+                <div style="flex: 1; margin-left: 30px; margin-top: 150px">
                     <img id="preview" th:src="'data:image/jpeg;base64,' + ${img.get().base64Image}" alt="User Image"
                          style="width: 400px; height: 500px; margin-right: 80px; cursor: pointer;">
                 </div>
@@ -39,11 +39,11 @@
                     <p><label>평점 </label><input type="text" th:value="${dinning.get().restScore}" readonly></p>
                     <p><label>소개글 </label><input type="text" th:value="${dinning.get().restDescription}"
                                                  name="restDescription"></p>
-
                 </div>
-</div>
+            </div>
         </div>
     </div>
+
 
 </div>
 </html>

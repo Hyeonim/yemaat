@@ -57,7 +57,6 @@ a {
     line-height: inherit;
     white-space: nowrap;
     text-decoration: none;
-
 }
 
 #mainLogo{
@@ -936,3 +935,45 @@ SVG Icons - svgicons.sparkk.fr
 .al-button:hover{color:#000!important;background-color:#ccc!important}
 .al-display-topright{position:absolute;right:90px;top:52px}
 
+
+
+
+
+/* 리뷰 디테일 템플릿 */
+
+.reviewT {
+    border: 2px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    /*text-align: center;*/
+}
+
+.username {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.star {
+    /*color: #ffd700; !* 금색 *!*/
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.comment {
+    border: none;
+    outline: none;
+    background-color: #f9f9f9;
+    /*font-weight: bold;*/
+}
+
+.comment:focus{
+    outline: none;
+}
+
+.time {
+    font-style: italic;
+    color: #777;
+}
