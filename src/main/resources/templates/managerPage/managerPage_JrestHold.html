@@ -73,6 +73,12 @@
                     document.querySelector("#holdDetail div").innerHTML = doc.querySelector('.modalD').innerHTML;
                     document.getElementById("holdDetail").style.display = "block";
 
+                    document.addEventListener('click', function (event) {
+                        var modal = document.getElementById('holdDetail');
+                        if (!modal.contains(event.target)) {
+                            modal.style.display = 'none';
+                        }
+                    });
                 })
         }
 
