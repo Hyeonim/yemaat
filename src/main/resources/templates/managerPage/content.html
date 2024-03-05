@@ -29,7 +29,7 @@
 
         <div id="main-box" class="main-box">
             <div class="box-header">
-                <h2 th:text="'전체 회원 현황: ' + ${uList.size()} +' 명'"></h2>
+                <h2 th:text="'전체 회원 현황: ' + ${UInfo[0]} +' 명'"></h2>
             </div>
             <div class="box-content">
                 <div class="chart-container" style="margin-left: 200px">
@@ -63,6 +63,11 @@
     </div>
 
     <script th:inline="javascript">
+
+        let UInfo = /*[[${UInfo}]]*/ [];
+
+        // console.log("첫 번째 값: " + UInfo[0]);
+
         function drawGraph() {
             if ( ![[${drawGraph}]])
                 return;
@@ -71,7 +76,6 @@
             var uListSize = [[${uList != null ? uList.size() : 0}]];
             var dListSize = [[${dList != null ? dList.size() : 0}]];
 
-            let userDataList = [];
             [# th:if="${userStat != null}"]
             [# th:each = "entry : ${userStat.entrySet()}"]
             userDataList.push( [[${entry.value}]] )
@@ -93,11 +97,18 @@
                 restDataList.push( elem[1] );
             })
 
+          let userDataList={
+                '고객':UInfo[1],
+                '점주':UInfo[3],
+                '블랙리스트':UInfo[2],
+
+            }
+
             var userData = {
-                labels: ['고객', '블랙리스트', '점주'],
+                labels: ['고객', '점주', '블랙리스트'],
                 datasets: [{
                     label: '회원 현황',
-                    data: userDataList,
+                    data: Object.values(userDataList),
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.5)',
                         'rgba(54, 162, 235, 0.5)',
@@ -113,11 +124,11 @@
                     label: '가게 업태',
                     data: restDataList,
                     backgroundColor: [
-                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(255, 165, 0, 0.5)', // 주황
+                        'rgba(255, 0, 0, 0.5)',   // 빨강
+                        'rgba(255, 99, 132, 0.5)',
                         'rgba(54, 162, 235, 0.5)',
-                        'rgba(54, 102, 235, 0.5)',
-                        'rgba(51, 192, 192, 0.5)',
-                        'rgba(52, 191, 182, 0.5)'
+                        'rgba(54, 102, 235, 0.5)'
                     ],
                     borderWidth: 1
                 }]
@@ -130,7 +141,9 @@
             let userCtx2 = document.getElementById('userBarChart').getContext('2d');
             let dinningCtx2 = document.getElementById('dinningBarChart').getContext('2d');
 
-            [[userCtx, 'doughnut', userData], [dinningCtx, 'doughnut', dinningData]
+
+
+                [ [userCtx, 'doughnut', userData],  [dinningCtx, 'doughnut', dinningData]
                 , [userCtx2, 'bar', userData], [dinningCtx2, 'bar', dinningData]
             ].forEach(elem => {
                 new Chart(elem[0], {

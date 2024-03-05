@@ -73,46 +73,51 @@ public class ManagerController {
         return "managerPage";
     }
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메인ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-//    @GetMapping("/content")
-//    public String managerMain(Model model) {
-//        List<User> uList = userRepository.findAll();
-//        List<Dinning> dList = dinningRepository.findAll();
-//        List<QA> qa = qaRepository.findAll();
+//@GetMapping("/content")
+//public String managerMain(Model model) {
+//    List<User> uList = userRepository.findAll();
+//    List<Dinning> dList = dinningRepository.findAll();
+//    List<QA> qa = qaRepository.findAll();
 //
-//        HashMap<String, Integer> userStat = new HashMap<>();
-//        for (User elem : uList) {
-//            String key;
-//            if (elem.getUserAuth().equals("3"))
-//                continue;
-//            if (elem.isUserBlock())
-//                key = "4";
-//            else
-//                key = elem.getUserAuth();
+//    HashMap<String, Integer> userStat = new HashMap<>();
+//    for (User elem : uList) {
+//        String key;
+//        if (elem.getUserAuth().equals("ADMIN"))
+//            continue;
+//        if (elem.isUserBlock())
+//            key =  "4";
+//        else
+//            key = elem.getUserAuth();
 //
-//            Integer statCount = userStat.computeIfAbsent(key, k -> 0);
-//            statCount++;
-//            userStat.put(key, statCount);
-//        }
-//
-//        HashMap<String, Integer> restStat = new HashMap<>();
-//        for (Dinning restaurant : dList) {
-//            String key = restaurant.getRestCategory();
-//            Integer statCount = restStat.computeIfAbsent(key, k -> 0);
-//            statCount++;
-//            restStat.put(key, statCount);
-//        }
-//
-//        model.addAttribute("drawGraph", true);
-//        model.addAttribute("userStat", userStat);
-//        model.addAttribute("restStat", restStat);
-//        model.addAttribute("uList", uList);
-//        model.addAttribute("dList", dList);
-//        model.addAttribute("qa", qa);
-//        model.addAttribute("page", "managerPage/content");
-//
-//        return "managerPage";
+//        Integer statCount = userStat.computeIfAbsent(key, k -> 0);
+//        statCount++;
+//        userStat.put(key, statCount);
 //    }
+//
+//    HashMap<String, Integer> restStat = new HashMap<>();
+//    for (Dinning restaurant : dList) {
+//        String key = restaurant.getRestCategory();
+//        Integer statCount = restStat.computeIfAbsent(key, k -> 0);
+//        statCount++;
+//        restStat.put(key, statCount);
+//    }
+//
+//    long unansweredCount = qaRepository.countByQaStatusFalse();
+//
+//    model.addAttribute("drawGraph", true);
+//    model.addAttribute("userStat", userStat);
+//    model.addAttribute("restStat", restStat);
+//    model.addAttribute("uList", uList);
+//    model.addAttribute("dList", dList);
+//    model.addAttribute("qa", qa);
+//    model.addAttribute("header", "관리자 페이지 메인");
+//    model.addAttribute("unansweredCount", unansweredCount);
+//
+//    model.addAttribute("page", "managerPage/content");
+//
+//    return "managerPage";
+//}
+
 
     @GetMapping("/content")
     public String managerMain(Model model) {
@@ -120,40 +125,41 @@ public class ManagerController {
         List<Dinning> dList = dinningRepository.findAll();
         List<QA> qa = qaRepository.findAll();
 
-        HashMap<String, Integer> userStat = new HashMap<>();
-        for (User elem : uList) {
-            String key;
-            if (elem.getUserAuth().equals("ADMIN"))
-                continue;
-            if (elem.isUserBlock())
-                key =  "4";
-            else
-                key = elem.getUserAuth();
+        int all = uList.size() - userRepository.findByUserAuth("ADMIN").size();
 
-            Integer statCount = userStat.computeIfAbsent(key, k -> 0);
-            statCount++;
-            userStat.put(key, statCount);
-        }
+        int user,black,owner;
 
-        HashMap<String, Integer> restStat = new HashMap<>();
-        for (Dinning restaurant : dList) {
-            String key = restaurant.getRestCategory();
-            Integer statCount = restStat.computeIfAbsent(key, k -> 0);
-            statCount++;
-            restStat.put(key, statCount);
-        }
+        black = userRepository.findByUserAuthAndUserBlock("USER", true).size();
 
-        long unansweredCount = qaRepository.countByQaStatusFalse();
+        user = userRepository.findByUserAuthAndUserBlock("USER", false).size();
+
+        owner = all -( black + user);
+
+        List<Integer> UInfo = new ArrayList<>();
+        UInfo.add(all);
+        UInfo.add(user);
+        UInfo.add(black);
+        UInfo.add(owner);
+
+
+    HashMap<String, Integer> restStat = new HashMap<>();
+    for (Dinning restaurant : dList) {
+        String key = restaurant.getRestCategory();
+        Integer statCount = restStat.computeIfAbsent(key, k -> 0);
+        statCount++;
+        restStat.put(key, statCount);
+    }
+
+            long unansweredCount = qaRepository.countByQaStatusFalse();
 
         model.addAttribute("drawGraph", true);
-        model.addAttribute("userStat", userStat);
-        model.addAttribute("restStat", restStat);
         model.addAttribute("uList", uList);
         model.addAttribute("dList", dList);
         model.addAttribute("qa", qa);
         model.addAttribute("header", "관리자 페이지 메인");
-        model.addAttribute("unansweredCount", unansweredCount);
-
+    model.addAttribute("restStat", restStat);
+    model.addAttribute("UInfo", UInfo);
+    model.addAttribute("unansweredCount", unansweredCount);
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";

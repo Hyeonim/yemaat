@@ -69,4 +69,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findByUserAuthAndUserBlockNot(String number, boolean b);
 
+    List<User> findByUserAuth(String userAuth);
 }
