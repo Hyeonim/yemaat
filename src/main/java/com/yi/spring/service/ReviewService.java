@@ -16,5 +16,4 @@ public interface ReviewService {
 //    Page<Review> findByRevContentOrRestNameContainingPaged(User user, String search, int page);
 
 
-
 }

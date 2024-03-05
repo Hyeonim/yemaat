@@ -166,6 +166,9 @@ public class OwnerController {
             model.addAttribute("complete", complete);
             model.addAttribute("cancel", cancel);
 
+            int reviewCount = reviewRepository.getCountReviewLately7Days((long) dinning.getRestNo()).size();
+            model.addAttribute("reviewCount", reviewCount);
+
             // List<Reservation> rList = reservationRepository.findAll();
             List<Reservation> timeList = reservationRepository.findByRestNo_RestNo((long) dinning.getRestNo());
             TreeMap<String, Integer> reserveStat = getStringIntegerTreeMap(timeList);

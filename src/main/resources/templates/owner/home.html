@@ -9,7 +9,7 @@
         display: grid;
         justify-content: space-between;
         grid-template-columns: 40% 60%;
-        grid-template-rows: 50% 50%;
+        grid-template-rows: 1fr 1fr 1fr;
     ">
         <div class="main-box" style="
             width : 95%;
@@ -31,12 +31,23 @@
                 <h2>금일([[${today}]]) 취소 건 수</h2>
             </div>
             <div class="box-content">
-                <ion-icon name="checkmark-circle-outline"></ion-icon><span>[[${cancel}]] 건</span>
+                <ion-icon name="close-circle-outline"></ion-icon><span>[[${cancel}]] 건</span>
+            </div>
+        </div>
+        <div class="main-box" style="
+            width : 95%;
+            grid-column: 1/2;
+            grid-row: 3/4;">
+            <div class="box-header">
+                <h2>금주([[${today}]]) 새로 등록된 리뷰 건 수</h2>
+            </div>
+            <div class="box-content">
+                <ion-icon name="receipt-outline"></ion-icon><span>[[${reviewCount}]] 건</span>
             </div>
         </div>
         <div class="main-box" style="
             grid-column: 2/3;
-            grid-row: 1/3;">
+            grid-row: 1/4;">
             <div class="box-header">
                 <h2>기간별 예약 현황</h2>
             </div>
