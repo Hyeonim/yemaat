@@ -3,20 +3,37 @@
 }
 
 #noticeTable {
-    width: 100%;
     margin-bottom: 20px;
-    border-collapse: collapse;
+    text-align: center;
+    margin-top: 20px;
+    width: 1000px;
+    border: none;
 }
 
 #noticeTable th, td {
+    border: none;
     padding: 12px;
-    border-bottom: 1px solid #dee2e6;
+
 }
 
 #noticeTable th {
     background-color: #e9ecef;
     color: #495057;
     font-weight: bold;
+
+}
+
+#impob{
+    background-color: white;
+    border: solid 1px grey;
+    width: 60px;
+    height: 40px;
+    border-radius: 20px;
+
+}
+
+#noticeTable tr:hover {
+    background-color: white;
 }
 
 #noticeTable tbody tr:hover {
@@ -110,3 +127,4 @@
 #moreTable tbody tr:hover {
     cursor: pointer;
 }
+

@@ -12,7 +12,7 @@
         background-size: cover;
         /*background-size: contain;*/
         /*background-size: 80% 80%;*/
-        height: 950px;
+        height: 589px;
     }
 
     html{
@@ -39,69 +39,26 @@
     <div class="infoBox">
         <div class="infoBoxA">
 <!--            <a href="/notice/noticeList">공지사항</a>-->
-            <a>공지사항</a>
-            <a>이벤트</a>
+            <a href="/notice/noticeList">공지사항</a>
             <a>추천식당</a>
+            <a href="/event/home">이벤트</a>
         </div>
     </div>
 
-    <div id="center_box">
+    <div>
+        <form th:action="@{/search}" method="get" >
+            <div class="searchBox"  >
+                <div style="text-align: center; position: absolute; top: 400px; left: 29%" >
+                    <input id="searchBar" type="search" placeholder="음식 또는 식당명 입력" aria-label="Search"
+                           name="keyword" oninput=sendSearchQuery() th:value="${param.keyword}"
+                           autocomplete="off" style="width: 800px; border: solid 1px black; border-radius: 10px; background: white">
 
-        <!--//메인에 공지사항 이벤트 등등 컨텐츠 있던 부분 -->
-
-
-        <div id="topDiv">
-            <div class="container mt-5">
-                <ul class="list" style="display: flex">
-                    <li class="tab-button selected" onclick="changeTab(0)">주요 공지 사항</li>
-                    <li class="tab-button" onclick="changeTab(1)">최근 공지 목록!</li>
-                    <li class="tab-button" onclick="changeTab(2)">모든 공지 보러 가기!</li>
-                </ul>
-                <div class="tab-content show">
-                    <ul th:each="head:${head}">
-                        <a th:href="'/notice/notice_detail?id=' + ${head.Id}">
-                            <li th:text="${head.subject}"></li>
-                        </a>
-                    </ul>
                 </div>
-                <div class="tab-content">
-                    <ul th:each="NList:${NList}">
-                        <a th:href="'/notice/notice_detail?id=' + ${NList.Id}">
-                            <li th:text="${NList.subject}"></li>
-                        </a>
-                    </ul>
-                </div>
-                <div class="tab-content">
 
-                    <a href="/notice/noticeList"><h2>전체 공지 보러 가기!</h2></a>
-                </div>
             </div>
-
-        </div>
-
-        <div id="new_event_box">
-            <h2>새로운 이벤트</h2>
-            <div class="event_slide_box">
-                <th:block th:each="event : ${eventList}">
-                    <a th:href="@{/detail?restNo={restNo}(restNo=${event.getRestNo().getRestNo()})}">
-                        <div class="mySlides fade">
-                            <img th:src="'data:image/png;base64,' + ${event.getBase64Image()}" alt="Event Image"/>
-                            <span>[[${event.getRestNo().getRestName()}]]<[[${event.getEventTitle()}]]></span>
-                        </div>
-                    </a>
-
-                </th:block>
-            </div>
-        </div>
+        </form>
 
 
-        <div id="random_box">
-
-            <h2>추천 식당</h2><br><br><br>
-
-            <h2 id="clickText">click!</h2>
-            <p id="restName" th:text="${randomData.restName}" style="display:none;"></p>
-        </div>
     </div>
 
 </div>

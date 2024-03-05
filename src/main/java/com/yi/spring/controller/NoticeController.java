@@ -33,6 +33,8 @@ public class NoticeController {
         Page<Notice> noticeList = noticeService.findByAllDESC(page);
 
 
+
+
         model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
 
 

@@ -896,9 +896,6 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
 
     }
 
-
-
-
     @GetMapping("/managerPage_JrestDetail")
     public String JumRestDetail(Model model, @RequestParam Long restNo) {
 
