@@ -148,16 +148,16 @@
 
     <script>
 
-        function searchDinning4() {
-            let searchInput4 = document.getElementById("searchInput4").value;
-            fetch("/manager/managerPage_Notice?searchInput4=" + encodeURIComponent(searchInput4))
-                .then(resp => resp.text())
-                .then(data => {
-                    let doc = new DOMParser().parseFromString(data, 'text/html');
-                    document.getElementById("noticeTable").innerHTML = doc.getElementById("noticeTable").innerHTML;
-                    document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
-                });
-        }
+        // function searchDinning4() {
+        //     let searchInput4 = document.getElementById("searchInput4").value;
+        //     fetch("/manager/managerPage_Notice?searchInput4=" + encodeURIComponent(searchInput4))
+        //         .then(resp => resp.text())
+        //         .then(data => {
+        //             let doc = new DOMParser().parseFromString(data, 'text/html');
+        //             document.getElementById("noticeTable").innerHTML = doc.getElementById("noticeTable").innerHTML;
+        //             document.querySelector(".pagination").innerHTML = doc.querySelector(".pagination").innerHTML;
+        //         });
+        // }
 
         function submitForm1(checkbox) {
             Swal.fire({

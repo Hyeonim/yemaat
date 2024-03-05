@@ -42,6 +42,11 @@ body {
     color: #FFF;
     height: 100vh; /* viewport 높이의 100% */
     overflow-y: auto; /* 너무 긴 경우 스크롤 허용 */
+    /*padding: 0 16px;*/
+}
+
+.w3-sidebar .w3-bar-item{
+    padding: 7px 16px;
 }
 
 
