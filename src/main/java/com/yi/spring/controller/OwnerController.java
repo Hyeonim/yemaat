@@ -10,6 +10,7 @@ import com.yi.spring.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -38,6 +39,7 @@ public class OwnerController {
     private final ReviewRepository reviewRepository;
     private final DeleteUserRepository deleteUserRepository;
     private final SendMessage sendMessage;
+    private final PasswordEncoder passwordEncoder;
 
     private User loginUser;
     private Dinning dinning;
@@ -480,8 +482,24 @@ public class OwnerController {
         return "/owner/userUpdate";
     }
     @PostMapping("userUpdate")
-    public String userUpdate(User user, @RequestParam MultipartFile file) {
+    public String userUpdate(User user, @RequestParam MultipartFile file, @RequestParam String oldPw, Model model) {
         User existUser = userService.findByUserNo(user.getUserNo()).get();
+        boolean changPw = false;
+
+        if((!user.getUserPassword().isEmpty())) {
+            if(passwordEncoder.matches(oldPw, existUser.getUserPassword())) {
+                user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+                changPw = true;
+            } else {
+                model.addAttribute("msg", "현재 비밀번호가 입력한 비밀번호와 일치하지 않아 개인정보 수정에 실패하였습니다.\n" +
+                        "다시 시도 부탁드립니다.\n" +
+                        "비밀번호 외 다른 정보도 수정되지 않고 초기화 됩니다.");
+                model.addAttribute("location", "/owner/userUpdate");
+                return "owner/transit";
+            }
+        } else {
+            user.setUserPassword(existUser.getUserPassword());
+        }
 
         byte[] userImg;
         if(!file.isEmpty()) {
@@ -495,7 +513,7 @@ public class OwnerController {
         }
         user.setUserImg(userImg);
         User updateUser = userService.updateUser(user);
-        if(!existUser.getUserId().equals(updateUser.getUserId()) || !existUser.getUserPassword().equals(updateUser.getUserPassword())) {
+        if(changPw) {
             return "redirect:/logout";
         }
         return "redirect:/owner/userInfo";
