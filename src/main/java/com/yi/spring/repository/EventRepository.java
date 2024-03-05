@@ -16,6 +16,12 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     @Query(value="select * from event where CURDATE() between event_start_time and event_end_time;", nativeQuery = true)
     List<Event> getNewEvents();
 
+    @Query(value="select * from event where CURDATE() > event_end_time;", nativeQuery = true)
+    List<Event> getPastEvents();
+
+    @Query(value="select * from event where CURDATE() < event_start_time;", nativeQuery = true)
+    List<Event> getFutureEvents();
+
     @Query("SELECT e from Event e order by e.writeDate desc limit 5")
     List<Event> getList();
 

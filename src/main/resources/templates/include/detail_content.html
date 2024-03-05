@@ -66,15 +66,28 @@
                 <p th:text="'주차 정보 : ' +${dinning.restParking}"></p><br>
             </div>
 
-            <div th:if="${!eventList.isEmpty()}"  style="text-align: left; margin-left: 40px;">
-                <h2>이벤트</h2>
-                <th:block th:each="event : ${eventList}">
-                    <div class="event-box" style="display: inline-block; width:30%; height:300px; overflow: hidden; text-align: center;">
-                        <img th:if="${event.getEventImg() != null}" th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}" alt="Event Image"
-                             style="width:100%; height:80%; object-fit:cover; object-position: center;"><br/>
-                        <label style="height:20%;justify-content: center">[[${event.getEventTitle()}]]</label>
-                    </div>
-                </th:block>
+            <div th:if="${!eventList.isEmpty()}" class="eventBox" style="margin: 0 40px">
+                <h2 style="text-align: left">이벤트</h2>
+                <ul class="eventItems">
+                    <th:block th:each="event : ${eventList}" >
+                        <li class="eventItem"  style="width:230px !important;">
+                            <a th:href="@{/event/detail/{eventNo}(eventNo=${event.getEventNo()})}">
+                                <div class="eventImg" style="width:230px !important;">
+                                    <th:block th:if="${event.getEventImg() != null}">
+                                        <img th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}"  style="width:230px !important;">
+                                    </th:block>
+                                    <th:block th:unless="${event.getEventImg() != null}">
+                                        <img src="/img/no_image.png"  style="width:230px !important;">
+                                    </th:block>
+                                </div>
+                                <div class="eventDesc">
+                                    <p class="txt1">[ [[${event.getRestNo().getRestName()}]] ] [[${event.getEventTitle()}]]</p>
+                                    <p class="txt2">[[${event.getEventStartTime()}]] ~ [[${event.getEventEndTime()}]]</p>
+                                </div>
+                            </a>
+                        </li>
+                    </th:block>
+                </ul>
             </div>
 
             <div style="border: solid 2px #f2f2f2; border-radius: 10px; margin: 40px 40px 10px 24px; text-align: left; " >
