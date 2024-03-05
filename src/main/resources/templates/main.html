@@ -268,20 +268,27 @@
         document.getElementById("restName").style.display = "block";
     });
 
-    //리모컨
-    window.onscroll = function () {
-        scrollFunction()
-    };
+    document.addEventListener("DOMContentLoaded", function() {
+        scrollFunction();
+    });
+
+    window.addEventListener("scroll", function() {
+        scrollFunction();
+    });
 
     function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        var scrollHeight = document.documentElement.scrollHeight;
+        var clientHeight = document.documentElement.clientHeight;
+        var scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollPosition > clientHeight / 10) {
             document.getElementById("scroll-top").style.display = "block";
         } else {
             document.getElementById("scroll-top").style.display = "none";
         }
     }
 
-    // 클릭하면 맨 위로 스크롤하는 함수
+
     function scrollTopFunction() {
         // document.body.scrollTop = 0; // For Safari
         // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
