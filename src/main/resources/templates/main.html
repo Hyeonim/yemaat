@@ -145,7 +145,7 @@
             const elementTop = element.getBoundingClientRect().top;
             const elementBottom = element.getBoundingClientRect().bottom;
             const screenHeight = window.innerHeight || document.documentElement.clientHeight;
-            const elementHeight = element.getBoundingClientRect().height + 20;
+            const elementHeight = element.getBoundingClientRect().height + 48;
 
             // Element의 height가 화면을 가리면서 조건을 만족하지 않도록 함
             if (elementTop < screenHeight && elementBottom - elementHeight > 0 && null === target) {
