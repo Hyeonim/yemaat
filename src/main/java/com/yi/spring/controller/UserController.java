@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -48,6 +49,11 @@ public class UserController {
     ReviewService reviewService;
     @Autowired
     private OAuth2MemberService o2MemberService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
 
 
     private User user = null;
@@ -342,6 +348,8 @@ public class UserController {
         List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
         reservationService.checkReservationStatus(reservations, model);
 
+        String hiddenPassword = "********";
+        model.addAttribute("hiddenPassword", hiddenPassword);
         model.addAttribute("main_user", user);
         model.addAttribute("restaurants", restaurantsForLatestReservation);
         model.addAttribute("user", userService.findByUserNo(user.getUserNo()));
@@ -385,6 +393,39 @@ public class UserController {
         return "redirect:/user/user_info";
     }
 
+    @PostMapping("/uploadImg")
+    public String uploadImg(Principal principal,@RequestParam MultipartFile file){
+        user = o2MemberService.findUser( principal );
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                byte[] userImg = file.getBytes();
+                user.setUserImg(userImg);
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+            }
+        }
+        userRepository.save(user);
+        return "redirect:/user/user_info";
+    }
+    @PostMapping("/updatePw")
+    public String updatePw(Principal principal, @RequestParam String newPassword, @RequestParam String oldPw, Model model){
+        user = o2MemberService.findUser( principal );
+
+        if (passwordEncoder.matches(oldPw,user.getUserPassword())){
+            user.setUserPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        } else {
+            model.addAttribute("error", "error");
+            throw new RuntimeException("password different");
+        }
+
+        System.out.println(newPassword);
+
+
+
+        return "redirect:/user/user_info";
+    }
 
     // 유저 목록 페이지로 이동(관리용)
     @GetMapping("list_user")

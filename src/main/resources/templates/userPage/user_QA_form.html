@@ -24,7 +24,7 @@
             overflow: hidden;
             border-style: inset;
             border-width: 1px;
-            margin-top: -35px;
+            margin-top: -145px;
         }
 
         .QATable td {
@@ -53,15 +53,15 @@
         }
     </style>
     <div style="display: flex; justify-content: center; margin-top: -132px">
-        <div style="display: flex; flex-direction: column; justify-content: space-around ;background-color: #FFFFFF; width: 1231px; height: 570px; border-radius: 0px; padding: 2% ">
+        <div style="display: flex; flex-direction: column; justify-content: space-around ;background-color: #FFFFFF; width: 1231px; height: 800px; border-radius: 0px; padding: 2% ">
             <div style="display: flex; justify-content: center">
                 <h4> <i class="fa-solid fa-q"></i> 문의 하기</h4>
             </div>
             <hr>
 
-            <form th:action="@{/QA/user_qa_add}" method="post" enctype="multipart/form-data">
+            <form onsubmit="return validateForm()" th:action="@{/QA/user_qa_add}" method="post" enctype="multipart/form-data">
                 <input th:value="${main_user.getUserNo()}" name="userNo" th:hidden="true"/>
-                <div class="QATable" style="display: flex; justify-content: center">
+                <div class="QATable" style="display: flex; justify-content: center; margin-bottom: 43px;">
                     <table>
                         <tbody>
                         <tr>
@@ -85,7 +85,7 @@
                                 <i class="fa-regular fa-circle-question"></i>  문의 제목
                             </td>
                             <td>
-                                <input type="text" size="48" name="qa_title">
+                                <input type="text" size="48" name="qa_title" id="qa_title">
                             </td>
                         </tr>
                         <tr>
@@ -125,6 +125,17 @@
             }
         }
 
+        function validateForm() {
+            var title = document.getElementById('qa_title').value;
+            var content = document.getElementById('qa_content').value;
+
+            if (title.trim() === '' || content.trim() === '') {
+                alert('문의 제목과 내용을 모두 작성해주세요.');
+                return false;
+            }
+
+            return true;
+        }
     </script>
 
 </th:block>

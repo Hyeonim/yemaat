@@ -76,18 +76,27 @@
                     <td th:if="${#strings.length(QAs.qaContent) > 10}" th:text="${#strings.substring(QAs.qaContent, 0, 10)}"></td>
                     <td th:unless="${#strings.length(QAs.qaContent) > 10}" th:text="${QAs.qaContent}"></td>
                     <td th:text="${QAs.qaWriteTime}"></td>
-                    <td>
-                        <div th:if="${QAs.qaStatus}">
-                            <div>처리완료</div>
+                    <td style="display: flex; justify-content: center">
+                        <div th:if="${QAs.qaStatus}" style="border-radius: 20px; width: 70%; font-weight: bold">
+                            <div> <i class="fa-solid fa-check"></i> 처리완료</div>
                         </div>
-                        <div th:unless="${QAs.qaStatus}">
-                            <span>처리중</span>
+                        <div th:unless="${QAs.qaStatus}" style="border-radius: 10px; width: 70%;">
+                            <div> <i class="fa-solid fa-magnifying-glass"></i> 처리중</div>
                         </div>
                     </td>
                 </tr>
                 </tbody>
 
             </table>
+
+<!--            <div th:if="${QA == null or #lists.isEmpty(QA)}">-->
+<!--                <div style="display: flex; flex-direction: column; align-items: center ;justify-content: center; padding: 140px">-->
+<!--                    <h1>이런!</h1>-->
+<!--                    <h4>리뷰가 하나도 없어요!</h4>-->
+<!--                    <span>예약을 이용 후 작성 할 수 있어요..</span>-->
+<!--                </div>-->
+<!--            </div>-->
+
         </div>
     </div>
 
