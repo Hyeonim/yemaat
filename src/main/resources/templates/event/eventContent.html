@@ -3,7 +3,7 @@
     <div id="imgSlider">
         <div id="sliderContainer">
             <th:block  th:each="event : ${newEvents}">
-                <div class="mySlider fade">
+                <div class="mySlider">
                     <th:block th:if="${event.getEventImg() != null}">
                         <img class="slideshowImg" th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}">
                     </th:block>
@@ -46,7 +46,7 @@
             <ul class="eventItems">
                 <th:block th:each="event : ${pastEvents}" >
                     <li class="eventItem">
-                        <a href="">
+                        <a th:href="@{/event/detail/{eventNo}(eventNo=${event.getEventNo()})}">
                             <div class="eventImg">
                                 <th:block th:if="${event.getEventImg() != null}">
                                     <img th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}">
@@ -75,7 +75,7 @@
             <ul class="eventItems">
                 <th:block th:each="event : ${futureEvents}" >
                     <li class="eventItem">
-                        <a href="">
+                        <a th:href="@{/event/detail/{eventNo}(eventNo=${event.getEventNo()})}">
                             <div class="eventImg">
                                 <th:block th:if="${event.getEventImg() != null}">
                                     <img th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}">
@@ -98,40 +98,77 @@
         let slideIndex = 0;
         showSlides();
         function showSlides() {
-            let i;
             let slides = document.getElementsByClassName("mySlider");
 
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {
-                slideIndex = 1
-            }
-            slides[slideIndex - 1].style.display = "block";
+            slideIndex = Math.min(slides.length, (slideIndex + 1) % slides.length);
 
-            setTimeout(showSlides, 2000); // 2초마다 이미지가 체인지됩니다
+            for (let i = 0; i < slides.length; i++)
+                slides[i].style.display = i === slideIndex ? "flex" : "none";
+
+            setTimeout(showSlides, 4000);
+            setTimeout(slideSlide, 4000);
+        }
+        function slideSlide() {
+
+            const listElements = document.querySelectorAll('#imgSlider #sliderContainer');
+
+            let target = null
+            listElements.forEach(function (element) {
+                // 요소의 위치와 화면의 높이를 비교하여 화면에 보이는 요소인지 확인
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+                const screenHeight = window.innerHeight || document.documentElement.clientHeight;
+                const elementHeight = element.getBoundingClientRect().height + 20;
+
+                // Element의 height가 화면을 가리면서 조건을 만족하지 않도록 함
+                if (elementTop < screenHeight && elementBottom - elementHeight > 0 && null === target) {
+                    if (element.classList.contains("over")) {
+                        // target = undefined;
+                        return;
+                    }
+
+                    target = element;
+                }
+            });
+            if (!target)
+                return;
+
+            moveToSlide(target, 1);
+        }
+
+        document.addEventListener('mouseover', function (event) {
+            let slide = event.target.closest("#imgSlider #sliderContainer");
+            if (slide) {
+                let mouseLeaveHandler = function (event) {
+                    slide.classList.remove("over")
+                    this.removeEventListener('mouseleave', mouseLeaveHandler);
+                }
+
+                slide.classList.add("over");
+                slide.addEventListener('mouseleave', mouseLeaveHandler);
+            }
+        });
+
+        async function moveToSlide(slider) {
+            const index = 1;
+            const slideWidth = 800; //slider.clientWidth;
+            const newPosition = -slideWidth * index;
+
+            return;
+
+            slider.style.transition = "";
+            slider.style.transform = "";
+            await sleep(100)
+            slider.style.transition = "transform 0.5s ease";
+            slider.style.transform = `translateX(${newPosition}px)`;
+
+            slider.index = index;
         }
 
         function change(period) {
-            switch (period) {
-                case 'new':
-                    document.getElementById("newEventBox").style.display = "block";
-                    document.getElementById("pastEventBox").style.display = "none";
-                    document.getElementById("futureEventBox").style.display = "none";
-                    break;
-                case 'future':
-                    document.getElementById("newEventBox").style.display = "none";
-                    document.getElementById("pastEventBox").style.display = "none";
-                    document.getElementById("futureEventBox").style.display = "block";
-                    break;
-                case 'past':
-                    document.getElementById("newEventBox").style.display = "none";
-                    document.getElementById("pastEventBox").style.display = "block";
-                    document.getElementById("futureEventBox").style.display = "none";
-                    break;
-            }
-
+            document.getElementById("newEventBox").style.display = period === 'new' ? "block" : "none";
+            document.getElementById("pastEventBox").style.display = period === 'past' ? "block" : "none";
+            document.getElementById("futureEventBox").style.display = period === 'future' ? "block" : "none";
         }
     </script>
 </div>

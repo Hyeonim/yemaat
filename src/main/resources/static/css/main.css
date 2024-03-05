@@ -299,8 +299,14 @@ header nav:nth-of-type(1) {
     width: 250px;
     border-color: transparent;
     background-color: #dfe5db00;
-    margin: 4px 20px 4px 4px;
+    margin: 4px 30px 4px 4px;
 }
+
+#searchBar:focus {
+    border: 1px solid black; /* 포커스되었을 때 검은색 테두리 추가 */
+    border-radius: 10px;
+}
+
 .searchBox #searchBar:focus-visible {
     /*outline: #3f51b5;*/
 }
@@ -565,7 +571,7 @@ footer {
     box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
     background-color: rgb(255, 255, 255);
     margin: 32px auto;
-    padding: 20px 0px;
+    padding: 10px 0px 40px 0px;
 }
 
 .slideshow .reviewT {
