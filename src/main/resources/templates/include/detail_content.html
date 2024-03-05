@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <div th:fragment="detailContent">
+    <link rel="stylesheet" href="../css/reservation.css">
     <div id="c">
         <div id="main" style="padding-top: 66px;">
             <div id="img-cont">
@@ -45,15 +46,16 @@
             <button th:class="${dinning.restSeat == null ? 'no' : ''}" th:onclick="|location.href='@{/reserve/{restNo}(restNo=${dinning.restNo})}'|"
                     th:text="${dinning.restSeat == null ? '예약불가' : '예약하기'}"></button>
             +]*/-->
-            <th:block th:with="condition=${dinning.restSeat}!=null, nextLocate=|/reserve/${dinning.restNo}|">
+            <th:block th:with="condition=${dinning.restSeat}!=null, nextLocate=${dinning.restNo}">
                 <th:block th:if="${condition}">
-                    <button th:onclick="location.href=[[${nextLocate}]]" th:text="예약하기">
+                    <button th:onclick="openReservePage([[${nextLocate}]])" th:text="예약하기">
                 </th:block>
                 <th:block th:unless="${condition}">
-                    <button th:onclick="location.href=[[${nextLocate}]]" th:text="예약불가" th:class="no" >
+                    <button th:onclick="openReservePage([[${nextLocate}]])" th:text="예약불가" th:class="no" >
                 </th:block>
                     </button>
             </th:block>
+            <div class="reservePage"></div>
             <h2 style="margin-top: 50px">찾아 오는 길</h2>
             <div id="map">
 
@@ -103,7 +105,21 @@
 
         </div>
     </div>
-    <script src="/js/imglazy.js">
+    <script src="/js/imglazy.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        function openReservePage( nextLocate ){
+            const nextUrl = "/reserve/" + nextLocate;
+            fetch( nextUrl )
+                .then(resp => resp.text())
+                .then(data => {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    const reserveDiv = document.querySelector( '.reservePage' );
+                    reserveDiv.innerHTML = doc.querySelector('body').innerHTML;
+                    doc.querySelectorAll('script').forEach( script=> eval( script.textContent ) );
+                });
+        }
+
     </script>
 </div>
 </html>

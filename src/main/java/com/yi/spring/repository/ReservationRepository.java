@@ -32,26 +32,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Reservation> ReservationStatusRESERVE_COMPLETED(@Param("userNo") Long userNo);
 
 
-//    @Query("select r from Reservation r join Dinning dr on r.restNo = CAST(dr.restNo AS Long) " +
-//            "where r.userNo.userNo = :userNo and r.resStatus = :resStatus order by r.resTime DESC")
-//    List<Reservation> ReservationStatus(@Param("userNo") Long userNo, @Param("resStatus") String resStatus);
-
-//    @Query("SELECT r FROM Reservation r WHERE r.userNo.userNo = :userNo and r.resStatus like 'REST_CANCEL' ORDER BY r.resTime DESC")
-//    List<Reservation> ReservationStatusRESTCANCEL(@Param("userNo") Long userNo);
-
-//    @Query("SELECT dr.restName, dr.restCategory, r.reservationTime, r.guestCount, dr.restAddr " +
-//            "FROM Reservation r " +
-//            "JOIN r.diningRest dr " +
-//            "WHERE r.userNo = :userNo")
-//    List<Object[]> findReservationDetailsByUserNo(Long userNo);
-
-
-    /*
-    Query("SELECT dr.restName, dr.restCategory, r.reservationTime, r.guestCount, dr.restAddr " +
-            "FROM Reservation r " +
-            "JOIN DiningRest dr ON r.restNo = dr.restNo " +
-            "WHERE r.userNo = :userNo")
-    */
     @Query("SELECT r "+
             "FROM Reservation r " +
             "WHERE r.userNo.userNo = :userNo")
@@ -101,9 +81,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "FROM reservation r " +
             "WHERE r.rest_no = :restNo", nativeQuery = true)
     List<Object[]>  getReservationWithDateType222(Long restNo);
-
-
-//    List<Reservation> findByRestNo_RestNameAndRestNo_RestCategoryAndResTimeAndRes_guest_countAndRestNo_RestAddr(String restName, String restCategory, LocalDateTime resTime, String res_guest_count, String restAddr);
 
     @Modifying
     @Transactional

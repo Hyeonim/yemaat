@@ -589,8 +589,8 @@
                                           enctype="multipart/form-data">
 
                                         <div style="display: flex; flex-direction: column; align-items: center ;margin-bottom: 10px" class="file-container">
-                                            <h4>별점과 이용경험을 남겨주세요!</h4>
-                                            <p class="title_star" th:text="${res.getRestNo().restName}"
+                                            <h4> <i class="fa-regular fa-star"></i>  별점과 이용경험을 남겨주세요! <i class="fa-regular fa-star"></i></h4>
+                                             <p class="title_star" th:text="${res.getRestNo().restName}"
                                                style="font-size: 17px;"></p>
                                             <div class="rating">
                                                 <div class="ratefillGray"></div>
@@ -629,7 +629,7 @@
                                         </div>
 
                                         <div style="display: flex; flex-direction: column;" class="reviewImgBox">
-                                            <input type="file" id="file" class="fileInput" name="file" style="display: none">
+                                            <input type="file" id="file" class="fileInput" name="file" accept="image/*" style="display: none">
 
                                             <label id="imgLabel" for="file">
                                                 <img src="/img/camera.png"
@@ -650,8 +650,7 @@
                                         </div>
                                         <div style="margin-top: 30px">
                                             <textarea id="reviewContent" name="revContent" rows="5" cols="82"
-                                                      style="resize: none;" placeholder="식당의 위생상태, 맛, 서비스 등 이용하신 경험에 대한 솔직한 리뷰를 남겨주세요. (선택)">
-                                            </textarea>
+                                                      style="resize: none;" placeholder="식당의 위생상태, 맛, 서비스 등 이용하신 경험에 대한 솔직한 리뷰를 남겨주세요. (선택, 200자 내외)" oninput="limitTextarea(this, 200)"></textarea>
                                         </div>
                                         <button id="revAdd" class="reviewAddBtn" type="submit" style="display: flex; justify-content: center; align-items: center; width: 112.5%;">
                                             완료
@@ -683,6 +682,17 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
 
+        function limitTextarea(element, maxLength) {
+            let text = element.value;
+            let currentChars = text.length;
+
+            if (currentChars > maxLength) {
+                element.value = text.slice(0, maxLength);
+            }
+        }
+
+
+
         function reviewRateInput(reviewWriteBtn) {
             var labels = reviewWriteBtn.closest('.containers').querySelectorAll('[class="rate_radio"]');
 
@@ -703,7 +713,6 @@
 
 
     <script>
-        // JavaScript 코드
         var fileInputs = document.querySelectorAll('.fileInput');
 
         fileInputs.forEach(function (input, index) {
