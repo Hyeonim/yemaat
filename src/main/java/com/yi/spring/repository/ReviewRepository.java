@@ -76,7 +76,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
 //    List<Review> findByUserNo(User user);
 
-
-
+    @Query(value = "select * from review r where r.rest_no = :restNo and r.rev_write_time >= CURDATE() - INTERVAL 7 DAY", nativeQuery = true)
+    List<Review> getCountReviewLately7Days(Long restNo);
 
 }

@@ -61,9 +61,6 @@ public class IndexController {
     }
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession, HttpServletRequest request, Principal principal) {
-
-
-
         List<Event> eventList = eventService.getNewEvents(); // 상단 배너 새로운 이벤트
         model.addAttribute("eventList", eventList);
 
@@ -72,7 +69,6 @@ public class IndexController {
 
         model.addAttribute("NList", NList);
         model.addAttribute("head", head);
-
 
         List<Dinning> dList = dinningRepository.getRandomList("1"); // 상단 배너 추천 식당(랜덤)
         if (dList != null && !dList.isEmpty()) {
@@ -83,8 +79,6 @@ public class IndexController {
              */
             model.addAttribute("randomData", dList.get(0)); // 모델에 랜덤한 요소 추가
         }
-
-
 
 //        List<Review> reviewList = new ArrayList<>();
 //        for ( int i = 0; i < 2; i++ )
@@ -102,12 +96,8 @@ public class IndexController {
         model.addAttribute("dinningReviewList2", dinningReviewList2 );
         model.addAttribute("dinningReviewList3", dinningReviewList3 );
 
-
-
         if ( true )
             o2Service.saveAll();
-
-
 
         return "main";
     }
@@ -149,20 +139,10 @@ public class IndexController {
         return "redirect:/login";
     }
 
-
-
     @GetMapping("/restHost")
     public String host(Model model, HttpSession httpSession) {
         return "restHost";
     }
-
-    @GetMapping("addRest")
-    public String addRest() {
-        return "myPage/addRest";
-    }
-
-
-
 
     @GetMapping("/api/loadImg/{imgNo}")
     public ResponseEntity<String> getImage(@PathVariable String imgNo){
@@ -205,9 +185,6 @@ public class IndexController {
         }
         return new ResponseEntity<>( chatRoomId, HttpStatus.OK );
     }
-
-
-
 
     @GetMapping("chatTest")
     public String chatTest(){

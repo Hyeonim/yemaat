@@ -20,25 +20,19 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/*")
 public class DetailController {
-
     @Autowired
     DinningRepository dinningRepository;
-
     @Autowired
     ReviewRepository reviewRepository;
     @Autowired
     ImgTableRepository imageTableRepository;
-
     @Autowired
     MenuService menuService;
-
     @Autowired
     EventService eventService;
 
     @GetMapping("/detail")
     public void getDinningByRestNo(@RequestParam Long restNo, Model model) {
-
-
         Optional<Dinning> dinningOptional = dinningRepository.findById((restNo));
 
 //        List<Review> list = reviewRepository.findByRestNo(new Dinning(Math.toIntExact(restNo)));
@@ -128,7 +122,6 @@ public class DetailController {
 //        }
 //    }
 
-
     @PostMapping("/ownerRestImgAdd")
     public void ownerRestImgAdd(@RequestParam MultipartFile file, Dinning dinning) {
         Optional<Dinning> dbObject = dinningRepository.findById((long) dinning.getRestNo() );
@@ -144,9 +137,5 @@ public class DetailController {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
 
 }
