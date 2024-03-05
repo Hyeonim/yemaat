@@ -43,6 +43,9 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+        .pwBtn:hover {
+            background-color: #4c87dc;
+        }
 
         .pwBtn2 {
             background-color: #845c91; /* 마우스 호버 시 배경색 변경 */
@@ -54,9 +57,8 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
-        .pwBtn:hover {
-            background-color: #4c87dc;
+        .pwBtn2:hover {
+            background-color: #ca96de;
         }
 
         .col {
@@ -81,14 +83,18 @@
             display: none;
         }
 
+        .deleteUser {
+            display: none;
+        }
+
     </style>
 
     <div style="display: flex; justify-content: center; margin-top: -132px">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding: 2% ">
 
-            <div style="display: flex; flex-direction: row; align-items: flex-end; margin-left: -401px"
+            <div style="display: flex; flex-direction: row; align-items: flex-end; margin-left: -435px"
                  class="reviewImgBox">
-                <input type="file" id="file" class="fileInput" name="file" style="display: none">
+                <input type="file" id="file" class="fileInput" name="file" accept="image/*" style="display: none">
 
                 <div style="margin: 20px 0">
                     <img id="previewImage"
@@ -118,8 +124,20 @@
                 <tr>
                     <td class="userinfo_td_gap">
                         <strong>
-                            MY 정보 [[${main_user.getProvider()}]]
+                            <div th:if="${main_user.getProvider() == 'kakao'}">
+                                MY 정보   [[${main_user.getProvider()}]] <img src="/img/icon-kakao-logo-32.png" style="margin-bottom: 20px; width: 18px; height: 18px; border-radius: 50%;">
+                            </div>
+                            <div th:if="${main_user.getProvider() == 'google'}">
+                                MY 정보   [[${main_user.getProvider()}]] <img src="/img/icon-google-logo-32.png" style="margin-bottom: 20px; width: 18px; height: 18px; border-radius: 50%;">
+                            </div>
+                            <div th:if="${main_user.getProvider() == 'naver'}">
+                                MY 정보   [[${main_user.getProvider()}]] <img src="/img/icon-naver-logo-32.png" style="margin-bottom: 20px; width: 18px; height: 18px; border-radius: 50%;">
+                            </div>
+                            <div th:if="${main_user.getProvider() == null}">
+                                MY 정보
+                            </div>
                         </strong>
+
                     </td>
                 </tr>
                 <tr>
@@ -146,29 +164,30 @@
                     </td>
                     <td th:text="${hiddenPassword}" class="userinfo_td_gap"></td>
                     <td class="userinfo_td_gap">
-                        <label class="pwBtn" id="pwBtn1" onclick="pwChange()">변경하기</label>
+                        <label th:if="${main_user.getProvider() == null}" class="pwBtn" id="pwBtn1" onclick="pwChange()"> <i class="fa-solid fa-key"></i>   변경하기</label>
+                        <label th:if="${main_user.getProvider() != null}" class="pwBtn" id="pwBtnNull" onclick="pwChangeNull()"> <i class="fa-solid fa-key"></i>   변경하기</label>
                     </td>
                 </tr>
                 <tr class="pwChangeForm">
                     <td class="userinfo_td_gap"></td>
-                    <td class="userinfo_td_gap"><span>현재 비밀번호 </span></td>
-                    <td class="userinfo_td_gapPw"><input type="password" id="nowPw"></td>
+                    <td class="userinfo_td_gap"><strong> <i class="fa-solid fa-lock-open"></i>   현재 비밀번호 </strong></td>
+                    <td class="userinfo_td_gapPw"><input type="password" id="nowPw" size="30" placeholder="현재 비밀번호를 입력 해주세요."></td>
                 </tr>
                 <tr class="pwChangeForm">
                     <td class="userinfo_td_gap"></td>
-                    <td class="userinfo_td_gap"><span>새 비밀번호 </span></td>
-                    <td class="userinfo_td_gapPw"><input type="password" id="changePw"></td>
+                    <td class="userinfo_td_gap"><strong> <i class="fa-solid fa-unlock"></i>   새 비밀번호 </strong></td>
+                    <td class="userinfo_td_gapPw"><input type="password" id="changePw" size="30" placeholder="새로운 비밀번호를 입력 해주세요."></td>
                 </tr>
                 <tr class="pwChangeForm">
                     <td class="userinfo_td_gap"></td>
-                    <td class="userinfo_td_gap"><span>새 비밀번호 확인 </span></td>
-                    <td class="userinfo_td_gapPw"><input type="password" id="changePwCheck"></td>
+                    <td class="userinfo_td_gap"><strong> <i class="fa-solid fa-lock"></i>   새 비밀번호 확인 </strong></td>
+                    <td class="userinfo_td_gapPw"><input type="password" id="changePwCheck" size="30" placeholder="비밀번호를 한번 더 입력 해주세요."></td>
                 </tr>
                 <tr class="pwChangeForm">
                     <td class="userinfo_td_gap"></td>
                     <td class="userinfo_td_gap">
-                        <label class="pwBtn" id="pwBtn2" onclick="pwChangeUpdate()">변경하기</label>
-                        <label class="pwBtn2" id="pwBtnCancel" onclick="pwChangeCancel()">취소</label>
+                        <label class="pwBtn" id="pwBtn2" onclick="pwChangeUpdate()"> <i class="fa-solid fa-user-lock"></i>  변경하기</label>
+                        <label class="pwBtn2" id="pwBtnCancel" onclick="pwChangeCancel()"> <i class="fa-solid fa-circle-xmark"></i>   취소</label>
                     </td>
                 </tr>
                 <tr>
@@ -181,15 +200,79 @@
                     <td class="userinfo_td_gap col"> 예맛을 이용하고 싶지 않으신가요?</td>
                     <td class="col" style="padding-bottom: 40px; padding-left: 186px;"><a class="nav-link"
                                                                                           href="/logout">로그아웃</a></td>
-                    <td class="col" style="padding-bottom: 40px;"><a class="nav-link" href="#">회원탈퇴</a></td>
+                    <td class="col" id="deleteUserform" style="padding-bottom: 40px;" onclick="deleteUser()">회원탈퇴</td>
                 </tr>
+                <tr class="deleteUser">
+                    <td class="userinfo_td_gap"></td>
+                    <td class="userinfo_td_gap"><strong> <i class="fa-solid fa-lock-open"></i>   비밀번호 입력</strong></td>
+                    <td class="userinfo_td_gapPw"><input type="password" id="deleteUserInput" size="30" placeholder="비밀번호를 입력 해주세요."></td>
+                </tr>
+                <tr class="deleteUser">
+                    <td class="userinfo_td_gap"></td>
+                    <td class="userinfo_td_gap">
+                        <label class="pwBtn" id="deleteUserBtn" onclick="deleteUserUpdate()"> <i class="fa-solid fa-user-lock"></i>  탈퇴하기</label>
+                        <label class="pwBtn2" id="deleteUserBtnCancel" onclick="deleteUserUpdateCancel()"> <i class="fa-solid fa-circle-xmark"></i>   취소</label>
+                    </td>
+                </tr>
+
                 </tbody>
             </table>
+        </div>
+    </div>
 
+    <div class="modal" id="customModal" tabindex="-1" role="dialog" aria-labelledby="customModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    소셜계정의 회원은 비밀번호 변경이 불가능합니다.
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function deleteUser() {
+            var confirmation = confirm("정말로 회원탈퇴를 하시겠습니까?");
+            var deleteUser = document.querySelectorAll('.deleteUser');
+
+            if(confirmation){
+                deleteUser.forEach(function(form) {
+                    form.style.display = 'table-row';
+                });
+            }
+        }
+        function deleteUserUpdateCancel(){
+            var deleteUser = document.querySelectorAll('.deleteUser');
+
+            deleteUser.forEach(function(form) {
+                form.style.display = 'none';
+            });
+        }
+
+        function deleteUserUpdate(){
+            let deleteUserInput = document.getElementById('deleteUserInput').value;
+
+            $.ajax({
+                type: 'POST',
+                url: '/user/deleteUser',
+                data: { pw : deleteUserInput },
+                success: function () {
+                    alert('회원탈퇴가 완료되었습니다.');
+                    console.log('회원탈퇴 성공 :');
+                    location.reload(true);
+                },
+                error: function (error, data) {
+                    alert('비밀번호가 일치하지 않거나 탈퇴 중 오류가 발생했습니다.');
+                    console.error('탈퇴 실패 :', error);
+                    console.error('탈퇴 실패 :', data);
+                    console.error('탈퇴 실패 :', deleteUserInput);
+
+                }
+            });
+        }
+    </script>
+
     <script th:inline="javascript">
         function pwChangeUpdate() {
             var enteredPassword = document.getElementById("nowPw").value;
@@ -226,15 +309,28 @@
 
     <script>
         function pwChange() {
+            var confirmation = confirm("비밀번호를 변경하시겠습니까?");
             var pwChangeForms = document.querySelectorAll('.pwChangeForm');
             let pwBtn1 = document.querySelector('#pwBtn1');
 
+            var deleteUser = document.querySelectorAll('.deleteUser');
+
+
+            if(confirmation){
             pwChangeForms.forEach(function(form) {
                 form.style.display = 'table-row';
             });
             pwBtn1.style.display = 'none'
-        }
+            }
 
+
+            deleteUser.forEach(function(form) {
+                form.style.display = 'none';
+            });
+        }
+        function pwChangeNull() {
+            $('#customModal').modal('show');
+        }
         function pwChangeCancel(){
             var pwChangeForms = document.querySelectorAll('.pwChangeForm');
             let pwBtn1 = document.querySelector('#pwBtn1');

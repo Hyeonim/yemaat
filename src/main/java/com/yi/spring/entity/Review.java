@@ -24,7 +24,7 @@ public class Review {
     @Column(name = "rev_score")
     private Integer revScore;
 
-    @Column(name = "rev_content", length = 100)
+    @Column(name = "rev_content", columnDefinition = "text")
     private String revContent;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -49,11 +49,10 @@ public class UserController {
     ReviewService reviewService;
     @Autowired
     private OAuth2MemberService o2MemberService;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-
+    @Autowired
+    DeleteUserRepository deleteUserRepository;
 
 
     private User user = null;
@@ -409,23 +408,41 @@ public class UserController {
         return "redirect:/user/user_info";
     }
     @PostMapping("/updatePw")
-    public String updatePw(Principal principal, @RequestParam String newPassword, @RequestParam String oldPw, Model model){
+    public String updatePw(Principal principal, @RequestParam String newPassword, @RequestParam String oldPw){
         user = o2MemberService.findUser( principal );
 
         if (passwordEncoder.matches(oldPw,user.getUserPassword())){
             user.setUserPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
         } else {
-            model.addAttribute("error", "error");
             throw new RuntimeException("password different");
         }
 
-        System.out.println(newPassword);
-
-
-
         return "redirect:/user/user_info";
     }
+
+    @PostMapping("/deleteUser")
+    public String deleteUser(Principal principal,Reservation reservation, DeleteUser deleteUser, @RequestParam String pw){
+        user = o2MemberService.findUser( principal );
+
+        if (passwordEncoder.matches(pw,user.getUserPassword())){
+            userRepository.delete(user);
+            deleteUser.setUserNo(user.getUserNo());
+            deleteUser.setUserId(user.getUserId());
+            deleteUser.setUserAuth(user.getUserAuth());
+            deleteUser.setUserStartDate(user.getUserStartDate());
+            deleteUser.setUserBlock(user.isUserBlock());
+
+
+            deleteUserRepository.save(deleteUser);
+        } else {
+            throw new RuntimeException("password different");
+        }
+
+        return "redirect:/login";
+    }
+
+
 
     // 유저 목록 페이지로 이동(관리용)
     @GetMapping("list_user")

@@ -176,7 +176,9 @@
                                     </a>
 
                                 </div>
-                                <li class="revContentBox" th:text="${combinedLists.rev.revContent}"
+                                <li class="revContentBox" th:if="${#strings.length(combinedLists.rev.revContent) > 30}" th:text="${#strings.substring(combinedLists.rev.revContent,0 ,30) + '.....'}"
+                                    style="margin: 10px 0; width: 833.03px; height: 40px"></li>
+                                <li class="revContentBox" th:unless="${#strings.length(combinedLists.rev.revContent) > 10}" th:text="${combinedLists.rev.revContent}"
                                     style="margin: 10px 0; width: 833.03px; height: 40px"></li>
 
                                 <div style="display: flex">
@@ -220,7 +222,7 @@
                                     <img style="max-width: 330px; max-height: 330px;"
                                          th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}"
                                          alt="리뷰이미지">
-                                    <div style="margin-top: 30px" th:text="${combinedLists.rev.revContent}"></div>
+                                    <div style="margin-top: 30px; white-space: pre-wrap;" th:text="${combinedLists.rev.revContent}"></div>
                                 </div>
                             </div>
                         </div>

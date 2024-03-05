@@ -102,7 +102,7 @@
                                          id="preview" th:src="'data:image/jpeg;base64,' + ${review.get().base64Image}"
                                          alt="">
                                     <br>
-                                    <input type="file" id="file" name="file" onchange="previewImage(this);">
+                                    <input type="file" id="file" name="file" accept="image/*" onchange="previewImage(this);">
                                 </div>
                                 <input hidden="hidden" name="revNo" th:value="${review.get().id}">
                                 <input hidden="hidden" name="userNo" th:value="${review.get().getUserNo().userNo}">
