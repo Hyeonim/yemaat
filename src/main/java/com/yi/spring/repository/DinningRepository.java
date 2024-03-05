@@ -4,6 +4,7 @@ import com.yi.spring.entity.*;
 import jakarta.persistence.Tuple;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -62,4 +63,65 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
 
 
     Page<Dinning> findByRestStatus(String status, Pageable pageable);
+
+//    @Query( "SELECT subquery.*\n" +
+//            "FROM (\n" +
+//            "    SELECT *,\n" +
+//            "           ROW_NUMBER() OVER (PARTITION BY rest_category ORDER BY RAND()) AS row_num\n" +
+//            "    FROM dining_rest\n" +
+//            "    where rest_status = 'NORMAL'\n" +
+//            ") AS subquery")
+//    Slice<Tuple> getRandomCategoryList();
+//    @Query( value= """
+//            SELECT *
+//            FROM (
+//                SELECT *,
+//                       ROW_NUMBER() OVER (PARTITION BY rest_category ORDER BY RAND()) AS row_num
+//                FROM dining_rest
+//                where rest_status = 'NORMAL'
+//            ) AS subquery""", nativeQuery = true)
+//    Slice<Tuple> getRandomCategoryList();
+
+
+    /*
+<div class="reviewT" th:each="review : ${list}">
+    <p class="username" th:text="${review.userNo.userName}"></p>
+    <p class="star" th:text="${review.getRevScore()}"></p>
+    <p th:text="${review.restNo.restName}"></p>
+    <p th:text="${review.restNo.restCategory}"></p>
+    <p class="comment" th:text="${review.revContent}"></p>
+    <img th:if="${review.base64Image!=''}" th:src="'data:image/png;base64,' + ${review.base64Image}" alt="리뷰 이미지"/>
+    <div class="overtip" th:if="${bSlide}==1">
+        <span th:text="${review.restNo.restName}"></span>
+        <span th:text="${review.restNo.restCategory}"></span>
+        <hr>
+        <span><a th:href="'/detail?restNo='+${review.restNo.restNo}">식당바로가기</a></span>
+        <span th:onclick="|addWishList(this,${review.restNo.restNo})|">관심등록>></span>
+    </div>
+</div>
+    */
+    @Query( value= """
+            WITH random_category AS (
+                 SELECT rest_category
+                 FROM dining_rest
+                 GROUP BY rest_category
+                 ORDER BY RAND()
+                 LIMIT 1
+            )
+            SELECT
+                rest_category as category,
+                rest_img as img,
+                rest_name as name,
+                rest_no as no,
+                (SELECT avg(r.rev_score) FROM review r WHERE r.rest_no = dr.rest_no) AS score,
+                (select r2.rev_img from review r2 where r2.rest_no = dr.rest_no and r2.rev_img != '' order by RAND() limit 1 ) AS revImg
+            FROM dining_rest dr
+            WHERE rest_category = (SELECT rest_category FROM random_category)
+                and rest_img != ''
+            ORDER BY RAND()
+            LIMIT :sLimit""", nativeQuery = true)
+    List<Tuple> getRandomCategoryList( @Param("sLimit") int sLimit );
+
+
+
 }

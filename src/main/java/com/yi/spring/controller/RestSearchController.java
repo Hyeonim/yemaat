@@ -105,6 +105,7 @@ public class RestSearchController {
     {
         List<DinningReviewView> dinningReviewList = new ArrayList<>();
         String filter1 = params.get( "filter1" );
+        String searchCategory = params.get( "filter2" );
         if ( null != filter1 )
         {
             switch (filter1) {
@@ -127,7 +128,7 @@ public class RestSearchController {
 
                     Specification<DinningReviewView> spec = Specification
                             .where(DinningReviewSpecifications.likeRestName( restName ))
-                            .and(DinningReviewSpecifications.eqCategory(null))
+                            .and(DinningReviewSpecifications.eqCategory( searchCategory ))
                             .and(DinningReviewSpecifications.likeAddr(null))
                             ;
 
@@ -141,6 +142,13 @@ public class RestSearchController {
                 default :// System.out.println("Unexpected value: " + filter1);
             }
         }
+        // 임시
+        else if ( null != searchCategory )
+            dinningReviewList = inRepository.findAll( Specification
+                    .where(DinningReviewSpecifications.likeRestName( restName ))
+                    .and(DinningReviewSpecifications.eqCategory( searchCategory ))
+                    .and(DinningReviewSpecifications.likeAddr(null)) );
+
         return dinningReviewList;
     }
 

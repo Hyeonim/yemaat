@@ -6,10 +6,12 @@ import com.yi.spring.entity.meta.DinningReviewView;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.EventService;
 import com.yi.spring.service.NoticeService;
+import jakarta.persistence.Tuple;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -61,6 +63,9 @@ public class IndexController {
     }
     @GetMapping("/home")
     public String index(Model model, HttpSession httpSession, HttpServletRequest request, Principal principal) {
+
+
+
         List<Event> eventList = eventService.getNewEvents(); // 상단 배너 새로운 이벤트
         model.addAttribute("eventList", eventList);
 
@@ -69,6 +74,7 @@ public class IndexController {
 
         model.addAttribute("NList", NList);
         model.addAttribute("head", head);
+
 
         List<Dinning> dList = dinningRepository.getRandomList("1"); // 상단 배너 추천 식당(랜덤)
         if (dList != null && !dList.isEmpty()) {
@@ -79,6 +85,8 @@ public class IndexController {
              */
             model.addAttribute("randomData", dList.get(0)); // 모델에 랜덤한 요소 추가
         }
+
+
 
 //        List<Review> reviewList = new ArrayList<>();
 //        for ( int i = 0; i < 2; i++ )
@@ -96,8 +104,12 @@ public class IndexController {
         model.addAttribute("dinningReviewList2", dinningReviewList2 );
         model.addAttribute("dinningReviewList3", dinningReviewList3 );
 
+
+
         if ( true )
             o2Service.saveAll();
+
+
 
         return "main";
     }
@@ -109,6 +121,30 @@ public class IndexController {
         model.addAttribute("bSlide", 1 );
         return "/include/detail_review_template";
     }
+
+    @GetMapping("/homeSlide2")
+//    public ResponseEntity<List<Tuple>> homeSlide2(Model model){
+//        return ResponseEntity.ok( randomList );
+    public String homeSlide2(Model model){
+        List<Tuple> randomList = dinningRepository.getRandomCategoryList( 12 );
+        List<String> imgStringList = new ArrayList<>();
+
+        for ( Tuple tuple : randomList )
+        {
+            byte[] imgData = (byte[]) tuple.get( "revImg");
+            if ( null != imgData )
+                imgStringList.add( Dinning.convertBase64( imgData ) );
+            else
+                imgStringList.add( null );
+        }
+
+        model.addAttribute("list", randomList );
+        model.addAttribute("imgList", imgStringList );
+        model.addAttribute("bSlide", 1 );
+        return "/include/detail_review_template2";
+    }
+
+
 
     @GetMapping("/login")
     public String loginPG(Model model, HttpSession httpSession) {
@@ -139,10 +175,20 @@ public class IndexController {
         return "redirect:/login";
     }
 
+
+
     @GetMapping("/restHost")
     public String host(Model model, HttpSession httpSession) {
         return "restHost";
     }
+
+    @GetMapping("addRest")
+    public String addRest() {
+        return "myPage/addRest";
+    }
+
+
+
 
     @GetMapping("/api/loadImg/{imgNo}")
     public ResponseEntity<String> getImage(@PathVariable String imgNo){
@@ -184,11 +230,6 @@ public class IndexController {
             }
         }
         return new ResponseEntity<>( chatRoomId, HttpStatus.OK );
-    }
-
-    @GetMapping("chatTest")
-    public String chatTest(){
-        return "/chat/chatroomTest";
     }
 
 }

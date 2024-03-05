@@ -90,9 +90,6 @@ public class DinningReviewView {
     @JoinColumn(name = "user_no")
     private User userNo;
 
-    @Column(name = "rest_score")
-    private Float restScore;
-
     @Column(name = "total_reviews")
     private Long totalReviews;
 
