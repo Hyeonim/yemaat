@@ -128,7 +128,7 @@ public class RestSearchController {
 
                     Specification<DinningReviewView> spec = Specification
                             .where(DinningReviewSpecifications.likeRestName( restName ))
-                            .and(DinningReviewSpecifications.eqCategory( searchCategory ))
+                            .and(DinningReviewSpecifications.eqCategory( null ))
                             .and(DinningReviewSpecifications.likeAddr(null))
                             ;
 
