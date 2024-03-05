@@ -572,7 +572,7 @@ footer {
     box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
     background-color: rgb(255, 255, 255);
     margin: 32px auto;
-    padding: 20px 0px;
+    padding: 10px 0px 40px 0px;
 }
 
 .slideshow .reviewT {
