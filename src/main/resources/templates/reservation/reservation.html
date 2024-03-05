@@ -4,38 +4,22 @@
     <meta charset="UTF-8">
     <title>예약 페이지</title>
     <link rel="stylesheet" href="../css/reservation.css">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
+
 </head>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background-color: #f2f2f2;
-    }
-    #c {
-        max-width: 800px;
-        margin: 20px auto 30px auto;
-        background-color: #fff;
-        margin-top: 70px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-</style>
+
 <body>
-<header th:include="~{/include/header::headerFragment}">
-    head
-</header>
 
-<div id="c">
-    <h1>[[${rest_name}]]</h1>
 
-    [[${rest_time_start}]] 부터 [[${rest_time_end}]] 까지 예약 가능한 시간
 
-    <div id="reservation">
-        <button class="reserve selected">식사</button>
-        <button class="reserve">픽업</button>
-        <button class="reserve">배달</button>
-    </div>
+    <p>예약 가능한 시간은 [[${rest_time_start}]] 부터 [[${rest_time_end_time}]] 까지입니다.</p>
+
+    예약 가능한 좌석 <th:block th:with="diff=${rest_seat_normal}-${reservePeopleCount}" th:text="${diff}"></th:block> ( [[${reservePeopleCount}]] / [[${rest_seat_normal}]] )
+    <th:block th:if="0!=${rest_seat_room}" th:utext="'방 '+${reserveRoomCount}+' / ' +${rest_seat_room}+'<br>'"></th:block>
+    <th:block th:if="0!=${rest_seat_room}" th:utext="|방 예약 가능<input type='checkbox' for='room_type'/>|"></th:block>
+    <br>
+
+    <th:block th:if="0!=${reserveRoomCount}" th:text="${reserveRoomCount}+'방'"></th:block>
+    <br>
 
     <div id="customer_information_input">
         <div id="nop">
@@ -77,18 +61,11 @@
         </div>
     </div>
 
-    예약 가능한 좌석 <th:block th:with="diff=${rest_seat_normal}-${reservePeopleCount}" th:text="${diff}"></th:block> ( [[${reservePeopleCount}]] / [[${rest_seat_normal}]] )
-    <th:block th:if="0!=${rest_seat_room}" th:utext="'방 '+${reserveRoomCount}+' / ' +${rest_seat_room}+'<br>'"></th:block>
-    <th:block th:if="0!=${rest_seat_room}" th:utext="|방 예약 가능<input type='checkbox' for='room_type'/>|"></th:block>
-    <br>
-
-    예약 현황 총 [[${reservePeopleCount}]]명
-    <th:block th:if="0!=${reserveRoomCount}" th:text="${reserveRoomCount}+'방'"></th:block>
-    <br>
 
 
-    매장에 방문하신 시간을 기준이후로 2시간<br>
-    특별요청 <input type="text" for="message"/><br>
+
+    요청사항<br>
+    <input type="text" for="message"/><br>
     <button id="sendButton" >예약하기</button>
 
 
@@ -110,15 +87,19 @@
     <!--        </div>-->
     <!--    </div>-->
     <!--</div>-->
-    <div>
-        시간별 예약 상황
-        <ul th:each="reserve : ${reservationList}">
-            <li th:text="${reserve.date}"></li>
-            <li th:text="${reserve.count}+'명'"></li>
-        </ul>
-    </div>
 
     <br>
+    <div style="display: none;">
+        예약 현황 총 [[${reservePeopleCount}]]명
+        매장에 방문하신 시간을 기준이후로 2시간<br>
+
+        <div>
+            시간별 예약 상황
+            <ul th:each="reserve : ${reservationList}">
+                <li th:text="${reserve.date}"></li>
+                <li th:text="${reserve.count}+'명'"></li>
+            </ul>
+        </div>
     <pre>
     예약 등록시 필요한 정보
     날짜 <label id="date"></label>
@@ -130,19 +111,14 @@
     가게 번호 <label id="rest_no">[[${rest_no}]]</label>
     예약할 테이블자리 (미구현) <label id="rest_table_no"></label>
     </pre>
-</div>
+    </div>
 
-<footer th:include="~{/include/footer::footerFragment}">
-    footer
-</footer>
+
+
 
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script>
     $(document).ready(() => {
-        $("div#reservation button").click(function () {
-            $(this).addClass("selected");
-            $("div#reservation button").not(this).removeClass("selected");
-        });
 
         // change 이벤트 처리
         $(document).on("change", function (event) {

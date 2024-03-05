@@ -70,7 +70,7 @@ public class ReservationController {
         Long iUserNo = Long.valueOf(loginUser.getUserNo());
         Long reservationNo = _findMyReserveNo( iRestNo, iUserNo );
         if ( null != reservationNo )
-            return "redirect:/user/user_posts";
+            return "reservation/reservation_complete";
 
 
         Dinning restaurant = dinningRepository.findById( iRestNo ).get();
@@ -132,6 +132,7 @@ public class ReservationController {
         long minutesDiff = duration.toMinutes();
         long halfCount = minutesDiff / 30;
         model.addAttribute( "rest_time_end", rest_end );
+        model.addAttribute( "rest_time_end_time", rest_end.toLocalTime() );
         model.addAttribute( "rest_time_count", halfCount );
 
         model.addAttribute( "rest_no", restNo );
