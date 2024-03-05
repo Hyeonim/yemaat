@@ -65,6 +65,8 @@ public class ManagerController {
     @Autowired
     NoticeService noticeService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
@@ -300,7 +302,9 @@ public class ManagerController {
     @PostMapping("managerPage_UAdd")
     public String managerAddU(@RequestParam MultipartFile file, User user,Model model) {
 
+String a = user.getUserPassword();
 
+String encode = passwordEncoder.encode(a);
 
         if (file.isEmpty()) {
             userRepository.save(user);
@@ -313,6 +317,8 @@ public class ManagerController {
             }
             user.setUserImg(userImg);
         }
+
+        user.setUserPassword(encode);
 
         userRepository.save(user);
 
@@ -335,6 +341,8 @@ public class ManagerController {
             @RequestParam String userTel,
             @RequestParam String userAuth) throws IOException {
 
+        String encode = passwordEncoder.encode(userPassword);
+
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
         userOptional.ifPresent(user -> {
             // 업로드된 파일이 존재하는 경우에만 처리
@@ -350,7 +358,7 @@ public class ManagerController {
             user.setUserName(userName);
             user.setUserId(userId);
             user.setUserEmail(userEmail);
-            user.setUserPassword(userPassword);
+            user.setUserPassword(encode);
             user.setUserTel(userTel);
             user.setUserAuth(userAuth);
             userRepository.save(user);
@@ -730,6 +738,9 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     @PostMapping("managerPage_JAdd")
     public String jumAdd(@RequestParam MultipartFile file, User user, Model model) {
 
+        String a = user.getUserPassword();
+        String encode = passwordEncoder.encode(a);
+
         if (file.isEmpty()) {
             userRepository.save(user);
         } else {
@@ -741,6 +752,8 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
             }
             user.setUserImg(userImg);
         }
+        user.setUserPassword(encode);
+
 
         userRepository.save(user);
 
@@ -784,6 +797,8 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
             @RequestParam String userTel,
             @RequestParam String userAuth) throws IOException {
 
+        String encode = passwordEncoder.encode(userPassword);
+
         Optional<User> userOptional = userRepository.findByUserNo(userNo);
         userOptional.ifPresent(user -> {
             // 업로드된 파일이 존재하는 경우에만 처리
@@ -799,7 +814,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
             user.setUserName(userName);
             user.setUserId(userId);
             user.setUserEmail(userEmail);
-            user.setUserPassword(userPassword);
+            user.setUserPassword(encode);
             user.setUserTel(userTel);
             user.setUserAuth(userAuth);
             userRepository.save(user);

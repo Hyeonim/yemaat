@@ -93,7 +93,8 @@
             <div style="border: solid 2px #f2f2f2; border-radius: 10px; margin: 40px 40px 10px 24px; text-align: left; " >
                 <div style="border-bottom: solid 1px black">
                     <h2 style="padding-top: 20px; padding-left: 20px" th:text="${list.size()} + '명의 방문자가 평가 '"></h2>
-                    <p th:text="'총 평점 :  ' +${reg}"></p>
+                    <p th:text="'총 평점 :  ' +${#strings.substring(reg, 0, 3)}"></p>
+
                 </div>
 
                 <div id="review">
