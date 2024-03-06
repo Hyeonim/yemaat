@@ -107,6 +107,11 @@ public class DinningReviewView {
     {
         return restScore2;
     }
+
+
+    public double getRevScore(){
+        return ( restScore2 != null ? restScore2.doubleValue() : 0 ) / 10.0;
+    }
 }
 
 

@@ -120,4 +120,9 @@ public class Dinning {
         return "";
     }
 
+
+    public double getRevScore(){
+        return 0 / 10.0;
+    }
+
 }

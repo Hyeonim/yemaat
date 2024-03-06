@@ -34,6 +34,7 @@
 
         #content {
             max-width: 1000px;
+            height: 1600px;
             padding: 20px;
         }
 
@@ -42,7 +43,7 @@
 
 
     </style>
-    <div style="height: 1500px">
+    <div style="height: 1800px">
         <!--    <div style="background:url('/img/nb.jpg');">-->
         <div style="background: url('/img/mainbg.jpeg'); background-size: cover; background-position: center; height: 600px">
 
@@ -90,9 +91,11 @@
                     </thead>
                     <tbody>
                     <tr th:each="list, listIndex : ${list}"
-                        th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'"
-                        th:class="${list.importantNotice} ? 'important' : ''">
-                        <td th:text="${list.id}"></td>
+                        th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
+                        <td>
+                            <button id="impob2" th:text="${list.importantNotice ? '중요' : '일반'}"></button>
+                        </td>
+<!--                        <td th:text="${list.id}"></td>-->
                         <td th:text="${list.subject}"></td>
                         <td th:text="${#strings.substring(list.writeDate, 0, 10)}"></td>
 
