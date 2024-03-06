@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>폐점 신청 가게 목록</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<div th:fragment="managerContent">
+    <div id="right2">
+
+        <table id="dinningCloseTable2" style="text-align: center;">
+            <thead>
+            <tr>
+                <th>리뷰 번호</th>
+                <th>신고된 아이디</th>
+                <th>신고한 가게</th>
+                <th>점주</th>
+                <th>상태 변경</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="list : ${list}">
+                <td th:text="${list.id}"></td>
+                <td th:text="${list.userNo.userId}"></td>
+                <td th:text="${list.resNo.restNo.restName}"></td>
+                <td th:text="${list.resNo.restNo.userNo.userId}"></td>
+                <td>
+                    <form onsubmit="return confirmClose()" action="RevManager" method="post">
+                        <input type="hidden" name="id" th:value="${list.id}">
+                        <div class="custom-select">
+                        <select name="status">
+                            <option value="INSULT">일반</option>
+                            <option value="FALSE_EXAGGERATION">욕설 및 비방</option>
+                            <option value="WRONG_IMAGE">허위 및 과장</option>
+                            <option value="ADVERTISEMENT">잘못된 사진</option>
+                            <option value="OTHER">기타</option>
+                        </select>
+                        <button type="submit">변경</button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+        function confirmClose() {
+            swal({
+                title: "리뷰 상태를 변경 하시겠습니까?",
+                text: "변경 하시려면 확인을 눌러주세요.",
+                icon: "warning",
+                buttons: {
+                    confirm: {
+                        text: "변경",
+                        value: true,
+                        visible: true,
+                        className: "confirm-button",
+                        closeModal: false // 창이 닫히지 않도록 설정
+                    },
+                    cancel: {
+                        text: "취소",
+                        value: null,
+                        visible: true,
+                        className: "cancel-button",
+                        closeModal: true,
+                    }
+                },
+                dangerMode: false,
+            })
+                .then((willClose) => {
+                    if (willClose) {
+                        swal("Success!", "변경 되었습니다!", "success")
+                            .then(function () {
+                                // 확인 버튼을 클릭한 경우 폼 제출
+                                document.querySelector("form").submit();
+                            });
+                    } else {
+                        swal("취소되었습니다.")
+                    }
+                });
+            // 폼 제출을 여기서 직접 호출하지 않고, 확인 버튼을 클릭한 경우에만 폼 제출
+            return false;
+        }
+
+    </script>
+</div>
+</html>

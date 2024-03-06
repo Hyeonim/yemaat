@@ -5,9 +5,7 @@ import com.yi.spring.entity.Review;
 import com.yi.spring.entity.User;
 import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
@@ -28,6 +26,11 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 //    Page<Review> findByUserNoAndRevContentAndRestNoRestNameContaining(User user, String search, Pageable pageable);
     Page<Review> findByUserNoAndRestNoRestNameContaining(User user,String restName, Pageable pageable);
 
+
+    @Query("select r from Review r where r.revStatus != 'NORMAL'")
+    Page<Review> findByRevStatus(Pageable pageable);
+
+
 //    Page<Review> findByUserNoAndRestNameContaining(User user,String restName, Pageable pageable);
 
 
@@ -40,7 +43,10 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     @Query("select r from Review r inner join r.userNo.reviews reviews where reviews.userNo = ?1")
     List<Review> findByUserNo_Reviews_UserNo(int userNo);
-    
+
+
+
+
 
     @Query("select im from ImgTb im where im.id = 3")
     List<Object[]> getImgTest();

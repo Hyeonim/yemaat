@@ -43,6 +43,13 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findByUserNoAndRestNoRestNameContaining(user, restName, pageable);
     }
 
+
+    @Override
+    public Page<Review> findByStatus(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return reviewRepository.findByRevStatus(pageable);
+    }
+
 //    @Override
 //    public Page<Review> findByRevContentOrRestNameContainingPaged(User user, String search, int page) {
 //        Pageable pageable = PageRequest.of(page, 10);

@@ -4,10 +4,7 @@ import com.yi.spring.config.RawPasswordEncoder;
 import com.yi.spring.entity.*;
 import com.yi.spring.entity.meta.ImageFrom;
 import com.yi.spring.repository.*;
-import com.yi.spring.service.DinningService;
-import com.yi.spring.service.NoticeService;
-import com.yi.spring.service.QAService;
-import com.yi.spring.service.UserService;
+import com.yi.spring.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -67,6 +64,12 @@ public class ManagerController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    ReviewService reviewService;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @GetMapping("/{subPage}")
     public String managerPage(Model model, @PathVariable String subPage) {
@@ -653,7 +656,6 @@ public class ManagerController {
                 } catch (IOException e) {
                     throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
                 }
-
             }
             notice1.setSubject(subject);
             notice1.setWriter(writer);
@@ -1134,6 +1136,42 @@ public class ManagerController {
         }
         return "redirect:/manager/managerPage_JrestHold";
     }
+
+//리뷰
+    @GetMapping("/managerPage_Review")
+    public String review(Model model,
+                         @RequestParam(value = "page", defaultValue = "0") int page) {
+
+        Page<Review> list = reviewService.findByStatus(page);
+
+
+        model.addAttribute("list", list);
+        model.addAttribute("page", "managerPage/managerPage_Review");
+        model.addAttribute("header", "리뷰 관리 목록");
+
+
+        return "managerPage";
+    }
+
+    @PostMapping("/RevManager")
+    public String reviewManager(@RequestParam("id") int id,
+                                @RequestParam("status") String status,
+                                RedirectAttributes redirectAttributes) {
+
+        Optional<Review> review = reviewRepository.findById(id);
+        if (review.isPresent()) {
+            Review review1 = review.get();
+            review1.setRevStatus(status);
+            reviewRepository.save(review1);
+            redirectAttributes.addFlashAttribute("message", "성공적으로 변경되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "찾을 수 없습니다.");
+        }
+        return "redirect:/manager/managerPage_Review";
+    }
+
+
+
 }
 
 
