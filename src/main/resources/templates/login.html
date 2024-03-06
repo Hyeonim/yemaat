@@ -122,11 +122,16 @@
         display: flex;
         justify-content: center;
     }
-    .fmpott a {
+    .fmpott button {
+        border : none;
+        background-color: transparent;
         color: rgb(110,110,110);
-    }.fmpott a:hover {
+    }.fmpott button a{
+             color: rgb(110,110,110);
+
+    }.fmpott button:hover {
          text-decoration: underline;
-     }.fmpott a+a:before {
+     }.fmpott button+button:before {
           padding-left: 0.8rem;
           padding-right: 0.8rem;
           content: '|';
@@ -192,9 +197,9 @@ ul.sns li img:hover {
 </form>
 </div>
 <div class="sc-jIJgYh fmpott">
-    <a href="/findId">아이디찾기</a>
-    <a href="/findPw">비밀번호 찾기</a>
-    <a href="/signUp">회원가입</a>
+    <button onclick="openPopup('/findId')" >아이디찾기</button>
+    <button onclick="openPopup('/findPw')">비밀번호 찾기</button>
+    <button><a href="/signUp">회원가입</a></button>
 </div>
 <div class="sns">
 사용하시는 SNS계정으로 서비스를 이용하실 수 있습니다.
@@ -258,7 +263,14 @@ function onPasswordClick(myDiv){
     Array.from(myDiv.children[0].children).forEach((e,i)=>e.style.display=state===i?"inline":"none")
 }
 
+function openPopup(url) {
+    // 화면의 가운데 위치 계산
+    var leftPosition = (window.screen.width / 2) - (600 / 2);
+    var topPosition = (window.screen.height / 2) - (500 / 2);
 
+    // 팝업 창 열기
+    window.open(url, '인증 팝업', 'width=600,height=500,left=' + leftPosition + ',top=' + topPosition);
+}
 
 </script>
 </body>
