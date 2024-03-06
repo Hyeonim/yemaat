@@ -17,6 +17,7 @@ body {
     justify-content: center;
     position: relative;
     margin: 50px auto;
+    overflow: hidden;
 }
 
 #sliderContainer {
@@ -26,7 +27,7 @@ body {
     display: flex;
 }
 .slideshowImg {
-    width: 400px;
+    width: 800px;
     height : 100%;
     overflow: hidden;
     margin : 0 auto;
@@ -39,7 +40,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 200px;
 }
 
 #eventList {
@@ -81,7 +81,7 @@ body {
 .eventBox .eventItems .eventItem {
     width:32%;
     border : 1px solid #dddfe2;
-    margin : 0 0 13px 2%;
+    margin : 0 0 13px 13px;
     background-color: #fff;
 }
 .eventBox .eventItems .eventItem:nth-child(3n+1) {

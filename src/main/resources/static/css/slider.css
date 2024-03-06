@@ -1,18 +1,21 @@
 .slider {
     width:1008px;
-    height:350px;
+    height:300px;
     /*overflow-x: hidden;*/
     border-radius : 28px;
-    box-shadow : rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
     background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
     margin : 32px auto;
     position: relative;
+    padding: 10px 0px 40px 0px;
 }
 
 .slider .header {
+    position : relative;
     padding : 10px;
     border:none;
     box-shadow:  0 4px 4px -4px gray;
+    background-color: #fff !important;
 }
 
 .slider .btn {
@@ -50,9 +53,8 @@
 
 .wrapper {
     position : relative;
-    height : 280px;
+    height : 300px;
     overflow: hidden;
-    margin-top : 10px;
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;

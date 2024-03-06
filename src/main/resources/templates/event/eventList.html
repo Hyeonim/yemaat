@@ -16,28 +16,36 @@
             </tr>
             <th:block th:each="event : ${eventList}" th:object="${event}">
 
-                <tr>
-                    <td id="status"></td>
+                <tr class="eventItem">
+                    <td class="status"></td>
                     <td><a th:href="@{/owner/viewEvent/{eventNo}(eventNo=*{getEventNo()})}">[[*{getEventTitle()}]]</a></td>
-                    <td id="eventStartTime">[[*{getEventStartTime()}]]</td>
-                    <td id="eventEndTime">[[*{getEventEndTime()}]]</td>
+                    <td class="eventStartTime">[[*{getEventStartTime()}]]</td>
+                    <td class="eventEndTime">[[*{getEventEndTime()}]]</td>
                     <td>[[*{#temporals.format(getWriteDate(), 'yyyy-MM-dd')}]]</td>
                 </tr>
             </th:block>
         </table>
     </div>
     <script>
-        let startTime = new Date(document.getElementById("eventStartTime").textContent);
-        let endTime = new Date(document.getElementById("eventEndTime").textContent);
+        function setStatus(eventElement) {
+            let startTime = new Date(eventElement.querySelector(".eventStartTime").textContent);
+            let endTime = new Date(eventElement.querySelector(".eventEndTime").textContent);
 
-        let today = new Date();
-        if(today < startTime) {
-            document.getElementById("status").textContent = "예정"
-        } else if(startTime <= today && today <= endTime) {
-            document.getElementById("status").textContent = "진행중";
-        } else
-            document.getElementById("status").textContent = "마감";
+            let today = new Date();
+            let statusElement = eventElement.querySelector(".status");
+
+            if (today < startTime) {
+                statusElement.textContent = "예정";
+            } else if (startTime <= today && today <= endTime) {
+                statusElement.textContent = "진행중";
+            } else {
+                statusElement.textContent = "마감";
+            }
         }
+
+        document.querySelectorAll(".eventItem").forEach(function(eventElement) {
+            setStatus(eventElement);
+        });
     </script>
 </th:block>
 </html>

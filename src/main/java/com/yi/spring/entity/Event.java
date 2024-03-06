@@ -23,7 +23,7 @@ public class Event {
     @Column(name = "event_title", length = 100)
     private String eventTitle;
 
-    @Column(name = "event_content", length = 100)
+    @Column(name = "event_content", columnDefinition = "text")
     private String eventContent;
 
     @Column(name = "event_img")
