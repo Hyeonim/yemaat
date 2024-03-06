@@ -32,7 +32,7 @@ public class Notice {
     @Column(name = "content", columnDefinition = "text")
     private String content;
 
-    @Column(name = "important_notice")
+    @Column(name = "important_notice", columnDefinition = "longblob")
     private boolean importantNotice = false;
 
     @Column(name = "notice_img")

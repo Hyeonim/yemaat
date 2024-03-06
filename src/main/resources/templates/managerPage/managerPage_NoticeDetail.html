@@ -35,19 +35,21 @@
              style="margin: 20px; width: 1200px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; text-align: left">
             <ion-icon onclick="history.go(-1);" name="close-outline"></ion-icon>
 
-            <form id="NFormUpdate" action="/manager/managerPage_NoticeUpdate" method="post" style="margin-left: 40px">
+            <form id="NFormUpdate" action="/manager/managerPage_NoticeUpdate" method="post" style="margin-left: 40px" enctype="multipart/form-data">
                 <input type="hidden" name="id" th:value="${notice.get().id}"/>
                 <span>제목 : <input name="subject" th:value="${notice.get().subject}"
                                   style="width: 400px; padding: 10px; border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; margin-top: 30px; margin-bottom: 20px"></span><br>
                 <span>작성자 : <input name="writer" th:value="${notice.get().writer}"
-                                  readonly style="padding: 10px;  border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px;margin-bottom: 20px"></span><br>
+                                   readonly
+                                   style="padding: 10px;  border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px;margin-bottom: 20px"></span><br>
                 <span>내용 : <br>
                 <textarea th:text="${notice.get().content}" name="content"
                           style="width: 900px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea></span>
                 <input type="hidden" name="importantNotice" th:value="${notice.get().importantNotice}">
 
                 <div id="noticeImg" style="display: flex">
-                    <img id="preview" th:src="'data:image/jpeg;base64,' + ${notice.get().base64Image}" alt="Notice Image">
+                    <img id="preview" th:src="'data:image/jpeg;base64,' + ${notice.get().base64Image}"
+                         alt="Notice Image">
                     <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
                 </div>
             </form>
@@ -87,25 +89,23 @@
         // }
 
 
-            // 파일 선택 시 이미지 미리보기
-            function previewImage(input) {
+        // 파일 선택 시 이미지 미리보기
+        function previewImage(input) {
             var preview = document.getElementById('preview');
 
             if (input.files && input.files[0]) {
-            var reader = new FileReader();
+                var reader = new FileReader();
 
-            reader.onload = function (e) {
-            preview.src = e.target.result;
-        };
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
 
-            reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(input.files[0]);
+            }
         }
-        }
 
 
-
-
-    document.getElementById("fifthD").addEventListener("click", function (event) {
+        document.getElementById("fifthD").addEventListener("click", function (event) {
             swal({
                 title: "삭제 하시겠습니까?",
                 text: "공지사항을 삭제하시겠습니까?",
@@ -129,10 +129,10 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     swal("Success!", " 해당 공지사항을 삭제 했습니다.", "success")
-                        .then(function (){
+                        .then(function () {
                             document.getElementById("NFormDel").submit(); // 폼 제출
                         });
-                }else {
+                } else {
                     swal("삭제가 취소 되었습니다.")
                 }
             });

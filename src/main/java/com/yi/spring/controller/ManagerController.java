@@ -633,35 +633,35 @@ public class ManagerController {
 
     @PostMapping("managerPage_NoticeUpdate")
     public String noticeUpdate(
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam int id,
             @RequestParam String subject,
             @RequestParam String writer,
             @RequestParam String content,
-            @RequestParam(required = false) MultipartFile file,
             @RequestParam boolean importantNotice,
             Notice notice) throws IOException {
 
 
-        System.out.println(file);
+        System.out.println("11111111111!!"+file);
         Optional<Notice> noticeOptional = noticeRepository.findById(id);
 
 
-        noticeOptional.ifPresent(user -> {
-            // 업로드된 파일이 존재하는 경우에만 처리
+        noticeOptional.ifPresent(notice1 -> {
             if (file != null && !file.isEmpty()) {
                 try {
                     byte[] noticeImg = file.getBytes();
-                    user.setImg(noticeImg);
+                    notice1.setImg(noticeImg);
                 } catch (IOException e) {
                     throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
                 }
+
             }
-            // 사용자 정보 업데이트
-            user.setSubject(subject);
-            user.setWriter(writer);
-            user.setContent(content);
-            user.setImportantNotice(importantNotice);
-            noticeRepository.save(user);
+            notice1.setSubject(subject);
+            notice1.setWriter(writer);
+            notice1.setContent(content);
+            notice1.setImportantNotice(importantNotice);
+            noticeRepository.save(notice1);
+
         });
 
         return "redirect:/manager/managerPage_Notice";
