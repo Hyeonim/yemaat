@@ -129,13 +129,13 @@ public class ManagerController {
 
         int all = uList.size() - userRepository.findByUserAuth("ADMIN").size();
 
-        int user,black,owner;
+        int user, black, owner;
 
         black = userRepository.findByUserAuthAndUserBlock("USER", true).size();
 
         user = userRepository.findByUserAuthAndUserBlock("USER", false).size();
 
-        owner = all -( black + user);
+        owner = all - (black + user);
 
         List<Integer> UInfo = new ArrayList<>();
         UInfo.add(all);
@@ -144,24 +144,24 @@ public class ManagerController {
         UInfo.add(owner);
 
 
-    HashMap<String, Integer> restStat = new HashMap<>();
-    for (Dinning restaurant : dList) {
-        String key = restaurant.getRestCategory();
-        Integer statCount = restStat.computeIfAbsent(key, k -> 0);
-        statCount++;
-        restStat.put(key, statCount);
-    }
+        HashMap<String, Integer> restStat = new HashMap<>();
+        for (Dinning restaurant : dList) {
+            String key = restaurant.getRestCategory();
+            Integer statCount = restStat.computeIfAbsent(key, k -> 0);
+            statCount++;
+            restStat.put(key, statCount);
+        }
 
-            long unansweredCount = qaRepository.countByQaStatusFalse();
+        long unansweredCount = qaRepository.countByQaStatusFalse();
 
         model.addAttribute("drawGraph", true);
         model.addAttribute("uList", uList);
         model.addAttribute("dList", dList);
         model.addAttribute("qa", qa);
         model.addAttribute("header", "관리자 페이지 메인");
-    model.addAttribute("restStat", restStat);
-    model.addAttribute("UInfo", UInfo);
-    model.addAttribute("unansweredCount", unansweredCount);
+        model.addAttribute("restStat", restStat);
+        model.addAttribute("UInfo", UInfo);
+        model.addAttribute("unansweredCount", unansweredCount);
         model.addAttribute("page", "managerPage/content");
 
         return "managerPage";
@@ -185,7 +185,6 @@ public class ManagerController {
 
         return "managerPage";
     }
-
 
 
 //    @GetMapping("/managerPage_UList")
@@ -253,15 +252,6 @@ public class ManagerController {
     }
 
 
-
-
-
-
-
-
-
-
-
     @GetMapping("/managerPage_UAdd")
     public String managerPageManagerPageUAdd(Model model) {
 
@@ -300,11 +290,11 @@ public class ManagerController {
     }
 
     @PostMapping("managerPage_UAdd")
-    public String managerAddU(@RequestParam MultipartFile file, User user,Model model) {
+    public String managerAddU(@RequestParam MultipartFile file, User user, Model model) {
 
-String a = user.getUserPassword();
+        String a = user.getUserPassword();
 
-String encode = passwordEncoder.encode(a);
+        String encode = passwordEncoder.encode(a);
 
         if (file.isEmpty()) {
             userRepository.save(user);
@@ -323,11 +313,8 @@ String encode = passwordEncoder.encode(a);
         userRepository.save(user);
 
 
-
-
         return "redirect:/manager/managerPage_UList";
     }
-
 
 
     @PostMapping("/managerPage_UUpdate")
@@ -463,12 +450,10 @@ String encode = passwordEncoder.encode(a);
     }
 
 
-
-
     //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ공지사항ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 
-//    @GetMapping("/managerPage_Notice")
+    //    @GetMapping("/managerPage_Notice")
 //    public String managerNoticeList(Model model,
 //                                    @RequestParam(value = "page", defaultValue = "0") int page,
 //                                    @RequestParam(value = "searchInput4", required = false) String searchInput4) {
@@ -492,10 +477,10 @@ String encode = passwordEncoder.encode(a);
     @GetMapping("/managerPage_Notice")
     public String managerNoticeList(Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page
-                                     ) {
+    ) {
 
 
-List<Notice> head = noticeRepository.findByImportantNotice(true);
+        List<Notice> head = noticeRepository.findByImportantNotice(true);
 
         Page<Notice> noticeList = noticeService.findAll(page);
 
@@ -521,7 +506,6 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         Optional<Notice> head = noticeRepository.findById(id);
 
         System.out.println("importantNotice`~~~~~~~~~~~~" + head);
-
 
 
         head.ifPresent(notice -> {
@@ -563,6 +547,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     public String managerNoticeAdd(@RequestParam String subject,
                                    @RequestParam String writer,
                                    @RequestParam String content,
+                                   @RequestParam MultipartFile file,
                                    Model model) {
 
         String modifiedContent = content.substring(3, content.length() - 4);
@@ -574,11 +559,21 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         notice.setContent(modifiedContent);
         notice.setWriteDate(Instant.now());
 
+        if (!file.isEmpty()) {
+            try {
+                byte[] fileBytes = file.getBytes();
+                notice.setImg(fileBytes);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read file", e);
+            }
+        }
+
         noticeRepository.save(notice);
 
 
         return "redirect:/manager/managerPage_Notice";
     }
+
 
 //    @PostMapping("managerPage_QARequest")
 //    public String ManagerQARequest(@RequestParam int id,
@@ -619,20 +614,97 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
 
+//    @PostMapping("managerPage_NoticeUpdate")
+//    public String noticeUpdate(
+//            @RequestParam int id,
+//            @RequestParam String subject,
+//            @RequestParam String writer,
+//            @RequestParam(required = false) MultipartFile file,
+////            @RequestParam String writeDate,
+//            Notice notice) throws IOException {
+//
+//
+//        noticeRepository.save(notice);
+//
+//        Optional<Notice> noticeOptional = noticeRepository.findById(id);
+//
+//        return "redirect:/manager/managerPage_Notice";
+//    }
+
     @PostMapping("managerPage_NoticeUpdate")
     public String noticeUpdate(
             @RequestParam int id,
             @RequestParam String subject,
             @RequestParam String writer,
+            @RequestParam String content,
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam boolean importantNotice,
             Notice notice) throws IOException {
 
-        noticeRepository.save(notice);
 
+        System.out.println(file);
         Optional<Notice> noticeOptional = noticeRepository.findById(id);
+
+
+        noticeOptional.ifPresent(user -> {
+            // 업로드된 파일이 존재하는 경우에만 처리
+            if (file != null && !file.isEmpty()) {
+                try {
+                    byte[] noticeImg = file.getBytes();
+                    user.setImg(noticeImg);
+                } catch (IOException e) {
+                    throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+                }
+            }
+            // 사용자 정보 업데이트
+            user.setSubject(subject);
+            user.setWriter(writer);
+            user.setContent(content);
+            user.setImportantNotice(importantNotice);
+            noticeRepository.save(user);
+        });
 
         return "redirect:/manager/managerPage_Notice";
     }
+
+
+//    @PostMapping("/managerPage_UUpdate")
+//    public String userUpdate(
+//            @RequestParam(required = false) MultipartFile file,
+//            @RequestParam int userNo,
+//            @RequestParam String userName,
+//            @RequestParam String userId,
+//            @RequestParam String userEmail,
+//            @RequestParam String userPassword,
+//            @RequestParam String userTel,
+//            @RequestParam String userAuth) throws IOException {
+//
+//        String encode = passwordEncoder.encode(userPassword);
+//
+//        Optional<User> userOptional = userRepository.findByUserNo(userNo);
+//        userOptional.ifPresent(user -> {
+//            // 업로드된 파일이 존재하는 경우에만 처리
+//            if (file != null && !file.isEmpty()) {
+//                try {
+//                    byte[] userImg = file.getBytes();
+//                    user.setUserImg(userImg);
+//                } catch (IOException e) {
+//                    throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+//                }
+//            }
+//            // 사용자 정보 업데이트
+//            user.setUserName(userName);
+//            user.setUserId(userId);
+//            user.setUserEmail(userEmail);
+//            user.setUserPassword(encode);
+//            user.setUserTel(userTel);
+//            user.setUserAuth(userAuth);
+//            userRepository.save(user);
+//        });
+//
+//        return "redirect:/manager/managerPage_UList";
+//    }
+
 
     @PostMapping("managerPage_NoticeDelete")
     @Transactional
@@ -785,7 +857,6 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
 
-
     @PostMapping("/managerPage_JUpdate")
     public String jumUpdate(
             @RequestParam(required = false) MultipartFile file,
@@ -833,10 +904,9 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
 
-
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
-//앙
+    //앙
     @GetMapping("/managerPage_JrestList")
     public String restInfo(Model model,
                            @RequestParam(value = "page", defaultValue = "0") int page,
@@ -927,8 +997,6 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
 
-
-
     @PostMapping("/managerPage_JrestUpdate")
     public String jrestUpdate(
             @RequestParam(required = false) MultipartFile file,
@@ -1015,7 +1083,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
     }
 
 
-// 폐점 관련
+    // 폐점 관련
     @GetMapping("/managerPage_JrestCloseList")
     public String closeRestInfo(Model model,
                                 @RequestParam(value = "page", defaultValue = "0") int page,
@@ -1050,10 +1118,6 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
         }
         return "redirect:/manager/managerPage_JrestWaitList";
     }
-
-
-
-
 
 
     @PostMapping("/HoldUpd")

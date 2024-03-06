@@ -45,6 +45,11 @@
                 <textarea th:text="${notice.get().content}" name="content"
                           style="width: 900px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea></span>
                 <input type="hidden" name="importantNotice" th:value="${notice.get().importantNotice}">
+
+                <div id="noticeImg" style="display: flex">
+                    <img id="preview" th:src="'data:image/jpeg;base64,' + ${notice.get().base64Image}" alt="Notice Image">
+                    <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
+                </div>
             </form>
 
             <form id="NFormDel" action="/manager/managerPage_NoticeDelete" method="post">
@@ -67,8 +72,40 @@
         //     document.getElementById("NFormDel").submit(); // 폼 제출
         // });
 
+        // function previewImage(input) {
+        //     var preview = document.getElementById('preview');
+        //
+        //     if (input.files && input.files[0]) {
+        //         var reader = new FileReader();
+        //
+        //         reader.onload = function (e) {
+        //             preview.src = e.target.result;
+        //         };
+        //
+        //         reader.readAsDataURL(input.files[0]);
+        //     }
+        // }
 
-        document.getElementById("fifthD").addEventListener("click", function (event) {
+
+            // 파일 선택 시 이미지 미리보기
+            function previewImage(input) {
+            var preview = document.getElementById('preview');
+
+            if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+            preview.src = e.target.result;
+        };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+        }
+
+
+
+
+    document.getElementById("fifthD").addEventListener("click", function (event) {
             swal({
                 title: "삭제 하시겠습니까?",
                 text: "공지사항을 삭제하시겠습니까?",

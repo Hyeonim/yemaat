@@ -23,7 +23,7 @@
     <div id="right2">
         <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
-        <form id="noticeForm" action="/manager/managerPage_NoticeAdd" method="post">
+        <form id="noticeForm" action="/manager/managerPage_NoticeAdd" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="subject"><h3>제목:</h3></label>
                 <input type="text" name="subject" class="form-control" id="subject" style="width: 80%">
@@ -34,10 +34,15 @@
                 <textarea style="width: 700px; height: 600px" name="content" class="form-control"
                           id="content"></textarea>
             </div>
+
+            <input type="file" name="file" id="file"><br>
+
             <input type="hidden" name="writerdate" value="">
             <div style="text-align: center;">
             <button style="margin-top: 50px" type="button" class="fifth" id="submitBtn">등록</button>
             </div>
+
+
         </form>
     </div>
 
