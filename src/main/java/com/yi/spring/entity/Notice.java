@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.util.Base64;
 
 @Getter
 @Setter
@@ -34,9 +35,20 @@ public class Notice {
     @Column(name = "important_notice")
     private boolean importantNotice = false;
 
+    @Column(name = "notice_img")
+    private byte[] img ;
+
     // writerDate 필드에 대한 Setter 메서드
     public void setWriteDate(Instant writeDate) {
         this.writeDate = Instant.now(); // 데이터가 저장될 때 현재 시간으로 설정
     }
+
+    public String getBase64Image() {
+        if (img != null && img.length > 0) {
+            return Base64.getEncoder().encodeToString(img);
+        }
+        return "";
+    }
+
 
 }
