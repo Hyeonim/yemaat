@@ -631,18 +631,17 @@ public class ManagerController {
 //        return "redirect:/manager/managerPage_Notice";
 //    }
 
+//     이거쓰는중
     @PostMapping("managerPage_NoticeUpdate")
     public String noticeUpdate(
-            @RequestParam(required = false) MultipartFile file,
             @RequestParam int id,
             @RequestParam String subject,
             @RequestParam String writer,
             @RequestParam String content,
+            @RequestParam(required = false) MultipartFile file,
             @RequestParam boolean importantNotice,
             Notice notice) throws IOException {
 
-
-        System.out.println("11111111111!!"+file);
         Optional<Notice> noticeOptional = noticeRepository.findById(id);
 
 
@@ -666,6 +665,7 @@ public class ManagerController {
 
         return "redirect:/manager/managerPage_Notice";
     }
+
 
 
 //    @PostMapping("/managerPage_UUpdate")

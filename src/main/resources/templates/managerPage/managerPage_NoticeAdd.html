@@ -23,27 +23,54 @@
     <div id="right2">
         <ion-icon style="float:right; font-size: 40px" onclick="history.go(-1);" name="close-outline"></ion-icon>
 
+<!--        <form id="noticeForm" action="/manager/managerPage_NoticeAdd" method="post" enctype="multipart/form-data">-->
+<!--            <div class="form-group">-->
+<!--                <label for="subject"><h3>제목:</h3></label>-->
+<!--                <input type="text" name="subject" class="form-control" id="subject" style="width: 80%">-->
+<!--            </div><br>-->
+<!--            <input type="hidden" name="writer" value="admin">-->
+<!--            <div class="form-group">-->
+<!--                <label for="content"><h3>내용:</h3></label>-->
+<!--                <textarea style="width: 700px; height: 600px" name="content" class="form-control"-->
+<!--                          id="content"></textarea>-->
+<!--            </div>-->
+
+<!--            사진 업로드 - <input type="file" name="file" id="file"><br>-->
+<!--            <div>-->
+<!--                <p>첨부파일</p>-->
+
+<!--            </div>-->
+
+<!--            <input type="hidden" name="writerdate" value="">-->
+<!--            <div style="text-align: center;">-->
+<!--            <button style="margin-top: 50px" type="button" class="fifth" id="submitBtn">등록</button>-->
+<!--            </div>-->
+
+
+<!--        </form>-->
+
         <form id="noticeForm" action="/manager/managerPage_NoticeAdd" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="subject"><h3>제목:</h3></label>
                 <input type="text" name="subject" class="form-control" id="subject" style="width: 80%">
-            </div><br>
+            </div>
+            <br>
             <input type="hidden" name="writer" value="admin">
             <div class="form-group">
                 <label for="content"><h3>내용:</h3></label>
-                <textarea style="width: 700px; height: 600px" name="content" class="form-control"
-                          id="content"></textarea>
+                <textarea style="width: 700px; height: 600px" name="content" class="form-control" id="content"></textarea>
             </div>
 
-            <input type="file" name="file" id="file"><br>
+            사진 업로드 - <input type="file" name="file" id="file"><br>
+            <p>첨부파일</p>
 
+            <div id="preview"></div>
             <input type="hidden" name="writerdate" value="">
             <div style="text-align: center;">
-            <button style="margin-top: 50px" type="button" class="fifth" id="submitBtn">등록</button>
+                <button style="margin-top: 50px" type="button" class="fifth" id="submitBtn">등록</button>
             </div>
-
-
         </form>
+
     </div>
 
     <script>
@@ -97,6 +124,42 @@
             });
 
 
+        document.getElementById('file').addEventListener('change', function() {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var image = new Image();
+                    image.src = event.target.result;
+                    image.onload = function() {
+                        var preview = document.getElementById('preview');
+                        preview.innerHTML = '';
+                        preview.appendChild(image);
+                        var fileSize = (file.size / 1024).toFixed(2); // KB로 변환 및 소수점 2자리까지 표시
+                        preview.insertAdjacentHTML('beforeend', '<p>파일 크기: ' + fileSize + ' KB</p>');
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function previewImage(input) {
+            const previewArea = document.getElementById('preview');
+            previewArea.innerHTML = ''; // 이전에 표시된 이미지를 지움
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = e.target.result;
+                    imgElement.style.Width = '30px';
+                    previewArea.appendChild(imgElement);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
     </script>
 </div>

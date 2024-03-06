@@ -42,16 +42,21 @@
                 <span>작성자 : <input name="writer" th:value="${notice.get().writer}"
                                    readonly
                                    style="padding: 10px;  border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px;margin-bottom: 20px"></span><br>
-                <span>내용 : <br>
+                <span>내용 : <br></span>
+                <div style="display: flex; align-items: center;">
                 <textarea th:text="${notice.get().content}" name="content"
-                          style="width: 900px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea></span>
+                          style="width: 599px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea>
                 <input type="hidden" name="importantNotice" th:value="${notice.get().importantNotice}">
 
-                <div id="noticeImg" style="display: flex">
+                <div id="noticeImg">
                     <img id="preview" th:src="'data:image/jpeg;base64,' + ${notice.get().base64Image}"
-                         alt="Notice Image">
-                    <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
+                         alt="Notice Image" style="margin-left: 20px; margin-top: 19px; width: 481px">
+                    <p><input style="margin-left: 20px; margin-top: 15px" type="file" id="file" name="file" onchange="previewImage(this);"></p>
                 </div>
+                </div>
+
+
+
             </form>
 
             <form id="NFormDel" action="/manager/managerPage_NoticeDelete" method="post">
