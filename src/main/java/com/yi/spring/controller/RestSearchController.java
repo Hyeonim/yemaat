@@ -163,6 +163,7 @@ public class RestSearchController {
         if ( null != dinningReviewList && !dinningReviewList.isEmpty() )
         {
             bActionDefault = false;
+
             model.addAttribute("list", dinningReviewList);
         }
 

@@ -9,9 +9,12 @@
     <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/star.css}" rel="stylesheet">
     <script type="text/javascript" src="/js/MarkerClustering.js"></script> <!-- 지도에 클러스터 적용하기 위해 필요한 js 파일 -->
 </head>
 <style>
+
+
 
     #leftList {
 
@@ -141,13 +144,43 @@
 
             <li th:each="rest : ${list}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 50px;"
                 th:onclick="'javascript:redirectdetail(event,\'' + ${rest.restNo} + '\')'" >
-                <div style="/*height: 250px*/">
+
+
+                <div style="display: flex">
                 <img th:attr="mysrc=${rest.base64Image}" style="width: 100px; height: 120px; margin-right: 10px; margin-bottom: 20px">
 
                 <div style="display: flex; flex-direction: column;">
-                    <h2 style="font-size: 28px" th:text="${rest.restName} "></h2>
+                    <h2 style="font-size: 16px" th:text="${rest.restName} "></h2>
                     <p th:text="${rest.restTel} "></p>
                 <!--/*[+    <p th:text="'평점 : ' + ${rest.restScore2!=null?rest.restScore2:'평가중'} "></p> +]*/-->
+
+<!--                    <div class="startD" style="display: flex">-->
+
+<!--                        <li style="font-size: 12px" class="rating">-->
+<!--                            <div class="ratefillGray"></div>-->
+<!--                            <div class="ratefillYellow"-->
+<!--                                 th:style="'width: ' + ${rest.restScore* 16} + 'px'"></div>-->
+<!--                            <input type="radio" name="revScore" id="rating1" value="100" class="rate_radio"-->
+<!--                                   title="1점">-->
+<!--                            <label for="rating1"></label>-->
+<!--                            <input type="radio" name="revScore" id="rating2" value="200" class="rate_radio"-->
+<!--                                   title="2점">-->
+<!--                            <label for="rating2"></label>-->
+<!--                            <input type="radio" name="revScore" id="rating3" value="300" class="rate_radio"-->
+<!--                                   title="3점">-->
+<!--                            <label for="rating3"></label>-->
+<!--                            <input type="radio" name="revScore" id="rating4" value="400" class="rate_radio"-->
+<!--                                   title="4점">-->
+<!--                            <label for="rating4"></label>-->
+<!--                            <input type="radio" name="revScore" id="rating5" value="500" class="rate_radio"-->
+<!--                                   title="5점">-->
+<!--                            <label for="rating5"></label>-->
+<!--                            <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">-->
+<!--                        </li>-->
+<!--                    </div>-->
+
+
+
                     <p th:text="'평점 : ' + ${rest.restScore} "></p>
 <!--                    <p th:text="'평점 : ' + ${#strings.substring(rest.restScore, 0, 1)}"></p>-->
 
@@ -155,12 +188,18 @@
                     <ul th:each="err: ${#fields.allErrors}">
                         <li th:text="${err}"></li>
                     </ul>
+
+
                     <th:block th:if="${''!=rest.reserveCount && 0!=rest.reserveCount}">
                         <p th:text="'예약수 : '+${rest.reserveCount}"></p>
                     </th:block>
+                    <div>
                     <input id="locationB" type="button" value="위치보기" th:onclick="|javascript:mapToPoint(event, ${rest.restLatitude}, ${rest.restLongitude} , ${rest.restNo} )|">
+                    </div>
                 </div>
+
                </div>
+
             </li>
 
         </ul>
