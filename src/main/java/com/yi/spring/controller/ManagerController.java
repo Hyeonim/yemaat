@@ -444,10 +444,10 @@ String encode = passwordEncoder.encode(a);
         Optional<QA> guestQA = qaRepository.findById(id);
 
         // content 변수에 저장된 문자열에서 첫 번째부터 세 번째 문자를 제외한 부분
-        String modifiedContent = content.substring(3, content.length() - 4);
+//        String modifiedContent = content.substring(3, content.length() - 4);
 
         qaAnswer.setAnswerTitle(title);
-        qaAnswer.setAnswerContent(modifiedContent);
+        qaAnswer.setAnswerContent(content);
         qaAnswer.setQaNo(id);
 
         qaAnswerRepository.save(qaAnswer);

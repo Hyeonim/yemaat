@@ -91,7 +91,6 @@
 
 .ceil{
     background-color: #f2f2f2;
-
 }
 
 
@@ -111,7 +110,6 @@
     margin-bottom: 20px;
     border-collapse: collapse;
 }
-
 #moreTable th, td {
     padding: 12px;
     border-bottom: 1px solid #dee2e6;
@@ -127,3 +125,12 @@
     cursor: pointer;
 }
 
+#content {
+    max-width: 900px;
+    height: 1400px;
+    /*margin-top: ;*/
+    /*padding: 20px;*/
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
