@@ -38,6 +38,8 @@ public class UserController {
     @Autowired
     ReviewRepository reviewRepository;
     @Autowired
+    private ImgTableRepository imageTableRepository;
+    @Autowired
     QARepository qaRepository;
     @Autowired
     QAService qaService;
@@ -159,19 +161,20 @@ public class UserController {
     }
 
     @PostMapping("submitReview")
-    public String reviewAdd(Principal principal,Review review,@RequestParam MultipartFile file){
+    public String reviewAdd(Principal principal,Review review,@RequestParam MultipartFile[] file){
 //        user = userRepository.findByUserId(principal.getName()).get();
         user = o2MemberService.findUser( principal );
 
         byte[] revImg;
         try {
-            revImg = file.getBytes();
+            revImg = file[0].getBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setUserNo(user);
-        review.setRevImg(revImg);
+        review.setRevImg( revImg );
+        review.setRevStrImg( review.getRevImgMan().setReviewImg( imageTableRepository, file ) );
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = LocalDateTime.now().format(formatter);
         review.setRevWriteTime(LocalDateTime.parse(formattedDateTime, formatter));

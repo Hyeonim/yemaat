@@ -629,7 +629,7 @@
                                         </div>
 
                                         <div style="display: flex; flex-direction: column;" class="reviewImgBox">
-                                            <input type="file" id="file" class="fileInput" name="file" accept="image/*" style="display: none">
+                                            <input type="file" id="file" class="fileInput" name="file" accept="image/*" multiple style="display: none">
 
                                             <label id="imgLabel" for="file">
                                                 <img src="/img/camera.png"
@@ -714,7 +714,6 @@
 
     <script>
         var fileInputs = document.querySelectorAll('.fileInput');
-
         fileInputs.forEach(function (input, index) {
             var label = input.parentElement.querySelector('label');
             var preview = input.parentElement.querySelector('.preview');
@@ -723,18 +722,30 @@
             input.id = currentId;
             label.setAttribute('for', currentId);
 
-            input.addEventListener('change', function (event) {
-                var currentInput = event.target;
-                var currentPreview = currentInput.parentElement.querySelector('.preview');
+            input.addEventListener('change', function () {
+                let previews = this.parentElement.querySelectorAll('.preview');
+                [...this.files].forEach( (file, index)=>{
+                    let preview = previews[index];
+                    if ( !preview )
+                    {
+                        preview = previews[0].cloneNode( false );
+                        previews[0].parentNode.appendChild( preview );
+                    }
 
-                var reader = new FileReader();
-                reader.onload = function () {
-                    currentPreview.src = reader.result;
-                };
+                    let reader = new FileReader();
+                    reader.onload = function(){
+                        preview.src = reader.result;
+                    }
+                    reader.readAsDataURL( file );
+                });
 
-                if (currentInput.files && currentInput.files[0]) {
-                    reader.readAsDataURL(currentInput.files[0]);
-                }
+                previews.forEach( (preview, index)=>{
+                    if ( 0 === index && 0 === this.files.length )
+                        preview.removeAttribute( 'src' );
+                    else if ( index >= this.files.length )
+                        preview.remove();
+                });
+
             });
         });
 
