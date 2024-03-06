@@ -624,7 +624,7 @@ List<Notice> head = noticeRepository.findByImportantNotice(true);
             @RequestParam int id,
             @RequestParam String subject,
             @RequestParam String writer,
-//            @RequestParam String writeDate,
+            @RequestParam boolean importantNotice,
             Notice notice) throws IOException {
 
         noticeRepository.save(notice);

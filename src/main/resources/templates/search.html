@@ -185,7 +185,6 @@
 
 <!--                    <p th:text="'평점 : ' + ${rest.getRevScore()} "></p>-->
 <!--                    <p th:text="'평점 : ' + ${#strings.substring(rest.restScore, 0, 1)}"></p>-->
-
                     <!--/*[+                    <p th:if="${#fields.hasErrors('reserveCount')}">   +]*/-->
                     <ul th:each="err: ${#fields.allErrors}">
                         <li th:text="${err}"></li>

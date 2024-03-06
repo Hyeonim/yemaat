@@ -44,6 +44,7 @@
                 <span>내용 : <br>
                 <textarea th:text="${notice.get().content}" name="content"
                           style="width: 900px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea></span>
+                <input type="hidden" name="importantNotice" th:value="${notice.get().importantNotice}">
             </form>
 
             <form id="NFormDel" action="/manager/managerPage_NoticeDelete" method="post">
