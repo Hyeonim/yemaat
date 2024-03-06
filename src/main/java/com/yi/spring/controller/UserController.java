@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,8 @@ public class UserController {
     @Autowired
     ReviewRepository reviewRepository;
     @Autowired
+    private ImgTableRepository imageTableRepository;
+    @Autowired
     QARepository qaRepository;
     @Autowired
     QAService qaService;
@@ -53,6 +57,8 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     DeleteUserRepository deleteUserRepository;
+    @Autowired
+    UserLikeRestRepository userLikeRestRepository;
 
 
     private User user = null;
@@ -159,19 +165,20 @@ public class UserController {
     }
 
     @PostMapping("submitReview")
-    public String reviewAdd(Principal principal,Review review,@RequestParam MultipartFile file){
+    public String reviewAdd(Principal principal,Review review,@RequestParam MultipartFile[] file){
 //        user = userRepository.findByUserId(principal.getName()).get();
         user = o2MemberService.findUser( principal );
 
         byte[] revImg;
         try {
-            revImg = file.getBytes();
+            revImg = file[0].getBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setUserNo(user);
-        review.setRevImg(revImg);
+        review.setRevImg( revImg );
+        review.setRevStrImg( review.getRevImgMan().setReviewImg( imageTableRepository, file ) );
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = LocalDateTime.now().format(formatter);
         review.setRevWriteTime(LocalDateTime.parse(formattedDateTime, formatter));
@@ -422,70 +429,72 @@ public class UserController {
     }
 
     @PostMapping("/deleteUser")
-    public String deleteUser(Principal principal,Reservation reservation, DeleteUser deleteUser, @RequestParam String pw){
+    public String deleteUser(Principal principal, DeleteUser deleteUser, @RequestParam String pw){
         user = o2MemberService.findUser( principal );
 
         if (passwordEncoder.matches(pw,user.getUserPassword())){
-            userRepository.delete(user);
             deleteUser.setUserNo(user.getUserNo());
             deleteUser.setUserId(user.getUserId());
             deleteUser.setUserAuth(user.getUserAuth());
             deleteUser.setUserStartDate(user.getUserStartDate());
             deleteUser.setUserBlock(user.isUserBlock());
-
+            reviewRepository.deleteAllByUserNo(user);
+            reservationRepository.deleteAllByUserNo(user);
+            qaRepository.deleteAllByUserNo(user);
 
             deleteUserRepository.save(deleteUser);
+            userRepository.delete(user);
         } else {
             throw new RuntimeException("password different");
         }
 
-        return "redirect:/login";
+        return "redirect:/logout";
     }
 
 
+    @GetMapping("/userLikeAdd")
+    public ResponseEntity<String> userLikeAdd(Principal principal,Reservation reservation ,UserLikeRest userLikeRest, @RequestParam int likeRestNo) {
+        user = o2MemberService.findUser(principal);
 
-    // 유저 목록 페이지로 이동(관리용)
-    @GetMapping("list_user")
-    public String userList(Model model) {
-        List<User> list = userService.getAllUsers();
-        model.addAttribute("userList", list);
-        return "user/user_list";
-    }
+        UserLikeRest existingLike = userLikeRestRepository.findByUserNoAndRestNo(user, likeRestNo);
+        List<Reservation> likes =  reservationRepository.findByUserNo_UserNoAndRestNo_RestNo(user.getUserNo(), likeRestNo);
 
-    // 유저 추가 페이지로 이동
-    @GetMapping("add_user_form")
-    public String userAddForm() {
-        return "user/user_add_form";
-    }
-
-    // 유저 추가를 처리하는 POST 요청 처리
-    @ResponseBody
-    @PostMapping("add_user")
-    public String userAdd(@RequestParam MultipartFile file, User user) {
-        if (file.isEmpty()) {
-            userRepository.save(user);
-        } else {
-            byte[] userImg = new byte[0];
-            try {
-                userImg = file.getBytes();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        for (Reservation like : likes) {
+            if (existingLike != null) {
+                userLikeRestRepository.delete(existingLike);
+                reservationRepository.save(reservation);
+                like.setResLike(false);
+                reservationRepository.save(like);
+            } else {
+                userLikeRest.setUserNo(user);
+                userLikeRest.setRestNo(likeRestNo);
+                userLikeRestRepository.save(userLikeRest);
+                like.setResLike(true);
+                reservationRepository.save(like);
             }
-            user.setUserImg(userImg);
         }
 
-        userRepository.save(user);
+        return new ResponseEntity<>("Like 작동", HttpStatus.OK);
 
-        return "redirect:/user/list_user";
     }
 
-    // 유저 삭제를 처리하는 GET 요청 처리
-    @Transactional
-    @GetMapping("delete_user/{userNo}")
-    public String userDelete(@PathVariable("userNo") int userNo) {
-        userService.deleteByUserNo(userNo);
-        return "redirect:/user/list_user";
+    @GetMapping("/userlike")
+    public String userLike(Principal principal, Model model){
+        user = o2MemberService.findUser( principal );
+        Long userNo = Long.valueOf(user.getUserNo());
+
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+        reservationService.checkReservationStatus(reservations, model);
+
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
+        model.addAttribute("userLike", userLikeRestRepository.findAllDiningRestsLikedByUsers(user));
+//        System.out.println(userLikeRestRepository.findAllDiningRestsLikedByUsers(user));
+
+        return "userPage/user_like";
     }
+
 
 
 

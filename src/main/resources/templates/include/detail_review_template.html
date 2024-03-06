@@ -120,8 +120,17 @@
                 <p class="comment" th:text="${review.revContent}"></p>
             </div>
             <div>
-                <img th:if="${review.base64Image!=''}" th:src="'data:image/png;base64,' + ${review.base64Image}"
-                     alt="리뷰 이미지"/>
+                <th:block th:with="condition=${review.getRevStrImg()!=''}, strArray=${review.getRevStrImg()}">
+                    <th:block th:if="${condition}">
+                        <th:block th:each="item : ${#strings.arraySplit(strArray, ',')}">
+                            <img th:attr="mysrc=${item}" alt="리뷰 이미지">
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${condition}">
+                        <img th:if="${review.base64Image!=''}" th:src="'data:image/png;base64,' + ${review.base64Image}"
+                             alt="리뷰 이미지"/>
+                    </th:block>
+                </th:block>
             </div>
         </div>
 

@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -78,5 +79,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     @Query(value = "select * from review r where r.rest_no = :restNo and r.rev_write_time >= CURDATE() - INTERVAL 7 DAY", nativeQuery = true)
     List<Review> getCountReviewLately7Days(Long restNo);
+
+    @Transactional
+    void deleteAllByUserNo(User user);
 
 }

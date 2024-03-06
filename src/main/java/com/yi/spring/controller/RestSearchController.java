@@ -143,7 +143,7 @@ public class RestSearchController {
             }
         }
         // 임시
-        else if ( null != searchCategory )
+        else //if ( null != searchCategory )
             dinningReviewList = inRepository.findAll( Specification
                     .where(DinningReviewSpecifications.likeRestName( restName ))
                     .and(DinningReviewSpecifications.eqCategory( searchCategory ))

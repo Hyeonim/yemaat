@@ -136,7 +136,10 @@ public class IndexController {
 
 
     @GetMapping("/login")
-    public String loginPG(Model model, HttpSession httpSession) {
+    public String loginPG(Model model, HttpSession httpSession, @RequestParam(value = "error", required = false)String error,
+                          @RequestParam(value = "exception", required = false)String exception) {
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
         return "/login";
     }
 

@@ -7,6 +7,9 @@
                     <th:block th:if="${event.getEventImg() != null}">
                         <img class="slideshowImg" th:src="'data:image/jpeg;base64,' + ${event.getBase64Image()}">
                     </th:block>
+                    <th:block th:unless="${event.getEventImg() != null}">
+                        <img class="slideshowImg" th:src="/img/no_image.png">
+                    </th:block>
                 </div>
             </th:block>
         </div>

@@ -1,5 +1,6 @@
 package com.yi.spring.entity;
 
+import com.yi.spring.entity.meta.ImageMan;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,6 +47,19 @@ public class Review {
     @Lob
     @Column(name = "rev_img" ,length = 105000)
     private byte[] revImg;
+
+    @Column(name = "rev_str_img")
+    private String revStrImg;
+    public void setRevStrImg( String param ) {
+        this.revStrImg = param;
+        this.revImgMan = new ImageMan( param );
+    }
+    public String getRevStrImg(){
+        return null != revStrImg ? revStrImg : "";
+    }
+
+    @Transient
+    private ImageMan revImgMan = new ImageMan( revStrImg );
 
     @Column(name = "rev_like", length = 100)
     private String revLike;

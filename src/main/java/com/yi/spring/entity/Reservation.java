@@ -46,6 +46,9 @@ public class Reservation {
     private String res_table_type;
     private String res_rejection_reason;
 
+    @Column(name = "res_like")
+    private boolean resLike = false;
+
 
 
 

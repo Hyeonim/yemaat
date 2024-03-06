@@ -127,11 +127,11 @@
     }
 
     #mySideBar {
-        font-size: 20px;
+        font-size: 18px;
         color: rgb(69, 69, 69);
         display: flex;
         margin-bottom: 0.7rem;
-        margin-top: -0.2rem;
+        margin-top: 0.2rem;
         justify-content: space-between;
     }
 
@@ -141,7 +141,7 @@
         justify-content: center;
         flex-direction: column;
         flex-grow: 1; /* 균등하게 공간을 분배 */
-        padding: 7.8px 118.9px;
+        padding: 5.8px 93.5px;
         text-align: center; /* 가운데 정렬 */
         box-sizing: border-box; /* padding을 요소 크기에 포함 */
     }
@@ -317,8 +317,8 @@
                     th:href="@{/user/user_posts}">My 예약</a></div>
             <div class="mypage_sidebar_nav" id="reviewSelect"><a
                     th:href="@{/user/user_review}">My 리뷰</a></div>
-            <!--            <div class="mypage_sidebar_nav" id="QASelect"><a-->
-            <!--                    th:href="@{/QA/user_qa}">My 문의</a></div>-->
+            <div class="mypage_sidebar_nav" id="likeSelect"><a
+                    th:href="@{/user/userlike}">My 찜</a></div>
             <div class="mypage_sidebar_nav" id="QASelect"><a
                     th:href="@{/QA/user_qa_selete}">My 문의</a></div>
             <div class="mypage_sidebar_nav" id="infoSelect"><a
@@ -329,7 +329,7 @@
 
 <div class="content-container" th:include="~{::content}"></div>
 
-<footer th:include="~{/include/footer2::footerFragment}" style="margin-top: 50px">
+<footer th:include="~{/include/footerUser::footerFragment}" style="margin-top: 50px">
     footer
 </footer>
 
