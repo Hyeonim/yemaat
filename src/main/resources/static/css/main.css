@@ -949,7 +949,8 @@ SVG Icons - svgicons.sparkk.fr
     border: 2px solid #ccc;
     padding: 20px;
     margin-bottom: 20px;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
+    background-color: white;
     border-radius: 5px;
     /*text-align: center;*/
 }
@@ -969,7 +970,8 @@ SVG Icons - svgicons.sparkk.fr
 #review .comment {
     border: none;
     outline: none;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
+    background-color: white;
     /*font-weight: bold;*/
 }
 
@@ -981,3 +983,13 @@ SVG Icons - svgicons.sparkk.fr
     font-style: italic;
     color: #777;
 }
+
+#review img{
+    width: 200px;
+    height: 200px;
+}
+
+#review .rating__input {
+    display: none; /* 라디오버튼 hide */
+}
+

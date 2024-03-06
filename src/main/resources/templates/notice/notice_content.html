@@ -27,7 +27,8 @@
                     </td>
 
                     <td th:text="${list.subject}"></td>
-                    <td th:text="${list.writeDate}"></td>
+                    <td th:text="${#strings.substring(list.writeDate, 0, 10)}"></td>
+
                     <input type="hidden" th:value="${list.importantNotice}">
                 </tr>
                 </tbody>

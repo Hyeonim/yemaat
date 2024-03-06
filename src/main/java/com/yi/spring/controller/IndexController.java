@@ -11,14 +11,11 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -114,14 +111,6 @@ public class IndexController {
         return "main";
     }
 
-    @GetMapping("/homeSlide")
-    public String homeSlide(Model model){
-        List<Review> reviewList = reviewRepository.getRandomList( 10 );
-        model.addAttribute("list", reviewList );
-        model.addAttribute("bSlide", 1 );
-        return "/include/detail_review_template";
-    }
-
     @GetMapping("/homeSlide2")
 //    public ResponseEntity<List<Tuple>> homeSlide2(Model model){
 //        return ResponseEntity.ok( randomList );
@@ -141,7 +130,7 @@ public class IndexController {
         model.addAttribute("list", randomList );
         model.addAttribute("imgList", imgStringList );
         model.addAttribute("bSlide", 1 );
-        return "/include/detail_review_template2";
+        return "/include/home_slide_review_template";
     }
 
 

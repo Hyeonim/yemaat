@@ -24,7 +24,8 @@
                     <td colspan="2" class="ceil">작 성 자</td>
                     <td colspan="2" th:text="${notice.get().writer}"></td>
                     <td colspan="2" class="ceil">등 록 일</td>
-                    <td colspan="2" th:text="${notice.get().writeDate}"></td>
+                    <td th:text="${#strings.substring(notice.get().writeDate, 0, 10)}"></td>
+
                 </tr>
             </table>
             <br>
@@ -53,7 +54,8 @@
                         th:class="${list.importantNotice} ? 'important' : ''">
                         <td th:text="${list.id}"></td>
                         <td th:text="${list.subject}"></td>
-                        <td th:text="${list.writeDate}"></td>
+                        <td th:text="${#strings.substring(list.writeDate, 0, 10)}"></td>
+
                         <input type="hidden" th:value="${list.importantNotice}">
                     </tr>
                     </tbody>

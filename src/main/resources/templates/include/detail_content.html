@@ -1,6 +1,14 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <div th:fragment="detailContent">
     <link rel="stylesheet" href="../css/reservation.css">
+    <link rel="stylesheet" href="../css/star.css">
+
+    <style>
+       .startD li{
+            list-style: none;
+        }
+
+    </style>
     <div id="c">
         <div id="main" style="padding-top: 66px;">
             <div id="img-cont">
@@ -92,10 +100,37 @@
                 </ul>
             </div>
 
-            <div style="border: solid 2px #f2f2f2; border-radius: 10px; margin: 40px 40px 10px 24px; text-align: left; " >
+            <div style=" margin: 40px 40px 10px 24px; text-align: left; " >
                 <div style="border-bottom: solid 1px black">
                     <h2 style="padding-top: 10px; padding-left: 10px" th:text="${list.size()} + '명의 방문자가 평가 '"></h2>
-                    <p style="padding-left: 10px" th:text="'총 평점 :  ' +${#strings.substring(reg, 0, 3)}"></p>
+
+                    <div class="startD" style="display: flex">
+
+                        <li style="font-size: 12px" class="rating">
+                            <div class="ratefillGray"></div>
+                            <div class="ratefillYellow"
+                                 th:style="'width: ' + ${reg*16} + 'px'"></div>
+                            <input type="radio" name="revScore" id="rating1" value="10" class="rate_radio"
+                                   title="1점">
+                            <label for="rating1"></label>
+                            <input type="radio" name="revScore" id="rating2" value="20" class="rate_radio"
+                                   title="2점">
+                            <label for="rating2"></label>
+                            <input type="radio" name="revScore" id="rating3" value="30" class="rate_radio"
+                                   title="3점">
+                            <label for="rating3"></label>
+                            <input type="radio" name="revScore" id="rating4" value="40" class="rate_radio"
+                                   title="4점">
+                            <label for="rating4"></label>
+                            <input type="radio" name="revScore" id="rating5" value="50" class="rate_radio"
+                                   title="5점">
+                            <label for="rating5"></label>
+                            <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">
+                        </li>
+                    </div>
+
+
+<!--                    <p style="padding-left: 10px" th:text="'총 평점 :  ' +${#strings.substring(reg, 0, 3)}"></p>-->
                 </div>
 
                 <div id="review">
