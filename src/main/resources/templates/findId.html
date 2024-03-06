@@ -71,6 +71,7 @@
     <p>메일을 입력해주세요.</p>
     <input type="email" name="mail" id="mail" placeholder="이메일 입력">
     <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호</button>
+    <p id="msg" style="display: none;">인증번호 발송에 시간이 소요되고 있습니다. 잠시만 기다려 주십시오.</p>
 </div>
 <br>
 <div id="mail_number" name="mail_number" style="display: none">
@@ -95,6 +96,8 @@
             return;
         }
 
+        document.getElementById("msg").style.display="block";
+
         $.ajax({
             url: "/emailToId",
             type: "post",
@@ -106,6 +109,7 @@
                     alert("다시 입력해 주세요.");
                     window.location.href = "/findId";
                 } else {
+                    document.getElementById("msg").style.display="none";
                     alert("인증번호가 발송되었습니다.");
                     $("#Confirm").val(response);
                     $("#mail_number").css("display", "block");
@@ -139,6 +143,14 @@
 
         }else{
             alert("번호가 다릅니다.");
+        }
+    }
+
+    window.onkeyup = function(e) {
+        let key = e.keyCode ? e.keyCode : e.which;
+
+        if(key == 27) {
+            window.close();
         }
     }
 

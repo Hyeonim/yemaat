@@ -22,6 +22,8 @@ public class SpringSecurityConfig {
     @Autowired
     OAuth2MemberService memberService;
     @Autowired
+    MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+    @Autowired
     CustomAccessDeniedHandler customAccessDeniedHandler;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -43,6 +45,7 @@ public class SpringSecurityConfig {
                         .loginProcessingUrl("/login-process")
                         .usernameParameter("userId")
                         .passwordParameter("userPassword")
+                        .failureHandler( myAuthenticationFailureHandler )
                         .defaultSuccessUrl("/home", false)
                         .permitAll()
                 ).oauth2Login( configurer-> configurer

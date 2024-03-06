@@ -183,12 +183,17 @@
         }
 
         body {
-            width: 472px;
+            /*width: 472px;*/
             /* text-align: center; */
-            margin: 5% auto 0;
+            /*margin: 5% auto 0;*/
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+        #logo{
+            width:100%;
+            text-align: center;
+            border-bottom: solid #e0e0e0 1px;
         }
 
         .ejGvhi {
@@ -209,11 +214,75 @@
         #step3 h2 {
             cursor: pointer;
         }
+
+        footer {
+            width: 100%;
+            display: block;
+            position: relative;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            line-height: 20px;
+            color: rgba(0, 0, 0, 0.38);
+            margin-top: 100px;
+        }
+
+        .footer_box {
+            padding: 20px 50px;
+            margin: 0 auto;
+            display: grid;
+        }
+
+        .footer_box ul {
+            display: block;
+            list-style: none;
+            padding-inline-start: 0px;
+        }
+
+        .footer_box ul li {
+            float: left;
+            display: inline-block;
+            margin-bottom: 5px;
+            line-height: normal;
+        }
+
+        .footer_box ul li a {
+            text-decoration: none;
+            color: rgba(0, 0, 0, 0.38);
+        }
+
+        .footer_box ul li span {
+            display: inline-block;
+            position: relative;
+            top: 0;
+            width: 24px;
+            text-align: center;
+        }
+
+        .footer_box address {
+            display: inline-block;
+            line-height: 22px;
+            font-style: italic;
+            margin-top: 10px;
+            position: relative;
+        }
+        .loginHeader {
+            width : 718px;
+            margin : 0 auto;
+            text-align: center;
+        }
+
+        .loginTitle {
+            padding: 20px 10px;
+            border-radius: 0;
+            border-bottom: solid #e0e0e0 1px;
+        }
     </style>
 </head>
 <body>
-<div><h1><th:block th:include="~{/include/logo::logoContent(30, 'join')}"></th:block></h1></div>
+<div id="logo"><th:block th:include="~{/include/logo::logoContent(30, 'join')}"></th:block></div>
 
+<div class="loginHeader">
+    <h3 class="loginTitle">신규 회원가입</h3>
+</div>
 <div>
     <!--<h2>개인 신규 회원가입하기</h2>-->
     <div class="sc-eVAmPc ejGvhi">
@@ -247,6 +316,7 @@
     </div>
 
 </div>
+<p><a href="/login" style="color: black">로그인 하기</a></p>
 <div id="step2" class="step">
     <div>
         <p></p>
@@ -410,7 +480,10 @@
                 <input type="text" id="in3" name="userId" required></p>
             <p><label for="in4">비밀번호 <span class="req">*</span></label>
                 <input type="password" id="in4" name="userPassword" required></p>
-            <p><label for="in5">이메일</label><input type="email" id="in5" name="userEmail"></p>
+            <p><label for="in5">이메일</label><input type="email" id="in5" name="userEmail" readonly></p>
+            <p><label></label>
+                <input type="button" onclick="openPopup()" value="이메일 재인증"
+                       style="border:none;background-color: #222;cursor: pointer;color: #fff;height: 40px;border-radius: 5px;" ></p>
             <p><label for="in6">전화번호</label><input type="text" id="in6" name="userTel"></p>
             <p><input type="hidden" name="userImg" value="">
             <label for="in7">프로필 사진</label><i></i><input type="file" id="in7" accept="image/*" name="file"></p>
@@ -438,6 +511,9 @@
 </div>
 <button>회원가입 완료</button>
 +]*/-->
+
+
+<footer th:include="~{/include/footer::footerFragment}"></footer>
 <script>
     document.querySelectorAll("div#step1 .type").forEach(elem => {
         elem.addEventListener("click", function () {
@@ -516,8 +592,10 @@
 
     function receiveMessage(event) {
         // 받은 메시지가 유효한 경우 처리
-        if (event.data === "Hello from popup") {
+        // if (event.data === "Hello from popup") {
+        if ( !!event.data ) {
             alert("인증되었습니다.");
+            document.querySelector( "input[name=userEmail]" ).value = event.data;
             document.querySelectorAll("#step3 button")[1].disabled = false;
         }
     }
