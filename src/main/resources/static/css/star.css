@@ -14,7 +14,7 @@
     z-index: 10;
     width: 16px;
     height: 17px;
-    background-image: url("/img/starrate.png");
+    background-image: url("../img/starrate.png");
     background-repeat: no-repeat;
     background-size: 16px 17px;
     /*cursor: pointer;*/
@@ -24,9 +24,7 @@
     background-color: #e9e93c;
     height: 17px;
     position: absolute;
-    transition: width 0.3s; /* 너비가 변경될 때 애니메이션을 추가합니다. */
     z-index: 2;
-    animation: slideInFromLeft 0.5s ease-in-out;
 }
 
 

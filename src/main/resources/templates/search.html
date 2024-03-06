@@ -152,36 +152,38 @@
                 <div style="display: flex; flex-direction: column;">
                     <h2 style="font-size: 16px" th:text="${rest.restName} "></h2>
                     <p th:text="${rest.restTel} "></p>
-                <!--/*[+    <p th:text="'평점 : ' + ${rest.restScore2!=null?rest.restScore2:'평가중'} "></p> +]*/-->
+<!--/*[+    <p th:text="'평점 : ' + ${rest.restScore2!=null?rest.restScore2:'평가중'} "></p> +]*/-->
 
-<!--                    <div class="startD" style="display: flex">-->
+                    <div class="startD" style="display: flex">
+                 <ul>
+                        <li style="font-size: 12px; list-style-type: none; position: relative;" class="rating">
+                            <div class="ratefillGray"></div>
+                            <div class="ratefillYellow"
+                                 th:if="${rest.getRevScore()!=null?rest.getRevScore():'평가중'}"
+                                 th:style="'width: ' + ${rest.getRevScore()* 16} + 'px'"></div>
+                            <input type="radio" name="revScore" id="rating1" value="100" class="rate_radio"
+                                   title="1점">
+                            <label for="rating1"></label>
+                            <input type="radio" name="revScore" id="rating2" value="200" class="rate_radio"
+                                   title="2점">
+                            <label for="rating2"></label>
+                            <input type="radio" name="revScore" id="rating3" value="300" class="rate_radio"
+                                   title="3점">
+                            <label for="rating3"></label>
+                            <input type="radio" name="revScore" id="rating4" value="400" class="rate_radio"
+                                   title="4점">
+                            <label for="rating4"></label>
+                            <input type="radio" name="revScore" id="rating5" value="500" class="rate_radio"
+                                   title="5점">
+                            <label for="rating5"></label>
+                            <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">
+                        </li>
+                    </ul>
+                    </div>
 
-<!--                        <li style="font-size: 12px" class="rating">-->
-<!--                            <div class="ratefillGray"></div>-->
-<!--                            <div class="ratefillYellow"-->
-<!--                                 th:style="'width: ' + ${rest.restScore* 16} + 'px'"></div>-->
-<!--                            <input type="radio" name="revScore" id="rating1" value="100" class="rate_radio"-->
-<!--                                   title="1점">-->
-<!--                            <label for="rating1"></label>-->
-<!--                            <input type="radio" name="revScore" id="rating2" value="200" class="rate_radio"-->
-<!--                                   title="2점">-->
-<!--                            <label for="rating2"></label>-->
-<!--                            <input type="radio" name="revScore" id="rating3" value="300" class="rate_radio"-->
-<!--                                   title="3점">-->
-<!--                            <label for="rating3"></label>-->
-<!--                            <input type="radio" name="revScore" id="rating4" value="400" class="rate_radio"-->
-<!--                                   title="4점">-->
-<!--                            <label for="rating4"></label>-->
-<!--                            <input type="radio" name="revScore" id="rating5" value="500" class="rate_radio"-->
-<!--                                   title="5점">-->
-<!--                            <label for="rating5"></label>-->
-<!--                            <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">-->
-<!--                        </li>-->
-<!--                    </div>-->
 
 
-
-                    <p th:text="'평점 : ' + ${rest.restScore} "></p>
+<!--                    <p th:text="'평점 : ' + ${rest.getRevScore()} "></p>-->
 <!--                    <p th:text="'평점 : ' + ${#strings.substring(rest.restScore, 0, 1)}"></p>-->
 
                     <!--/*[+                    <p th:if="${#fields.hasErrors('reserveCount')}">   +]*/-->
@@ -193,7 +195,7 @@
                     <th:block th:if="${''!=rest.reserveCount && 0!=rest.reserveCount}">
                         <p th:text="'예약수 : '+${rest.reserveCount}"></p>
                     </th:block>
-                    <div>
+                    <div style="margin-bottom: 20px">
                     <input id="locationB" type="button" value="위치보기" th:onclick="|javascript:mapToPoint(event, ${rest.restLatitude}, ${rest.restLongitude} , ${rest.restNo} )|">
                     </div>
                 </div>
