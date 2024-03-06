@@ -1,6 +1,8 @@
 package com.yi.spring.repository;
 
+import com.yi.spring.entity.Dinning;
 import com.yi.spring.entity.Reservation;
+import com.yi.spring.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -107,4 +109,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             ORDER BY day DESC;""",
             nativeQuery = true)
     List<Object[]> getReservationCountsByInterval(String interval, Long restNo);
+
+    @Transactional
+    void deleteAllByUserNo(User user);
+
+
+    List<Reservation> findByUserNo_UserNoAndRestNo_RestNo(Integer userNo, int restNo);
+
+
+
+
 }

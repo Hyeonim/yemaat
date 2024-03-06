@@ -87,12 +87,15 @@
             display: none;
         }
 
+        #deleteUserform2:hover{
+            cursor: pointer;
+        }
     </style>
 
     <div style="display: flex; justify-content: center; margin-top: -132px">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding: 2% ">
 
-            <div style="display: flex; flex-direction: row; align-items: flex-end; margin-left: -435px"
+            <div style="display: flex; flex-direction: row; align-items: flex-end;"
                  class="reviewImgBox">
                 <input type="file" id="file" class="fileInput" name="file" accept="image/*" style="display: none">
 
@@ -117,6 +120,14 @@
                         <i class="fa-regular fa-address-card"></i> 변경 완료!
                     </span>
                 </label>
+
+                <label id="imgLabel3" style="cursor: pointer; margin-bottom: 20px; margin-left: 10px; display: none"
+                       onclick="CancelImage()">
+                    <span class="profileChane" id="profileChane3">
+                        <i class="fa-regular fa-address-card"></i> 변경 취소
+                    </span>
+                </label>
+
 
             </div>
             <table style="margin-left: -49px; margin-top: 28px">
@@ -200,7 +211,7 @@
                     <td class="userinfo_td_gap col"> 예맛을 이용하고 싶지 않으신가요?</td>
                     <td class="col" style="padding-bottom: 40px; padding-left: 186px;"><a class="nav-link"
                                                                                           href="/logout">로그아웃</a></td>
-                    <td class="col" id="deleteUserform" style="padding-bottom: 40px;" onclick="deleteUser()">회원탈퇴</td>
+                    <td class="col" id="deleteUserform" style="padding-bottom: 40px;" onclick="deleteUser()"><span id="deleteUserform2">회원탈퇴</span></td>
                 </tr>
                 <tr class="deleteUser">
                     <td class="userinfo_td_gap"></td>
@@ -345,6 +356,7 @@
             var confirmation = confirm("프로필 사진을 변경하시겠습니까?");
             let imgLabel1 = document.getElementById('imgLabel1');
             let imgLabel2 = document.getElementById('imgLabel2');
+            let imgLabel3 = document.getElementById('imgLabel3');
 
             if (confirmation) {
                 document.getElementById('file').addEventListener('change', function (event) {
@@ -361,12 +373,14 @@
                     // 파일이 변경되면 스타일 변경
                     document.getElementById('imgLabel1').style.display = "none";
                     document.getElementById('imgLabel2').style.display = "block";
+                    document.getElementById('imgLabel3').style.display = "block";
                 });
 
             } else {
                 document.getElementById('file').value = "";
                 imgLabel1.style.display = "block"
                 imgLabel2.style.display = "none"
+                imgLabel3.style.display = "none"
                 event.preventDefault();
             }
         }
@@ -397,6 +411,16 @@
                         console.error('이미지 업로드 실패:', error);
                     }
                 });
+            } else {
+                location.reload(true);
+            }
+        }
+
+        function CancelImage(){
+            var confirmation = confirm("프로필 사진을 변경을 취소 하시겠습니까?");
+
+            if(confirmation){
+                location.reload();
             }
         }
     </script>

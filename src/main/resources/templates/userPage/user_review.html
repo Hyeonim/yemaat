@@ -120,9 +120,8 @@
 
         }
 
-        .revContentBox:hover {
-            font-size: 115%;
-            transition: font-size 0.2s;
+        .revContentBox.expand  {
+            display: none;
         }
 
     </style>
@@ -176,9 +175,9 @@
                                     </a>
 
                                 </div>
-                                <li class="revContentBox" th:if="${#strings.length(combinedLists.rev.revContent) > 30}" th:text="${#strings.substring(combinedLists.rev.revContent,0 ,30) + '.....'}"
+                                <li class="revContentBox" th:if="${#strings.length(combinedLists.rev.revContent) > 70}" th:text="${#strings.substring(combinedLists.rev.revContent,0 ,70) + '.....'}"
                                     style="margin: 10px 0; width: 833.03px; height: 40px"></li>
-                                <li class="revContentBox" th:unless="${#strings.length(combinedLists.rev.revContent) > 10}" th:text="${combinedLists.rev.revContent}"
+                                <li class="revContentBox" th:unless="${#strings.length(combinedLists.rev.revContent) > 70}" th:text="${combinedLists.rev.revContent}"
                                     style="margin: 10px 0; width: 833.03px; height: 40px"></li>
 
                                 <div style="display: flex">
@@ -221,8 +220,8 @@
                                 <div style="display: flex; justify-content: center; flex-direction: column; margin-right: 1px">
                                     <img style="max-width: 330px; max-height: 330px;"
                                          th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}"
-                                         alt="리뷰이미지">
-                                    <div style="margin-top: 30px; white-space: pre-wrap;" th:text="${combinedLists.rev.revContent}"></div>
+                                         alt="">
+                                    <div style="margin-top: 30px; white-space: pre-wrap; width: 960px" th:text="${combinedLists.rev.revContent}"></div>
                                 </div>
                             </div>
                         </div>
@@ -324,6 +323,11 @@
                             reviewMainBox.style.paddingBottom = '';
                             reviewMainBox.classList.remove('selected');
 
+                            var revContentBox = review.querySelector('.revContentBox');
+                            if (revContentBox) {
+                                revContentBox.classList.remove('expand');
+                            }
+
                             var hiddenContent = reviewMainBox.querySelector('.hiddenContent');
                             if (hiddenContent) {
                                 $(hiddenContent).fadeOut(200);
@@ -331,9 +335,15 @@
                         } else {
                             reviews.forEach(function (otherReview) {
                                 var otherReviewMainBox = otherReview.closest('.reviewMainBox');
+
                                 if (otherReviewMainBox && otherReviewMainBox.classList.contains('selected')) {
                                     otherReviewMainBox.style.paddingBottom = '';
                                     otherReviewMainBox.classList.remove('selected');
+
+                                    var revContentBox = otherReview.querySelector('.revContentBox');
+                                    if (revContentBox) {
+                                        revContentBox.classList.remove('expand');
+                                    }
 
                                     var otherHiddenContent = otherReviewMainBox.querySelector('.hiddenContent');
                                     if (otherHiddenContent) {
@@ -341,7 +351,10 @@
                                     }
                                 }
                             });
-
+                            var revContentBox = review.querySelector('.revContentBox');
+                            if (revContentBox) {
+                                revContentBox.classList.add('expand');
+                            }
                             reviewMainBox.style.paddingBottom = '100px';
                             reviewMainBox.classList.add('selected');
 

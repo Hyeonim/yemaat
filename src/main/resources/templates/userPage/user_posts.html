@@ -368,6 +368,59 @@
         .btnLightBlue.btnPush:hover {
             box-shadow: 0px 0px 0px 0px #1E8185;
         }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.2);
+            }
+            50% {
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .fa-heart {
+            position: relative;
+            left: -50px;
+            top: 95px;
+            z-index: 1;
+            font-size: 30px;
+            color: rgba(243, 54, 54, 0.73);
+            transition: transform 0.3s ease-in-out;
+        }
+        .fa-heart:hover {
+            transform: scale(1.2);
+            animation: heartbeat 2.4s infinite;
+        }
+        .fa-heart:hover {
+            font-size: 34px;
+        }
+
+        .fa-regular fa-heart {
+            position: relative;
+            left: -50px;
+            top: 95px;
+            z-index: 1;
+            font-size: 30px;
+            color: #f33636;
+        }
+
+        .fa-solid fa-heart {
+            position: relative;
+            left: -50px;
+            top: 95px;
+            z-index: 1;
+            font-size: 30px;
+            color: #fa1b1b;
+        }
     </style>
 
     <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
@@ -479,31 +532,22 @@
                 function filterExpired() {
                     window.location.href = expired;
                     setActive('remoteLabel1');
-
                 }
-
                 function filterReview() {
                     window.location.href = review;
                     setActive('remoteLabel2');
-
                 }
-
                 function filterWait() {
                     window.location.href = wait;
                     setActive('remoteLabel3');
-
                 }
-
                 function filterResCompleted() {
                     window.location.href = res_completed;
                     setActive('remoteLabel4');
-
                 }
-
                 function filterAll() {
                     window.location.href = All;
                     setActive('remoteLabel5');
-
                 }
 
                 document.addEventListener('DOMContentLoaded', (event) => {
@@ -544,6 +588,35 @@
                             <img th:attr="mysrc=${res.getRestNo().getBase64Image()}"
                                  th:class="${res.getReservationStatusEnum.getName()} == '대기' or ${res.getReservationStatusEnum.getName()} == '예약완료' ? 'disabled-filter' : 'filter'"
                                  style="width: 300px; height: 221px; border-radius: 10px;">
+                            <i th:if="${res.isResLike()}" class="fa-heart fa-solid" id="likeBtn1" th:onclick="toggleLikeIcon(this, /*[[${res.getRestNo().restNo}]]*/)"></i>
+                            <i th:unless="${res.isResLike()}" class="fa-heart fa-regular" id="likeBtn2" th:onclick="toggleLikeIcon(this, /*[[${res.getRestNo().restNo}]]*/)"></i>
+
+                            <script th:inline="javascript">
+
+                                function toggleLikeIcon(element, restNo) {
+                                    element.classList.toggle('fa-regular');
+                                    element.classList.toggle('fa-solid');
+
+                                    Like(restNo);
+                                }
+                                function Like(restNo) {
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/user/userLikeAdd',
+                                            data: {likeRestNo : restNo },
+                                            success: function () {
+                                                console.log('좋아요 성공 :');
+                                                location.reload()
+                                            },
+                                            error: function (error, data) {
+                                                console.error('좋아요 실패 :', error);
+                                                console.error('좋아요 실패 :', data);
+                                                console.error('좋아요 실패 :', restNo);
+                                            }
+                                        });
+                                }
+
+                            </script>
                         </div>
                         <div class="right">
                             <p class="gray-text p-right"
