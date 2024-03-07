@@ -29,7 +29,7 @@
                 <td th:text="${dinning.restAddr}"></td>
                 <td th:text="${dinning.restTel}"></td>
                 <td>
-                    <form onsubmit="return confirmClose()" action="waitUpd" method="post">
+                    <form onsubmit="return confirmClose(this)" action="waitUpd" method="post">
                         <input type="hidden" name="restNo" th:value="${dinning.restNo}">
                         <div class="custom-select">
                         <select name="status">
@@ -58,7 +58,7 @@
                 });
         }
 
-        function confirmClose() {
+        function confirmClose(form) {
             swal({
                 title: "가게 상태를 변경 하시겠습니까?",
                 text: "변경 하시려면 확인을 눌러주세요.",
@@ -86,7 +86,8 @@
                         swal("Success!", "변경 되었습니다!", "success")
                             .then(function () {
                                 // 확인 버튼을 클릭한 경우 폼 제출
-                                document.querySelector("form").submit();
+                                // document.querySelector("form").submit();
+                                form.submit();
                             });
                     } else {
                         swal("취소되었습니다.")
