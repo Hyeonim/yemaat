@@ -33,7 +33,11 @@
             <script th:inline="javascript">
 
                 function changeOrigin() {
-                    preview.src = 'data:image/jpeg;base64,' + [[*{getBase64Image()}]];
+                    if( [[*{getBase64Image()}]] ) {
+                        document.getElementById('preview').setAttribute( 'src', 'data:image/jpeg;base64,' +[[*{getBase64Image()}]] );
+                    } else {
+                        document.getElementById('preview').src = '/img/no_image.png';
+                    }
                 }
             </script>
             <p><label id="last"></label><img id="preview" th:if="*{getUserImg() != null}"

@@ -131,7 +131,7 @@
                     <button th:onclick="openReservePage([[${nextLocate}]])" th:utext="|<span class='dropbutton'>예약가능</span>|" style="width: 104px;height: 41px;"  th:class="Tg7LZd" >
                 </th:block>
                 <th:block th:unless="${condition}">
-                    <button th:onclick="openReservePage([[${nextLocate}]])" th:text="예약불가" th:class="Tg7LZd no" >
+                    <button th:onclick="openReservePage([[${nextLocate}]])" th:text="예약불가" class="Tg7LZd no" >
                 </th:block>
                     </button>
             </th:block>

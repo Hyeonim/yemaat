@@ -34,6 +34,10 @@
 
         function submitRestForm() {
             if(confirm("등록하시겠습니까?")) {
+                if(document.getElementById("preview").src===location.origin+'/img/no_image.png') {
+                    alert("이벤트 이미지 등록은 필수 입니다.\n이미지 등록이 이루어지지 않아 이벤트 등록이 취소됩니다.")
+                    return;
+                }
                 let form = document.getElementById("addEventForm");
                 form.submit();
             }

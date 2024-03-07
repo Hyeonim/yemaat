@@ -26,12 +26,12 @@
                 <li>예약 상태</li>
             </ul>
         </div>
-<!--        <th:block th:if="${reserveList.size() == 0}" >-->
-<!--            <div style="width:100%; text-align: center; margin : 50px 0;">-->
-<!--                <h3>죄송합니다.</h3>-->
-<!--                <p>오늘 예약 목록이 없습니다.</p>-->
-<!--            </div>-->
-<!--        </th:block>-->
+        <th:block th:if="${mapCount.get(0) == null}" >
+            <div style="width:100%; text-align: center; margin : 50px 0;">
+                <h3>죄송합니다.</h3>
+                <p>오늘 예약 목록이 없습니다.</p>
+            </div>
+        </th:block>
         <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
             <th:block th:if="*{getDateType()==0}">
                 <div class="table-item">
@@ -62,7 +62,6 @@
             </th:block>
         </th:block>
     </div>
-
     <div id="future" class="blockDiv" style="display: none;">
         <div class="table-item">
             <ul>
@@ -74,12 +73,12 @@
                 <li>예약 상태</li>
             </ul>
         </div>
-<!--        <th:block th:if="${reserveList.size() == 0}" >-->
-<!--            <div style="width:100%; text-align: center; margin : 50px 0;">-->
-<!--                <h3>죄송합니다.</h3>-->
-<!--                <p>예약 대기 목록이 없습니다.</p>-->
-<!--            </div>-->
-<!--        </th:block>-->
+        <th:block th:if="${mapCount.get(1) == null}" >
+            <div style="width:100%; text-align: center; margin : 50px 0;">
+                <h3>죄송합니다.</h3>
+                <p>예약 대기 목록이 없습니다.</p>
+            </div>
+        </th:block>
         <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
             <th:block th:if="*{getDateType()==1}">
                 <div class="table-item">
@@ -121,12 +120,12 @@
                 <li>예약 상태</li>
             </ul>
         </div>
-<!--        <th:block th:if="${#numbers.sequence(reserveList.size() - 1, 0, -1).size() == 0}" >-->
-<!--            <div style="width:100%; text-align: center; margin : 50px 0;">-->
-<!--                <h3>죄송합니다.</h3>-->
-<!--                <p>지난 대기 목록이 없습니다.</p>-->
-<!--            </div>-->
-<!--        </th:block>-->
+        <th:block th:if="${mapCount.get(-1) == null}" >
+            <div style="width:100%; text-align: center; margin : 50px 0;">
+                <h3>죄송합니다.</h3>
+                <p>지난 대기 목록이 없습니다.</p>
+            </div>
+        </th:block>
         <th:block th:each="i : ${#numbers.sequence(reserveList.size() - 1, 0, -1)}" th:object="${reserveList[i]}">
             <th:block th:if="*{getDateType()==-1}">
                 <div class="table-item">

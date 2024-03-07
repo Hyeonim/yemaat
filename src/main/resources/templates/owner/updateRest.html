@@ -34,13 +34,14 @@
             <input type="hidden" name="restLongitude" id="restLongitude" th:value="*{getRestLongitude()}">
             <p><label>가게 소개글</label><textarea name="restDescription" rows="5">[[*{getRestDescription()}]]</textarea></p>
             <p><label>대표 이미지</label><input type="file" name="file" id="file" accept="image/*"></p>
-<!--            <p><label></label><input type="button" onclick="changeOrigin()" value="사진 변경 취소"-->
-<!--                                     style="border:none;background-color: #222;cursor: pointer;color: #fff;height: 40px;border-radius: 5px;" ></p>-->
-<!--            <script th:inline="javascript">-->
-<!--                function changeOrigin() {-->
-<!--                    preview.attr = [[*{getBase64Image()}]];-->
-<!--                }-->
-<!--            </script>-->
+            <p><label></label><input type="button" onclick="changeOrigin()" value="사진 변경 취소"
+                                     style="border:none;background-color: #222;cursor: pointer;color: #fff;height: 40px;border-radius: 5px;" ></p>
+            <script th:inline="javascript">
+                function changeOrigin() {
+                    preview.setAttribute( 'mysrc', [[*{getBase64Image()}]] );
+                    document.querySelectorAll( "img[mysrc]" ).forEach( e=>io2.observe(e))
+                }
+            </script>
             <p><label></label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
 
             <p><label>검수 결과</label>
@@ -60,6 +61,7 @@
         </div>
     </th:block>
     <script src="/js/imglazy.js"></script>
+    <script src="/js/imglazy2.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=05b2e13415dce5035c88d89a20185383&libraries=services"></script>
     <script>

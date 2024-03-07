@@ -405,6 +405,17 @@ public class OwnerController {
 //        System.out.println( reserveListObjObj );
         List<Reservation> reserveList = status(reservationRepository.getReservationWithDateType((long) dinning.getRestNo()));
         reserveList.forEach(Reservation::updateDateType);
+
+        Map< Integer, Integer > mapCount = new HashMap<>();
+        reserveList.forEach( item->{
+            mapCount.put(Math.toIntExact(item.getDateType()), mapCount.getOrDefault( Math.toIntExact(item.getDateType()), 0) + 1);
+        });
+
+        System.out.println( mapCount);
+//        model.addAttribute("mapCount", mapCount.get(0L));
+//        model.addAttribute("mapCount", mapCount.get(1L));
+//        model.addAttribute("mapCount", mapCount.get(-1L));
+        model.addAttribute("mapCount", mapCount);
         model.addAttribute("reserveList", reserveList);
 
         model.addAttribute("pageName", "예약 목록");
