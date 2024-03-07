@@ -407,3 +407,19 @@ tr:hover {
     height: 250px;
 }
 
+#preview {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-preview {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.image-preview img {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+}
+
