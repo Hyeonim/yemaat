@@ -21,7 +21,7 @@ public interface UserLikeRestRepository extends JpaRepository<UserLikeRest, Inte
 
     UserLikeRest findByUserNoAndRestNo(User user, int likeRestNo);
 
-    @Query("SELECT dr FROM Dinning dr JOIN UserLikeRest r ON dr.restNo = r.restNo where r.userNo = :userNo")
+    @Query("SELECT dr FROM Dinning dr JOIN UserLikeRest r ON dr.restNo = r.restNo where r.userNo = :userNo order by r.id desc ")
     List<Dinning> findAllDiningRestsLikedByUsers(@Param("userNo") User userNo);
 
 }

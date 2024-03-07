@@ -2,6 +2,15 @@ body {
     width: 100%;
 }
 
+button, input[type=button], input[type=submit] {
+    border:none;
+    background-color: #222;
+    cursor: pointer;
+    color: #fff;
+    height: 40px;
+    border-radius: 5px;
+}
+
 .side-container {
     float: left;
     box-sizing: border-box;
@@ -103,7 +112,6 @@ th, td {
         background-color: #333;
         color: white;
     }
-
 }
 
 .table-item ul {
@@ -151,7 +159,7 @@ th, td {
     border:1px solid gray;
 }
 .table-container .formDiv label + select,
-.table-container .formDiv label + input[id="reason"] {
+.table-container .formDiv label + input[class="reason"] {
     width: 50%;
 }
 

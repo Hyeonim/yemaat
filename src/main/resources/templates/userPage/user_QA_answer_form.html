@@ -143,7 +143,7 @@
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
                         alert('삭제가 완료되었습니다.');
-                        // location.reload();
+                        window.location.href = '/QA/user_qa';
                     } else {
                         alert('삭제 도중 오류가 발생했습니다.');
                     }

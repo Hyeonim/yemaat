@@ -26,6 +26,12 @@
                 <li>예약 상태</li>
             </ul>
         </div>
+<!--        <th:block th:if="${reserveList.size() == 0}" >-->
+<!--            <div style="width:100%; text-align: center; margin : 50px 0;">-->
+<!--                <h3>죄송합니다.</h3>-->
+<!--                <p>오늘 예약 목록이 없습니다.</p>-->
+<!--            </div>-->
+<!--        </th:block>-->
         <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
             <th:block th:if="*{getDateType()==0}">
                 <div class="table-item">
@@ -33,7 +39,7 @@
                         <li th:text="*{getRes_no()}"></li>
                         <li th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></li>
                         <li th:text="*{getRes_guest_count()}"></li>
-                        <li th:text="*{getRes_table_type() +' '+ getDateType()}"></li>
+                        <li th:text="*{getRes_table_type() == 'true' ? '룸' : '일반'}"></li>
                         <li class="comment" th:text="*{getRes_comment()}"></li>
                         <li th:text="*{getResStatus()}"></li>
                     </ul>
@@ -44,12 +50,12 @@
                             <p><label>비고</label><textarea readonly rows="3">[[*{getRes_comment()}]]</textarea></p>
                         </div>
                         <div class="formDiv reserv-process">
-                            <p><label>예약 처리</label><input type="button" value="수락" th:onclick="|complete(*{getRes_no()})|"></p>
+                            <p><label>예약 처리</label><input type="button" value="수락" th:onclick="|complete(*{getRes_no()})|" style="height: auto;"></p>
                             <p><label></label>
-                                <input type="text" placeholder="거절 사유를 입력해주세요" id="reason" th:value="*{getRes_rejection_reason() != null ? getRes_rejection_reason() : null}">
-                                <input type="button" value="거절" th:onclick="|cancel(*{getRes_no()})|">
+                                <input type="text" placeholder="거절 사유를 입력해주세요" class="reason" th:value="*{getRes_rejection_reason() != null ? getRes_rejection_reason() : null}">
+                                <input type="button" value="거절" th:onclick="|cancel(this, *{getRes_no()})|" style="height: auto;">
                             </p>
-                            <p><label>예약 처리</label><input type="button" value="예약 시간에 오지 않음" th:onclick="|noshow(*{getRes_no()})|"></p>
+                            <p><label></label><input type="button" value="예약 시간에 오지 않음" th:onclick="|noshow(*{getRes_no()})|" style="height: auto;"></p>
                         </div>
                     </div>
                 </div>
@@ -68,6 +74,12 @@
                 <li>예약 상태</li>
             </ul>
         </div>
+<!--        <th:block th:if="${reserveList.size() == 0}" >-->
+<!--            <div style="width:100%; text-align: center; margin : 50px 0;">-->
+<!--                <h3>죄송합니다.</h3>-->
+<!--                <p>예약 대기 목록이 없습니다.</p>-->
+<!--            </div>-->
+<!--        </th:block>-->
         <th:block th:each="reserv : ${reserveList}" th:object="${reserv}">
             <th:block th:if="*{getDateType()==1}">
                 <div class="table-item">
@@ -75,7 +87,7 @@
                         <li th:text="*{getRes_no()}"></li>
                         <li th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></li>
                         <li th:text="*{getRes_guest_count()}"></li>
-                        <li th:text="*{getRes_table_type()}"></li>
+                        <li th:text="*{getRes_table_type() == 'true' ? '룸' : '일반'}"></li>
                         <li class="comment" th:text="*{getRes_comment()}"></li>
                         <li th:text="*{getResStatus()}"></li>
                     </ul>
@@ -86,10 +98,10 @@
                             <p><label>비고</label><textarea readonly rows="3">[[*{getRes_comment()}]]</textarea></p>
                         </div>
                         <div class="formDiv reserv-process">
-                            <p><label>예약 처리</label><input type="button" value="수락" th:onclick="|complete(*{getRes_no()})|"></p>
+                            <p><label>예약 처리</label><input type="button" value="수락" th:onclick="|complete(*{getRes_no()})|" style="height: auto;"></p>
                             <p><label></label>
-                                <input type="text" placeholder="거절 사유를 입력해주세요" id="reason" th:value="*{getRes_rejection_reason() != null ? getRes_rejection_reason() : null}">
-                                <input type="button" value="거절" th:onclick="|cancel(*{getRes_no()})|">
+                                <input type="text" placeholder="거절 사유를 입력해주세요" class="reason" th:value="*{getRes_rejection_reason() != null ? getRes_rejection_reason() : null}">
+                                <input type="button" value="거절" th:onclick="|cancel(this, *{getRes_no()})|" style="height: auto">
                             </p>
                         </div>
                     </div>
@@ -109,6 +121,12 @@
                 <li>예약 상태</li>
             </ul>
         </div>
+<!--        <th:block th:if="${#numbers.sequence(reserveList.size() - 1, 0, -1).size() == 0}" >-->
+<!--            <div style="width:100%; text-align: center; margin : 50px 0;">-->
+<!--                <h3>죄송합니다.</h3>-->
+<!--                <p>지난 대기 목록이 없습니다.</p>-->
+<!--            </div>-->
+<!--        </th:block>-->
         <th:block th:each="i : ${#numbers.sequence(reserveList.size() - 1, 0, -1)}" th:object="${reserveList[i]}">
             <th:block th:if="*{getDateType()==-1}">
                 <div class="table-item">
@@ -116,7 +134,7 @@
                         <li th:text="*{getRes_no()}"></li>
                         <li th:text="*{#temporals.format(getResTime(), 'yyyy/MM/dd HH:mm')}"></li>
                         <li th:text="*{getRes_guest_count()}"></li>
-                        <li th:text="*{getRes_table_type()}"></li>
+                        <li th:text="*{getRes_table_type() == 'true' ? '룸' : '일반'}"></li>
                         <li class="comment" th:text="*{getRes_comment()}"></li>
                         <li th:text="*{getResStatus()}"></li>
                     </ul>
@@ -128,7 +146,7 @@
                         </div>
                         <div class="formDiv reserv-process">
                             <p><label>예약 처리</label>
-                                <input type="button" value="예약 시간에 오지 않음" th:onclick="|noshow(*{getRes_no()})|">
+                                <input type="button" value="예약 시간에 오지 않음" th:onclick="|noshow(*{getRes_no()})|" style="height: auto;">
                             </p>
                         </div>
                     </div>
@@ -141,29 +159,14 @@
             $('#reservPeriod').change(function(){
                 let selectedOption = $(this).val();
                 // 선택된 옵션에 따라 원하는 동작 수행
-                switch(selectedOption) {
-                    case 'today':
-                        document.getElementById("headline").textContent = "오늘 예약 목록";
+                document.getElementById("today").style.display = (selectedOption === 'today') ? "block" : "none";
+                document.getElementById("past").style.display = (selectedOption === 'past') ? "block" : "none";
+                document.getElementById("future").style.display = (selectedOption === 'future') ? "block" : "none";
 
-                        document.getElementById("today").style.display = "block";
-                        document.getElementById("future").style.display = "none";
-                        document.getElementById("past").style.display = "none";
-                        break;
-                    case 'future':
-                        document.getElementById("headline").textContent = "예약 대기 목록";
-
-                        document.getElementById("today").style.display = "none";
-                        document.getElementById("future").style.display = "block";
-                        document.getElementById("past").style.display = "none";
-                        break;
-                    case 'past':
-                        document.getElementById("headline").textContent = "지난 예약 목록";
-
-                        document.getElementById("today").style.display = "none";
-                        document.getElementById("future").style.display = "none";
-                        document.getElementById("past").style.display = "block";
-                        break;
-                }
+                document.getElementById("headline").textContent =
+                    (selectedOption === 'today') ? "오늘 예약 목록" :
+                        (selectedOption === 'future') ? "예약 대기 목록" :
+                            (selectedOption === 'past') ? "지난 예약 목록" : "";
             });
         });
 
@@ -203,8 +206,9 @@
 
         }
 
-        function cancel(resNo) {
-            let reason = document.getElementById("reason").value;
+        function cancel(btn, resNo) {
+            // let reason = document.getElementById("reason").value;
+            let reason = btn.previousElementSibling.value
             if(reason) {
                 location.href = "/owner/resCancel/"+resNo+"/"+reason;
             } else {

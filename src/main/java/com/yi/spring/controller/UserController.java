@@ -175,6 +175,8 @@ public class UserController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setUserNo(user);
         review.setRevImg( revImg );
@@ -183,7 +185,10 @@ public class UserController {
         String formattedDateTime = LocalDateTime.now().format(formatter);
         review.setRevWriteTime(LocalDateTime.parse(formattedDateTime, formatter));
         review.setRevStatus(String.valueOf(ReviewStatus.NORMAL));
+        int currenPoint = user.getPoint();
+        user.setPoint(currenPoint + 100);
 
+        userRepository.save(user);
         reviewRepository.save(review);
         reservationRepository.updateReservationStatusToReviewWithJoin();
         return "redirect:/user/user_posts";
@@ -315,15 +320,15 @@ public class UserController {
         return "userPage/user_reviewUpdate";
     }
     @PostMapping("updateReview/{revNo}")
-    public String reviewUpdate(Principal principal,Review review,@RequestParam MultipartFile file,@PathVariable("revNo") int revNo){
+    public String reviewUpdate(Principal principal,Review review,@RequestParam MultipartFile[] file,@PathVariable("revNo") int revNo){
         user = o2MemberService.findUser( principal );
 
-        System.out.println("file ->" + file);
+        System.out.println("file ->" + file[0]);
         Review existReview = reviewRepository.findById( revNo ).orElse( null );
 
-        if (file != null && !file.isEmpty()) {
+        if (file[0] != null && !file[0].isEmpty()) {
             try {
-                byte[] revImg = file.getBytes();
+                byte[] revImg = file[0].getBytes();
                 review.setRevImg(revImg);
             } catch (IOException e) {
                 throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
@@ -334,6 +339,8 @@ public class UserController {
         }
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setRevStatus(String.valueOf(ReviewStatus.NORMAL));
+        review.setRevStrImg( review.getRevImgMan().setReviewImg( imageTableRepository, file ) );
+
 
         review.setId(revNo);
         reviewRepository.save(review);

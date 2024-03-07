@@ -215,6 +215,7 @@ public class OwnerController {
         }
         dinning.setUserNo(loginUser);
         dinning.setRestStatus(String.valueOf(DinningStatus.HOLD));
+        dinning.setRestStartDate(String.valueOf(LocalDateTime.now()));
         diningRestService.createRestaurant(dinning);
         return "redirect:/owner/home";
     }

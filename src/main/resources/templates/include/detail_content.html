@@ -128,12 +128,12 @@
             +]*/-->
             <th:block th:with="condition=${dinning.restSeat}!=null, nextLocate=${dinning.restNo}">
                 <th:block th:if="${condition}">
-                    <button th:onclick="openReservePage([[${nextLocate}]])" th:utext="|<span class='dropbutton'>예약가능</span>|" style="width: 104px;height: 41px;">
+                    <button th:onclick="openReservePage([[${nextLocate}]])" th:utext="|<span class='dropbutton'>예약가능</span>|" style="width: 104px;height: 41px;"  th:class="Tg7LZd" >
                 </th:block>
                 <th:block th:unless="${condition}">
-                    <button th:onclick="openReservePage([[${nextLocate}]])" th:text="예약불가" th:class="no" >
+                    <button th:onclick="openReservePage([[${nextLocate}]])" th:text="예약불가" th:class="Tg7LZd no" >
                 </th:block>
-                </button>
+                    </button>
             </th:block>
             <div class="reservePage" style="
                 height: 0;

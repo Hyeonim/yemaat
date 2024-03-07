@@ -25,6 +25,12 @@
                 </tr>
             </th:block>
         </table>
+        <th:block th:if="${eventList.size() == 0}" >
+            <div style="width:100%; text-align: center; margin : 50px 0;">
+                <h3>죄송합니다.</h3>
+                <p>아직 등록된 이벤트가 없습니다.</p>
+            </div>
+        </th:block>
     </div>
     <script>
         function setStatus(eventElement) {

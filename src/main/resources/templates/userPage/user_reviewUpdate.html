@@ -98,11 +98,13 @@
                             <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
                                 <div>
                                     <label for="file">이미지:</label><br>
-                                    <img style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;"
+                                    <div >
+                                    <img class="preview" style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;"
                                          id="preview" th:src="'data:image/jpeg;base64,' + ${review.get().base64Image}"
                                          alt="">
+                                    </div>
                                     <br>
-                                    <input type="file" id="file" name="file" accept="image/*" onchange="previewImage(this);">
+                                    <input type="file" id="file" name="file" accept="image/*" multiple onchange="previewImage(this);">
                                 </div>
                                 <input hidden="hidden" name="revNo" th:value="${review.get().id}">
                                 <input hidden="hidden" name="userNo" th:value="${review.get().getUserNo().userNo}">
@@ -183,8 +185,30 @@
         }
 
         document.getElementById('file').addEventListener('change', function () {
-            previewImage(this);
-        });
+                let previews = this.parentElement.querySelectorAll('.preview');
+                [...this.files].forEach( (file, index)=>{
+                    let preview = previews[index];
+                    if ( !preview )
+                    {
+                        preview = previews[0].cloneNode( false );
+                        previews[0].parentNode.appendChild( preview );
+                    }
+
+                    let reader = new FileReader();
+                    reader.onload = function(){
+                        preview.src = reader.result;
+                    }
+                    reader.readAsDataURL( file );
+                });
+
+                previews.forEach( (preview, index)=>{
+                    if ( 0 === index && 0 === this.files.length )
+                        preview.removeAttribute( 'src' );
+                    else if ( index >= this.files.length )
+                        preview.remove();
+                });
+
+            });
 
         document.getElementById("revAdd").addEventListener("click", function (event) {
             event.preventDefault();
