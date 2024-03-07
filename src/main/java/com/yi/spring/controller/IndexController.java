@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,9 @@ public class IndexController {
 
     @Autowired
     OAuth2MemberService o2Service;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String home() {
@@ -152,7 +156,12 @@ public class IndexController {
     @PostMapping("join")
     public String userjoin(@RequestParam MultipartFile file, User user, @RequestParam String userType) {
 
+        String a = user.getUserPassword();
+
+        String encode = passwordEncoder.encode(a);
+
         user.setUserAuth( "OWNER".equals(userType) ? "OWNER" : "USER" );
+        user.setUserPassword(encode);
 
         if ( !file.isEmpty() ) {
             try {
