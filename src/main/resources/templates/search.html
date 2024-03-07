@@ -38,8 +38,8 @@
 
 
     #content {
-        width: 100%;
-        height: calc(100vh - 86px);
+        /*width: 100%;*/
+        height: calc(100vh - 88px);
         top: 86px;
         border: 1px solid #003458;
         position: relative;
@@ -64,7 +64,7 @@
     }
 
     #category {
-        height: 44px;
+        /*height: 44px;*/
         /*display: flex;*/
         justify-content: center;
         border-bottom: solid 1px black;
@@ -96,6 +96,9 @@
         border: 1px solid #000;
     }
 
+    #resultList .rest.tel, #resultList .rest.category {
+        font-size: 12px;
+    }
 
 
     .hovered {
@@ -133,16 +136,16 @@
             </ul>
             도로명
             <ul class="filter3">
-                <li class="filter" value="1">대로</li>
-                <li class="filter" value="2">ㅇㅇ로</li>
-                <li class="filter" value="3">~길</li>
-                <li class="filter" value="4">대로</li>
+                <li class="filter" value="0">전체</li>
+                <li class="filter" value="1">~로</li>
+                <li class="filter" value="2">~길</li>
+                <li class="filter" value="3">대로</li>
             </ul>
         </div>
 
         <ul id="resultList" style="list-style: none;">
 
-            <li th:each="rest : ${list}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 50px;"
+            <li th:each="rest : ${list}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 28px;"
                 th:onclick="'javascript:redirectdetail(event,\'' + ${rest.restNo} + '\')'" >
 
 
@@ -151,32 +154,32 @@
 
                 <div style="display: flex; flex-direction: column;">
                     <h2 style="font-size: 16px" th:text="${rest.restName} "></h2>
-                    <p th:text="${rest.restTel} "></p>
-<!--/*[+    <p th:text="'평점 : ' + ${rest.restScore2!=null?rest.restScore2:'평가중'} "></p> +]*/-->
+                    <p class="rest tel" th:text="${rest.restTel} "></p>
+
+                    <p class="rest category" th:text="${rest.restCategory} "></p>
+                  <!--/*[+  <p class="rest tel"  th:text="${#strings.arrayJoin(#arrays.subList(#strings.arraySplit( rest.restAddr, ' '), 2, 3), ' ')}"></p>  +]*/-->
+                    <p class="rest tel">
+                        <th:block th:each="addrItem : ${#strings.arraySplit( rest.restAddr, ' ')}">
+                            <th:block th:text="${addrItemStat.index >= 2 ? addrItem : ''}"></th:block>
+                        </th:block>
+                    </p>
+
 
                     <div class="startD" style="display: flex">
-                 <ul style="padding-inline-start: 0">
+                 <ul style="padding-inline-start: 0;
+                  margin-bottom: 0px; margin-top: 0px;
+                 ">
                         <li style="font-size: 12px; list-style-type: none; position: relative;" class="rating">
                             <div class="ratefillGray"></div>
                             <div class="ratefillYellow"
                                  th:if="${rest.getRevScore()!=null?rest.getRevScore():'평가중'}"
                                  th:style="'width: ' + ${rest.getRevScore()* 16} + 'px'"></div>
-                            <input type="radio" name="revScore" id="rating1" value="100" class="rate_radio"
-                                   title="1점">
-                            <label for="rating1"></label>
-                            <input type="radio" name="revScore" id="rating2" value="200" class="rate_radio"
-                                   title="2점">
-                            <label for="rating2"></label>
-                            <input type="radio" name="revScore" id="rating3" value="300" class="rate_radio"
-                                   title="3점">
-                            <label for="rating3"></label>
-                            <input type="radio" name="revScore" id="rating4" value="400" class="rate_radio"
-                                   title="4점">
-                            <label for="rating4"></label>
-                            <input type="radio" name="revScore" id="rating5" value="500" class="rate_radio"
-                                   title="5점">
-                            <label for="rating5"></label>
-                            <input type="hidden" id="selectedRevScore" name="selectedRevScore" value="">
+                            <input type="radio" class="rate_radio" >
+                            <label></label>
+                            <label></label>
+                            <label></label>
+                            <label></label>
+                            <label></label>
                         </li>
                     </ul>
                     </div>
@@ -474,6 +477,7 @@
         }
         prevFocusMarker = marker;
     }
+
 
     function chooseFilter(event){
         if (!event.target.classList.contains( "filter") )

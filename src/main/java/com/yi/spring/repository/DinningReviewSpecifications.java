@@ -43,7 +43,7 @@ public class DinningReviewSpecifications {
     }
 
     public static Specification<DinningReviewView> likeAddr(String addr) {
-        return (root, query, builder) -> addr == null ? null : builder.equal(root.get("restAddr"), "%"+addr+"%");
+        return (root, query, builder) -> addr == null ? null : builder.like(root.get("restAddr"), "%"+addr+" %");
     }
 
 
