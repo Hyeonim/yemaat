@@ -106,7 +106,22 @@ public class RestSearchController {
         List<DinningReviewView> dinningReviewList = new ArrayList<>();
         String filter1 = params.get( "filter1" );
         String searchCategory = params.get( "filter2" );
-        if ( null != filter1 )
+        if ( "전체".equals( searchCategory) )
+            searchCategory = null;
+        String searchAddress = params.get( "filter3" );
+//        if ( "전체".equals( searchAddress) )
+//            searchAddress = null;
+        if ( null != searchAddress ) {
+            final int input = Integer.parseInt(searchAddress);
+            final String[] options = {null, "로", "길", "대로"};
+            if (input >= 0 && input < options.length) {
+                searchAddress = options[input];
+            } else {
+                searchAddress = null;
+            }
+        }
+
+        if ( null != filter1 && !filter1.isEmpty() )
         {
             switch (filter1) {
                 case "1": //-> System.out.println( 13 );
@@ -128,8 +143,8 @@ public class RestSearchController {
 
                     Specification<DinningReviewView> spec = Specification
                             .where(DinningReviewSpecifications.likeRestName( restName ))
-                            .and(DinningReviewSpecifications.eqCategory( null ))
-                            .and(DinningReviewSpecifications.likeAddr(null))
+                            .and(DinningReviewSpecifications.eqCategory( searchCategory ))
+                            .and(DinningReviewSpecifications.likeAddr( searchAddress ))
                             ;
 
                     Pageable pageable = PageRequest.of( 0, pageSize, Sort.Direction.DESC, mySort.toArray(new String[0]) );
@@ -147,7 +162,7 @@ public class RestSearchController {
             dinningReviewList = inRepository.findAll( Specification
                     .where(DinningReviewSpecifications.likeRestName( restName ))
                     .and(DinningReviewSpecifications.eqCategory( searchCategory ))
-                    .and(DinningReviewSpecifications.likeAddr(null)) );
+                    .and(DinningReviewSpecifications.likeAddr( searchAddress )) );
 
         return dinningReviewList;
     }
