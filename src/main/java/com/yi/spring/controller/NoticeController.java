@@ -30,7 +30,7 @@ public class NoticeController {
                              @RequestParam(value = "page", defaultValue = "0") int page) {
 
 
-        Page<Notice> noticeList = noticeService.findByAllDESC(page);
+        Page<Notice> noticeList = noticeService.findByNoticeDESC(page);
 
 
 

@@ -19,4 +19,8 @@ public interface NoticeService {
    Page<Notice> findBySubjectContaining(String keyword, int page);
 
     public Page<Notice> findByAllDESC(int page);
+
+    public Page<Notice> findByNoticeDESC(int page);
+
+
 }

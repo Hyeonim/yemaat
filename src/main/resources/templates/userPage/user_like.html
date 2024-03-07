@@ -51,15 +51,16 @@
             box-sizing: border-box;
             margin-bottom: 65px;
             /*margin-top: 60px;*/
-            transition: padding-bottom 0.5s ease-in-out; /* 애니메이션을 추가합니다. */
-            width: 840px;
+            transition: padding-bottom 0.5s ease-in-out;
+            width: auto;
+            height: 160px;
         }
 
         .left {
             background-color: gray;
             display: inline-block;
-            width: 300px;
-            height: 221px;
+            width: 140px;
+            height: 120px;
             cursor: pointer;
             border-radius: 4px;
         }
@@ -75,7 +76,7 @@
 
         .right {
             width: 447px;
-            margin-left: 14px;
+            margin-left: 19px;
             text-align: center;
         }
 
@@ -94,30 +95,35 @@
     </style>
 
     <div style="display: flex; justify-content: center; margin-top: -132px">
-        <div style="display: flex; flex-direction: column; align-items: center;justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding: 2% ">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding:2% 10% ">
+
+            <h4 th:text="'총 ' + ${userLike.size()} + '개'" style="padding-bottom: 15px"></h4>
 
             <div id="wrap" class="containers" th:each="userLikes : ${userLike}">
                 <div id="container1" class="container1" style="display: flex">
                     <div class="left">
                         <img th:attr="mysrc=${userLikes.getBase64Image()}"
-                             style="width: 300px; height: 221px; border-radius: 10px;">
+                             style="width: 140px; height: 120px; border-radius: 10px;">
 
                     </div>
 
-                    <div class="right">
+                    <div class="right" style="display: flex; flex-direction: column; align-items: flex-start">
                         <p class="gray-text p-right">
+                        <div>
                             <a th:href="'/detail?restNo=' + ${userLikes.getRestNo()}">
-                                <b style="font-size: 20px;" th:text="'  '+${userLikes.getRestName()}" class="RestNoHover"></b>
+                                <b style="font-size: 20px;" th:text="'  '+${userLikes.getRestName()}"
+                                   class="RestNoHover"></b>
                             </a><br>
-                            <i class="fa-solid fa-utensils" style="color: #74C0FC;"></i><b th:text="${'  '+userLikes.getRestCategory()}"></b><br>
-                        <hr>
+                            <i class="fa-solid fa-utensils" style="color: #74C0FC;"></i><b
+                                th:text="${'  '+userLikes.getRestCategory()}"></b><br>
+                        </div>
                         <br>
                         <b th:text="${userLikes.getRestAddr()}"></b><br>
                     </div>
 
                 </div>
-                </div>
             </div>
+        </div>
     </div>
 
 

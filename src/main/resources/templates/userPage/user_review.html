@@ -120,7 +120,7 @@
 
         }
 
-        .revContentBox.expand  {
+        .revContentBox.expand {
             display: none;
         }
 
@@ -175,9 +175,12 @@
                                     </a>
 
                                 </div>
-                                <li class="revContentBox" th:if="${#strings.length(combinedLists.rev.revContent) > 70}" th:text="${#strings.substring(combinedLists.rev.revContent,0 ,70) + '.....'}"
+                                <li class="revContentBox" th:if="${#strings.length(combinedLists.rev.revContent) > 70}"
+                                    th:text="${#strings.substring(combinedLists.rev.revContent,0 ,70) + '.....'}"
                                     style="margin: 10px 0; width: 833.03px; height: 40px"></li>
-                                <li class="revContentBox" th:unless="${#strings.length(combinedLists.rev.revContent) > 70}" th:text="${combinedLists.rev.revContent}"
+                                <li class="revContentBox"
+                                    th:unless="${#strings.length(combinedLists.rev.revContent) > 70}"
+                                    th:text="${combinedLists.rev.revContent}"
                                     style="margin: 10px 0; width: 833.03px; height: 40px"></li>
 
                                 <div style="display: flex">
@@ -214,14 +217,29 @@
                             </div>
 
                         </div>
+
                         <div class="hiddenContent"
                              style="width: 50%; display: none; align-items: center; flex-direction: column; margin-top: 45px;margin-left: 64px;">
                             <div>
                                 <div style="display: flex; justify-content: center; flex-direction: column; margin-right: 1px">
-                                    <img style="max-width: 330px; max-height: 330px;"
-                                         th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}"
-                                         alt="">
-                                    <div style="margin-top: 30px; white-space: pre-wrap; width: 960px" th:text="${combinedLists.rev.revContent}"></div>
+                                    <th:block
+                                            th:with="condition=${combinedLists.rev.getRevStrImg()!=''}, strArray=${combinedLists.rev.getRevStrImg()}">
+                                        <th:block th:if="${condition}">
+                                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-top: 1px;">
+                                                <th:block th:each="item : ${#strings.arraySplit(strArray, ',')}">
+                                                    <img th:attr="mysrc=${item}" alt="리뷰 이미지"
+                                                         style="width: 100%; height: 100%">
+                                                </th:block>
+                                            </div>
+                                        </th:block>
+                                        <th:block th:unless="${condition}">
+                                            <img th:if="${combinedLists.rev.base64Image!=''}"
+                                                 th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}"
+                                                 alt="리뷰 이미지"/>
+                                        </th:block>
+                                    </th:block>
+                                    <div style="margin-top: 30px; white-space: pre-wrap; width: 960px"
+                                         th:text="${combinedLists.rev.revContent}"></div>
                                 </div>
                             </div>
                         </div>
@@ -404,6 +422,7 @@
         // });
 
     </script>
+    <script src="/js/imglazy.js"></script>
 
 </th:block>
 </html>

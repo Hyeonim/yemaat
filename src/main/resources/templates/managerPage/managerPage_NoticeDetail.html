@@ -44,7 +44,7 @@
                                    style="padding: 10px;  border: none; border-bottom: 1px solid #ccc; border-radius: 5px; font-size: 16px;margin-bottom: 20px"></span><br>
                 <span>내용 : <br></span>
                 <div style="display: flex; align-items: center;">
-                <textarea th:text="${notice.get().content}" name="content"
+                <textarea th:utext="${notice.get().content}" name="content"
                           style="width: 599px; height: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box;"></textarea>
                 <input type="hidden" name="importantNotice" th:value="${notice.get().importantNotice}">
 
