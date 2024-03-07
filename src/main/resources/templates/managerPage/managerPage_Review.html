@@ -23,8 +23,8 @@
             <tr th:each="list : ${list}">
                 <td th:text="${list.id}"></td>
                 <td th:text="${list.userNo.userId}"></td>
-                <td th:text="${list.resNo.restNo.restName}"></td>
-                <td th:text="${list.resNo.restNo.userNo.userId}"></td>
+                <td th:text="${list.restNo.restName}"></td>
+                <td th:text="${list.restNo.userNo.userId}"></td>
                 <td>
                     <form onsubmit="return confirmClose()" action="RevManager" method="post">
                         <input type="hidden" name="id" th:value="${list.id}">
