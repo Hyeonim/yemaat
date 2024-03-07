@@ -419,7 +419,26 @@
             top: 95px;
             z-index: 1;
             font-size: 30px;
-            color: #fa1b1b;
+            color: #ff0000;
+        }
+
+        @keyframes intenseShake {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            12.5%, 37.5% {
+                transform: rotate(-20deg);
+            }
+            25%, 50% {
+                transform: rotate(20deg);
+            }
+            62.5%, 87.5% {
+                transform: rotate(-20deg);
+            }
+        }
+
+        .fa-gift {
+            animation: intenseShake 2s infinite;
         }
     </style>
 
@@ -634,11 +653,20 @@
                             <br>
                             <b th:text="${res.restNo.restAddr}"
                                th:style="${res.getReservationStatusEnum.getName()} == '이용완료' or ${res.getReservationStatusEnum.getName()} == '예약거절' or ${res.getReservationStatusEnum.getName()} == '노쇼' or ${res.getReservationStatusEnum.getName()} == '취소됨' or ${res.getReservationStatusEnum().getName()} == '리뷰작성완료' ? 'color: gray;' : 'color: black;'"></b><br>
+                            <div th:if="${res.getReservationStatusEnum.getName()} == '예약거절'" style="margin-top: 7px ;margin-bottom: -15px">
+                                <i class="fa-solid fa-circle-info"></i> <span style="color: grey; font-size: 12px">가게에서 취소 또는 예약 후 시간이 만료되어 거절이 되었습니다.</span>
+                            </div>
+                            <div th:if="${res.getReservationStatusEnum.getName()} == '이용완료'" style="margin-top: 11px ;margin-bottom: -15px">
+                                <i class="fa-solid fa-gift"></i>
+                                <span style="color: grey; font-size: 12px">리뷰 작성 시 <span style="color: #ef4040; font-weight: bold;">100Point</span> 지급!!</span>
+                            </div>
                             <button id="cancelBtn1"
                                     th:if="${res.getReservationStatusEnum.getName() != '리뷰작성완료'}"
                                     th:class="${res.getReservationStatusEnum.getName() == '대기' ? 'yellowBtn' : (res.getReservationStatusEnum.getName() == '예약완료' ? 'greenBtn' : 'grayBtn')}"
                                     th:text="${res.getReservationStatusEnum.getName()}">
                             </button>
+
+
                             <button id="reviewBtn" class="reviewBtn "
                                     th:if="${res.getReservationStatusEnum.getName() eq '이용완료' and revStatus ne 'OK'}">
                                 리뷰작성
@@ -826,7 +854,7 @@
 
         document.getElementById("revAdd").addEventListener("click", function (event) {
             event.preventDefault();
-            var confirmation = confirm("리뷰를 작성하시겠습니까?");
+            var confirmation = confirm("리뷰를 작성하시겠습니까?22");
             if (confirmation) {
                 document.getElementById("addRevForm").submit();
             } else {
@@ -841,7 +869,7 @@
 
             reviewBtns.forEach(function (btn) {
                 btn.addEventListener('click', function () {
-                    var confirmation = window.confirm('리뷰를 작성하시겠습니까?');
+                    var confirmation = window.confirm('리뷰를 작성하시겠습니까?11');
 
                     if (confirmation) {
                         let container1 = this.closest('.container1');
