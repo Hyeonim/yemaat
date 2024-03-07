@@ -29,7 +29,7 @@
                 </select></p>
             <input type="hidden" name="restLatitude" id="restLatitude" th:value="*{getRestLatitude()}">
             <input type="hidden" name="restLongitude" id="restLongitude" th:value="*{getRestLongitude()}">
-            <p><label>가게 소개글</label><textarea name="restDesc" rows="5" readonly>[[*{getRestDescription()}]]</textarea></p>
+            <p><label>가게 소개글</label><textarea name="restDescription" rows="5" readonly>[[*{getRestDescription()}]]</textarea></p>
             <p><label>대표 이미지</label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
             <p><label>검수 결과</label>
                 <input type="text" th:if="*{getRestStatus()=='HOLD'}" value="검수중"
@@ -39,8 +39,7 @@
                 <input type="text" th:if="*{getRestStatus()=='NORMAL'}" value="검수 완료"
                        style="border: 1px solid #337357; background-color: #337357; text-align: center" readonly>
             </p>
-            <input type="button" value="수정" th:onclick="|location.href='@{/owner/updateRest}'|">
-            <input type="button" value="돌아가기" th:onclick="|location.href='@{/owner/home}'|">
+            <input type="button" value="식당 정보 수정하기" th:onclick="|location.href='@{/owner/updateRest}'|">
         </div>
     </th:block>
     <script src="/js/imglazy.js"></script>

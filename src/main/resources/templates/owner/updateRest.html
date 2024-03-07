@@ -32,9 +32,17 @@
 
             <input type="hidden" name="restLatitude" id="restLatitude" th:value="*{getRestLatitude()}">
             <input type="hidden" name="restLongitude" id="restLongitude" th:value="*{getRestLongitude()}">
-            <p><label>가게 소개글</label><textarea name="restDesc" rows="5">[[*{getRestDescription()}]]</textarea></p>
+            <p><label>가게 소개글</label><textarea name="restDescription" rows="5">[[*{getRestDescription()}]]</textarea></p>
             <p><label>대표 이미지</label><input type="file" name="file" id="file" accept="image/*"></p>
+<!--            <p><label></label><input type="button" onclick="changeOrigin()" value="사진 변경 취소"-->
+<!--                                     style="border:none;background-color: #222;cursor: pointer;color: #fff;height: 40px;border-radius: 5px;" ></p>-->
+<!--            <script th:inline="javascript">-->
+<!--                function changeOrigin() {-->
+<!--                    preview.attr = [[*{getBase64Image()}]];-->
+<!--                }-->
+<!--            </script>-->
             <p><label></label><img id="preview" th:attr="mysrc=*{getBase64Image()}" src="/img/no_image.png" alt="Rest Image"></p>
+
             <p><label>검수 결과</label>
                 <input type="text" name="result" th:if="*{getRestStatus()=='HOLD'}" value="검수중"
                        style="border: 1px solid #FFD23F; background-color: #FFD23F; text-align: center" readonly>
@@ -46,8 +54,8 @@
             <input type="hidden" th:value="${dinning.getRestNo()}" name="restNo" >
 
 <!--            <input type="button" value="수정" onclick="submitRestForm()">-->
-            <input type="submit" value="수정">
-            <input type="button" value="취소" th:onclick="|location.href='@{/owner/viewRest}'|">
+            <input type="submit" value="식당 정보 수정">
+            <input type="button" value="정보 수정 취소" th:onclick="|location.href='@{/owner/viewRest}'|">
         </form>
         </div>
     </th:block>
@@ -112,6 +120,8 @@
         }
     </script>
     <script>
+
+        let preview = document.getElementById('preview');
 
         function submitRestForm() {
             if (confirm("식당 등록을 하시겠습니까?")) {

@@ -12,7 +12,14 @@
         <p><label>이벤트 시작일</label><input id="startTime" type="date" name="strStartTime"></p>
         <p><label>이벤트 마감일</label><input id="endTime" type="date" name="strEndTime"></p>
         <p><label>내용</label><textarea name="eventContent" rows="5"></textarea></p>
-        <p><label>이미지</label><input type="file" name="file" id="file"></p>
+        <p><label>이미지</label><input type="file" name="file" id="file" accept="image/*"></p>
+        <p><label></label><input type="button" onclick="changeOrigin()" value="사진 변경 취소" ></p>
+        <script th:inline="javascript">
+
+            function changeOrigin() {
+                document.getElementById('preview').src = '/img/no_image.png';
+            }
+        </script>
         <p><label></label><img id="preview" src="/img/no_image.png" alt="Rest Image"></p>
         <input type="button" value="등록" onclick="submitRestForm()">
         <input type="button" value="취소" th:onclick="|location.href='@{/owner/eventList}'|">

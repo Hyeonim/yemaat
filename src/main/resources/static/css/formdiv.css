@@ -31,3 +31,6 @@ div.formDiv label + img {
 div.formDiv label + select {
     width:70%;
 }
+div.formDiv label + label {
+    width:70%;
+}
