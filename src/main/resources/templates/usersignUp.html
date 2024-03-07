@@ -458,7 +458,8 @@
         <button onclick="openPopup()">인증하러가기~</button>
         <!--            <li>휴대폰 인증</li>-->
         <!--        </ul>-->
-        <button disabled onclick="nextStep(this)">다음 단계로 진행</button>
+<!--        <button disabled onclick="nextStep(this)">다음 단계로 진행</button>-->
+        <button onclick="nextStep(this)">다음 단계로 진행</button>
     </div>
 </div>
 
@@ -471,24 +472,27 @@
         <label for="merchant">점주</label>
     </div>
     <div class="formDiv" style="width: 550px;">
-        <form action="/join" method="post" enctype="multipart/form-data">
+        <form action="/join" method="post" enctype="multipart/form-data" id="joinForm">
             <p><input type="hidden" name="userType" value="">
-                <label for="in1">닉네임</label><input type="text" id="in1" name="userNickName"></p>
+<!--                <label for="in1">닉네임</label>-->
+<!--                <input type="hidden" id="in1" name="userNickName"></p>-->
             <p><label for="in2">이름 <span class="req">*</span></label>
                 <input type="text" id="in2" name="userName" required></p>
             <p><label for="in3">아이디 <span class="req">*</span></label>
                 <input type="text" id="in3" name="userId" required></p>
             <p><label for="in4">비밀번호 <span class="req">*</span></label>
                 <input type="password" id="in4" name="userPassword" required></p>
-            <p><label for="in5">이메일</label><input type="email" id="in5" name="userEmail" readonly></p>
+            <p><label >비밀번호 확인 <span class="req"></span></label>
+                <input type="password" id="passwordConfirm" required></p>
+            <p><label for="in5">이메일</label><input type="email" id="in5" name="userEmail" required></p>
             <p><label></label>
                 <input type="button" onclick="openPopup()" value="이메일 재인증"
                        style="border:none;background-color: #222;cursor: pointer;color: #fff;height: 40px;border-radius: 5px;" ></p>
-            <p><label for="in6">전화번호</label><input type="text" id="in6" name="userTel"></p>
+            <p><label for="in6">전화번호</label><input type="text" id="in6" name="userTel" required></p>
             <p><input type="hidden" name="userImg" value="">
             <label for="in7">프로필 사진</label><i></i><input type="file" id="in7" accept="image/*" name="file"></p>
             <!--    자기소개<input type="text" name="userNickName"><br>-->
-            <button>회원가입</button>
+            <button type="submit" onclick="submitForm()">회원가입</button>
         </form>
     </div>
 </div>
@@ -601,6 +605,30 @@
     }
 
     window.addEventListener("message", receiveMessage, false);
+
+    function submitForm() {
+        // 비밀번호와 비밀번호 확인 값이 같은지 확인
+        event.preventDefault();
+        var password = document.getElementById("in4").value;
+        var confirmPassword = document.getElementById("passwordConfirm").value;
+        var userName = document.getElementById("in2").value;
+        var userId = document.getElementById("in3").value;
+        var userEmail = document.getElementById("in5").value;
+        var userTel = document.getElementById("in6").value;
+
+        if (password === "" || confirmPassword === "" || userName === "" || userId === "" || userEmail === "" || userTel === "") {
+            alert("입력하지 않은 항목이 있습니다.");
+            return false; // 폼 제출을 중단하고 함수를 종료합니다.
+        }
+
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false; // 폼 제출을 중단하고 함수를 종료합니다.
+        }
+
+        alert("회원가입이 완료되었습니다!");
+        document.getElementById("joinForm").submit();
+    }
 
 
 </script>

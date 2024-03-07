@@ -1108,12 +1108,17 @@ public class ManagerController {
     }
 
     @PostMapping("/waitUpd")
-    public String updateStatus(@RequestParam("restNo") int restNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
+    public String updateStatus(@RequestParam("restNo") int restNo,
+                               @RequestParam("status") String status,
+                               RedirectAttributes redirectAttributes) {
         // 가게 번호와 상태를 받아와서 DB에 저장함
+
         Optional<Dinning> optionalDinning = dinningRepository.findByRestNo(restNo);
+
         if (optionalDinning.isPresent()) {
             Dinning dinning = optionalDinning.get();
             dinning.setRestStatus(status);
+            dinning.setUserNo(null);
             dinningRepository.save(dinning);
             redirectAttributes.addFlashAttribute("message", "가게 상태가 성공적으로 변경되었습니다.");
         } else {
