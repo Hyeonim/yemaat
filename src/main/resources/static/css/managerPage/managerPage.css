@@ -397,3 +397,12 @@ tr:hover {
     font-size: 34px;
     cursor: pointer;
 }
+
+/* 공지사항 추가 관련 */
+
+#addFile {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    height: 250px;
+}
