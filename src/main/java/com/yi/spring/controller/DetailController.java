@@ -36,7 +36,10 @@ public class DetailController {
         Optional<Dinning> dinningOptional = dinningRepository.findById((restNo));
 
 //        List<Review> list = reviewRepository.findByRestNo(new Dinning(Math.toIntExact(restNo)));
-        List<Review> list = reviewRepository.findByRevStatusAndRestNo(restNo);
+//        List<Review> list = reviewRepository.findByRevStatusAndRestNo(restNo);
+        List<Review> list = reviewRepository.findByRestNo(dinningOptional.get());
+
+        System.out.println("aaaaaaaaaaa" + list.size());
         double sum = list.stream().mapToDouble(Review::getRevScore).sum();
 
         double result = sum /list.size();

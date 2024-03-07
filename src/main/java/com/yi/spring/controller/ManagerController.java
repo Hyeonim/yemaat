@@ -553,7 +553,8 @@ public class ManagerController {
                                    @RequestParam MultipartFile file,
                                    Model model) {
 
-        String modifiedContent = content.substring(3, content.length() - 4);
+//        String modifiedContent = content.substring(3, content.length() - 4);
+        String modifiedContent = content;
 
         Notice notice = new Notice();
 
@@ -1123,8 +1124,12 @@ public class ManagerController {
 
 
     @PostMapping("/HoldUpd")
-    public String updateStatusHold(@RequestParam("restNo") int restNo, @RequestParam("status") String status, RedirectAttributes redirectAttributes) {
-        // 가게 번호와 상태를 받아와서 DB에 저장함
+    public String updateStatusHold(@RequestParam("restNo") int restNo,
+                                   @RequestParam("status") String status,
+                                   RedirectAttributes redirectAttributes) {
+
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA"+status);
+
         Optional<Dinning> optionalDinning = dinningRepository.findByRestNo(restNo);
         if (optionalDinning.isPresent()) {
             Dinning dinning = optionalDinning.get();
@@ -1143,6 +1148,8 @@ public class ManagerController {
                          @RequestParam(value = "page", defaultValue = "0") int page) {
 
         Page<Review> list = reviewService.findByStatus(page);
+
+        System.out.println(list);
 
 
         model.addAttribute("list", list);
