@@ -437,12 +437,12 @@
         gmap.morph(new naver.maps.LatLng(lat, lng), 18);
 
         let pointMarker = `
-            <img src="/img/point_marker.gif" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:25px; height:25px; z-index: 99;" />
+            <img src="/img/point_marker_no.png" alt="marker" style="margin:0; padding:0; display:block; max-width:none; max-height:none;-webkit-user-select:none; position:absolute; width:30px; height:30px; z-index: 99;" />
             `;
 
         let oldMarker = markers.find( m=>m.restNo === restNo );
         let mmm = { ...oldMarker, icon : {
-                content: pointMarker }}
+                content: pointMarker } }
         // console.log( oldMarker, mmm )
         let focusIcon = { content: pointMarker }
         let marker = oldMarker;
@@ -461,12 +461,14 @@
         // });
         //
         // console.log( marker )
+        marker.animation = naver.maps.Animation.BOUNCE;
 
         setMarker(marker,focusIcon)
         marker.setMap(map)
 
         if ( prevFocusMarker && prevFocusMarker !== marker )
         {
+            prevFocusMarker.animation = null;
             prevFocusMarker.setIcon( {content: normalMarker } );
             naver.maps.Event.clearListeners(prevFocusMarker, 'mouseout');
             naver.maps.Event.addListener(prevFocusMarker, "mouseout", function (e) {
