@@ -9,7 +9,6 @@ import com.yi.spring.repository.ReviewRepository;
 import com.yi.spring.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -392,17 +390,6 @@ public class OwnerController {
         }
         model.addAttribute("dinning", dinning);
 
-
-//        List<Reservation> todayReserv = status(reservationRepository.getTodayReservation((long) dinning.getRestNo()));
-//        List<Reservation> waitReserv = status(reservationRepository.getWaitReservation((long) dinning.getRestNo()));
-//        List<Reservation> pastReserv = status(reservationRepository.getPastReservation((long) dinning.getRestNo()));
-//        model.addAttribute("pastReserv", pastReserv);
-//        model.addAttribute("waitReserv", waitReserv);
-//        model.addAttribute("todayReserv", todayReserv);
-        // ModelMapper
-
-//        List<Object[]> reserveListObjObj = reservationRepository.getReservationWithDateType222((long) dinning.getRestNo());
-//        System.out.println( reserveListObjObj );
         List<Reservation> reserveList = status(reservationRepository.getReservationWithDateType((long) dinning.getRestNo()));
         reserveList.forEach(Reservation::updateDateType);
 
@@ -412,38 +399,88 @@ public class OwnerController {
         });
 
         System.out.println( mapCount);
-//        model.addAttribute("mapCount", mapCount.get(0L));
-//        model.addAttribute("mapCount", mapCount.get(1L));
-//        model.addAttribute("mapCount", mapCount.get(-1L));
         model.addAttribute("mapCount", mapCount);
         model.addAttribute("reserveList", reserveList);
 
         model.addAttribute("pageName", "예약 목록");
-        return "owner/reservList";
+        return "/owner/todayList";
+    }
+    @GetMapping("futureList")
+    public String futureList(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
+            return "owner/transit";
+        }
+        model.addAttribute("dinning", dinning);
+        List<Reservation> reserveList = status(reservationRepository.getReservationWithDateType((long) dinning.getRestNo()));
+        reserveList.forEach(Reservation::updateDateType);
+
+        Map< Integer, Integer > mapCount = new HashMap<>();
+        reserveList.forEach( item->{
+            mapCount.put(Math.toIntExact(item.getDateType()), mapCount.getOrDefault( Math.toIntExact(item.getDateType()), 0) + 1);
+        });
+
+        model.addAttribute("mapCount", mapCount);
+        model.addAttribute("reserveList", reserveList);
+
+        model.addAttribute("pageName", "예약 목록");
+        return "/owner/futureList";
+    }
+    @GetMapping("pastList")
+    public String pastList(Principal principal, Model model) {
+        User loginUser = userService.findByUserId( principal.getName() ).get();
+        model.addAttribute("user", loginUser);
+
+        Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
+            return "owner/transit";
+        }
+        model.addAttribute("dinning", dinning);
+        List<Reservation> reserveList = status(reservationRepository.getReservationWithDateType((long) dinning.getRestNo()));
+        reserveList.forEach(Reservation::updateDateType);
+
+        Map< Integer, Integer > mapCount = new HashMap<>();
+        reserveList.forEach( item->{
+            mapCount.put(Math.toIntExact(item.getDateType()), mapCount.getOrDefault( Math.toIntExact(item.getDateType()), 0) + 1);
+        });
+
+        model.addAttribute("mapCount", mapCount);
+        model.addAttribute("reserveList", reserveList);
+
+        model.addAttribute("pageName", "예약 목록");
+        return "/owner/pastList";
     }
 
     @GetMapping("resExpired/{resNo}")
-    public String resExpired(@PathVariable("resNo") int resNo, Principal principal) {
+    public String resExpired(@PathVariable("resNo") int resNo, Principal principal, @RequestParam(value = "url", required = false)  String url) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.EXPIRED));
         reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
-        return "redirect:/owner/reservList";
+        return "redirect:"+url;
     }
 
     @GetMapping("resNoShow/{resNo}")
-    public String resNoShow(@PathVariable("resNo") int resNo, Principal principal) {
+    public String resNoShow(@PathVariable("resNo") int resNo, Principal principal, @RequestParam(value = "url", required = false) String url) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.NO_SHOW));
         reservation.setRes_rejection_reason(null);
         reservationRepository.save(reservation);
-        return "redirect:/owner/reservList";
+        return "redirect:"+url;
+
     }
 
     @GetMapping("resCompleted/{resNo}")
-    public String resCompleted(@PathVariable("resNo") int resNo, Principal principal, HttpServletRequest request ) {
+    public String resCompleted(@PathVariable("resNo") int resNo, Principal principal, HttpServletRequest request , @RequestParam(value = "url", required = false)  String url) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.RESERVE_COMPLETED));
@@ -455,11 +492,12 @@ public class OwnerController {
                         , ReservationStatus.RESERVE_COMPLETED.getName(), reservation.getRestNo().getRestImg()
                         , reservation.getRestNo().getRestName(), LocalDateTime.now() ));
 
-        return "redirect:/owner/reservList";
+        return "redirect:"+url;
     }
 
     @GetMapping("resCancel/{resNo}/{reason}")
-    public String resCancel(@PathVariable("resNo") int resNo, @PathVariable("reason") String reason, Principal principal, HttpServletRequest request ) {
+    public String resCancel(@PathVariable("resNo") int resNo, @PathVariable("reason") String reason, Principal principal,
+                            HttpServletRequest request , @RequestParam(value = "url", required = false)  String url) {
         User loginUser = userService.findByUserId(principal.getName()).get();
         Reservation reservation = reservationRepository.findById(resNo).get();
         reservation.setResStatus(String.valueOf(ReservationStatus.REST_CANCEL));
@@ -471,7 +509,7 @@ public class OwnerController {
                         , reason, reservation.getRestNo().getRestImg()
                         , reservation.getRestNo().getRestName(), LocalDateTime.now() ));
 
-        return "redirect:/owner/reservList";
+        return "redirect:"+url;
     }
 
     // --------------------- 개인 정보 관리 -----------------------

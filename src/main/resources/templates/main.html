@@ -4,6 +4,7 @@
     <title th:include="~{/include/header::titleFragment}">title</title>
     <link th:href="@{/css/slider.css}" rel="stylesheet">
     <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <style>
     #mainH {
@@ -42,7 +43,7 @@
         <div class="infoBoxA">
 <!--            <a href="/notice/noticeList">공지사항</a>-->
             <a href="/notice/noticeList">공지사항</a>
-            <a>추천식당</a>
+            <a href="/policy/service">이용약관</a>
             <a href="/event/home">이벤트</a>
 <!--            <div class="tenor-gif-embed" data-postid="3484507763170497045" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/smol-illegally-smol-cat-cute-cat-boop-gif-3484507763170497045"></a>from <a href="https://tenor.com/search/smol-gifs">Smol GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>-->
         </div>
@@ -74,9 +75,30 @@
                 </div>
                 <div onclick="handleSearchItemClick(event)" style="display: none;">
                     <ul>
-                        <li>리시트</li>
-                        <li>연습</li>
-                        <li>식당</li>
+                        <li>추천 검색어</li>
+                        <li><i class="fa-solid fa-feather"></i><span name="식당">식당</span></li>
+                        <li><i class="fa-solid fa-link"></i> <span name="리시트"> 리시트</span></li>
+<!--                        <li><i class="fa-regular fa-calendar"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-question"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-sort"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-forward"></i></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-brands fa-product-hunt"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-power-off"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-brands fa-readme"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-arrow-left"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-certificate"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-crosshairs"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-recycle"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-regular fa-clone"></i><span name="연습">연습</span></li>-->
+                        <li><i class="fa-solid fa-user-clock"></i><span name="연습">   연습</span></li>
+<!--                        <li><i class="fa-solid fa-terminal"></i><span name="연습">   연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-stopwatch"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-rotate"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-clock-rotate-left"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-caret-right"></i><span name="연습">연습</span></li>-->
+<!--                        <li><i class="fa-solid fa-share"></i><span name="연습">연습</span></li>-->
+                    </ul>
+                    <ul class="visit">
                     </ul>
                 </div>
             </div>
@@ -276,6 +298,7 @@
 
     document.querySelectorAll( "img[mysrc]" ).forEach( e=>io2.observe(e));
 
+    document.querySelector( ".searchBox ul.visit" ).addEventListener( "click", handleCloseSearchItems );
 
 </script>
 
