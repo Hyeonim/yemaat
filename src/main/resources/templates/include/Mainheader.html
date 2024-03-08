@@ -32,6 +32,35 @@
             xhr.send();
         }
     </script>
+    <style>
+        #mainH .searchBox div:nth-of-type(2) {
+            position: absolute;
+            border-radius: 20px;
+            background-color: rgb(255 255 255 / 100%);
+            width: calc(100% - 203px);
+            padding-left: 8px;
+            display: block;
+            margin-left: 153px;
+            top: -81px;
+        }
+        #mainH .searchBox div:nth-of-type(2).kBXqGy {
+            border-radius: 0 0 20px 20px;
+            /*background-color: rgb(255 255 255 / 50%);*/
+            box-shadow: -6px 0 6px -6px rgba(0, 0, 0, 1),
+            6px 0 6px -6px rgba(0, 0, 0, 1),
+            0 6px 6px -6px rgba(0, 0, 0, 1);
+        }
+        #mainH #searchBar {
+            border-radius: 20px;
+            box-shadow: rgba(0, 0, 0, 1) 0 0 6px 0;
+        }
+        #mainH #searchBar.kBXqGy {
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -6px 6px -6px rgba(0, 0, 0, 1),
+            -6px 0 6px -6px rgba(0, 0, 0, 1),
+            6px 0 6px -6px rgba(0, 0, 0, 1);
+        }
+    </style>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light" id="allHeader">
             <!--            <h2>예약 맛집!</h2>-->
@@ -135,6 +164,7 @@
 
         function handleFocusIn(bAdd) {
             document.querySelector(".searchBox").classList.toggle("kBXqGy", bAdd);
+            document.querySelector(".searchBox #searchBar").classList.toggle("kBXqGy", bAdd);
             document.querySelectorAll(".searchBox div").forEach(e => e.classList.toggle("kBXqGy", bAdd));
             document.querySelector(".searchBox div:nth-of-type(2)").style.display = bAdd ? "block" : "none";
         }
