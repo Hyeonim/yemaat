@@ -42,7 +42,10 @@ public class DinningService {
         return dinningRepository.findByRestNameContainingIgnoreCase(name, pageable);
     }
 
-
+    public Page<Dinning> findNextInput(String input, int page, String status) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return searchByDinningNameAndStatusPaged(page, input, status);
+    }
 
     // 가게 이름과 상태(CLOSED)를 사용하여 페이징된 결과를 검색하는 메서드
 
