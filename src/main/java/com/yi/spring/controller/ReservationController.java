@@ -113,7 +113,7 @@ public class ReservationController {
 
         LocalTime rest_start_time = LocalTime.parse(strRestStart, DateTimeFormatter.ofPattern("HH:mm"));
         LocalTime rest_end_time = LocalTime.parse(strRestEnd, DateTimeFormatter.ofPattern("HH:mm"));
-        if ( rest_start_time.isAfter( rest_end_time ))
+        if ( !rest_end_time.isAfter( rest_start_time ))
             rest_end_day = rest_end_day.plusDays(1);
         LocalDateTime rest_start = now.toLocalDate().atTime(rest_start_time);
         LocalDateTime rest_end = rest_end_day.atTime(rest_end_time);

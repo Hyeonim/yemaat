@@ -15,38 +15,16 @@
            display: inline-block;
        }
        button span.dropbutton.move1{
-            /*transform: rotate(30deg);*/
-           /*animation: btnDropMove 0.5s*/
-           /*transform: translateY( 28px );*/
            animation: btnDropMove1 0.3s;
        }
        button span.dropbutton.move2{
-           /*top: -28px;*/
-           /*transform: translateY( 0px );*/
            animation: btnDropMove2 0.3s;
        }
        button span.dropbutton.move3{
-           /*transform: translateY( -28px );*/
            animation: btnDropMove3 0.3s;
        }
        button span.dropbutton.move4 {
            animation: btnDropMove4 0.3s;
-       }
-       @keyframes btnDropMove {
-           0%{
-               transform: translateY( 0px );
-               content: "예약가능";
-           }
-           49%{
-               transform: translateY( 28px );
-           }
-           50%{
-               transform: translateY( -28px );
-               content: "취소";
-           }
-           100%{
-               transform: translateY( -0px );
-           }
        }
        @keyframes btnDropMove1 {
            0%{
@@ -131,7 +109,7 @@
                     <button th:onclick="openReservePage([[${nextLocate}]])" th:utext="|<span class='dropbutton'>예약가능</span>|" style="width: 104px;height: 41px;"  th:class="Tg7LZd" >
                 </th:block>
                 <th:block th:unless="${condition}">
-                    <button th:onclick="openReservePage([[${nextLocate}]])" th:text="예약불가" class="Tg7LZd no" >
+                    <button th:onclick="openReservePage([[${nextLocate}]])" th:utext="|<span class='dropbutton'>예약불가</span>|" class="Tg7LZd no" >
                 </th:block>
                     </button>
             </th:block>
@@ -229,29 +207,23 @@
 
         // document.querySelector( 'button span.dropbutton' ).addEventListener( 'transitionend', function(event){
         document.querySelector( 'button span.dropbutton' ).addEventListener( 'animationend', function(event){
-            //     // transform transition 이 완료되면 콜백 함수 호출
-            //     if (event.propertyName === "transform") {
             if ( this.classList.contains("move3"))
             {
-                this.innerText = "예약가능";
+                this.innerText = this.originBtnText;
                 this.classList.add( 'move4' );
             }
             if ( this.classList.contains("move1"))
             {
                 this.innerText = "취소";
-                // this.classList.remove( 'move1');
                 this.classList.add( 'move2' );
             }
-            // this.innerText = "예약가능";
-
         });
         function openReservePage( nextLocate ) {
             const reserveDiv = document.querySelector( '.reservePage' );
-
-            const bExpand = reserveDiv.style.height === '0px';
             const btnSpan = document.querySelector( 'button span.dropbutton' );
             if ( true === btnSpan.classList.toggle( 'move' ) )
             {
+                btnSpan.originBtnText = btnSpan.textContent;
                 btnSpan.classList.remove( 'move3', 'move4' )
                 btnSpan.classList.add( 'move1' )
             }
@@ -260,8 +232,6 @@
                 btnSpan.classList.remove( 'move1', 'move2' )
                 btnSpan.classList.add( 'move3' )
             }
-
-
 
             const innerDiv = reserveDiv.querySelector( 'div' );
             fillReservePage( innerDiv, nextLocate, ()=>{
@@ -294,8 +264,6 @@
                         const newDiv = Object.assign( document.createElement('div'), {
                             innerHTML: `<h2>로그인이 필요한 서비스입니다.</h2>`}
                         );
-                        // [ newDiv, ...doc.querySelectorAll( 'body>div' )].slice(1).forEach(
-                        // [ newDiv ].concat( [ ...doc.querySelectorAll( 'body>div' )].slice(1) ).forEach(
                         [ newDiv , ...[ ...doc.querySelectorAll( 'body>div' )].slice(1) ].forEach(
                             elem => newLoginDiv.appendChild( elem )
                         );
