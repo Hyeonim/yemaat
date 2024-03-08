@@ -75,7 +75,7 @@
                     <td th:text="${QAs.qaTitle}"></td>
                     <td th:if="${#strings.length(QAs.qaContent) > 10}" th:text="${#strings.substring(QAs.qaContent, 0, 10)}"></td>
                     <td th:unless="${#strings.length(QAs.qaContent) > 10}" th:text="${QAs.qaContent}"></td>
-                    <td th:text="${QAs.qaWriteTime}"></td>
+                    <td th:text="${#strings.replace(QAs.qaWriteTime, 'T', ' ')}"></td>
                     <td style="display: flex; justify-content: center">
                         <div th:if="${QAs.qaStatus}" style="border-radius: 20px; width: 70%; font-weight: bold">
                             <div> <i class="fa-solid fa-check"></i> 처리완료</div>

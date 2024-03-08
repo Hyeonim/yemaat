@@ -22,9 +22,9 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<Review> findByUserNoOrderByRevWriteTimeDesc(User userNo);
     Page<Review> findAll(Pageable pageable);
 
-    Page<Review> findByUserNoAndRevContentContaining(User user,String revContent, Pageable pageable);
+    Page<Review> findByUserNoAndRevContentContainingOrderByRevWriteTimeDesc(User user,String revContent, Pageable pageable);
 //    Page<Review> findByUserNoAndRevContentAndRestNoRestNameContaining(User user, String search, Pageable pageable);
-    Page<Review> findByUserNoAndRestNoRestNameContaining(User user,String restName, Pageable pageable);
+    Page<Review> findByUserNoAndRestNoRestNameContainingOrderByRevWriteTimeDesc(User user,String restName, Pageable pageable);
 
 
     @Query("select r from Review r where r.revStatus != 'NORMAL'")
@@ -35,6 +35,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
 
     List<Review> findByRestNo(Dinning dinning);
+//    List<Review> findByRestNo(int dinning);
 
     long countByUserNo(User user);
 

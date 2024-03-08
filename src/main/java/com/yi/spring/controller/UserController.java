@@ -2,6 +2,7 @@ package com.yi.spring.controller;
 
 import com.yi.spring.OAuth2.OAuth2MemberService;
 import com.yi.spring.entity.*;
+import com.yi.spring.entity.meta.DinningReviewView;
 import com.yi.spring.repository.*;
 import com.yi.spring.service.QAService;
 import com.yi.spring.service.ReservationService;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -291,9 +293,10 @@ public class UserController {
             model.addAttribute("combinedList", combinedList);
             // 페이징 용
             model.addAttribute("reviewsPage", reviewsPage);
+            model.addAttribute("encodedSearchInput", searchInput);
+            model.addAttribute("selectedOption", selectedOption);
 
-
-
+            System.out.println("searchInput => " + searchInput);
         }
 
         return "userPage/user_review";
@@ -494,9 +497,25 @@ public class UserController {
         List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
         reservationService.checkReservationStatus(reservations, model);
 
+
+        List<Dinning> userLikeList = userLikeRestRepository.findAllDiningRestsLikedByUsers(user);
+
+        for (Dinning userLikeLists : userLikeList) {
+            Optional<Dinning> dinningOptional = dinningRepository.findById((long) userLikeLists.getRestNo());
+            List<Review> list = reviewRepository.findByRestNo(dinningOptional.get());
+            System.out.println("listsize => " + list.size());
+
+            double sum = list.stream().mapToDouble(Review::getRevScore).sum();
+            double result = sum / list.size();
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.#");
+            userLikeLists.setRestScore(Double.parseDouble(decimalFormat.format(result)));
+            userLikeLists.setTotalReviews(list.size());
+        }
+
         model.addAttribute("main_user", user);
         model.addAttribute("restaurants", restaurantsForLatestReservation);
-        model.addAttribute("userLike", userLikeRestRepository.findAllDiningRestsLikedByUsers(user));
+        model.addAttribute("userLike", userLikeList);
 //        System.out.println(userLikeRestRepository.findAllDiningRestsLikedByUsers(user));
 
         return "userPage/user_like";

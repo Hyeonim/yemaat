@@ -34,13 +34,13 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Page<Review> findByRevContentContainingPaged(User user, String revContent, int page) {
         Pageable pageable = PageRequest.of(page, 10);
-        return reviewRepository.findByUserNoAndRevContentContaining(user, revContent, pageable);
+        return reviewRepository.findByUserNoAndRevContentContainingOrderByRevWriteTimeDesc(user, revContent, pageable);
     }
 
     @Override
     public Page<Review> findByRestNameContainingPaged(User user, String restName, int page) {
         Pageable pageable = PageRequest.of(page, 10);
-        return reviewRepository.findByUserNoAndRestNoRestNameContaining(user, restName, pageable);
+        return reviewRepository.findByUserNoAndRestNoRestNameContainingOrderByRevWriteTimeDesc(user, restName, pageable);
     }
 
 

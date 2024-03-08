@@ -42,14 +42,15 @@
 
         .container1 {
             display: flex;
-            padding: 15px;
+            flex-direction: row;
+            padding: 21px;
             padding-bottom: 15px;
             /*padding-bottom: 435px;*/
             background: #fff;
             border: 1.6px solid #dddddd;
             border-radius: 14px;
             box-sizing: border-box;
-            margin-bottom: 65px;
+            margin-bottom: 45px;
             /*margin-top: 60px;*/
             transition: padding-bottom 0.5s ease-in-out;
             width: auto;
@@ -75,9 +76,10 @@
         }
 
         .right {
-            width: 447px;
-            margin-left: 19px;
+            width: 490px;
+            margin-left: 31px;
             text-align: center;
+            justify-content: center
         }
 
         hr {
@@ -92,6 +94,10 @@
             border-width: 1px;
         }
 
+        #GoToRest:hover{
+            color: black;
+        }
+
     </style>
 
     <div style="display: flex; justify-content: center; margin-top: -132px">
@@ -104,21 +110,27 @@
                     <div class="left">
                         <img th:attr="mysrc=${userLikes.getBase64Image()}"
                              style="width: 140px; height: 120px; border-radius: 10px;">
-
                     </div>
 
                     <div class="right" style="display: flex; flex-direction: column; align-items: flex-start">
                         <p class="gray-text p-right">
-                        <div>
-                            <a th:href="'/detail?restNo=' + ${userLikes.getRestNo()}">
+                        <div style="text-align: left; display: flex; flex-direction: column;">
+                            <a th:href="'/detail?restNo=' + ${userLikes.getRestNo()}" style="margin-bottom: 7px">
                                 <b style="font-size: 20px;" th:text="'  '+${userLikes.getRestName()}"
                                    class="RestNoHover"></b>
-                            </a><br>
-                            <i class="fa-solid fa-utensils" style="color: #74C0FC;"></i><b
-                                th:text="${'  '+userLikes.getRestCategory()}"></b><br>
+                            </a>
+                            <div><i class="fa-solid fa-utensils" style="color: #74C0FC;"></i><b th:text="${'  '+userLikes.getRestCategory()}"></b></div>
+                        <div>
+                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                            <b th:text="${userLikes.getRestScore() != null && !userLikes.getRestScore().isNaN() ? userLikes.getRestScore() : 0.0}"></b>
+                            <b th:text="(${userLikes.getTotalReviews()} >= 100 ? '100+' : '(' + ${userLikes.getTotalReviews()} + ')')"></b>
                         </div>
-                        <br>
-                        <b th:text="${userLikes.getRestAddr()}"></b><br>
+                        </div>
+                        <b th:text="${userLikes.getRestAddr()}" style="margin-top: 23px"></b><br>
+                    </div>
+
+                    <div style="border-left: 1px solid rgba(128,128,128,0.66);">
+                        <a id="GoToRest" th:href="'/detail?restNo=' + ${userLikes.getRestNo()}" style="margin-bottom: 7px; margin-left: 24px"><strong><i class="fa-regular fa-share-from-square"></i>  가게 바로 가기</strong></a>
                     </div>
 
                 </div>

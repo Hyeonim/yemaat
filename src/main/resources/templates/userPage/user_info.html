@@ -205,7 +205,17 @@
                     <td class="userinfo_td_gap">
                         <strong> <i class="fa-solid fa-mobile-screen-button"></i> 전화번호</strong>
                     </td>
-                    <td th:text="${main_user.getUserTel()}" class="userinfo_td_gap"></td>
+                    <td th:text="${main_user.getUserTel().length() == 11 ?
+                #strings.substring(main_user.getUserTel(), 0, 3) + '-' +
+                #strings.substring(main_user.getUserTel(), 3, 7) + '-' +
+                #strings.substring(main_user.getUserTel(), 7) :
+                (main_user.getUserTel().length() == 10 ?
+                  #strings.substring(main_user.getUserTel(), 0, 3) + '-' +
+                  #strings.substring(main_user.getUserTel(), 3, 6) + '-' +
+                  #strings.substring(main_user.getUserTel(), 6) :
+                  main_user.getUserTel())}" class="userinfo_td_gap"></td>
+
+
                 </tr>
                 <tr>
                     <td class="userinfo_td_gap col"> 예맛을 이용하고 싶지 않으신가요?</td>
@@ -225,7 +235,6 @@
                         <label class="pwBtn2" id="deleteUserBtnCancel" onclick="deleteUserUpdateCancel()"> <i class="fa-solid fa-circle-xmark"></i>   취소</label>
                     </td>
                 </tr>
-
                 </tbody>
             </table>
         </div>
