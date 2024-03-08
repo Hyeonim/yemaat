@@ -11,10 +11,10 @@
                         <th:block th:unless="${event.getEventImg() != null}">
                             <img class="slideshowImg" th:src="/img/no_image.png">
                         </th:block>
-<!--                        <div class="sliderDesc">-->
-<!--                            <h3>[ [[${event.getRestNo().getRestName()}]] ] [[${event.getEventTitle()}]]</h3>-->
-<!--                            <p>[[${event.getEventStartTime()}]]~[[${event.getEventEndTime()}]]</p>-->
-<!--                        </div>-->
+                        <div class="sliderDesc">
+                            <h3>[ [[${event.getRestNo().getRestName()}]] ] [[${event.getEventTitle()}]]</h3>
+                            <p>[[${event.getEventStartTime()}]]~[[${event.getEventEndTime()}]]</p>
+                        </div>
                     </div>
                 </a>
             </th:block>
