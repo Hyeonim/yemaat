@@ -780,17 +780,34 @@ public class ManagerController {
     @GetMapping("/managerPage_JList")
     public String managerInfoA(Model model,
                                @RequestParam(value = "page", defaultValue = "0") int page,
-                               @RequestParam(value = "searchInput", required = false) String searchInput) {
+                               @RequestParam(value = "searchInput", required = false) String searchInput,
+                               @RequestParam(value = "nextInput", required = false) String nextInput) {
         Page<User> paging;
-        if (searchInput != null && !searchInput.isEmpty()) {
-            // 검색어가 존재하는 경우
-            paging = userService.findByUserAuthAndUserNameContainingPaged("OWNER", searchInput, page);
-        } else {
-            // 검색어가 없는 경우 전체 목록 조회
-            paging = userService.findByJumNoPaged(page);
+
+        System.out.println("llllllllllllllllllll"+ nextInput);
+
+        if(nextInput != null && !nextInput.isEmpty()){
+            paging = userService.findByUserAuthAndUserNameContainingPaged("OWNER", nextInput, page);
+            model.addAttribute("input", nextInput);
+            model.addAttribute("users", paging);
+
+        }else {
+
+            if (searchInput != null && !searchInput.isEmpty()) {
+                // 검색어가 존재하는 경우
+                paging = userService.findByUserAuthAndUserNameContainingPaged("OWNER", searchInput, page);
+                model.addAttribute("users", paging);
+
+            } else {
+                // 검색어가 없는 경우 전체 목록 조회
+                paging = userService.findByJumNoPaged(page);
+                model.addAttribute("users", paging);
+
+            }
+
         }
 
-        model.addAttribute("users", paging);
+
         model.addAttribute("page", "managerPage/managerPage_JList");
         model.addAttribute("header", "점주 목록");
 
@@ -924,27 +941,6 @@ public class ManagerController {
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     //앙
-//    @GetMapping("/managerPage_JrestList")
-//    public String restInfo(Model model,
-//                           @RequestParam(value = "page", defaultValue = "0") int page,
-//                           @RequestParam(value = "searchInput", required = false) String searchInput)
-//    {
-//        Page<Dinning> dinningList;
-//
-//        if (searchInput != null && !searchInput.isEmpty()) {
-//            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "NORMAL");
-//        } else {
-//            dinningList = dinningService.findByStatusPaged(page, "NORMAL");
-//        }
-//
-//        model.addAttribute("dinningList", dinningList);
-//        model.addAttribute("page", "managerPage/managerPage_JrestList");
-//        model.addAttribute("header", "가게 목록");
-//
-//        return "managerPage";
-//    }
-
-    //앙
     @GetMapping("/managerPage_JrestList")
     public String restInfo(Model model,
                            @RequestParam(value = "page", defaultValue = "0") int page,
@@ -956,20 +952,20 @@ public class ManagerController {
 
 
 
-            if (nextInput != null && !nextInput.isEmpty()) {
-                dinningList = dinningService.findNextInput(nextInput, page, "NORMAL");
+        if (nextInput != null && !nextInput.isEmpty()) {
+            dinningList = dinningService.findNextInput(nextInput, page, "NORMAL");
+            model.addAttribute("dinningList", dinningList);
+            model.addAttribute("input", nextInput);
+        } else {
+            if (searchInput != null && !searchInput.isEmpty()) {
+                dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "NORMAL");
                 model.addAttribute("dinningList", dinningList);
-                model.addAttribute("input", nextInput);
+
             } else {
-                if (searchInput != null && !searchInput.isEmpty()) {
-                    dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "NORMAL");
-                    model.addAttribute("dinningList", dinningList);
+                dinningList = dinningService.findByStatusPaged(page, "NORMAL");
+                model.addAttribute("dinningList", dinningList);
 
-                } else {
-                    dinningList = dinningService.findByStatusPaged(page, "NORMAL");
-                    model.addAttribute("dinningList", dinningList);
-
-                }
+            }
 
 
         }

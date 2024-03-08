@@ -29,14 +29,8 @@ public class NoticeController {
     public String noticeList(Model model,
                              @RequestParam(value = "page", defaultValue = "0") int page) {
 
-
         Page<Notice> noticeList = noticeService.findByNoticeDESC(page);
-
-
-
-
-        model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경
-
+        model.addAttribute("list", noticeList);
 
         return "notice";
     }
@@ -48,7 +42,8 @@ public class NoticeController {
 
         Optional<Notice> notice = noticeRepository.findById(id);
 
-        Page<Notice> noticeList = noticeService.findByAllDESC(page);
+//        Page<Notice> noticeList = noticeService.findByAllDESC(page);
+        Page<Notice> noticeList = noticeService.findByNoticeDESC(page);
 
 
         model.addAttribute("list", noticeList); // 수정된 부분: 검색 결과를 담도록 변경

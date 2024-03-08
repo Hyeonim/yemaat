@@ -23,21 +23,19 @@
 }
 
 #impob{
-    background-color: white;
+    background-color: #c50d0d1a;
     border: solid 1px grey;
     width: 60px;
     height: 40px;
     border-radius: 20px;
-
 }
 
 #impob2{
-    background-color: white;
+    background-color: #f4f4f4;
     border: solid 1px grey;
-    width: 50px;
-    height: 28px;
+    width: 60px;
+    height: 40px;
     border-radius: 20px;
-
 }
 
 #noticeTable tr:hover {
@@ -68,6 +66,77 @@
     pointer-events: none;
     cursor: default;
 }
+
+/*dd*/
+
+/*#noticeTable {*/
+/*    margin-bottom: 20px;*/
+/*    text-align: center;*/
+/*    margin-top: 20px;*/
+/*    width: 1000px;*/
+/*    border: none;*/
+/*}*/
+
+/*#noticeTable th, td {*/
+/*    border: none;*/
+/*    padding: 12px;*/
+/*}*/
+
+/*#noticeTable th {*/
+/*    background-color: #e9ecef;*/
+/*    color: #495057;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*#impob {*/
+/*    background-color: white;*/
+/*    border: solid 1px grey;*/
+/*    width: 60px;*/
+/*    height: 40px;*/
+/*    border-radius: 20px;*/
+/*}*/
+
+/*#impob2 {*/
+/*    background-color: white;*/
+/*    border: solid 1px grey;*/
+/*    width: 50px;*/
+/*    height: 28px;*/
+/*    border-radius: 20px;*/
+/*}*/
+
+/*#noticeTable tr:hover {*/
+/*    background-color: white;*/
+/*}*/
+
+/*#noticeTable tbody tr:hover {*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*!* 중요 공지사항 스타일 *!*/
+/*#noticeTable tr.important td {*/
+/*    background-color: #ffcccc; !* 배경색을 빨간색으로 지정 *!*/
+/*}*/
+
+/*.pagination {*/
+/*    justify-content: center;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.pagination li {*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.pagination li.active a {*/
+/*    color: #fff;*/
+/*    background-color: #007bff;*/
+/*    border-color: #007bff;*/
+/*}*/
+
+/*.pagination li.disabled a {*/
+/*    color: #6c757d;*/
+/*    pointer-events: none;*/
+/*    cursor: default;*/
+/*}*/
 
 #content{
     width: 1200px;

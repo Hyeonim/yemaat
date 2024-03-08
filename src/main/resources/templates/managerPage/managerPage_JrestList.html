@@ -85,6 +85,8 @@
             window.location.href = '/manager/managerPage_JrestDetail?restNo=' + restNo;
         }
 
+
+
         function searchDinning() {
             let searchInput = document.getElementById("searchInput").value;
             fetch("/manager/managerPage_JrestList?searchInput=" + searchInput)
@@ -103,7 +105,6 @@
             var searchValue = document.getElementById('searchInput').value;
             let curPage = parseInt( document.querySelector( 'li.page-item.active' ).textContent );
 
-            // window.location.href = "?page=" + [[${dinningList.number+1}]]+ "&nextInput=" + encodeURIComponent(searchValue);
             window.location.href = "?page=" + (curPage)+ "&nextInput=" + encodeURIComponent(searchValue);
         }
 

@@ -100,4 +100,12 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(page, 10);
         return userRepository.findByUserAuthAndUserNameContainingAndUserBlock(userAuth, userName,false, pageable);
     }
+
+//    @Override
+//    public Page<Dinning> findNextInput(String input, int page, String status) {
+//        Pageable pageable = PageRequest.of(page, 10);
+//        return searchByDinningNameAndStatusPaged(page, input, status);
+//    }
+
+
 }

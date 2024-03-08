@@ -185,13 +185,13 @@
 
         #content {
             max-width: 1000px;
-            height: 2300px;
+            height: 2489px;
             padding: 20px;
         }
 
 
     </style>
-    <div style="height: 2350px">
+    <div style="height: 2500px">
         <!--    <div style="background:url('/img/nb.jpg');">-->
         <div style="background-position: center; height: 2050px">
 
@@ -208,7 +208,6 @@
 
 
                 <div class="detailContent">
-
                     <th:block th:if="${notice.isPresent() and notice.get().img != null}">
                         <img th:src="'data:image/jpeg;base64,' + ${notice.get().getBase64Image()}">
                     </th:block>
@@ -218,11 +217,22 @@
                 </div>
 
                 <div class="input">
-
                     <p th:utext="${notice.get().content}"></p>
-
-
                 </div>
+
+<!--                <div class="detailContent" style="height: 500px; ">-->
+<!--                    <th:block th:if="${notice.isPresent() and notice.get().img != null}">-->
+<!--                        <img th:src="'data:image/jpeg;base64,' + ${notice.get().getBase64Image()}" style="max-width: 100%; ">-->
+<!--                    </th:block>-->
+<!--                    <th:block th:unless="${notice.isPresent() and notice.get().img != null}">-->
+<!--                        <img src="/img/no_image.png" style="max-width: 100%; height: auto;">-->
+<!--                    </th:block>-->
+<!--                </div>-->
+
+<!--                <div class="input">-->
+<!--                    <p th:utext="${notice.get().content}"></p>-->
+<!--                </div>-->
+
 
 
                 <div class="moreList">
@@ -241,7 +251,8 @@
                         <tr th:each="list, listIndex : ${list}"
                             th:onclick="'javascript:redirectToNoticeDetail(\'' + ${list.id} + '\')'">
                             <td>
-                                <button id="impob2" th:text="${list.importantNotice ? '중요' : '일반'}"></button>
+                                <button th:if="${list.importantNotice}" id="impob" style="font-size: 14px" th:text="'공 지'" onclick="redirectToDetail('${list.id}')"></button>
+                                <button th:unless="${list.importantNotice}" id="impob2" style="font-size: 12px" th:text="'일 반'" onclick="redirectToDetail('${list.id}')"></button>
                             </td>
                             <!--                        <td th:text="${list.id}"></td>-->
                             <td th:text="${list.subject}"></td>

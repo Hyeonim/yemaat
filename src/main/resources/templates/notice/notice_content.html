@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title>공지사항 목록</title>
+    <title>홈 공지사항 목록</title>
 </head>
 
 <div th:fragment="NoticeContent">
@@ -23,7 +23,8 @@
                     th:class="${list.importantNotice} ? 'important' : ''">
 
                     <td>
-                        <button id="impob" th:text="${list.importantNotice ? '중요' : '일반'}"></button>
+                        <button th:if="${list.importantNotice}" id="impob" style="font-size: 14px" th:text="'공 지'" onclick="redirectToDetail('${list.id}')"></button>
+                        <button th:unless="${list.importantNotice}" id="impob2" style="font-size: 12px" th:text="'일 반'" onclick="redirectToDetail('${list.id}')"></button>
                     </td>
 
                     <td th:text="${list.subject}"></td>
