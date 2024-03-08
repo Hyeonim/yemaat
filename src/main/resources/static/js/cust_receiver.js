@@ -22,7 +22,7 @@
     }
 
     function onDebug(m) {
-        console.log("STOMP DEBUG", m);
+        // console.log("STOMP DEBUG", m);
         if ( m.match( /destination:\/exchange\/chat.exchange\/room.{20,}/) )
             document.dispatchEvent( new Event("connected_stomp_server") );
     }
