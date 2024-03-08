@@ -29,15 +29,15 @@
                     <form onsubmit="return confirmClose()" action="RevManager" method="post">
                         <input type="hidden" name="id" th:value="${list.id}">
                         <div class="custom-select">
-                        <select name="status">
-                            <option value="NORMAL">일반</option>
-                            <option value="INSULT">욕설 및 비방</option>
-                            <option value="FALSE_EXAGGERATION">허위 및 과장</option>
-                            <option value="WRONG_IMAGE">잘못된 사진</option>
-                            <option value="ADVERTISEMENT">광고</option>
-                            <option value="OTHER">기타</option>
-                        </select>
-                        <button type="submit">변경</button>
+                            <select name="status" style="width: 90px">
+                                <option value="NORMAL" th:selected="${list.revStatus == 'NORMAL'}">일반</option>
+                                <option value="INSULT" th:selected="${list.revStatus == 'INSULT'}">욕설 및 비방</option>
+                                <option value="FALSE_EXAGGERATION" th:selected="${list.revStatus == 'FALSE_EXAGGERATION'}">허위 및 과장</option>
+                                <option value="WRONG_IMAGE" th:selected="${list.revStatus == 'WRONG_IMAGE'}">잘못된 사진</option>
+                                <option value="ADVERTISEMENT" th:selected="${list.revStatus == 'ADVERTISEMENT'}">광고</option>
+                                <option value="OTHER" th:selected="${list.revStatus == 'OTHER'}">기타</option>
+                            </select>
+                            <button type="submit">변경</button>
                         </div>
                     </form>
                 </td>

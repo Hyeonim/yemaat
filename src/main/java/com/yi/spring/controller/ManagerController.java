@@ -910,19 +910,59 @@ public class ManagerController {
 //    ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
     //앙
+//    @GetMapping("/managerPage_JrestList")
+//    public String restInfo(Model model,
+//                           @RequestParam(value = "page", defaultValue = "0") int page,
+//                           @RequestParam(value = "searchInput", required = false) String searchInput)
+//    {
+//        Page<Dinning> dinningList;
+//
+//        if (searchInput != null && !searchInput.isEmpty()) {
+//            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "NORMAL");
+//        } else {
+//            dinningList = dinningService.findByStatusPaged(page, "NORMAL");
+//        }
+//
+//        model.addAttribute("dinningList", dinningList);
+//        model.addAttribute("page", "managerPage/managerPage_JrestList");
+//        model.addAttribute("header", "가게 목록");
+//
+//        return "managerPage";
+//    }
+
+    //앙
     @GetMapping("/managerPage_JrestList")
     public String restInfo(Model model,
                            @RequestParam(value = "page", defaultValue = "0") int page,
-                           @RequestParam(value = "searchInput", required = false) String searchInput) {
+                           @RequestParam(value = "searchInput", required = false) String searchInput,
+                           @RequestParam(value = "nextInput", required = false) String nextInput)
+    {
         Page<Dinning> dinningList;
 
-        if (searchInput != null && !searchInput.isEmpty()) {
-            dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "NORMAL");
-        } else {
-            dinningList = dinningService.findByStatusPaged(page, "NORMAL");
+
+
+
+            if (nextInput != null && !nextInput.isEmpty()) {
+                dinningList = dinningService.findNextInput(nextInput, page, "NORMAL");
+                model.addAttribute("dinningList", dinningList);
+                model.addAttribute("input", nextInput);
+            } else {
+                if (searchInput != null && !searchInput.isEmpty()) {
+                    dinningList = dinningService.searchByDinningNameAndStatusPaged(page, searchInput, "NORMAL");
+                    model.addAttribute("dinningList", dinningList);
+
+                } else {
+                    dinningList = dinningService.findByStatusPaged(page, "NORMAL");
+                    model.addAttribute("dinningList", dinningList);
+
+                }
+
+
         }
 
-        model.addAttribute("dinningList", dinningList);
+
+
+//        model.addAttribute("dinningList", dinningList);
         model.addAttribute("page", "managerPage/managerPage_JrestList");
         model.addAttribute("header", "가게 목록");
 
