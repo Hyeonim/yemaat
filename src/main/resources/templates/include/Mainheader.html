@@ -60,6 +60,20 @@
             -6px 0 6px -6px rgba(0, 0, 0, 1),
             6px 0 6px -6px rgba(0, 0, 0, 1);
         }
+        #mainH .searchBox li {
+            position: relative;
+        }
+        #mainH .searchBox span {
+            left: 26px;
+            position: absolute;
+        }
+        #mainH .searchBox .close {
+            border: 0;
+            background-color: transparent;
+            left: 120px;
+            position: relative;
+        }
+
     </style>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light" id="allHeader">
@@ -167,17 +181,49 @@
             document.querySelector(".searchBox #searchBar").classList.toggle("kBXqGy", bAdd);
             document.querySelectorAll(".searchBox div").forEach(e => e.classList.toggle("kBXqGy", bAdd));
             document.querySelector(".searchBox div:nth-of-type(2)").style.display = bAdd ? "block" : "none";
+            updateSearchItems();
+        }
+
+        function updateSearchItems() {
+            // let liTemplate = `<li><span name="$name$">$name$</span><span class="close">X</span></li>`;
+            let liTemplate = `<li><i class="fa-solid fa-clock-rotate-left"></i>
+                                  <span key="$key$" name="$name$">$name$</span><button class="close">x</button>
+                              </li>`;
+
+            let arrVisit = [];
+            for (let localKey in localStorage) {
+                if (localKey.startsWith("visit") )
+                    arrVisit.push( { ...JSON.parse( localStorage.getItem( localKey ) ), key:localKey } );
+            }
+            arrVisit.sort( (a,b)=> b.time - a.time );
+
+            let strHtml = "";
+            arrVisit.slice( 0, 3 ).forEach( elem =>
+                strHtml += liTemplate.replaceAll( '$name$', elem.name ).replaceAll( '$key$', elem.key )
+            );
+
+            if ( !!strHtml )
+                strHtml = "<p>최근 방문한 가게</p>" + strHtml;
+
+            document.querySelector( ".searchBox ul.visit" ).innerHTML = strHtml;
+        }
+        function handleCloseSearchItems( event ) {
+            if ("BUTTON" !== event.target.tagName || !event.target.classList.contains( "close" ) )
+                return;
+
+            const localKey = event.target.parentNode.querySelector( "span" ).getAttribute( "key" )
+            localStorage.removeItem( localKey );
+            updateSearchItems();
         }
 
         function handleSearchItemClick(event) {
-            if ("LI" !== event.target.tagName)
+            if ("SPAN" !== event.target.tagName || !event.target.getAttribute('name') )
                 return;
             document.querySelector("#searchBar").value = event.target.textContent;
             document.querySelector("form").submit();
         }
 
         document.addEventListener("click", (event) => {
-
             const bSearchFocus = !!event.target.closest(".searchBox");
             handleFocusIn(bSearchFocus);
         });

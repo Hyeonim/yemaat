@@ -284,5 +284,11 @@
         }
 
     </script>
+    <script th:inline="javascript">
+        localStorage.setItem('visit' +[[${dinning.restNo}]], JSON.stringify( {
+            name: [[${dinning.restName}]],
+            time: new Date().getTime()
+        }));
+    </script>
 </div>
 </html>
