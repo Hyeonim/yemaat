@@ -216,17 +216,31 @@ public class ManagerController {
     @GetMapping("/managerPage_UList")
     public String managerListU(Model model,
                                @RequestParam(value = "page", defaultValue = "0") int page,
-                               @RequestParam(value = "searchInput", required = false) String searchInput) {
+                               @RequestParam(value = "searchInput", required = false) String searchInput,
+                               @RequestParam(value = "nextInput", required = false) String nextInput) {
         Page<User> paging;
-        if (searchInput != null && !searchInput.isEmpty()) {
-            // 검색어가 존재하는 경우
-            paging = userService.findByUserAuthAndUserNameContainingPaged("USER", searchInput, page);
-        } else {
-            // 검색어가 없는 경우 전체 목록 조회
-            paging = userService.findByUserNoBlack(page);
+
+
+        if(nextInput != null && !nextInput.isEmpty()){
+            paging = userService.findInput("USER", nextInput, page);
+            model.addAttribute("users", paging);
+            model.addAttribute("input", nextInput);
+        }
+        else {
+            if (searchInput != null && !searchInput.isEmpty()) {
+                // 검색어가 존재하는 경우
+                paging = userService.findByUserAuthAndUserNameContainingPaged("USER", searchInput, page);
+                model.addAttribute("users", paging);
+            } else {
+                // 검색어가 없는 경우 전체 목록 조회
+                paging = userService.findByUserNoBlack(page);
+                model.addAttribute("users", paging);
+
+            }
+
         }
 
-        model.addAttribute("users", paging);
+//        model.addAttribute("users", paging);
         model.addAttribute("page", "managerPage/managerPage_UList");
         model.addAttribute("header", "고객 목록");
 
