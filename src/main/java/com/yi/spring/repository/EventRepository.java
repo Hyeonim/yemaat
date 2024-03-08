@@ -13,13 +13,13 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByRestNo(Dinning restNo);
 
-    @Query(value="select * from event where CURDATE() between event_start_time and event_end_time;", nativeQuery = true)
+    @Query(value="select e.* from event e join dining_rest dr on e.rest_no = dr.rest_no where CURDATE() between event_start_time and event_end_time and dr.rest_status = 'NORMAL';", nativeQuery = true)
     List<Event> getNewEvents();
 
-    @Query(value="select * from event where CURDATE() > event_end_time;", nativeQuery = true)
+    @Query(value="select e.* from event e join dining_rest dr on e.rest_no = dr.rest_no where CURDATE() > event_end_time and dr.rest_status = 'NORMAL';", nativeQuery = true)
     List<Event> getPastEvents();
 
-    @Query(value="select * from event where CURDATE() < event_start_time;", nativeQuery = true)
+    @Query(value="select e.* from event e join dining_rest dr on e.rest_no = dr.rest_no where CURDATE() < event_start_time and dr.rest_status = 'NORMAL';", nativeQuery = true)
     List<Event> getFutureEvents();
 
     @Query("SELECT e from Event e order by e.writeDate desc limit 5")
