@@ -877,7 +877,7 @@
 
         document.getElementById("revAdd").addEventListener("click", function (event) {
             event.preventDefault();
-            var confirmation = confirm("리뷰를 작성하시겠습니까?22");
+            var confirmation = confirm("리뷰를 작성하시겠습니까?");
             if (confirmation) {
                 document.getElementById("addRevForm").submit();
             } else {
@@ -892,7 +892,7 @@
 
             reviewBtns.forEach(function (btn) {
                 btn.addEventListener('click', function () {
-                    var confirmation = window.confirm('리뷰를 작성하시겠습니까?11');
+                    var confirmation = window.confirm('리뷰를 작성하시겠습니까?');
 
                     if (confirmation) {
                         let container1 = this.closest('.container1');
