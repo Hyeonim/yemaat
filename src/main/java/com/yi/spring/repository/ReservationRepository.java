@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.TreeMap;
 
 @Repository
@@ -115,8 +116,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
 
     List<Reservation> findByUserNo_UserNoAndRestNo_RestNo(Integer userNo, int restNo);
-
-
 
 
 }

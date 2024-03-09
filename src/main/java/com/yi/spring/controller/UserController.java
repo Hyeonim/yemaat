@@ -4,10 +4,7 @@ import com.yi.spring.OAuth2.OAuth2MemberService;
 import com.yi.spring.entity.*;
 import com.yi.spring.entity.meta.DinningReviewView;
 import com.yi.spring.repository.*;
-import com.yi.spring.service.QAService;
-import com.yi.spring.service.ReservationService;
-import com.yi.spring.service.ReviewService;
-import com.yi.spring.service.UserService;
+import com.yi.spring.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +58,8 @@ public class UserController {
     DeleteUserRepository deleteUserRepository;
     @Autowired
     UserLikeRestRepository userLikeRestRepository;
+    @Autowired
+    DiningRestService diningRestService;
 
 
     private User user = null;
@@ -164,6 +163,26 @@ public class UserController {
 
         model.addAttribute("main_user", user);
         return "userPage/user_posts";
+    }
+
+    @GetMapping("user_posts_detail/{resNo}")
+    public String postsDetail(@PathVariable("resNo") int resNo,Principal principal, Model model){
+        user = o2MemberService.findUser( principal );
+        Long userNo = Long.valueOf(user.getUserNo());
+
+        List<Dinning> restaurantsForLatestReservation = getRestaurantsForLatestReservation(Long.valueOf(user.getUserNo()));
+        List<Reservation> reservations = reservationRepository.findReservationDetailsByUserNo(userNo);
+        reservationService.checkReservationStatus(reservations, model);
+
+        Optional<Reservation> reservation = reservationRepository.findById(resNo);
+        System.out.println("aaaaaaa" + reservation.get().getRestNo().getRestNo());
+        int RestNo = reservation.get().getRestNo().getRestNo();
+
+        model.addAttribute("main_user", user);
+        model.addAttribute("restaurants", restaurantsForLatestReservation);
+        model.addAttribute("res", reservationRepository.findById(resNo));
+        model.addAttribute("dinning", diningRestService.getRestByRestNo(RestNo));
+        return "userPage/user_posts_detail";
     }
 
     @PostMapping("submitReview")

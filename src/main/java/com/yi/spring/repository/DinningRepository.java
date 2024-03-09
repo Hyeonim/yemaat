@@ -123,5 +123,4 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
     List<Tuple> getRandomCategoryList( @Param("sLimit") int sLimit );
 
 
-
 }
