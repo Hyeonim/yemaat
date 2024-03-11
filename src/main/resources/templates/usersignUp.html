@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultrang.net.nz/thymeleaf/layout">
 <html lang="en">
@@ -6,6 +5,7 @@
     <meta charset="UTF-8">
     <title>개인 회원가입</title>
     <link rel="stylesheet" href="/css/formdiv.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
         html {
             scroll-behavior: smooth;
@@ -311,7 +311,7 @@
              xmlns="http://www.w3.org/2000/svg"><path
                 d="M296 250c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H296zm184 144H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zm-48 458H208V148h560v320c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h264c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm440-88H728v-36.6c46.3-13.8 80-56.6 80-107.4 0-61.9-50.1-112-112-112s-112 50.1-112 112c0 50.7 33.7 93.6 80 107.4V764H520c-8.8 0-16 7.2-16 16v152c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V780c0-8.8-7.2-16-16-16zM646 620c0-27.6 22.4-50 50-50s50 22.4 50 50-22.4 50-50 50-50-22.4-50-50zm180 266H566v-60h260v60z"></path></svg>
     </span>
-            <p>기업 회원</p>
+            <p>점주 회원</p>
         </div>
     </div>
 
@@ -480,9 +480,11 @@
                 <input type="text" id="in2" name="userName" required></p>
             <p><label for="in3">아이디 <span class="req">*</span></label>
                 <input type="text" id="in3" name="userId" required></p>
+            <p style="display: none;"><label></label><label id="duplicateMsg"></label></p>
+            <p><label></label><input type="button" id="checkDuplicate" value="아이디 중복 확인"  style="border:none;background-color: #222;cursor: pointer;color: #fff;height: 40px;border-radius: 5px;"></p>
             <p><label for="in4">비밀번호 <span class="req">*</span></label>
                 <input type="password" id="in4" name="userPassword" required></p>
-            <p><label >비밀번호 확인 <span class="req"></span></label>
+            <p><label >비밀번호 확인 <span class="req">*</span></label>
                 <input type="password" id="passwordConfirm" required></p>
             <p><label for="in5">이메일</label><input type="email" id="in5" name="userEmail" required></p>
             <p><label></label>
@@ -606,6 +608,8 @@
 
     window.addEventListener("message", receiveMessage, false);
 
+    let uniqueId = false;
+
     function submitForm() {
         // 비밀번호와 비밀번호 확인 값이 같은지 확인
         event.preventDefault();
@@ -615,6 +619,11 @@
         var userId = document.getElementById("in3").value;
         var userEmail = document.getElementById("in5").value;
         var userTel = document.getElementById("in6").value;
+
+        if(uniqueId !== true) {
+            alert("아이디 중복 확인을 하지 않았습니다.\n아이디 중복 확인을 통해 사용 가능한 아이디인지 확인하세요.");
+            return false;
+        }
 
         if (password === "" || confirmPassword === "" || userName === "" || userId === "" || userEmail === "" || userTel === "") {
             alert("입력하지 않은 항목이 있습니다.");
@@ -630,6 +639,33 @@
         document.getElementById("joinForm").submit();
     }
 
+
+    $('#checkDuplicate').click(function () {
+        let userid = document.querySelector('input[name=userId]').value;
+        let label = $('#duplicateMsg');
+        label.text('');
+
+        $.ajax({
+            url: '/check_duplicate',
+            type: 'POST',
+            contentType: 'application/json', // Content-Type 설정
+            data: JSON.stringify({userId: userid}), // JSON 형식으로 데이터 전송
+            success: function (response) {
+                label.parent('p').css('display', 'block');
+
+                if (response.available) {
+                    uniqueId = true;
+                    label.text('사용 가능한 아이디입니다.');
+                } else {
+                    uniqueId = false;
+                    label.text('이미 사용 중인 아이디입니다. 다른 아이디를 입력해주세요.');
+                }
+            },
+            error: function () {
+                label.text('서버 오류가 발생했습니다. 다시 시도해주세요.');
+            }
+        });
+    });
 
 </script>
 </body>

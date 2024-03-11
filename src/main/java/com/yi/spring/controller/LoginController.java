@@ -96,6 +96,15 @@ public class LoginController {
         return "login";
     }
 
+    @PostMapping("/check_duplicate")
+    @ResponseBody
+    public Map<String, Boolean> checkDuplicate(@RequestBody Map<String, String> requestBody) {
+        String userId = requestBody.get("userId");
+        Map<String, Boolean> response = new HashMap<>();
 
+        User user = userRepository.findByUserId(userId).orElse(null);
 
+        response.put("available", user == null);
+        return response;
+    }
 }
