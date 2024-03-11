@@ -914,7 +914,7 @@ SVG Icons - svgicons.sparkk.fr
 #category .filter {
     border: solid 1px #f7f7f9;
     /*background-color: #f7f7f9;*/
-    background-color: #e79ba5a8;
+    background-color: #98cee95e;
     border-radius: 10px;
     font-size: 16px;
     padding: 5px 5px 5px 5px;
@@ -925,7 +925,7 @@ SVG Icons - svgicons.sparkk.fr
 
 #category .filter:hover {
     /*background-color: #d1d1d1;*/
-    background-color: #b5e2f7a8;
+    background-color: #6b7d875e;
 }
 
 #category .filter:focus {
