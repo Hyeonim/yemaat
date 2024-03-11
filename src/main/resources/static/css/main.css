@@ -51,8 +51,8 @@ a {
 
 .navbar-brand {
     display: inline-block;
-    padding-top: .3125rem;
-    padding-bottom: .3125rem;
+    /*padding-top: .3125rem;*/
+    /*padding-bottom: .3125rem;*/
     margin-right: 1rem;
     font-size: 1.25rem;
     line-height: inherit;
@@ -61,9 +61,12 @@ a {
 }
 
 #mainLogo {
-    position: absolute;
-    left: 49%;
+    /*position: absolute;*/
+    /*left: 49%;*/
     /*margin-top: 20px;*/
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .navbar-light .navbar-brand {
@@ -199,6 +202,8 @@ header nav:nth-of-type(1) {
     display: flex;
     justify-content: flex-end;
     flex-grow: 1;
+    position: absolute;
+    right : 0;
 }
 
 #navbarNav button {

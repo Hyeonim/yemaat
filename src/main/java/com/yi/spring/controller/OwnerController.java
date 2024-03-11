@@ -215,7 +215,7 @@ public class OwnerController {
         dinning.setRestStatus(String.valueOf(DinningStatus.HOLD));
         dinning.setRestStartDate(String.valueOf(LocalDateTime.now()));
         diningRestService.createRestaurant(dinning);
-        return "redirect:/owner/home";
+        return "redirect:/owner/viewRest";
     }
 
     // -------------------------- 가게 상세보기 및 메뉴 관리 -----------------------------------------

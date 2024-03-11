@@ -11,8 +11,8 @@
             <p><label>가게 주소</label><input type="text" name="restAddr" th:value="*{getRestAddr()}" readonly></p>
             <label></label><div id="map" style="display:inline-block; width:70%;height:300px;"></div>
             <p><label>가게 전화번호</label><input type="text" name="restTel" th:value="*{getRestTel()}" readonly></p>
-            <p><label>가게 좌석수</label><input type="text" name="restSeat" th:value="*{getRestSeat()}" readonly></p>
             <p><label>가게 이용시간</label><input type="text" name="restTime" th:value="*{getRestTime()}" readonly></p>
+            <p><label>가게 좌석수</label><input type="text" name="restSeat" th:value="*{getRestSeat()}" readonly></p>
             <p><label>가게 휴뮤일</label><input type="text" name="restOffDays" th:value="*{getRestOffDays()}" readonly></p>
             <p><label>가게 주차장</label><input type="text" name="restParking" th:value="*{getRestParking()}" readonly></p>
             <label>가게 메뉴</label><th:block th:replace="${menuPage}::menuContent"></th:block>
@@ -37,7 +37,7 @@
                 <input type="text" th:if="*{getRestStatus()=='REJECT'}" value="검수 거절"
                        style="border: 1px solid #EE4266; background-color: #EE4266; text-align: center" readonly>
                 <input type="text" th:if="*{getRestStatus()=='NORMAL'}" value="검수 완료"
-                       style="border: 1px solid #337357; background-color: #337357; text-align: center" readonly>
+                       style="border: 1px solid #337357; background-color: #337357;  color: #FFF;text-align: center" readonly>
             </p>
             <input type="button" value="식당 정보 수정하기" th:onclick="|location.href='@{/owner/updateRest}'|">
         </div>

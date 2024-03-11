@@ -16,14 +16,14 @@
             <p><label>가게 전화번호</label><input type="text" name="restTel"
                                             pattern="([0-9]{2,4})(\s*)-(\s*)([0-9]{3,4})(\s*)-(\s*)([0-9]{4})"
                                             title="전화번호는 2~4자리-3~4자리-4자리로 입력" required></p>
-            <p><label>가게 좌석수</label><input type="text" name="restSeat" required></p>
             <p><label>가게 이용시간</label><input type="text" name="restTime"
                                             pattern="([0-9]{2})(\s*):(\s*)([0-9]{2})(\s*)~(\s*)([0-9]{2})(\s*):(\s*)([0-9]{2})"
                                             title="이용시간은 00:00~00:00으로 입력" required></p>
+            <p><label>가게 좌석수</label><input type="text" name="restSeat" required></p>
             <p><label>가게 휴뮤일</label><input type="text" name="restOffDays" required></p>
             <p><label>가게 주차장</label><input type="text" name="restParking" required></p>
             <p><label>가게 업태</label>
-                <select name="restCategory">
+                <select name="restCategory" required>
                     <option value="">전체</option>
                     <option>한식</option>
                     <option>양식</option>
@@ -128,8 +128,8 @@
                 let roadAddress = document.getElementById("roadAddress").value;
                 let detailAddress = document.getElementById("detailAddress").value;
                 document.getElementById("restAddr").value = roadAddress  + ", " + detailAddress;
-                // form.submit();
-                return true;
+                form.submit();
+                // return true;
             }
             return false;
         }
