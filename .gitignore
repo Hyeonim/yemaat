@@ -35,4 +35,4 @@ build/
 
 
 application-oauth.properties
-
+/logs
