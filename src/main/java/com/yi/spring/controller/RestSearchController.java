@@ -111,7 +111,7 @@ public class RestSearchController {
         String searchAddress = params.get( "filter3" );
 //        if ( "전체".equals( searchAddress) )
 //            searchAddress = null;
-        if ( null != searchAddress ) {
+        if ( null != searchAddress && !searchAddress.isEmpty() ) {
             final int input = Integer.parseInt(searchAddress);
             final String[] options = {null, "로", "길", "대로"};
             if (input >= 0 && input < options.length) {
