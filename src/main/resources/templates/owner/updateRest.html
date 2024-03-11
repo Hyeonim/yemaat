@@ -19,9 +19,28 @@
             <p><label>가게 전화번호</label><input type="text" name="restTel" th:value="*{getRestTel()}"
                                             pattern="([0-9]{2,4})(\s*)-(\s*)([0-9]{3,4})(\s*)-(\s*)([0-9]{4})"
                                             title="전화번호는 2~4자리-3~4자리-4자리로 입력" required></p>
-            <p><label>가게 이용시간</label><input type="text" name="restTime" th:value="*{getRestTime()}"
-                                            pattern="([0-9]{2})(\s*):(\s*)([0-9]{2})(\s*)~(\s*)([0-9]{2})(\s*):(\s*)([0-9]{2})"
-                                            title="이용시간은 00:00~00:00으로 입력" required></p>
+            <p><label>가게 이용시간</label>
+                <span class="check">
+                        <input type="checkbox" id="time">
+                        <label for="time">24시간</label>
+                    <input type="text" name="restTime" th:value="*{getRestTime()}"
+                           pattern="([0-9]{2})(\s*):(\s*)([0-9]{2})(\s*)~(\s*)([0-9]{2})(\s*):(\s*)([0-9]{2})"
+                           title="이용시간은 00:00~00:00으로 입력" required>
+                </span></p>
+            <script>
+                if ($('input[name="restTime"]').val() === '24시간') {
+                    $('#time').prop('checked', true); // '없음'인 경우 체크박스 체크
+                    $('input[name="restTime"]').hide(); // 숨기기
+                }
+
+                $('#time').change(function () {
+                    if (this.checked) {
+                        $('input[name="restTime"]').hide(); // 체크되면 숨기기
+                    } else {
+                        $('input[name="restTime"]').show(); // 체크 해제되면 보이기
+                    }
+                });
+            </script>
             <p><label>가게 좌석수</label>
                 <span class="check">
                     <input type="checkbox" id="seat">
@@ -29,7 +48,7 @@
                     <input type="text" name="restSeat" th:value="*{getRestSeat()}" required>
                 </span>
             </p>
-            <script th:inline="javascript">
+            <script>
                 if ($('input[name="restSeat"]').val() === '' || $('input[name="restSeat"]').val() === null) {
                     $('#seat').prop('checked', true); // '없음'인 경우 체크박스 체크
                     $('input[name="restSeat"]').hide(); // 숨기기
@@ -51,7 +70,7 @@
                     <input type="text" name="restOffDays" th:value="*{getRestOffDays()}" required>
                 </span>
             </p>
-            <script th:inline="javascript">
+            <script>
                 if ($('input[name="restOffDays"]').val() === '없음') {
                     $('#offDays').prop('checked', true); // '없음'인 경우 체크박스 체크
                     $('input[name="restOffDays"]').hide(); // 숨기기
@@ -73,7 +92,7 @@
                     <input type="text" name="restParking" th:value="*{getRestParking()}" required>
                 </span>
             </p>
-            <script th:inline="javascript">
+            <script>
                 if ($('input[name="restParking"]').val() === '없음') {
                     $('#parking').prop('checked', true); // '없음'인 경우 체크박스 체크
                     $('input[name="restParking"]').hide(); // 숨기기
@@ -204,6 +223,9 @@
                 }
                 if(document.getElementById('seat').checked) {
                     document.querySelector('input[name=restSeat]').value = null;
+                }
+                if(document.getElementById('time').checked) {
+                    document.querySelector('input[name=restTime]').value = '24시간';
                 }
 
                 if(document.querySelector("input[name=result]").value !== '검수 완료')
