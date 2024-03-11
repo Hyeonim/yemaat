@@ -27,7 +27,7 @@
                    style="display: flex; align-items: center;">
 
                 <div style="flex: 1;">
-                    <img id="preview" th:src="'data:image/jpeg;base64,' + ${user.get().base64Image}" alt="User Image"
+                    <img id="preview" th:src="${user.get().base64Image != null and user.get().base64Image != '' ? 'data:image/jpeg;base64,' + user.get().base64Image : '/img/no_image.png'}"
                          style="width: 400px; height: 400px; margin-right: 80px; cursor: pointer;">
                     <p><input type="file" id="file" name="file" onchange="previewImage(this);"></p>
                 </div>
