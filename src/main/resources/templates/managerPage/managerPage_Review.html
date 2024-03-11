@@ -20,13 +20,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="list : ${list}">
-                <td th:text="${list.id}"></td>
-                <td th:text="${list.userNo.userId}"></td>
-                <td th:text="${list.restNo.restName}"></td>
-                <td th:text="${list.restNo.userNo.userId}"></td>
+            <tr th:each="list : ${list}" >
+
+                <td th:text="${list.id}" th:onclick="'javascript:reviewDetail(\'' + ${list.id} + '\')'"></td>
+                <td th:text="${list.userNo != null ? list.userNo.userId : ''}" th:onclick="'javascript:reviewDetail(\'' + ${list.id} + '\')'"></td>
+                <td th:text="${list.restNo != null ? list.restNo.restName : ''}" th:onclick="'javascript:reviewDetail(\'' + ${list.id} + '\')'"></td>
+                <td th:text="${list.restNo != null && list.restNo.userNo != null ? list.restNo.userNo.userId : ''}" th:onclick="'javascript:reviewDetail(\'' + ${list.id} + '\')'"></td>
+
                 <td>
-                    <form onsubmit="return confirmClose()" action="RevManager" method="post">
+                    <form onsubmit="return confirmClose(this)" action="RevManager" method="post">
                         <input type="hidden" name="id" th:value="${list.id}">
                         <div class="custom-select">
                             <select name="status" style="width: 90px">
@@ -46,9 +48,36 @@
         </table>
     </div>
 
+    <div id="holdDetail">
+        <ion-icon id="closeModalIcon" name="close-outline"></ion-icon>
+
+        <div></div>
+    </div>
+
+
     <script>
 
-        function confirmClose() {
+        function reviewDetail(id) {
+
+            fetch( '/manager/managerPage_ReviewDetail?id=' + id )
+                .then( resp => resp.text())
+                .then(data=> {
+                    let doc = new DOMParser().parseFromString(data, 'text/html');
+                    document.querySelector("#holdDetail div").innerHTML = doc.querySelector('.modalD2').innerHTML;
+                    document.getElementById("holdDetail").style.display = "block";
+
+                    document.addEventListener('click', function (event) {
+                        var modal = document.getElementById('holdDetail');
+                        if (!modal.contains(event.target)) {
+                            modal.style.display = 'none';
+                        }
+                    });
+                })
+        }
+
+
+        function confirmClose(form) {
+            event.preventDefault()
             swal({
                 title: "리뷰 상태를 변경 하시겠습니까?",
                 text: "변경 하시려면 확인을 눌러주세요.",
@@ -75,15 +104,15 @@
                     if (willClose) {
                         swal("Success!", "변경 되었습니다!", "success")
                             .then(function () {
-                                // 확인 버튼을 클릭한 경우 폼 제출
-                                document.querySelector("form").submit();
+
+                                // document.querySelector(this).submit();
+                                form.submit();
                             });
                     } else {
                         swal("취소되었습니다.")
                     }
                 });
             // 폼 제출을 여기서 직접 호출하지 않고, 확인 버튼을 클릭한 경우에만 폼 제출
-            return false;
         }
 
     </script>

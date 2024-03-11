@@ -1206,14 +1206,49 @@ public class ManagerController {
 
         System.out.println(list);
 
-
         model.addAttribute("list", list);
         model.addAttribute("page", "managerPage/managerPage_Review");
         model.addAttribute("header", "리뷰 관리 목록");
 
+        return "managerPage";
+    }
+
+    @GetMapping("/managerPage_ReviewDetail")
+    public String ReviewDetail(Model model,
+                               @RequestParam Integer id) {
+
+        Optional<Review> review = reviewRepository.findById(id);
+
+        String imgId = review.get().getRevStrImg();
+
+        if(imgId == null || imgId.isEmpty()){
+            model.addAttribute("images", null);
+
+        }
+        else {
+            String[] imgIds = imgId.split(",");
+
+            List<ImgTb> images = new ArrayList<>();
+
+            for (String ids : imgIds) {
+                Optional<ImgTb> image = imageTableRepository.findById(Long.parseLong(ids.trim())); // 이미지 ID를 long 값으로 파싱하여 사용
+
+                if (image.isPresent()) {
+                    ImgTb img = image.get();
+                    images.add(img); // 이미지를 리스트에 추가
+                }
+            }
+            model.addAttribute("images", images);
+
+        }
+
+        model.addAttribute("review", review);
+        model.addAttribute("page", "managerPage/managerPage_ReviewDetail");
 
         return "managerPage";
     }
+
+
 
     @PostMapping("/RevManager")
     public String reviewManager(@RequestParam("id") int id,

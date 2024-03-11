@@ -163,21 +163,25 @@
     </script>
 
     <script>
+
+
         function nextPage() {
-            var searchValue = document.getElementById('searchInput').value;
+            let searchValue = document.getElementById('searchInput').value;
+
             let curPage = parseInt( document.querySelector( 'li.page-item.active' ).textContent );
 
             window.location.href = "?page=" + (curPage)+ "&nextInput=" + encodeURIComponent(searchValue);
         }
 
         function prePage() {
-            var searchValue = document.getElementById('searchInput').value;
+            let searchValue = document.getElementById('searchInput').value;
+
             window.location.href = "?page=" + [[${users.number-1}]]+ "&nextInput=" + encodeURIComponent(searchValue);
         }
 
         function gotoPage(pageNumber) {
-            console.log(pageNumber)
-            var searchValue = document.getElementById('searchInput').value;
+            let searchValue = document.getElementById('searchInput').value;
+
             window.location.href = "?page=" + pageNumber + "&nextInput=" + encodeURIComponent(searchValue);
         }
     </script>
