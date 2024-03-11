@@ -946,6 +946,9 @@ SVG Icons - svgicons.sparkk.fr
     font-weight: bold;
     width: 100px;
     margin-top: 5px;
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 
