@@ -19,9 +19,56 @@
             <p><label>가게 이용시간</label><input type="text" name="restTime"
                                             pattern="([0-9]{2})(\s*):(\s*)([0-9]{2})(\s*)~(\s*)([0-9]{2})(\s*):(\s*)([0-9]{2})"
                                             title="이용시간은 00:00~00:00으로 입력" required></p>
-            <p><label>가게 좌석수</label><input type="text" name="restSeat" required></p>
-            <p><label>가게 휴뮤일</label><input type="text" name="restOffDays" required></p>
-            <p><label>가게 주차장</label><input type="text" name="restParking" required></p>
+            <p><label>가게 좌석수</label>
+                <span class="check">
+                    <input type="checkbox" id="seat">
+                    <label for="seat">없음</label>
+                    <input type="text" name="restSeat" required>
+                </span>
+            </p>
+            <script>
+                $('#seat').change(function () {
+                    if (this.checked) {
+                        $('input[name="restSeat"]').hide(); // 체크되면 숨기기
+                    } else {
+                        $('input[name="restSeat"]').show(); // 체크 해제되면 보이기
+                    }
+                });
+            </script>
+
+            <p><label>가게 휴뮤일</label>
+                <span class="check">
+                    <input type="checkbox" id="offDays">
+                    <label for="offDays">없음</label>
+                    <input type="text" name="restOffDays" required>
+                </span>
+            </p>
+            <script>
+                $('#offDays').change(function () {
+                    if (this.checked) {
+                        $('input[name="restOffDays"]').hide(); // 체크되면 숨기기
+                    } else {
+                        $('input[name="restOffDays"]').show(); // 체크 해제되면 보이기
+                    }
+                });
+            </script>
+
+            <p><label>가게 주차장</label>
+                <span class="check">
+                    <input type="checkbox" id="parking">
+                    <label for="parking">없음</label>
+                    <input type="text" name="restParking" required>
+                </span>
+            </p>
+            <script>
+                $('#parking').change(function () {
+                    if (this.checked) {
+                        $('input[name="restParking"]').hide(); // 체크되면 숨기기
+                    } else {
+                        $('input[name="restParking"]').show(); // 체크 해제되면 보이기
+                    }
+                });
+            </script>
             <p><label>가게 업태</label>
                 <select name="restCategory" required>
                     <option value="">전체</option>
@@ -100,23 +147,16 @@
         function submitRestForm(event) {
             event.preventDefault();
             if (confirm("식당 등록을 하시겠습니까?")) {
-                // const telPattern = /^([0-9]{2,4})-([0-9]{3,4})-([0-9]{4})$/;
-                // const telInput = document.querySelector('input[name=restTel]');
-                //
-                // if(!telPattern.test(telInput. value)) {
-                //     alert("입력하신 전화번호가 입력 패턴에 올바르지 않습니다.\n전화번호는 (2~4자리)-(3~4자리)-(4자리)로 입력해주세요.")
-                //     telInput.focus();
-                //     return;
-                // }
-                //
-                // const timePattern = /^([0-9]{2}):([0-9]{2})~([0-9]{2}):([0-9]{2})$/;
-                // const timeInput = document.querySelector('input[name=restTime]');
-                //
-                // if(!timePattern.test(timeInput. value)) {
-                //     alert("입력하신 식당 이용시간이 입력 패턴에 올바르지 않습니다.\n이용시간은 00:00~00:00으로 입력해주세요.")
-                //     timeInput.focus();
-                //     return;
-                // }
+                if(document.getElementById('offDays').checked) {
+                    document.querySelector('input[name=restOffDays]').value = '없음';
+                }
+
+                if(document.getElementById('parking').checked) {
+                    document.querySelector('input[name=restParking]').value = '없음';
+                }
+                if(document.getElementById('seat').checked) {
+                    document.querySelector('input[name=restSeat]').value = null;
+                }
 
                 if(document.getElementById("preview").src===location.origin+'/img/no_image.png') {
                     alert("대표 이미지 등록은 필수 입니다.\n이미지 등록이 이루어지지 않아 식당 등록이 취소됩니다.")

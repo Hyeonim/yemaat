@@ -39,6 +39,20 @@ button, input[type=button], input[type=submit] {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.content-container .formDiv label + span.check {
+    width:70%;
+    display: inline-block;
+    &+input[type=checkbox] {
+        width : 10%
+    }
+    &+input[type=checkbox] + label {
+        width : 10%
+    }
+    &+input[type=checkbox] + label + input[type=text] {
+        width : 55%
+    }
+}
+
 .menu-container {
     border: 1px dashed black;
     padding: 6px 6px;
