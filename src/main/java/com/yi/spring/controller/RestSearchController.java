@@ -106,6 +106,8 @@ public class RestSearchController {
         List<DinningReviewView> dinningReviewList = new ArrayList<>();
         String filter1 = params.get( "filter1" );
         String searchCategory = params.get( "filter2" );
+        if ( null != searchCategory )
+            searchCategory = searchCategory.replaceAll( " ", "" );
         if ( "전체".equals( searchCategory) )
             searchCategory = null;
         String searchAddress = params.get( "filter3" );
