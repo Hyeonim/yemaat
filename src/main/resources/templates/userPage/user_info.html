@@ -219,9 +219,10 @@
                 </tr>
                 <tr>
                     <td class="userinfo_td_gap col"> 예맛을 이용하고 싶지 않으신가요?</td>
-                    <td class="col" style="padding-bottom: 40px; padding-left: 186px;"><a class="nav-link"
-                                                                                          href="/logout">로그아웃</a></td>
-                    <td class="col" id="deleteUserform" style="padding-bottom: 40px;" onclick="deleteUser()"><span id="deleteUserform2">회원탈퇴</span></td>
+                    <td class="col" style="padding-bottom: 40px; padding-left: 186px;"><a class="nav-link" href="/logout">로그아웃</a></td>
+                    <td th:if="${main_user.getProvider() == null && main_user.getUserAuth() == 'USER'}" class="col" id="deleteUserform" style="padding-bottom: 40px;" onclick="deleteUser()"><span id="deleteUserform2">회원탈퇴</span></td>
+                    <td th:if="${main_user.getProvider() != null}" class="col" id="deleteUserform" style="padding-bottom: 40px; display: none"><span id="deleteUserform2">회원탈퇴</span></td>
+                    <td th:if="${main_user.getProvider() == null && main_user.getUserAuth() != 'USER'}" class="col" id="deleteUserform" style="padding-bottom: 40px;" onclick="deleteUserAuth()"><span id="deleteUserform2">회원탈퇴</span></td>
                 </tr>
                 <tr class="deleteUser">
                     <td class="userinfo_td_gap"></td>
@@ -261,6 +262,10 @@
                     form.style.display = 'table-row';
                 });
             }
+        }
+
+        function deleteUserAuth() {
+          alert("점주회원은 관리자에 폐점 신청 후 탈퇴가 가능합니다. 관리자에게 문의 하세요.");
         }
         function deleteUserUpdateCancel(){
             var deleteUser = document.querySelectorAll('.deleteUser');

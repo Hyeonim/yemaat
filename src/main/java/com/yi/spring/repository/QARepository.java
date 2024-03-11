@@ -7,6 +7,7 @@ import com.yi.spring.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -21,7 +22,6 @@ import java.util.Optional;
 @Repository
 public interface QARepository extends JpaRepository<QA, Integer> {
 
-    List<QA> findByUserNo(User user);
 
     @Query("select q from QA q join QaAnswer qa on q.id = qa.qaNo where q.userNo.userNo = :userNo")
     List<QA> findQaAnswer(@Param("userNo") Long user);
@@ -49,8 +49,5 @@ public interface QARepository extends JpaRepository<QA, Integer> {
     long countByQaStatusFalse();
 
 
-
-
-
-
+    List<QA> findByUserNo(User userNo, Sort qaWriteTime);
 }

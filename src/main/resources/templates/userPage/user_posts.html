@@ -477,16 +477,10 @@
                         <img src="/img/order.png" alt="" style="width: 15px; height: 15px">
                         <h4 style="margin-left: 4px">정렬</h4>
                     </div>
-                    <li onclick="filterExpired()" style="padding: 10px 0">
+                    <li onclick="filterAll()" style="padding: 10px 0">
                         <div>
                             <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
-                            <label class="remoteLabel" id="remoteLabel1">이용완료된 예약 보기</label>
-                        </div>
-                    </li>
-                    <li onclick="filterReview()" style="padding: 10px 0">
-                        <div>
-                            <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
-                            <label class="remoteLabel" id="remoteLabel2">리뷰작성된 예약 보기</label>
+                            <label class="remoteLabel" id="remoteLabel5">전체 예약 보기</label>
                         </div>
                     </li>
                     <li onclick="filterWait()" style="padding: 10px 0">
@@ -501,10 +495,16 @@
                             <label class="remoteLabel" id="remoteLabel4">예약완료된 예약 보기</label>
                         </div>
                     </li>
-                    <li onclick="filterAll()" style="padding: 10px 0">
+                    <li onclick="filterExpired()" style="padding: 10px 0">
                         <div>
                             <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
-                            <label class="remoteLabel" id="remoteLabel5">전체 예약 보기</label>
+                            <label class="remoteLabel" id="remoteLabel1">이용완료된 예약 보기</label>
+                        </div>
+                    </li>
+                    <li onclick="filterReview()" style="padding: 10px 0">
+                        <div>
+                            <img src="/img/plusIcon.png" alt="" style="width: 16px; height: 16px">
+                            <label class="remoteLabel" id="remoteLabel2">리뷰작성된 예약 보기</label>
                         </div>
                     </li>
                     <li style="display: flex; justify-content: center">
@@ -761,7 +761,7 @@
                                             </label>
 
                                             <div style="margin: 20px 0">
-                                                <img style="width: 170px; height: 155px; background-size: cover; border-radius: 10px"
+                                                <img style="width: 170px; height: 155px; background-size: cover; border-radius: 10px; margin-right: 5px"
                                                      class="preview" alt="">
                                             </div>
                                         </div>
@@ -838,6 +838,7 @@
 
     <script>
         var fileInputs = document.querySelectorAll('.fileInput');
+
         fileInputs.forEach(function (input, index) {
             var label = input.parentElement.querySelector('label');
             var preview = input.parentElement.querySelector('.preview');
@@ -848,31 +849,35 @@
 
             input.addEventListener('change', function () {
                 let previews = this.parentElement.querySelectorAll('.preview');
-                [...this.files].forEach( (file, index)=>{
+
+                if (this.files.length > 4) {
+                    alert("사진은 최대 4장까지 업로드 가능합니다.");
+                }
+
+                [...this.files].slice(0, 4).forEach((file, index) => {
                     let preview = previews[index];
-                    if ( !preview )
-                    {
-                        preview = previews[0].cloneNode( false );
-                        previews[0].parentNode.appendChild( preview );
+
+                    if (!preview) {
+                        preview = previews[0].cloneNode(false);
+                        previews[0].parentNode.appendChild(preview);
                     }
 
                     let reader = new FileReader();
-                    reader.onload = function(){
+                    reader.onload = function () {
                         preview.src = reader.result;
                     }
-                    reader.readAsDataURL( file );
+                    reader.readAsDataURL(file);
                 });
 
-                previews.forEach( (preview, index)=>{
-                    if ( 0 === index && 0 === this.files.length )
-                        preview.removeAttribute( 'src' );
-                    else if ( index >= this.files.length )
+                previews.forEach((preview, index) => {
+                    if (0 === index && 0 === this.files.length)
+                        preview.removeAttribute('src');
+                    else if (index >= this.files.length)
                         preview.remove();
-                });
 
+                });
             });
         });
-
 
 
         document.getElementById("revAdd").addEventListener("click", function (event) {

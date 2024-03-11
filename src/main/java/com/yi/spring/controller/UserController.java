@@ -190,18 +190,23 @@ public class UserController {
 //        user = userRepository.findByUserId(principal.getName()).get();
         user = o2MemberService.findUser( principal );
 
-        byte[] revImg;
-        try {
-            revImg = file[0].getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (file[0] != null && !file[0].isEmpty()) {
+            try {
+                byte[] revImg = file[0].getBytes();
+                review.setRevImg(revImg);
+
+                int endIndex = Math.min( 4, file.length );
+                MultipartFile[] selectedFiles = Arrays.copyOfRange(file, 0, endIndex);
+
+                review.setRevStrImg( review.getRevImgMan().setReviewImg( imageTableRepository, selectedFiles ) );
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
+            }
         }
 
 
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setUserNo(user);
-        review.setRevImg( revImg );
-        review.setRevStrImg( review.getRevImgMan().setReviewImg( imageTableRepository, file ) );
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDateTime = LocalDateTime.now().format(formatter);
         review.setRevWriteTime(LocalDateTime.parse(formattedDateTime, formatter));
@@ -352,16 +357,21 @@ public class UserController {
             try {
                 byte[] revImg = file[0].getBytes();
                 review.setRevImg(revImg);
+
+                int endIndex = Math.min( 4, file.length );
+                MultipartFile[] selectedFiles = Arrays.copyOfRange(file, 0, endIndex);
+
+                review.setRevStrImg( review.getRevImgMan().setReviewImg( imageTableRepository, selectedFiles ) );
             } catch (IOException e) {
                 throw new RuntimeException("이미지 업로드 중 오류 발생: " + e.getMessage());
             }
         } else
         {
             review.setRevImg( existReview.getRevImg());
+            review.setRevStrImg( existReview.getRevStrImg());
         }
         review.setRevScore((int) (review.getRevScore() * 10));
         review.setRevStatus(String.valueOf(ReviewStatus.NORMAL));
-        review.setRevStrImg( review.getRevImgMan().setReviewImg( imageTableRepository, file ) );
 
 
         review.setId(revNo);
@@ -470,6 +480,7 @@ public class UserController {
             reviewRepository.deleteAllByUserNo(user);
             reservationRepository.deleteAllByUserNo(user);
             qaRepository.deleteAllByUserNo(user);
+            userLikeRestRepository.deleteAllByUserNo(user);
 
             deleteUserRepository.save(deleteUser);
             userRepository.delete(user);

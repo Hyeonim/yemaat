@@ -26,13 +26,14 @@ public class QAServiceImpl implements QAService {
 
     @Override
     public Page<QA> findByUserNoPaged(User user, int page) {
-        List<QA> userQAs = qaRepository.findAll(Sort.by(Sort.Order.desc("qaWriteTime")));
+        List<QA> userQAs = qaRepository.findByUserNo(user, Sort.by(Sort.Order.desc("qaWriteTime")));
         int pageSize = 10;
         int start = page * pageSize;
         int end = Math.min((page + 1) * pageSize, userQAs.size());
 
         return new PageImpl<>(userQAs.subList(start, end), PageRequest.of(page, pageSize), userQAs.size());
     }
+
 
 
 

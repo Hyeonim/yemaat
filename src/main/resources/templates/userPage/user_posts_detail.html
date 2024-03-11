@@ -117,8 +117,8 @@
                 예약 내역</h3>
 
             <div style="display: flex; flex-direction: column; align-items: flex-start ; width: 677px">
-                <strong style="color: grey">예약이 완료 되었습니다.</strong>
-                <h4 th:text="${res.get().getRestNo().restName}"></h4>
+                <h2 style="color: grey">예약이 완료 되었습니다.</h2>
+                <h4 th:text="'가게명 : ' + ${res.get().getRestNo().restName}"></h4>
                 <p style="color:grey;" th:text="'  🕥 예약 시간 : ' + @{${#strings.replace(res.get().resTime, 'T', ' ')}}"></p>
                 <p style="color: grey" th:text="'  ⭐ 예약 번호 : ' + ${res.get().res_no} + '********'"></p>
             </div>

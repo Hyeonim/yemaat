@@ -47,8 +47,8 @@
             background-color: #ff8;
             height: 60px;
             position: absolute;
-            width: 60px; /* 초기에는 0으로 설정 */
-            transition: width 0.3s; /* 너비가 변경될 때 애니메이션을 추가합니다. */
+            width: 60px;
+            transition: width 0.3s;
             z-index: 9;
         }
 
@@ -60,39 +60,33 @@
             z-index: 1;
         }
 
-        /*!* 홀수번째 요소 선택 *!*/
-        /*.posts_main .containers:nth-child(odd) {*/
-        /*    transform: translateX(24%); !* X축으로 50% 이동 *!*/
-        /*}*/
-
-        /*!* 짝수번째 요소 선택 *!*/
-        /*.posts_main .containers:nth-child(even) {*/
-        /*    transform: translateX(-24%); !* X축으로 50% 이동 *!*/
-
-        /*}*/
-
-        #remote {
-            border: 1px solid gray;
-            width: 320px;
-            height: 400px;
-            transition: margin-top 0.8s ease; /* 부드러운 이동을 위한 트랜지션 추가 */
+        .reviewAddBtn {
+            background-color: #5c7191;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 5px;
         }
 
-        .RestNoHover:hover {
-            font-size: 105%;
-            color: #282828;
+        .reviewAddBtn:hover {
+            background-color: #4c87dc;
         }
     </style>
 
     <div style="display: flex; justify-content: center; margin-top: -132px">
-        <div style="display: flex; justify-content: center; background-color: #FFFFFF; width: 1231px; height: 774px; border-radius: 0px; padding: 2% ">
+        <div style="display: flex; justify-content: center; background-color: #FFFFFF; width: 870px; height: 774px; border-radius: 14px; padding: 2% ">
             <div class="mid">
                 <div style="padding: 23px">
                     <div style="display: flex; justify-content: flex-start; flex-direction: column; margin-right: 1px; height: 412px">
                         <input type="hidden" name="rate" id="rate" value="0"/>
                         <div style="display: flex; flex-direction: column; align-items: center ">
-                            <form id="addRevForm" th:action="@{/user/updateReview/{revNo}(revNo=${review.get().id})}" method="post"
-                                                              enctype="multipart/form-data">
+                            <form id="addRevForm" th:action="@{/user/updateReview/{revNo}(revNo=${review.get().id})}"
+                                  method="post"
+                                  enctype="multipart/form-data">
                                 <div style="display: flex; flex-direction: column; align-items: center ;margin-bottom: 10px"
                                      class="file-container">
                                     <h4><i class="fa-regular fa-star"></i> 별점과 이용경험을 남겨주세요! <i
@@ -137,32 +131,63 @@
                                     </label>
 
                                     <div style="margin: 20px 0">
-                                        <img class="preview" style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;"
-                                             id="preview" th:src="'data:image/jpeg;base64,' + ${review.get().base64Image}"
-                                             alt="">
+                                        <th:block
+                                                th:with="condition=${review.get().getRevStrImg()!=''}, strArray=${review.get().getRevStrImg()}">
+                                            <th:block th:if="${condition}">
+                                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 1px;">
+                                                    <th:block th:each="item : ${#strings.arraySplit(strArray, ',')}">
+                                                        <img th:attr="mysrc=${item}"
+                                                             style="width: 180px; height: 160px; border: 1.6px solid #dddddd; background-size: cover;"
+                                                             id="preview"  class="preview" alt="">
+                                                    </th:block>
+                                                </div>
+                                            </th:block>
+                                            <th:block th:unless="${condition}">
+                                                <img th:if="${review.get().base64Image!=''}"
+                                                     th:src="'data:image/png;base64,' + ${review.get().base64Image}"
+                                                     alt="리뷰 이미지2"
+                                                     class="preview"
+                                                     style="width: 180px; height: 160px; border: 1.6px solid #dddddd; background-size: cover;"
+                                                     id="preview" />
+                                            </th:block>
+                                        </th:block>
+<!--                                        <img class="preview"-->
+<!--                                             style="width: 200px; height: 180px; border: 1.6px solid #dddddd; background-size: cover;"-->
+<!--                                             id="preview"-->
+<!--                                             th:src="'data:image/jpeg;base64,' + ${review.get().base64Image}"-->
+<!--                                             alt="">-->
                                     </div>
                                 </div>
 
                                 <hr>
                                 <div>
-                                    <input th:if="${not #strings.isEmpty(review.get().resNo)}" th:value="${review.get().resNo}"
+                                    <input th:if="${not #strings.isEmpty(review.get().resNo)}"
+                                           th:value="${review.get().resNo}"
                                            name="resNo" th:hidden="true"/>
-                                    <input th:value="${review.get().getRestNo().restNo}" name="restNo" th:hidden="true"/>
+                                    <input th:value="${review.get().getRestNo().restNo}" name="restNo"
+                                           th:hidden="true"/>
                                 </div>
                                 <div style="margin-top: 30px">
-                                            <textarea id="reviewContent" th:text="${review.get().revContent}" name="revContent" rows="5" cols="82"
+                                            <textarea id="reviewContent" th:text="${review.get().revContent}"
+                                                      name="revContent" rows="5" cols="82"
                                                       style="resize: none;"
                                                       placeholder="식당의 위생상태, 맛, 서비스 등 이용하신 경험에 대한 솔직한 리뷰를 남겨주세요. (선택, 200자 내외)"
                                                       oninput="limitTextarea(this, 200)"></textarea>
                                 </div>
-                                <button id="revAdd" class="reviewAddBtn" type="submit"
-                                        style="margin-top: 21px; position: relative; left: -37px; width: 114%;">리뷰 제출
-                                </button>
+                                <div style="display: flex; justify-content: center;">
+                                    <button id="revAdd" class="reviewAddBtn" type="submit"
+                                            style="margin-top: 21px;">리뷰 수정
+                                    </button>
+                                    <button id="revAdd2" class="reviewAddBtn" type="submit"
+                                            style="margin-top: 21px;" onclick="backReview()">취소
+                                    </button>
+                                </div>
                             </form>
 
                             <input style="opacity: 0" type="text" id="RevScore" name="RevScore"
                                    th:value="${review.get().revScore}"><br>
-                            <input style="opacity: 0" type="text" id="selectedRevScore" name="selectedRevScore" value="">
+                            <input style="opacity: 0" type="text" id="selectedRevScore" name="selectedRevScore"
+                                   value="">
                         </div>
                     </div>
                 </div>
@@ -174,6 +199,10 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        function backReview(){
+            window.location.href = "/user/user_review"
+        }
+
         function previewImage(input) {
             var preview = document.getElementById('preview');
 
@@ -190,7 +219,12 @@
 
         document.getElementById('file').addEventListener('change', function () {
             let previews = this.parentElement.querySelectorAll('.preview');
-            [...this.files].forEach((file, index) => {
+
+            if (this.files.length > 4) {
+                alert("사진은 최대 4장까지 업로드 가능합니다.");
+            }
+
+            [...this.files].slice(0, 4).forEach((file, index) => {
                 let preview = previews[index];
                 if (!preview) {
                     preview = previews[0].cloneNode(false);
@@ -203,6 +237,7 @@
                 }
                 reader.readAsDataURL(file);
             });
+
 
             previews.forEach((preview, index) => {
                 if (0 === index && 0 === this.files.length)
@@ -237,6 +272,9 @@
                 selectedRevScore.val(fillWidth);
 
             });
+
+
+            document.querySelectorAll( "img[mysrc]" ).forEach( e=>io2.observe(e))
         });
 
 

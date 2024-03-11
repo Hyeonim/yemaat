@@ -229,7 +229,7 @@
                                         <th:block th:if="${condition}">
                                             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-top: 1px;">
                                                 <th:block th:each="item : ${#strings.arraySplit(strArray, ',')}">
-                                                    <img th:attr="mysrc=${item}" alt="리뷰 이미지"
+                                                    <img th:attr="mysrc=${item}" alt="리뷰 이미지1"
                                                          style="width: 100%; height: 100%">
                                                 </th:block>
                                             </div>
@@ -237,7 +237,7 @@
                                         <th:block th:unless="${condition}">
                                             <img th:if="${combinedLists.rev.base64Image!=''}"
                                                  th:src="'data:image/png;base64,' + ${combinedLists.rev.base64Image}"
-                                                 alt="리뷰 이미지"/>
+                                                 alt="리뷰 이미지2"/>
                                         </th:block>
                                     </th:block>
                                     <div style="margin-top: 30px; white-space: pre-wrap; width: 960px"

@@ -209,9 +209,9 @@
         }
 
         function handleFocusIn(bAdd) {
-            document.querySelector(".searchBox").classList.toggle("kBXqGy", bAdd);
-            document.querySelectorAll(".searchBox div").forEach(e => e.classList.toggle("kBXqGy", bAdd));
-            document.querySelector(".searchBox div:nth-of-type(2)").style.display = bAdd ? "block" : "none";
+            document.querySelector("#searchBar").classList.toggle("kBXqGy", bAdd);
+            document.querySelectorAll("#searchBar div").forEach(e => e.classList.toggle("kBXqGy", bAdd));
+            // document.querySelector("#searchBar div:nth-of-type(2)").style.display = bAdd ? "block" : "none";
         }
 
         function handleSearchItemClick(event) {
@@ -223,7 +223,7 @@
 
         document.addEventListener("click", (event) => {
 
-            const bSearchFocus = !!event.target.closest(".searchBox");
+            const bSearchFocus = !!event.target.closest("#searchBar");
             handleFocusIn(bSearchFocus);
         });
 
