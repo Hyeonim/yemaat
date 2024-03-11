@@ -99,6 +99,9 @@
     #resultList .rest.tel, #resultList .rest.category {
         font-size: 12px;
     }
+    #resultList li.gray {
+        filter: grayscale(1);
+    }
 
 
     .hovered {
@@ -115,36 +118,6 @@
     head
 </header>
 
-<!--<div id="content">-->
-<!--    <div id="leftList">-->
-
-<!--        <div id="category" onchange="sendSearchQuery()" onclick="chooseFilter(event)">-->
-<!--            <ul class="filter1">-->
-<!--                <li class="filter" value="1">평점 높은 순</li>-->
-<!--                <li class="filter" value="2">리뷰 많은 순</li>-->
-<!--                <li class="filter" value="3">예약 많은 순</li>-->
-<!--            </ul>-->
-<!--            업태-->
-<!--            <ul class="filter2">-->
-<!--            <select name="filter2" class="filter picked">-->
-<!--                <option>전체</option>-->
-<!--                <option>한식</option>-->
-<!--                <option>양식</option>-->
-<!--                <option>일식</option>-->
-<!--                <option>중식</option>-->
-<!--                <option>디저트</option>-->
-<!--            </select>-->
-<!--            </ul>-->
-<!--            도로명-->
-<!--            <ul class="filter3">-->
-<!--                <li class="filter" value="0">전체</li>-->
-<!--                <li class="filter" value="1">~로</li>-->
-<!--                <li class="filter" value="2">~길</li>-->
-<!--                <li class="filter" value="3">대로</li>-->
-<!--            </ul>-->
-<!--        </div>-->
-
-<!--전, 후-->
 
 <div id="content">
     <div id="leftList">
@@ -182,8 +155,8 @@
         <ul id="resultList" style="list-style: none;">
 
             <li th:each="rest : ${list}" style="border-bottom: solid 1px black; display: flex; align-items: center; cursor: pointer; margin-bottom: 28px;"
-                th:onclick="'javascript:redirectdetail(event,\'' + ${rest.restNo} + '\')'" >
-
+                th:onclick="|javascript:mapToPoint(event, ${rest.restLatitude}, ${rest.restLongitude} , ${rest.restNo} )|"
+                th:class="${rest.restStatus == 'NORMAL' ? '':'gray'}" >
 
                 <div style="display: flex">
                 <img th:attr="mysrc=${rest.base64Image}" style="width: 100px; height: 120px; margin-right: 10px; margin-bottom: 20px">
@@ -191,9 +164,7 @@
                 <div style="display: flex; flex-direction: column;">
                     <h2 style="font-size: 16px" th:text="${rest.restName} "></h2>
                     <p class="rest tel" th:text="${rest.restTel} "></p>
-
                     <p class="rest category" th:text="${rest.restCategory} "></p>
-                  <!--/*[+  <p class="rest tel"  th:text="${#strings.arrayJoin(#arrays.subList(#strings.arraySplit( rest.restAddr, ' '), 2, 3), ' ')}"></p>  +]*/-->
                     <p class="rest tel">
                         <th:block th:each="addrItem : ${#strings.arraySplit( rest.restAddr, ' ')}">
                             <th:block th:text="${addrItemStat.index >= 2 ? addrItem : ''}"></th:block>
@@ -222,8 +193,6 @@
 
 
 
-<!--                    <p th:text="'평점 : ' + ${rest.getRevScore()} "></p>-->
-<!--                    <p th:text="'평점 : ' + ${#strings.substring(rest.restScore, 0, 1)}"></p>-->
                     <!--/*[+                    <p th:if="${#fields.hasErrors('reserveCount')}">   +]*/-->
                     <ul th:each="err: ${#fields.allErrors}">
                         <li th:text="${err}"></li>
@@ -234,7 +203,12 @@
                         <p th:text="'예약수 : '+${rest.reserveCount}"></p>
                     </th:block>
                     <div style="margin-bottom: 20px">
-                    <input id="locationB" type="button" value="위치보기" th:onclick="|javascript:mapToPoint(event, ${rest.restLatitude}, ${rest.restLongitude} , ${rest.restNo} )|">
+                    <a id="locationB" type="button" th:text="상세보기"
+                       th:href="${rest.restStatus == 'NORMAL' ? '/detail?restNo='+rest.restNo:'javascript:void(0)'}"
+                       onclick='onClickDetailGray(this)'></a>
+<!--/*[+                       th:href="'/detail?restNo='+${rest.restNo}"></a>    +]*/-->
+<!--/*[+                       th:onclick="'javascript:redirectDetail(event,\'' + ${rest.restNo} + '\')'"    +]*/-->
+
                     </div>
                 </div>
 
@@ -267,9 +241,18 @@
     })
         gmap = map;
 
-    function redirectdetail(event, id) {
-        if (event.target.tagName === "INPUT")
+    function onClickDetailGray( one ) {
+        if ( one.closest( "li" ).classList.contains( "gray" ) )
+        {
+            alert( "폐점된 가게입니다.")
+        }
+    }
+    function redirectDetail(event, id) {
+        if ( event.target.closest( "li" ).classList.contains( "gray" ) )
+        {
+            alert( "폐점된 가게입니다.")
             return;
+        }
         window.location.href = '/detail?restNo=' + id;
     }
 
@@ -469,7 +452,7 @@
     }
 
     function mapToPoint(event, lat, lng, restNo ) {
-        event.preventDefault()
+        // event.preventDefault()
         gmap.morph(new naver.maps.LatLng(lat, lng), 18);
 
         let pointMarker = `
