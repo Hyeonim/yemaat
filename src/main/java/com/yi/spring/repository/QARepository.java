@@ -41,11 +41,6 @@ public interface QARepository extends JpaRepository<QA, Integer> {
     @Transactional
     void deleteAllByUserNo(User user);
 
-
-
-
-
-
     long countByQaStatusFalse();
 
 

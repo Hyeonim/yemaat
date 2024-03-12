@@ -127,11 +127,6 @@ public class UserController {
                 reservationService.checkReservationStatus(reservations, model);
             }
 
-//            reservationService.processReservations(reservations);
-//            reservationService.checkReservationStatus(reservations, model);
-//            System.out.println("res => " + reservations);
-
-
             if (filterExpired.equals("expired")){
                 List<Reservation> reservationsExpired = reservationRepository.ReservationStatusEXPIRED(userNo);
                 reservationService.checkReservationStatus(reservations, model);
@@ -513,9 +508,7 @@ public class UserController {
                 reservationRepository.save(like);
             }
         }
-
         return new ResponseEntity<>("Like 작동", HttpStatus.OK);
-
     }
 
     @GetMapping("/userlike")

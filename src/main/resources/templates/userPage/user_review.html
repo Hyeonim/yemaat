@@ -130,8 +130,10 @@
         <div style="display: flex; justify-content: center; background-color: #FFFFFF; width: 1231px; height: auto; border-radius: 0px; padding: 2% ">
             <div class="reviewForm" style="">
                 <div style="display: flex; justify-content: space-between; align-items: center">
-                    <h3 th:if="${encodedSearchInput == null or encodedSearchInput == ''}" th:text="'전체글(' + ${userNoCount} + ')'"></h3>
-                    <h3 th:if="${encodedSearchInput != null and encodedSearchInput != ''}" th:text="'&quot;' + ${encodedSearchInput} + '&quot;의 검색 결과'"></h3>
+                    <h3 th:if="${encodedSearchInput == null or encodedSearchInput == ''}"
+                        th:text="'전체글(' + ${userNoCount} + ')'"></h3>
+                    <h3 th:if="${encodedSearchInput != null and encodedSearchInput != ''}"
+                        th:text="'&quot;' + ${encodedSearchInput} + '&quot;의 검색 결과'"></h3>
                     <div style="display: flex; align-items: center">
                         <div>
                             <select id="revSearchSelect">
@@ -174,7 +176,8 @@
                                             style="font-size: 12px; padding-bottom: 1px; padding-left: 1px; padding-top: 1px;">
                                         </li>
                                     </a>
-
+                                    <span style=" color: rgba(255,0,0,0.89);margin-left: 5px;font-size: 70%"
+                                          th:if="${combinedLists.rev.getRevStatus() != 'NORMAL'}">🚨 이 리뷰는 신고를 받은 상태입니다, 조속히 내용의 변경을 부탁드립니다.</span>
                                 </div>
                                 <li class="revContentBox" th:if="${#strings.length(combinedLists.rev.revContent) > 70}"
                                     th:text="${#strings.substring(combinedLists.rev.revContent,0 ,70) + '.....'}"
@@ -281,12 +284,14 @@
             <li th:each="page: ${#numbers.sequence(0, reviewsPage.totalPages-1)}"
                 th:if="${page >= reviewsPage.number-5 and page <= reviewsPage.number+5}"
                 th:classappend="${page == reviewsPage.number} ? 'active'" class="page-item">
-                <a th:text="${page + 1}" class="page-link" th:href="@{|/user/user_review?searchInput=${encodedSearchInput != null ? encodedSearchInput : ''}&amp;selectedOption=${selectedOption != null ? selectedOption : ''}&amp;page=${page}|}"></a>
+                <a th:text="${page + 1}" class="page-link"
+                   th:href="@{|/user/user_review?searchInput=${encodedSearchInput != null ? encodedSearchInput : ''}&amp;selectedOption=${selectedOption != null ? selectedOption : ''}&amp;page=${page}|}"></a>
             </li>
 
             <!-- 다음 페이지 링크 -->
             <li class="page-item" th:classappend="${!reviewsPage.hasNext} ? 'disabled'">
-                <a class="page-link" th:href="@{|/user/user_review?searchInput=${encodedSearchInput != null ? encodedSearchInput : ''}&amp;selectedOption=${selectedOption != null ? selectedOption : ''}&amp;page=${reviewsPage.number+1}|}">
+                <a class="page-link"
+                   th:href="@{|/user/user_review?searchInput=${encodedSearchInput != null ? encodedSearchInput : ''}&amp;selectedOption=${selectedOption != null ? selectedOption : ''}&amp;page=${reviewsPage.number+1}|}">
                     <span> > </span>
                 </a>
             </li>
@@ -412,7 +417,7 @@
 
             let url = `/user/user_review?searchInput=${encodedSearchInput}&selectedOption=${selectedOptionValue}&page=0`;
 
-            window.history.pushState({ searchInput, selectedOption }, "Search Results", url);
+            window.history.pushState({searchInput, selectedOption}, "Search Results", url);
 
             fetch(url)
                 .then(resp => resp.text())
@@ -433,7 +438,6 @@
                 localStorage.removeItem("searchInput");
             }
         };
-
 
 
     </script>

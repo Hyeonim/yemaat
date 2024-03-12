@@ -46,6 +46,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "ORDER BY r.resTime DESC")
     List<Reservation> findReservationDetailsByUserNoAndRestName(Long userNo, String restName);
 
+//    @Query("SELECT r " +
+//            "FROM Reservation r " +
+//            "WHERE r.userNo.userNo = :userNo and r.restNo.restName like %:restName% " +
+//            "ORDER BY case " +
+//            "when r.restNo.restStatus = 'RESERVE_COMPLETED' then 1 " +
+//            "when r.restNo.restStatus = 'WAIT' then 2 " +
+//            "else 3" +
+//            "end, " +
+//            "r.resTime DESC")
+//    List<Reservation> findReservationDetailsByUserNoAndRestName2(Long userNo, String restName);
+
 
     @Query(value = "select * from reservation r where DATE(r.res_time) = CURDATE() and r.rest_no = :restNo order by r.res_time asc", nativeQuery = true)
     List<Reservation> getTodayReservation(Long restNo);
