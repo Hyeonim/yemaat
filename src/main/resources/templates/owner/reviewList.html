@@ -30,7 +30,7 @@
                 <div class="table-container">
                     <div class="img_box">
                         <th:block th:with="condition=*{getRevStrImg()!=''}, strArray=*{getRevStrImg()}">
-                            <th:block th:if="${condition}">
+                            <th:block th:if="${condition && #strings.arraySplit(strArray, ',').length != 1 }">
                                 <div class="slider">
                                     <div class="imgList">
                                         <th:block th:each="item : ${#strings.arraySplit(strArray, ',')}">
@@ -41,15 +41,21 @@
                                     <button class="next">></button>
                                 </div>
                             </th:block>
-                            <th:block th:unless="${condition}">
+                            <th:block th:unless="${condition && #strings.arraySplit(strArray, ',').length != 1}">
                                 <div class="slider">
                                     <div class="imgList">
-                                        <img th:if="${review.base64Image!=''}"
-                                             th:src="'data:image/png;base64,' + ${review.base64Image}"
-                                             alt="리뷰 이미지"/>
-                                        <img th:unless="${review.base64Image!=''}"
-                                             src="/img/no_image.png"
-                                             alt="리뷰 이미지"/>
+                                        <th:block th:if="*{getRevStrImg() == ''}">
+                                            <img th:if="${review.base64Image!=''}"
+                                                 th:src="'data:image/png;base64,' + ${review.base64Image}"
+                                                 alt="리뷰 이미지"/>
+                                            <img th:unless="${review.base64Image!=''}"
+                                                 src="/img/no_image.png"
+                                                 alt="리뷰 이미지"/>
+                                        </th:block>
+                                        <th:block th:unless="*{getRevStrImg() == ''}">
+                                            <img th:src="'data:image/png;base64,' + ${review.base64Image}"
+                                                 alt="리뷰 이미지"/>
+                                        </th:block>
                                     </div>
                                 </div>
                             </th:block>
@@ -79,15 +85,6 @@
     </th:block>
     <script src="/js/imglazy.js"></script>
     <script>
-        window.onload = function() {
-            document.querySelectorAll(".preview").forEach(function(img) {
-                let base64Image = img.getAttribute('data-base64');
-                if(base64Image !== null) {
-                    img.src = 'data:image/jpeg;base64,' + base64Image
-                }
-            });
-        };
-
         let selectList = document.querySelectorAll('select[name=revStatus]');
 
         selectList.forEach(function(select) {
