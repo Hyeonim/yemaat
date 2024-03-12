@@ -121,6 +121,8 @@
                 <h4 th:text="'가게명 : ' + ${res.get().getRestNo().restName}"></h4>
                 <p style="color:grey;" th:text="'  🕥 예약 시간 : ' + @{${#strings.replace(res.get().resTime, 'T', ' ')}}"></p>
                 <p style="color: grey" th:text="'  ⭐ 예약 번호 : ' + ${res.get().res_no} + '********'"></p>
+                <p style="color: grey" th:text="'  🗨 요청사항 : '"></p>
+                <textarea th:text="${res.get().res_comment}" cols="65" rows="3" style=" color: grey;resize: none; border: none"></textarea>
             </div>
 
             <div style="display: flex; margin-top: 20px; margin-bottom: 50px">
