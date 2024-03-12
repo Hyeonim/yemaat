@@ -118,6 +118,7 @@ public interface DinningRepository extends JpaRepository<Dinning, Long>, JpaSpec
             FROM dining_rest dr
             WHERE rest_category = (SELECT rest_category FROM random_category)
                 and rest_img != ''
+                and rest_status = 'NORMAL'
             ORDER BY RAND()
             LIMIT :sLimit""", nativeQuery = true)
     List<Tuple> getRandomCategoryList( @Param("sLimit") int sLimit );
