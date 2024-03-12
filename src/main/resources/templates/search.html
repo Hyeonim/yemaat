@@ -175,12 +175,16 @@
                     </p>
 
 
-                    <div class="startD" style="display: flex" th:if="${rest.getRevScore()!=null?rest.getRevScore(): 0 }" >
+<!--                    <div class="startD" style="display: flex" th:if="${rest.getRevScore()!=null?rest.getRevScore(): 0 }" >-->
 <!--                        <div class="startD" style="display: flex" th:if="${rest.getRevScore()!=null and ''!=rest.reserveCount and 0!=rest.reserveCount}">-->
 
 <!--                        <span>⭐</span><p  style="font-weight: bold; font-size: 15px" th:text="${rest.getRevScore()}"></p><span style="margin-left: 5px; font-size: 15px" th:text="'    예약수 '+${rest.reserveCount}"></span>-->
-                        <span>⭐</span><p  style="font-weight: bold; font-size: 15px" th:text="${rest.getRevScore()}"></p>
+<!--                        <span>⭐</span><p  style="font-weight: bold; font-size: 15px" th:text="${rest.getRevScore()}"></p>-->
+<!--                    </div>-->
+                    <div class="startD" style="display: flex" th:if="${rest.getRevScore()!=null}">
+                        <span>⭐</span><p style="font-weight: bold; font-size: 15px" th:text="${rest.getRevScore()}"></p>
                     </div>
+
 
                     <!--/*[+                    <p th:if="${#fields.hasErrors('reserveCount')}">   +]*/-->
                     <ul th:each="err: ${#fields.allErrors}">
