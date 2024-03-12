@@ -56,6 +56,9 @@
                                 <input type="button" value="거절" th:onclick="|cancel(this, *{getRes_no()})|" style="height: auto;">
                             </p>
                             <p><label></label><input type="button" value="예약 시간에 오지 않음" th:onclick="|noshow(*{getRes_no()})|" style="height: auto;"></p>
+                            <p><label></label>
+                                <input type="button" value="이용완료" th:onclick="|expired(*{getRes_no()})|" style="height: auto;">
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -96,6 +99,11 @@
                 });
             });
         });
+        function expired(resNo) {
+            if(confirm("예약을 이용완료하시겠습니까?")) {
+                location.href = '/owner/resExpired/'+resNo;
+            }
+        }
 
         function complete(resNo) {
             if(confirm("예약을 수락하시겠습니까?")) {
