@@ -316,8 +316,8 @@ header nav:nth-of-type(1) {
 }
 
 #searchBar:focus {
-    border: 1px solid black; /* 포커스되었을 때 검은색 테두리 추가 */
-    border-radius: 10px;
+    /*border: 1px solid black; !* 포커스되었을 때 검은색 테두리 추가 *!*/
+    /*border-radius: 10px;*/
 }
 
 .searchBox #searchBar:focus-visible {
@@ -938,11 +938,22 @@ SVG Icons - svgicons.sparkk.fr
 }
 
 #locationB {
+    /*border: solid 1px #f7f7f9;*/
+    /*background-color: #e7e5dd;*/
+    /*border-radius: 10px;*/
+    /*font-size: 16px;*/
+    /*padding: 5px 5px 5px 5px;*/
+    /*font-weight: bold;*/
+    /*width: 100px;*/
+    /*margin-top: 5px;*/
+    /*display: block;*/
+    /*box-sizing: border-box;*/
+    /*text-align: center;*/
     border: solid 1px #f7f7f9;
     background-color: #e7e5dd;
     border-radius: 10px;
-    font-size: 16px;
-    padding: 5px 5px 5px 5px;
+    font-size: 12px;
+    padding: 2px 0 2px 0;
     font-weight: bold;
     width: 100px;
     margin-top: 5px;

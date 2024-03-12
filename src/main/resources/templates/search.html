@@ -175,36 +175,21 @@
                     </p>
 
 
-                    <div class="startD" style="display: flex">
-                 <ul style="padding-inline-start: 0;
-                  margin-bottom: 0px; margin-top: 0px;
-                 ">
-                        <li style="font-size: 12px; list-style-type: none; position: relative;" class="rating">
-                            <div class="ratefillGray"></div>
-                            <div class="ratefillYellow"
-                                 th:if="${rest.getRevScore()!=null?rest.getRevScore():'평가중'}"
-                                 th:style="'width: ' + ${rest.getRevScore()* 16} + 'px'"></div>
-                            <input type="radio" class="rate_radio" >
-                            <label></label>
-                            <label></label>
-                            <label></label>
-                            <label></label>
-                            <label></label>
-                        </li>
-                    </ul>
+                    <div class="startD" style="display: flex" th:if="${rest.getRevScore()!=null?rest.getRevScore(): 0 }" >
+<!--                        <div class="startD" style="display: flex" th:if="${rest.getRevScore()!=null and ''!=rest.reserveCount and 0!=rest.reserveCount}">-->
+
+<!--                        <span>⭐</span><p  style="font-weight: bold; font-size: 15px" th:text="${rest.getRevScore()}"></p><span style="margin-left: 5px; font-size: 15px" th:text="'    예약수 '+${rest.reserveCount}"></span>-->
+                        <span>⭐</span><p  style="font-weight: bold; font-size: 15px" th:text="${rest.getRevScore()}"></p>
                     </div>
-
-
 
                     <!--/*[+                    <p th:if="${#fields.hasErrors('reserveCount')}">   +]*/-->
                     <ul th:each="err: ${#fields.allErrors}">
                         <li th:text="${err}"></li>
                     </ul>
 
-
-                    <th:block th:if="${''!=rest.reserveCount && 0!=rest.reserveCount}">
-                        <p th:text="'예약수 : '+${rest.reserveCount}"></p>
-                    </th:block>
+<!--                    <th:block th:if="${''!=rest.reserveCount && 0!=rest.reserveCount}">-->
+<!--                        <p th:text="'예약수 : '+${rest.reserveCount}"></p>-->
+<!--                    </th:block>-->
                     <div style="margin-bottom: 20px">
                     <a id="locationB" type="button" th:text="상세보기"
                        th:href="${rest.restStatus == 'NORMAL' ? '/detail?restNo='+rest.restNo:'javascript:void(0)'}"
