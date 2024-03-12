@@ -8,8 +8,10 @@ import lombok.ToString;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Getter
@@ -70,8 +72,16 @@ public class Reservation {
 //        return ddatetype;
 //    }
     public void updateDateType() {
-        long date_diff = Period.between(LocalDateTime.now().toLocalDate(), resTime.toLocalDate()).getDays();
-        dateType = Math.abs(date_diff) / (date_diff==0?1:date_diff);
+//        long date_diff = Period.between(LocalDateTime.now().toLocalDate(), resTime.toLocalDate()).getDays();
+//        dateType = Math.abs(date_diff) / (date_diff==0?1:date_diff);
+
+        long date_diff = ChronoUnit.DAYS.between(LocalDate.now(), resTime);
+        long month_diff = ChronoUnit.MONTHS.between(LocalDate.now(), resTime);
+        long year_diff = ChronoUnit.YEARS.between(LocalDate.now(), resTime);
+
+        dateType = year_diff != 0 ? Math.abs(year_diff) / year_diff :
+                month_diff != 0 ? Math.abs(month_diff) / month_diff :
+                        date_diff != 0 ? Math.abs(date_diff) / date_diff : date_diff;
     }
 
 
