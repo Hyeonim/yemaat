@@ -321,7 +321,11 @@ public class UserController {
         return "userPage/user_review";
     }
     @GetMapping("deleteReview/{revNo}")
-    public String reviewDelete(@PathVariable("revNo") int revNo) {
+    public String reviewDelete(Principal principal,@PathVariable("revNo") int revNo) {
+        user = o2MemberService.findUser( principal );
+
+        int currenPoint = user.getPoint();
+        user.setPoint(currenPoint - 100);
         reviewRepository.deleteById(revNo);
         reservationRepository.updateReservationStatusToReviewWithJoin2();
         return "redirect:/user/user_review";
