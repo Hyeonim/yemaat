@@ -184,9 +184,9 @@ public class RestSearchController {
             model.addAttribute("list", dinningReviewList);
         }
 
-        if ( bActionDefault )
+        if ( bActionDefault  )
         {
-            restList = dinningRepository.findByRestNameContaining(restName);
+//            restList = dinningRepository.findByRestNameContaining(restName);
             model.addAttribute("list", restList);
         }
 

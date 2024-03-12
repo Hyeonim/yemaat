@@ -206,6 +206,10 @@
 
             </li>
 
+            <th:block th:if="${list.isEmpty()}" >
+                <li>검색 결과가 없습니다.</li>
+            </th:block>
+
         </ul>
 
 
