@@ -73,7 +73,7 @@
                 <tr id="trBody" th:onclick="|location.href='/QA/Qa_answer/${QAs.id}'|">
                     <td th:text="${iterStat.count + (QA.getNumber() * QA.getSize())}"></td>
                     <td th:text="${QAs.qaTitle}"></td>
-                    <td th:if="${#strings.length(QAs.qaContent) > 10}" th:text="${#strings.substring(QAs.qaContent, 0, 10)}"></td>
+                    <td th:if="${#strings.length(QAs.qaContent) > 10}" th:text="${#strings.substring(QAs.qaContent, 0, 10) + '....'}"></td>
                     <td th:unless="${#strings.length(QAs.qaContent) > 10}" th:text="${QAs.qaContent}"></td>
                     <td th:text="${#strings.replace(QAs.qaWriteTime, 'T', ' ')}"></td>
                     <td style="display: flex; justify-content: center">
