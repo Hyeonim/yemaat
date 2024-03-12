@@ -583,7 +583,9 @@ public class OwnerController {
     public String userDelete(Principal principal, Model model) {
         System.out.println("회원 탈퇴");
         User loginUser = userService.findByUserId(principal.getName()).get();
+        model.addAttribute("user", loginUser);
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+        model.addAttribute("dinning", dinning);
         if(dinning != null) {
             model.addAttribute("msg", "가게 폐점 신청이 완료되지 않아 회원 탈퇴가 불가능합니다.");
             model.addAttribute("location", "/owner/deleteRest");
@@ -726,6 +728,11 @@ public class OwnerController {
         model.addAttribute("user", loginUser);
 
         Dinning dinning = diningRestService.getByUserNo(loginUser);
+        if(dinning == null) {
+            model.addAttribute("msg", "등록된 가게가 없습니다. 이 기능은 가게 등록 후 사용 가능한 메뉴입니다.");
+            model.addAttribute("location", "/owner/addRest");
+            return "owner/transit";
+        }
 
         List<Review> reviewList = reviewRepository.findByRestNo(dinning);
         model.addAttribute("reviewList", reviewList);
