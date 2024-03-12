@@ -56,7 +56,7 @@
                         </th:block>
                     </div>
                     <div class="formDiv">
-                        <p><label>작성자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
+                        <p><label>작성자</label><input type="text" th:value="*{getUserNo().getUserName()}" readonly></p>
                         <p><label>작성일</label><input type="text" th:value="*{getRevWriteTime()}" readonly></p>
                         <p><label>평점</label><input type="text" th:value="*{getRevScore()}" readonly></p>
                         <p><label>내용</label><textarea readonly rows="5">[[*{getRevContent()}]]</textarea></p>
