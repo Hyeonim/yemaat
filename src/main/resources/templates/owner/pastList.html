@@ -46,7 +46,7 @@
                     </ul>
                     <div class="table-container">
                         <div class="formDiv">
-                            <p><label>예약자</label><input type="text" th:value="*{getUserNo().getUserId()}" readonly></p>
+                            <p><label>예약자</label><input type="text" th:value="*{getUserNo().getUserName()}" readonly></p>
                             <p><label>예약 등록 시간</label><input type="text" th:value="*{getRes_time_new()}" readonly></p>
                             <p><label>비고</label><textarea readonly rows="3">[[*{getRes_comment()}]]</textarea></p>
                         </div>

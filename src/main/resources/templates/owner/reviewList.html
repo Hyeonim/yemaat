@@ -22,7 +22,7 @@
     <th:block th:each="review : ${reviewList}" th:object="${review}">
             <div class="table-item">
                 <ul class="table-preview">
-                    <li>[[*{getUserNo().getUserId()}]]</li>
+                    <li>[[*{getUserNo().getUserName()}]]</li>
                     <li>[[*{getRevWriteTime()}]]</li>
                     <li>[[*{getRevScore()}]]</li>
                     <li>[[*{getRevStatus()}]]</li>
