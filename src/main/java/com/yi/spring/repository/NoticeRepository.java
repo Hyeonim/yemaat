@@ -26,11 +26,14 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
     Page<Notice> findAllByOrderByImportantNoticeDesc(Pageable pageable);
     List<Notice> findAllByOrderByImportantNoticeDesc();
 
+
     Page<Notice> findByImportantNoticeAndSubjectContaining(Boolean head, String keyword, Pageable pageable);
 
     Page<Notice> findBySubjectContaining(String keyword, Pageable pageable);
 
     List<Notice> findByImportantNotice(Boolean head);
+
+    List<Notice> findByImportantNoticeOrderByWriteDateDesc(Boolean head);
 
     Page<Notice> findByImportantNotice(Boolean head, Pageable pageable);
 

@@ -499,7 +499,7 @@ public class ManagerController {
 
         List<Notice> head = noticeRepository.findByImportantNotice(true);
 
-        Page<Notice> noticeList = noticeService.findAll(page);
+        Page<Notice> noticeList = noticeService.findByAllDESCNoHead(page);
 
 
         model.addAttribute("page", "managerPage/managerPage_Notice");

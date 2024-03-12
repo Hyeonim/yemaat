@@ -54,6 +54,16 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
 
+    public Page<Notice> findByAllDESCNoHead(int page){
+        List<Notice> userQAs = noticeRepository.findByImportantNoticeOrderByWriteDateDesc(false);
+        int pageSize = 10;
+        int start = page * pageSize;
+        int end = Math.min((page + 1) * pageSize, userQAs.size());
+
+        return new PageImpl<>(userQAs.subList(start, end), PageRequest.of(page, pageSize), userQAs.size());
+
+    }
+
 //    @Override
 //    public Page<Notice> findAll(int page) {
 //        Pageable pageable = PageRequest.of(page, 10);

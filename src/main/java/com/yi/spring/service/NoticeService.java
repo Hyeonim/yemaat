@@ -22,5 +22,6 @@ public interface NoticeService {
 
     public Page<Notice> findByNoticeDESC(int page);
 
+    public Page<Notice> findByAllDESCNoHead(int page);
 
 }
