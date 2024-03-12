@@ -157,13 +157,14 @@
         }
 
         function handleFocusIn(bAdd) {
+            return;
             document.querySelector(".searchBox").classList.toggle("kBXqGy", bAdd);
             document.querySelectorAll(".searchBox div").forEach(e => e.classList.toggle("kBXqGy", bAdd));
             document.querySelector(".searchBox div:nth-of-type(2)").style.display = bAdd ? "block" : "none";
         }
 
         function handleSearchItemClick(event) {
-            if ("LI" !== event.target.tagName)
+            // if ("LI" !== event.target.tagName)
                 return;
             document.querySelector("#searchBar").value = event.target.textContent;
             document.querySelector("form").submit();

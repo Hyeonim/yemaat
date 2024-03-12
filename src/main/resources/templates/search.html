@@ -98,6 +98,7 @@
 
     #resultList .rest.tel, #resultList .rest.category {
         font-size: 12px;
+        text-wrap: nowrap;
     }
     #resultList li.gray {
         filter: grayscale(1);
@@ -142,13 +143,15 @@
                     <option>디 저 트</option>
                 </select>
             </ul>
-            <p style="margin-left:19px; margin-top: -5px; margin-bottom: -14px; font-size: 10px" >도로명 주소</p>
+            <p style="margin-left:19px; margin-top: -5px; margin-bottom: -14px; font-size: 10px" >주소</p>
             <!--도로명 주소-->
             <ul class="filter3">
                 <li class="filter" value="0">전체</li>
-                <li class="filter" value="1">~로</li>
-                <li class="filter" value="2">~길</li>
-                <li class="filter" value="3">대로</li>
+                <li class="filter" value="1">서구</li>
+                <li class="filter" value="2">중구</li>
+                <li class="filter" value="3">동구</li>
+                <li class="filter" value="4">북구</li>
+                <li class="filter" value="5">남구</li>
             </ul>
         </div>
 
@@ -167,7 +170,7 @@
                     <p class="rest category" th:text="${rest.restCategory} "></p>
                     <p class="rest tel">
                         <th:block th:each="addrItem : ${#strings.arraySplit( rest.restAddr, ' ')}">
-                            <th:block th:text="${addrItemStat.index >= 2 ? addrItem : ''}"></th:block>
+                            <th:block th:text="${addrItemStat.index >= 1 ? addrItem : ''}"></th:block>
                         </th:block>
                     </p>
 
@@ -206,9 +209,6 @@
                     <a id="locationB" type="button" th:text="상세보기"
                        th:href="${rest.restStatus == 'NORMAL' ? '/detail?restNo='+rest.restNo:'javascript:void(0)'}"
                        onclick='onClickDetailGray(this)'></a>
-<!--/*[+                       th:href="'/detail?restNo='+${rest.restNo}"></a>    +]*/-->
-<!--/*[+                       th:onclick="'javascript:redirectDetail(event,\'' + ${rest.restNo} + '\')'"    +]*/-->
-
                     </div>
                 </div>
 

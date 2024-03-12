@@ -133,12 +133,11 @@
             myMessage.push( event.data );
             document.querySelector( ".alarm-button" ).classList.add( "new");
 
+            // [...document.querySelectorAll( "#navbarNav button" )].findLast(e=>e).appendChild( Object.assign(document.createElement('img'), {
+            //     src:'/img/no_image.png',
+            //     style:'width: 32px;height: 32px;position: relative;right: 36px;top: 0px;'
+            // } ) );
 
-
-            document.querySelectorAll( "#navbarNav button" )[5].appendChild( Object.assign(document.createElement('img'), {
-                src:'/img/no_image.png',
-                style:'width: 32px;height: 32px;position: relative;right: 36px;top: 0px;'
-            } ) );
             appendMessage( event );
         }
         document.addEventListener( "new_message_stomp_subscribe", handleNewMessage );

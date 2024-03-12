@@ -115,7 +115,7 @@ public class RestSearchController {
 //            searchAddress = null;
         if ( null != searchAddress && !searchAddress.isEmpty() ) {
             final int input = Integer.parseInt(searchAddress);
-            final String[] options = {null, "로", "길", "대로"};
+            final String[] options = {null, "서구", "중구", "동구","북구", "남구"};
             if (input >= 0 && input < options.length) {
                 searchAddress = options[input];
             } else {
