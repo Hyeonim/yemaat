@@ -53,6 +53,23 @@ button, input[type=button], input[type=submit] {
     }
 }
 
+.deleteDiv h3 {
+    text-align: center;
+    margin : 20px 0;
+}
+
+.deleteDiv ul {
+    background-color: #f2f2f2;
+    border-radius: 1em;
+    padding: 20px;
+    padding-inline-start: 60px;
+    box-shadow: 0 2px 4px 0 gray;
+}
+
+.deleteDiv form input:not([type=button]) {
+   width : 5%;
+}
+
 .menu-container {
     border: 1px dashed black;
     padding: 6px 6px;

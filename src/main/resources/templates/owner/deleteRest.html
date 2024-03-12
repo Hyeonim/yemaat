@@ -4,6 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{owner/myPage_layout}">
 <th:block th:fragment="content">
+    <div class="deleteDiv">
         <h3>유의사항</h3>
         <ul>
             <li>식당 폐점 신청을 하시면 서비스 부정 이용 방지를 위하여 회원 정책에 따라 일정 기간 동안 식당 재등록이 불가능 합니다.</li>
@@ -13,8 +14,9 @@
         <form id="deleteRestForm" th:action="@{/owner/deleteRest}" method="post">
             <input type="radio" value="agree" name="deleteRestRadioBtn" id="agreeRadio"><label for="agreeRadio">위 유의사항을 모두 확인하였고 식당 폐점 신청에 동의합니다.</label><br>
             <input type="radio" value="disagree" name="deleteRestRadioBtn" id="disagreeRadio"><label for="disagreeRadio">식당 폐점 신청에 동의하지 않습니다.</label><br>
-            <input type="button" value="폐점 신청" onclick="submitRestForm()">
+            <input type="button" value="폐점 신청" onclick="submitRestForm()" style="margin:10px;">
         </form>
+    </div>
 
 
     <script th:inline="javascript">
