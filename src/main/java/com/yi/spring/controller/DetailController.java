@@ -10,9 +10,12 @@ import com.yi.spring.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,8 @@ public class DetailController {
     MenuService menuService;
     @Autowired
     EventService eventService;
+    @Autowired
+    ImgTableRepository imgTableRepository;
 
     @GetMapping("/detail")
     public void getDinningByRestNo(@RequestParam Long restNo, Model model) {
@@ -76,11 +81,11 @@ public class DetailController {
 
     @GetMapping("reviewTest")
     public void reviewTest(){
-//         processFilesInFolder( "C:/Users/lenovo/Documents/jjjjjjjh/imgs/6734cd4eeb84e676/가게사진2/가게 사진1/" );
+//         processFilesInFolder( "C:/Users/lenovo/Documents/jjjjjjjh/2b80d12a92c79092/iijaef" );
     }
-//    public void processFilesInFolder(String folderPath) {
-//
-//
+    public void processFilesInFolder(String folderPath) {
+
+
 //        File folder = new File(folderPath);
 //        File[] files = folder.listFiles();
 //
@@ -90,8 +95,8 @@ public class DetailController {
 //                System.out.println("Processing file: " + file.getName());
 //                try {
 //                    byte[] revImg = StreamUtils.copyToByteArray(new FileInputStream(file));
-//
-//
+
+
 //                    if ( false ) {
 //                    Review review = new Review();
 //                    review.setRevContent("이미지 업로드 테스트");
@@ -116,6 +121,17 @@ public class DetailController {
 //                        dinningRepository.save( dinning );
 //                    }
 //
+
+//                  else{
+//                    ImgTb imgData = new ImgTb();
+//                    imgData.setDtype(ImageFrom.REST.name());
+//                    imgData.setBytes(revImg);
+//
+//                    imgTableRepository.save( imgData );
+////                  }
+//
+//
+//
 //                } catch (IOException e) {
 //                    throw new RuntimeException(e);
 //                }
@@ -123,7 +139,7 @@ public class DetailController {
 //        } else {
 //            System.err.println("Folder is empty or does not exist: " + folderPath);
 //        }
-//    }
+    }
 
     @PostMapping("/ownerRestImgAdd")
     public void ownerRestImgAdd(@RequestParam MultipartFile file, Dinning dinning) {
