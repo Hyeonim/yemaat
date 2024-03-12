@@ -27,7 +27,7 @@
             <div class="formDiv">
                 <p><label>제목</label><input type="text" th:value="${event.getEventTitle()}" readonly></p>
                 <p><label>이벤트 기간</label><input id="text" th:value="|${event.getEventStartTime()}~${event.getEventStartTime()}|" readonly></p>
-                <p><label>내용</label><textarea name="eventContent" rows="5">[[${event.getEventContent()}]]</textarea></p>
+                <p><label>내용</label><textarea name="eventContent" rows="5" readonly>[[${event.getEventContent()}]]</textarea></p>
             </div>
         </div>
 

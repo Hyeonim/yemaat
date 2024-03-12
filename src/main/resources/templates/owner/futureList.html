@@ -41,7 +41,7 @@
                         <li th:text="*{getRes_guest_count()}"></li>
                         <li th:text="*{getRes_table_type() == 'true' ? '룸' : '일반'}"></li>
                         <li class="comment" th:text="*{getRes_comment()}"></li>
-                        <li th:text="*{getResStatus()}"></li>
+                        <li th:text="*{getReservationStatusEnum().getName()}"></li>
                     </ul>
                     <div class="table-container">
                         <div class="formDiv">
