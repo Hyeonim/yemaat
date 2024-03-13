@@ -477,7 +477,7 @@
         marker.animation = naver.maps.Animation.BOUNCE;
 
         setMarker(marker,focusIcon)
-        marker.setMap(map)
+        marker.setMap(gmap)
 
         if ( prevFocusMarker && prevFocusMarker !== marker )
         {
@@ -488,7 +488,7 @@
                 prevFocusMarker.setIcon({
                     content: normalMarker // mouseout 했을 때 마커에 html 적용
                 })});
-            prevFocusMarker.setMap(map)
+            prevFocusMarker.setMap(gmap)
         }
         prevFocusMarker = marker;
     }
