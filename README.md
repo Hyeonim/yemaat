@@ -36,7 +36,7 @@
 ## 마인드 맵
 ![Mind Map](https://github.com/Hyeonim/yemaat/assets/122865860/fe5e91e2-1755-4798-b0d5-0a24b7d95b8c)
 
-## 프로젝트 구성화면
+## 프로젝트 설명
 
 ### **[메인 화면]**
 ![Main Screen](https://github.com/Hyeonim/yemaat/assets/122865860/571bbdf2-0ad1-4b3e-ab96-ee7f3e789956)
