@@ -12,7 +12,7 @@
 - **프로젝트 설명:**  
   상세한 맛집 데이터로 다채로운 맛집 정보 제시를 하고 업태별, 순위별, 메뉴별, 위치별 등 다양한 검색 조건을 통해 꼭 맞는 맛집을 추천하는 사이트입니다. 또한, 실시간 정보 제공 및 예약 기능을 제공합니다.
 - **프로젝트 기간:** 2달
-- **실제 구동 사이트(URL):** [Yemaat](http://docs.yi.or.kr:3015/home)
+- **실제 구동 사이트(URL):** [Yemaat](http://docs.yi.or.kr:3015/home) ("아이디만 입력하면 로그인이 바로 가능합니다. 비밀번호는 자동으로 저장되어 있습니다.")
 - **개발 환경:**  
   ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
   ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
